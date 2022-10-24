@@ -44,7 +44,7 @@ def surface_size(interested_surface: Surface) -> [int, int]:
     return character_sprite_size_x, character_sprite_size_y
 
 
-def character_sprite_size(*, screen_surface: Surface, character_surface: Surface) -> tuple[int]:
+def character_sprite_size(*, screen_surface: Surface, character_surface: Surface) -> tuple[int, int]:
     """
     Calculation character surface size.
     Formula: Character_Sprite[x] + 85%_Background_and_Character_Sprite[x]_difference percent:
@@ -59,22 +59,37 @@ def character_sprite_size(*, screen_surface: Surface, character_surface: Surface
     :return: Tuple with x and y sizes for character`s images.
              These sizes depends of main frame size.
     """
-    result = []
+    def percentage_increase_or_reduction(sizes: tuple, percent: int, operator: str):
+        result = []
+        for integer in sizes:
+            coefficient = integer / 100
+            percent_integer = coefficient * (100 - percent)
+            if operator == '+':
+                result.append(int(integer + percent_integer))
+            if operator == '-':
+                result.append(int(integer * (1 - ((100 - percent) / 100))))
+        return result
+
     screen_size = surface_size(screen_surface)
     sprite_size = surface_size(character_surface)
-    for x, y in zip(screen_size, sprite_size):
-        # 85% from screen:
-        real_screen_size_percent = int(x * 85 / 100)
+
+    # 95% from screen:
+    real_screen_size_pixels_from_percent = int(screen_size[1] * 95 / 100)
+
+    # Result calculation:
+    if sprite_size[1] < real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
-        real_size_sprite_difference = int(y / real_screen_size_percent * 100)
-        # Result calculation:
-        if y < real_screen_size_percent:
-            result_size = int(y * (1 + (real_size_sprite_difference / 100)))
-            result.append(result_size)
-        else:
-            result_size = int(y * (1 - ((real_size_sprite_difference - 90) / 100)))
-            result.append(result_size)
-    return tuple(result)
+        real_percent_size_sprite_difference = int(sprite_size[1] / real_screen_size_pixels_from_percent * 100)
+        result_size_x, result_size_y = percentage_increase_or_reduction(sprite_size,
+                                                                        real_percent_size_sprite_difference, '+')
+    elif sprite_size[1] > real_screen_size_pixels_from_percent:
+        # Percent sprite from screen:
+        real_percent_size_sprite_difference = int(real_screen_size_pixels_from_percent / sprite_size[1] * 100)
+        result_size_x, result_size_y = percentage_increase_or_reduction(sprite_size,
+                                                                        real_percent_size_sprite_difference, '-')
+    else:
+        result_size_x, result_size_y = sprite_size
+    return result_size_x, result_size_y
 
 
 def render(*, screen: Surface, background: Surface, characters_list: dict):
@@ -86,12 +101,13 @@ def render(*, screen: Surface, background: Surface, characters_list: dict):
                             'character`s arts' and character`s coordinates in pixels.
     """
     # Characters render:
-    print(characters_list)
     for character in characters_list.values():
-        background.blit(character.get('surface'),
-                        tuple(character.get('coordinates_pixels')))
+        character.scale()
+        background.blit(character.surface,
+                        character.coordinates_pixels)
     # Text canvas render:
     text_canvas = text_canvas_render(screen_surface=background)
+    # text = text_canvas[0].blit()
     background.blit(text_canvas[0], text_canvas[1])
     # Background render:
     screen.blit(background, (0, 0))

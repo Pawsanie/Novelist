@@ -1,0 +1,18 @@
+{
+  "test": {
+    "background": "scane_name",
+    "actors": {
+      "Chan": {
+      "character_name": "Chan",
+      "character_sprite": "tyan2",
+      "character_start_position": "mid",
+      "character_move": [false, false],
+      "character_emotion": 1
+      }
+    },
+    "Dialog": {
+      "who": "Chan",
+      "what": ["Hello World!"]
+    }
+  }
+}

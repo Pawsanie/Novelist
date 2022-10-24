@@ -1,9 +1,11 @@
 from os import path
+import json
 
 from pygame import image, font, mixer
 """
 Contains code responsible for assets load.
 """
+# ./Assets/.
 asset_root_path = f"{path.abspath(__file__).replace(path.join(*['Scripts', 'Assets_load.py']), '')}"
 
 
@@ -45,3 +47,13 @@ def font_load(*, font_name: str, font_size: int) -> font.Font:
     font_path = f"{asset_root_path}{path.join(*['Fonts', font_name])}"
     font_to_load = font.Font(font_path, font_size)
     return font_to_load
+
+
+def json_load(path_list: list[str]) -> json.loads:
+    """
+    :return: Json dict.
+    """
+    scene_options_path = f"{asset_root_path}{path.join(*path_list)}"
+    with open(scene_options_path, 'r', encoding='utf-8') as json_file:
+        json_data = json_file.read()
+        return json.loads(json_data)

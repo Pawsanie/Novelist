@@ -9,15 +9,21 @@ class Background:
     Load scene image by name and update the scene
     after the call "draw" method.
     """
-    def __init__(self, *, surface: display.set_mode, scene_image: image.load):
+    def __init__(self, *, screen_surface: display.set_mode, scene_image: image.load):
         """
         Set background image.
         Transform background to screen size.
-        :param surface: display.set_mode(...) surface.
+        :param screen_surface: display.set_mode(...) surface.
         :param scene_image: pygame.image.load(...)
         """
-        scene_image = transform.scale(scene_image, (surface.get_width(), surface.get_height()))
-        surface.blit(scene_image, (0, 0))
+        self.screen_surface = screen_surface
+        self.display = display
+        self.scene_image = scene_image
+
+    def scale(self):
+        scene_image = transform.scale(self.scene_image, (self.screen_surface.get_width(),
+                                                         self.screen_surface.get_height()))
+        return scene_image
 
 
 class SceneText:
