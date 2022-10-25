@@ -1,6 +1,6 @@
 import json
 
-from .Director import StageDirector
+from .Stage_Director import StageDirector
 from .Scenes_Scripts import *
 
 

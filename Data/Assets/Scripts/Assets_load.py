@@ -5,7 +5,7 @@ from pygame import image, font, mixer
 """
 Contains code responsible for assets load.
 """
-# ./Assets/.
+# ./Assets/. root path:
 asset_root_path = f"{path.abspath(__file__).replace(path.join(*['Scripts', 'Assets_load.py']), '')}"
 
 

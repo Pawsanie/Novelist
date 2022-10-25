@@ -1,6 +1,6 @@
 from pygame import transform, Surface, SRCALPHA
 
-from .Render import render, character_sprite_size, meddle_point_for_character_render
+from .Render import character_sprite_size, meddle_point_for_character_render
 from .Assets_load import image_load, json_load
 """
 Contains code responsible for rendering character.

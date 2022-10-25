@@ -5,4 +5,5 @@ Additionally, the pipeline remembers the scan date.
 ## Installing the Required Packages:
 ```bash
 pip install pygame
+pip install moviepy
 ```

@@ -59,7 +59,7 @@ def character_sprite_size(*, screen_surface: Surface, character_surface: Surface
     :return: Tuple with x and y sizes for character`s images.
              These sizes depends of main frame size.
     """
-    def percentage_increase_or_reduction(sizes: tuple, percent: int, operator: str):
+    def percentage_increase_or_reduction(sizes: tuple, percent: int, operator: str) -> list[int, int]:
         result = []
         for integer in sizes:
             coefficient = integer / 100
@@ -75,20 +75,22 @@ def character_sprite_size(*, screen_surface: Surface, character_surface: Surface
 
     # 95% from screen:
     real_screen_size_pixels_from_percent = int(screen_size[1] * 95 / 100)
-
     # Result calculation:
     if sprite_size[1] < real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
         real_percent_size_sprite_difference = int(sprite_size[1] / real_screen_size_pixels_from_percent * 100)
-        result_size_x, result_size_y = percentage_increase_or_reduction(sprite_size,
-                                                                        real_percent_size_sprite_difference, '+')
+        # Result calculation:
+        result_size_x, result_size_y = percentage_increase_or_reduction(
+            sprite_size, real_percent_size_sprite_difference, '+')
     elif sprite_size[1] > real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
         real_percent_size_sprite_difference = int(real_screen_size_pixels_from_percent / sprite_size[1] * 100)
-        result_size_x, result_size_y = percentage_increase_or_reduction(sprite_size,
-                                                                        real_percent_size_sprite_difference, '-')
+        # Result calculation:
+        result_size_x, result_size_y = percentage_increase_or_reduction(
+            sprite_size, real_percent_size_sprite_difference, '-')
     else:
         result_size_x, result_size_y = sprite_size
+    print([result_size_x, result_size_y], screen_size, sprite_size)
     return result_size_x, result_size_y
 
 

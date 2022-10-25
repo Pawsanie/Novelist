@@ -1,19 +1,18 @@
-from time import time
-
-from pygame import display, time, QUIT, quit, Surface, SRCALPHA
+from pygame import display, time, QUIT, quit, Surface
 import pygame.event
 
-from Assets.Scripts.Scene import Background
-from Assets.Scripts.Character import Character, characters_generator
-from Assets.Scripts.Render import render, character_sprite_size
-from Assets.Scripts.Assets_load import image_load, font_load, sound_load
-from Assets.Scripts.Director import StageDirector
+from Assets.Scripts.Render import render
+from Assets.Scripts.Stage_Director import StageDirector
 """
 Contains app shell code.
 """
-# Настройки экрана:
-screen_size_x = 1920
-screen_size_y = 1280
+# Display settings:
+screen_size_x = 1280
+screen_size_y = 720
+# screen_size_x = 1920
+# screen_size_y = 1080
+# screen_size_x = 360
+# screen_size_y = 120
 
 screen = display.set_mode((screen_size_x, screen_size_y))
 display.set_caption("Visual Novel")
@@ -23,27 +22,22 @@ background = Surface((screen_size_x, screen_size_y))
 """
 Assets load:
 """
-characters_list: dict = characters_generator(background_surface=background)
-# Scenes assets:
-back_ground_01: Surface = image_load(art_name='scane_name', file_format='png', asset_type='Scenes')
-test = {'back_ground_01': back_ground_01}
-director = StageDirector(characters=characters_list,
-                         protagonist='Name',
-                         scenes=test,
-                         screen=screen,
-                         background=background)
-director.set_scene(location='back_ground_01')
+# Stage Director settings:
+director = StageDirector(screen=screen,
+                         background_surface=background)
 
+# ------Test
+director.set_scene(location='back_ground_01')
+#  - Test Render
+render(screen=screen,
+       background=background,
+       characters_list=director.characters_dict)
 """
-MAIN CARUTINE!:
+MAIN Coroutine!:
 """
 program_running = True
 main_cycle_fps_clock = time.Clock()
 main_cycle_fps = 20
-
-# # Test---------------
-render(screen=screen, background=background, characters_list=characters_list)
-
 
 while program_running:
     for event in pygame.event.get():
