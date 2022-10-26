@@ -17,20 +17,17 @@ screen_size_y = 720
 screen = display.set_mode((screen_size_x, screen_size_y))
 display.set_caption("Visual Novel")
 
-# Surface settings:
-background = Surface((screen_size_x, screen_size_y))
 """
 Assets load:
 """
 # Stage Director settings:
-director = StageDirector(screen=screen,
-                         background_surface=background)
+director = StageDirector(screen=screen)
 
 # ------Test
 director.set_scene(location='back_ground_01')
 #  - Test Render
 render(screen=screen,
-       background=background,
+       background=director.background_surface,
        characters_list=director.characters_dict)
 """
 MAIN Coroutine!:

@@ -2,6 +2,7 @@ from pygame import display, Surface, font
 
 from .Character import characters_generator
 from .Background import backgrounds_generator
+from .Render import background_sprite_size
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -13,22 +14,20 @@ class StageDirector:
     Controls game scenes and assets loads.
     StageDirector used in "Gameplay.py" for gameplay programming.
     """
-    def __init__(self, *, screen: display, background_surface: Surface):
+    def __init__(self, *, screen: display):
         """
         Initializes class params and assets loads.
         :param screen: pygame.display surface.
-        :param background_surface: pygame.Surface.
         """
+        # Make background surface:
+        self.background_surface: Surface = Surface(background_sprite_size(display_surface=screen))
         """Assets loading:"""
         # Characters load:
-        self.characters_dict: dict = characters_generator(background_surface=background_surface)
+        self.characters_dict: dict = characters_generator(background_surface=self.background_surface)
         # Backgrounds load:
         self.backgrounds_dict: dict = backgrounds_generator(screen_surface=screen)
-
         """Arguments processing:"""
-        self.background_surface: Surface = background_surface
         self.screen: display = screen
-        # self.protagonist: str = protagonist
 
     def set_scene(self, *, location: str) -> Surface.blit:
         """

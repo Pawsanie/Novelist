@@ -19,7 +19,6 @@ class Background:
         :param scene_image: pygame.image.load(...)
         """
         self.screen_surface = screen_surface
-        self.display = display
         self.scene_image = scene_image
 
     def scale(self):

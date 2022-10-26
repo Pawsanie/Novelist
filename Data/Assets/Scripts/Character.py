@@ -47,7 +47,7 @@ class Character:
         self.surface = transform.flip(self.surface, flip_x=True, flip_y=False)
 
     def scale(self):
-        self.character_size = character_sprite_size(screen_surface=self.background_surface,
+        self.character_size = character_sprite_size(background_surface=self.background_surface,
                                                     character_surface=self.surface)
         self.surface = transform.scale(self.surface, self.character_size)
         self.coordinates_pixels = meddle_point_for_character_render(screen_surface=self.background_surface,

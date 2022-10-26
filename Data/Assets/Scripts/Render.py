@@ -44,7 +44,23 @@ def surface_size(interested_surface: Surface) -> [int, int]:
     return character_sprite_size_x, character_sprite_size_y
 
 
-def character_sprite_size(*, screen_surface: Surface, character_surface: Surface) -> tuple[int, int]:
+def background_sprite_size(*, display_surface: Surface) -> tuple[int, int]:
+    """
+    :param display_surface: display.set_mode surface.
+    :return: Tuple with x and y sizes for background image.
+             These sizes depends display size.
+    """
+    _16x9: int = int(16 / 9 * 100)
+    display_size = surface_size(display_surface)
+    # background_size = surface_size(background_surface)
+    ratio_of_sizes = int(display_size[0] / display_size[1] * 100)
+    if ratio_of_sizes == _16x9:
+        return display_size
+    else:
+        pass
+
+
+def character_sprite_size(*, background_surface: Surface, character_surface: Surface) -> tuple[int, int]:
     """
     Calculation character surface size.
     Formula: Character_Sprite[x] + 85%_Background_and_Character_Sprite[x]_difference percent:
@@ -53,8 +69,8 @@ def character_sprite_size(*, screen_surface: Surface, character_surface: Surface
     x = Character_Sprite * (1 + x / 100)
     Or Character_Sprite - 90%_Background_and_Character_Sprite[x]_difference percent:
     ... ->
-    x = Character_Sprite * (1 - (x-90) / 100)
-    :param screen_surface: pygame.Surface of background.
+    x = Character_Sprite * (1 - (100 - x) / 100)
+    :param background_surface: pygame.Surface of background.
     :param character_surface: pygame.Surface of character.
     :return: Tuple with x and y sizes for character`s images.
              These sizes depends of main frame size.
@@ -70,7 +86,7 @@ def character_sprite_size(*, screen_surface: Surface, character_surface: Surface
                 result.append(int(integer * (1 - ((100 - percent) / 100))))
         return result
 
-    screen_size = surface_size(screen_surface)
+    screen_size = surface_size(background_surface)
     sprite_size = surface_size(character_surface)
 
     # 95% from screen:
@@ -90,7 +106,6 @@ def character_sprite_size(*, screen_surface: Surface, character_surface: Surface
             sprite_size, real_percent_size_sprite_difference, '-')
     else:
         result_size_x, result_size_y = sprite_size
-    print([result_size_x, result_size_y], screen_size, sprite_size)
     return result_size_x, result_size_y
 
 
