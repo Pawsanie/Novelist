@@ -29,7 +29,7 @@ class Character:
         self.character_poses: dict = character_poses
         self.background_surface: Surface = background_surface
         self.character_size: tuple[int, int] = character_size
-        surface.blit(character_image, (0, 0))
+        self.surface.blit(character_image, (0, 0))
 
     def move(self, *, coordinates: list[int, int]):
         """
@@ -37,9 +37,10 @@ class Character:
         :param coordinates: Tuple with x and y coordinates.
         """
         ald_coordinates: list[int, int] = self.coordinates_pixels
-        ald_coordinates[0], ald_coordinates[1] = coordinates[0], coordinates[1]
+        # ald_coordinates[0], ald_coordinates[1] = coordinates[0], coordinates[1]
+        self.coordinates_pixels = [coordinates[0], coordinates[1]]
 
-    def set_pose(self, *, pose_number):
+    def set_pose(self, *, pose_number: str):
         """
         Selects the correct part of the sprite to render on the surface.
         :param pose_number: Number of pose in character sprite, from character_poses dict key.
@@ -50,8 +51,9 @@ class Character:
         surface_y: list[int, int] = pose_coordinates.get('y')
         x_line: int = (surface_x[1] - surface_x[0])
         y_line: int = (surface_y[1] - surface_y[0])
-        sprite_coordinates: tuple[int, int] = (x_line, y_line)
+        self.surface = Surface((x_line, y_line), SRCALPHA)
         # Image pose change:
+        sprite_coordinates: tuple[int, int] = (-surface_x[0], surface_y[0])
         self.surface.blit(self.character_image, sprite_coordinates)
 
     def reflect(self):
@@ -61,6 +63,9 @@ class Character:
         self.surface: Surface = transform.flip(self.surface, flip_x=True, flip_y=False)
 
     def scale(self):
+        """
+        Scale characters surface, with background context.
+        """
         self.character_size: tuple[int, int] = character_sprite_size(background_surface=self.background_surface,
                                                                      character_surface=self.surface)
         self.surface: Surface = transform.scale(self.surface, self.character_size)
@@ -68,8 +73,10 @@ class Character:
             screen_surface=self.background_surface, character_surface=self.surface)
 
     def kill(self):
-        self.surface.fill(None)
-        ...
+        """
+        Remove the character from the stage.
+        """
+        self.surface = Surface((0, 0), SRCALPHA)
 
 
 def characters_generator(*, background_surface: Surface) -> dict[str, Character]:

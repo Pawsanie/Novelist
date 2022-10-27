@@ -109,16 +109,17 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     return result_size_x, result_size_y
 
 
-def render(*, screen: Surface, background: Surface, characters_list: dict):
+def render(*, screen: Surface, background: Surface, characters_dict: dict):
     """
     Render image on display.
     :param screen: Display.
     :param background: pygame.Surface with background.
-    :param characters_list: Dictionary with 'character`s surfaces',
+    :param characters_dict: Dictionary with 'character`s surfaces',
                             'character`s arts' and character`s coordinates in pixels.
     """
+    # characters_scale_for_render(characters_list=characters_dict)
     # Characters render:
-    for character in characters_list.values():
+    for character in characters_dict.values():
         character.scale()
         background.blit(character.surface,
                         character.coordinates_pixels)
@@ -130,3 +131,12 @@ def render(*, screen: Surface, background: Surface, characters_list: dict):
     screen.blit(background, (0, 0))
     # Flip all surfaces:
     display.update()
+
+
+# def characters_scale_for_render(*, characters_list: dict):
+#     """
+#     :param characters_list: Dictionary with 'character`s surfaces',
+#                             'character`s arts' and character`s coordinates in pixels.
+#     """
+#     for character in characters_list.values():
+#         character.scale()

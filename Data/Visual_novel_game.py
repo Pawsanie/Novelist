@@ -1,8 +1,7 @@
-from pygame import display, time, QUIT, quit, Surface
+from pygame import display, time, QUIT, quit
 import pygame.event
 
-from Assets.Scripts.Render import render
-from Assets.Scripts.Stage_Director import StageDirector
+from Assets.Scripts.Gameplay import gameplay_stage_director_initialization as gameplay
 """
 Contains app shell code.
 """
@@ -17,19 +16,8 @@ screen_size_y = 720
 screen = display.set_mode((screen_size_x, screen_size_y))
 display.set_caption("Visual Novel")
 
-"""
-Assets load:
-"""
-# Stage Director settings:
-director = StageDirector(screen=screen)
-
-# ------Test
-director.set_scene(location='back_ground_01')
-director.set_actor(character='Nurse').set_pose(emotion='2')
-#  - Test Render
-render(screen=screen,
-       background=director.background_surface,
-       characters_list=director.characters_dict)
+#   - Test game:
+gameplay(display_screen=screen)
 """
 MAIN Coroutine!:
 """
