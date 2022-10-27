@@ -25,6 +25,7 @@ director = StageDirector(screen=screen)
 
 # ------Test
 director.set_scene(location='back_ground_01')
+director.set_actor(character='Nurse').set_pose(emotion='2')
 #  - Test Render
 render(screen=screen,
        background=director.background_surface,

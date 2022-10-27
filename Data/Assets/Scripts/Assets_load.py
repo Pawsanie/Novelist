@@ -51,9 +51,10 @@ def font_load(*, font_name: str, font_size: int) -> font.Font:
 
 def json_load(path_list: list[str]) -> json.loads:
     """
+    :param path_list: list with strings of folders names and file name.
     :return: Json dict.
     """
-    scene_options_path = f"{asset_root_path}{path.join(*path_list)}"
+    scene_options_path = f"{asset_root_path}{path.join(*path_list)}.{'json'}"
     with open(scene_options_path, 'r', encoding='utf-8') as json_file:
         json_data = json_file.read()
         return json.loads(json_data)

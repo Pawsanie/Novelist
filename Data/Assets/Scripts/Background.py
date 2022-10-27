@@ -35,7 +35,7 @@ def backgrounds_generator(*, screen_surface: Surface) -> dict[str, Background]:
     result = {}
     backgrounds_list: dict = json_load(['Scripts',
                                        'Json_data',
-                                        'backgrounds_sprites.json'])
+                                        'backgrounds_sprites'])
     for location in backgrounds_list:
         sprite: Surface = image_load(art_name=backgrounds_list[location],
                                      file_format='jpg',

@@ -17,13 +17,18 @@ class Character:
         Load character image by name.
         Transform the art according to the screen size.
         :param surface: Must be pygame. Surface object.
+        :param character_image:
+        :param character_size:
+        :param coordinates_pixels:
+        :param character_poses:
+        :param background_surface:
         """
-        self.surface = surface
-        self.character_image = character_image
-        self.coordinates_pixels = coordinates_pixels
-        self.character_poses = character_poses
-        self.background_surface = background_surface
-        self.character_size = character_size
+        self.surface: Surface = surface
+        self.character_image: Surface = character_image
+        self.coordinates_pixels: list[int, int] = coordinates_pixels
+        self.character_poses: dict = character_poses
+        self.background_surface: Surface = background_surface
+        self.character_size: tuple[int, int] = character_size
         surface.blit(character_image, (0, 0))
 
     def move(self, *, coordinates: list[int, int]):
@@ -31,27 +36,40 @@ class Character:
         Move character sprite to new point and update frame.
         :param coordinates: Tuple with x and y coordinates.
         """
-        ald_coordinates = self.coordinates_pixels
+        ald_coordinates: list[int, int] = self.coordinates_pixels
         ald_coordinates[0], ald_coordinates[1] = coordinates[0], coordinates[1]
 
-    def emotion(self):
+    def set_pose(self, *, pose_number):
         """
         Selects the correct part of the sprite to render on the surface.
+        :param pose_number: Number of pose in character sprite, from character_poses dict key.
         """
-        self.surface.fill(None)
+        # Surface change:
+        pose_coordinates: dict = self.character_poses.get(pose_number)
+        surface_x: list[int, int] = pose_coordinates.get('x')
+        surface_y: list[int, int] = pose_coordinates.get('y')
+        x_line: int = (surface_x[1] - surface_x[0])
+        y_line: int = (surface_y[1] - surface_y[0])
+        sprite_coordinates: tuple[int, int] = (x_line, y_line)
+        # Image pose change:
+        self.surface.blit(self.character_image, sprite_coordinates)
 
     def reflect(self):
         """
-        Reflect character sprite surface
+        Reflect character sprite surface.
         """
-        self.surface = transform.flip(self.surface, flip_x=True, flip_y=False)
+        self.surface: Surface = transform.flip(self.surface, flip_x=True, flip_y=False)
 
     def scale(self):
-        self.character_size = character_sprite_size(background_surface=self.background_surface,
-                                                    character_surface=self.surface)
-        self.surface = transform.scale(self.surface, self.character_size)
-        self.coordinates_pixels = meddle_point_for_character_render(screen_surface=self.background_surface,
-                                                                    character_surface=self.surface)
+        self.character_size: tuple[int, int] = character_sprite_size(background_surface=self.background_surface,
+                                                                     character_surface=self.surface)
+        self.surface: Surface = transform.scale(self.surface, self.character_size)
+        self.coordinates_pixels: list[int, int] = meddle_point_for_character_render(
+            screen_surface=self.background_surface, character_surface=self.surface)
+
+    def kill(self):
+        self.surface.fill(None)
+        ...
 
 
 def characters_generator(*, background_surface: Surface) -> dict[str, Character]:
@@ -63,7 +81,7 @@ def characters_generator(*, background_surface: Surface) -> dict[str, Character]
     result = {}
     characters_list: dict = json_load(['Scripts',
                                        'Json_data',
-                                       'characters_sprites.json'])
+                                       'characters_sprites'])
     for character_name in characters_list:
         character: dict = characters_list[character_name]
         sprite: Surface = image_load(art_name=character['sprite'],
