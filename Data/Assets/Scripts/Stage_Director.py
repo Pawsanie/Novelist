@@ -13,6 +13,8 @@ class StageDirector:
     """
     Controls game scenes and assets loads.
     StageDirector used in "Gameplay.py" for gameplay programming.
+    :param screen: Display surface.
+    :type screen: pygame.display
     """
     def __init__(self, *, screen: display):
         """
@@ -37,7 +39,7 @@ class StageDirector:
         """
         scene = self.backgrounds_dict.get(location)
         scene.scale()
-        scene_image = scene.scene_image
+        scene_image: Surface = scene.scene_image
         # Update background surface:
         self.background_surface.blit(scene_image, (0, 0))
         return self.display_screen.blit(self.background_surface, (0, 0))
@@ -57,7 +59,7 @@ class StageDirector:
                background=self.background_surface,
                characters_dict=self.characters_dict)
 
-    def words(self, *, who: str, what: str):
+    def set_words(self, *, who: str, what: str):
         test = font.Font(font.get_default_font(), 36)
 
         # now print the text

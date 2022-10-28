@@ -8,18 +8,21 @@ Contains code responsible for rendering scenes.
 
 class Background:
     """
-    Load scene image by name and update the scene
-    after the call "draw" method.
+    Load scene image by name and update the scene.
+    Can scale scene size to display size.
+
+    :param screen_surface: Display surface object.
+    :type screen_surface: display.set_mode
+    :param scene_image: Image for background.
+    :type scene_image: pygame.image.load
     """
     def __init__(self, *, screen_surface: display.set_mode, scene_image: image.load):
         """
         Set background image.
         Transform background to screen size.
-        :param screen_surface: display.set_mode(...) surface.
-        :param scene_image: pygame.image.load(...)
         """
-        self.screen_surface = screen_surface
-        self.scene_image = scene_image
+        self.screen_surface: Surface = screen_surface
+        self.scene_image: Surface = scene_image
 
     def scale(self):
         self.scene_image = transform.scale(self.scene_image, (self.screen_surface.get_width(),

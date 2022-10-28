@@ -117,7 +117,6 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict):
     :param characters_dict: Dictionary with 'character`s surfaces',
                             'character`s arts' and character`s coordinates in pixels.
     """
-    # characters_scale_for_render(characters_list=characters_dict)
     # Characters render:
     for character in characters_dict.values():
         character.scale()
@@ -131,12 +130,3 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict):
     screen.blit(background, (0, 0))
     # Flip all surfaces:
     display.update()
-
-
-# def characters_scale_for_render(*, characters_list: dict):
-#     """
-#     :param characters_list: Dictionary with 'character`s surfaces',
-#                             'character`s arts' and character`s coordinates in pixels.
-#     """
-#     for character in characters_list.values():
-#         character.scale()

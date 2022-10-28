@@ -21,13 +21,13 @@ gameplay(display_screen=screen)
 """
 MAIN Coroutine!:
 """
-program_running = True
-main_cycle_fps_clock = time.Clock()
-main_cycle_fps = 20
-
-while program_running:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            quit()
-            program_running = False
-    main_cycle_fps_clock.tick(main_cycle_fps)
+# program_running = True
+# main_cycle_fps_clock = time.Clock()
+# main_cycle_fps = 20
+#
+# while program_running:
+#     for event in pygame.event.get():
+#         if event.type == QUIT:
+#             quit()
+#             program_running = False
+#     main_cycle_fps_clock.tick(main_cycle_fps)
