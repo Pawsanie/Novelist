@@ -1,6 +1,6 @@
 from pygame import transform, Surface, SRCALPHA
 
-from .Render import character_sprite_size, meddle_point_for_character_render
+from .Render import character_sprite_size, meddle_point_for_character_render, surface_size
 from .Assets_load import image_load, json_load
 """
 Contains code responsible for rendering character.
@@ -37,6 +37,8 @@ class Character:
         self.plan: str = 'first_plan'  # [first_plan/background_plan] as 'first_plan' as default
         self.pose_number: str = '0'  # 0 as default
         self.surface.blit(character_image, (0, 0))
+        # Render flag, for scale:
+        self.scale_surface_flag: tuple[int, int] = (0, 0)
 
     def move_custom(self, *, coordinates: list[int, int]):
         """
@@ -75,23 +77,25 @@ class Character:
         """
         self.character_size: tuple[int, int] = character_sprite_size(background_surface=self.background_surface,
                                                                      character_surface=self.surface)
-        # Size scale:
-        if self.plan == 'background_plan':
-            self.surface.blit(self.character_image, self.character_size)
-        if self.plan == 'first_plan':
-            size: tuple[int, int] = self.character_size
-            self.character_size = (int(size[0] * 1.2), int(size[1] * 1.2))
-            self.surface.blit(self.character_image, self.character_size)
-            self.surface: Surface = transform.scale(self.surface, self.character_size)
-        # Position correction:
-        if self.position == 'middle':
-            self.move_to_middle()
-        if self.position == 'right':
-            self.move_to_right()
-        if self.position == 'left':
-            self.move_to_left()
-        if self.position == 'custom':
-            ...
+        if self.scale_surface_flag != surface_size(self.background_surface):
+            self.scale_surface_flag: tuple[int, int] = surface_size(self.background_surface)
+            # Size scale:
+            if self.plan == 'background_plan':
+                self.surface.blit(self.character_image, self.character_size)
+            if self.plan == 'first_plan':
+                size: tuple[int, int] = self.character_size
+                self.character_size = (int(size[0] * 1.2), int(size[1] * 1.2))
+                self.surface: Surface = transform.scale(self.surface, self.character_size)
+                self.surface.blit(self.character_image, self.character_size)
+            # Position correction:
+            if self.position == 'middle':
+                self.move_to_middle()  # BAG? OR in SceneValidator.__call__ set scene
+            if self.position == 'right':
+                self.move_to_right()
+            if self.position == 'left':
+                self.move_to_left()
+            if self.position == 'custom':
+                ...
 
     def kill(self):
         """
@@ -106,6 +110,7 @@ class Character:
         """
         self.plan: str = plan
         self.set_pose(pose_number=self.pose_number)
+        self.scale()
 
     def move_to_middle(self):
         """

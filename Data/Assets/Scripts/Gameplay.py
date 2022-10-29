@@ -36,7 +36,6 @@ def gameplay_stage_director_initialization(*, display_screen):
     director = StageDirector(display_screen=display_screen)
     gameplay = SceneValidator(director=director)
     gameplay()
-    # display_image_render_loop(director, gameplay)
 
 
 class SceneValidator:
@@ -53,8 +52,7 @@ class SceneValidator:
         # Stage Director settings:
         self.director: StageDirector = director
         # Scene FLAG:
-        # START as default!
-        self.scene: str = 'START'
+        self.scene: str = 'START'  # START as default!
         self.scene_flag: str = 'test'  # <------- TEST SCENE!
         self.next_scene: str = ''
         self.past_scene: str = ''
@@ -64,7 +62,7 @@ class SceneValidator:
         # Set new scene!:
         if self.scene_flag != self.scene:
             self.director.vanishing_scene()
-            scene = self.screenplay[self.scene_flag]
+            scene: dict = self.screenplay[self.scene_flag]
             self.director.set_scene(location=scene['background'])
             for name in scene['actors']:
                 character = scene['actors'][name]
@@ -77,9 +75,9 @@ class SceneValidator:
                 if character['character_start_position'] == 'left':
                     self.director.set_actor(character=name).move_to_left()
             # Scene FLAG settings!:
-            self.scene = self.scene_flag
-            self.next_scene = scene['next_scene']
-            self.past_scene = scene['past_scene']
+            self.scene: str = self.scene_flag
+            self.next_scene: str = scene['next_scene']
+            self.past_scene: str = scene['past_scene']
             # Special effects!:
             if scene['special_effects'] is not False:
                 ...

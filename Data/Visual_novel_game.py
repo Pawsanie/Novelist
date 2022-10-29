@@ -6,10 +6,10 @@ from Assets.Scripts.Gameplay import gameplay_stage_director_initialization as ga
 Contains app shell code.
 """
 # Display settings:
-screen_size_x = 1280
-screen_size_y = 720
-# screen_size_x = 1920
-# screen_size_y = 1080
+# screen_size_x = 1280
+# screen_size_y = 720
+screen_size_x = 1920
+screen_size_y = 1080
 # screen_size_x = 360
 # screen_size_y = 120
 

@@ -11,8 +11,8 @@ def text_canvas_render(*, screen_surface: Surface) -> tuple[Surface, tuple[int, 
     :return: pygame.Surface with text_canvas coordinates.
     """
     # Render text canvas:
-    screen_size = surface_size(screen_surface)
-    text_canvas: Surface = Surface((screen_size[0], screen_size[1] // 5))
+    screen_size: tuple[int, int] = surface_size(screen_surface)
+    text_canvas: Surface = Surface((screen_size[0], screen_size[1] // 5), SRCALPHA)
     text_canvas.set_alpha(128)
     # Text canvas coordinates:
     canvas_coordinates = (0, screen_size[1] - surface_size(text_canvas)[1])
@@ -26,8 +26,8 @@ def meddle_point_for_character_render(*, screen_surface: Surface, character_surf
     :param character_surface: pygame.Surface of character.
     :return: List with coordinates of meddle point for character render.
     """
-    screen_size = surface_size(screen_surface)
-    sprite_size = surface_size(character_surface)
+    screen_size: tuple[int, int] = surface_size(screen_surface)
+    sprite_size: tuple[int, int] = surface_size(character_surface)
     result = [(screen_size[0] // 2) - (sprite_size[0] // 2),
               (screen_size[1] - sprite_size[1])]
     return result
@@ -39,8 +39,8 @@ def surface_size(interested_surface: Surface) -> [int, int]:
     :param interested_surface: pygame.Surface object.
     :return: Surface size with 2 init`s.
     """
-    character_sprite_size_x = interested_surface.get_width()
-    character_sprite_size_y = interested_surface.get_height()
+    character_sprite_size_x: int = interested_surface.get_width()
+    character_sprite_size_y: int = interested_surface.get_height()
     return character_sprite_size_x, character_sprite_size_y
 
 
@@ -51,7 +51,7 @@ def background_sprite_size(*, display_surface: Surface) -> tuple[int, int]:
              These sizes depends display size.
     """
     _16x9: int = int(16 / 9 * 100)
-    display_size = surface_size(display_surface)
+    display_size: tuple[int, int] = surface_size(display_surface)
     # background_size = surface_size(background_surface)
     ratio_of_sizes = int(display_size[0] / display_size[1] * 100)
     if ratio_of_sizes == _16x9:
@@ -86,8 +86,8 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
                 result.append(int(integer * (1 - ((100 - percent) / 100))))
         return result
 
-    screen_size = surface_size(background_surface)
-    sprite_size = surface_size(character_surface)
+    screen_size: tuple[int, int] = surface_size(background_surface)
+    sprite_size: tuple[int, int] = surface_size(character_surface)
 
     # 95% from screen:
     real_screen_size_pixels_from_percent = int(screen_size[1] * 95 / 100)

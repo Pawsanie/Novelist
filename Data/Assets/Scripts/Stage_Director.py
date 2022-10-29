@@ -27,6 +27,7 @@ class StageDirector:
         self.characters_dict: dict = characters_generator(background_surface=self.background_surface)
         # Backgrounds load:
         self.backgrounds_dict: dict = backgrounds_generator(display_surface=display_screen)
+        self.location = None
         """Make UI:"""
         # Text canvas:
         self.text_canvas: tuple[Surface, tuple[int, int]] = text_canvas_render(screen_surface=self.background_surface)
@@ -40,6 +41,7 @@ class StageDirector:
         :return: Background for scene render.
         """
         scene = self.backgrounds_dict.get(location)
+        self.location = scene
         scene.scale()
         scene_image: Surface = scene.scene_image
         # Update background surface:
@@ -57,6 +59,7 @@ class StageDirector:
         """
         Render image.
         """
+        self.location.scale()
         render(screen=self.display_screen,
                background=self.background_surface,
                characters_dict=self.characters_dict,
