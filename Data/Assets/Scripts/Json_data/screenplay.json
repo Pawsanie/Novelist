@@ -1,0 +1,19 @@
+{
+  "test": {
+    "background": "back_ground_01",
+    "actors": {
+      "Nurse": {
+        "character_start_position": "middle",
+        "character_pose": "1",
+        "character_plan": "first_plan"
+      }
+    },
+    "special_effects": false,
+    "past_scene": "START",
+    "next_scene": "test_scene02"
+  }
+
+
+
+
+}

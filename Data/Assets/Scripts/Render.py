@@ -1,4 +1,4 @@
-from pygame import display, Surface
+from pygame import display, Surface, SRCALPHA
 """
 Contains code for display image render.
 """
@@ -109,13 +109,14 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     return result_size_x, result_size_y
 
 
-def render(*, screen: Surface, background: Surface, characters_dict: dict):
+def render(*, screen: Surface, background: Surface, characters_dict: dict, text_canvas: tuple):
     """
     Render image on display.
     :param screen: Display.
     :param background: pygame.Surface with background.
     :param characters_dict: Dictionary with 'character`s surfaces',
                             'character`s arts' and character`s coordinates in pixels.
+    :param text_canvas: Tuple with Surface and canvas coordinates.
     """
     # Characters render:
     for character in characters_dict.values():
@@ -123,8 +124,6 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict):
         background.blit(character.surface,
                         character.coordinates_pixels)
     # Text canvas render:
-    text_canvas = text_canvas_render(screen_surface=background)
-    # text = text_canvas[0].blit()
     background.blit(text_canvas[0], text_canvas[1])
     # Background render:
     screen.blit(background, (0, 0))

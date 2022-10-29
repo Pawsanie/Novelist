@@ -16,8 +16,7 @@ screen_size_y = 720
 screen = display.set_mode((screen_size_x, screen_size_y))
 display.set_caption("Visual Novel")
 
-#   - Test game:
-gameplay(display_screen=screen)
+
 """
 MAIN Coroutine!:
 """
@@ -31,3 +30,9 @@ MAIN Coroutine!:
 #             quit()
 #             program_running = False
 #     main_cycle_fps_clock.tick(main_cycle_fps)
+
+
+"""
+Game START!:
+"""
+gameplay(display_screen=screen)
