@@ -38,7 +38,7 @@ class Character:
         self.pose_number: str = '0'  # 0 as default
         self.surface.blit(character_image, (0, 0))
         # Render flag, for scale:
-        self.scale_surface_flag: tuple[int, int] = (0, 0)
+        self.scale_background_old_size_flag: tuple[int, int] = (0, 0)
 
     def move_custom(self, *, coordinates: list[int, int]):
         """
@@ -77,8 +77,8 @@ class Character:
         """
         self.character_size: tuple[int, int] = character_sprite_size(background_surface=self.background_surface,
                                                                      character_surface=self.surface)
-        if self.scale_surface_flag != surface_size(self.background_surface):
-            self.scale_surface_flag: tuple[int, int] = surface_size(self.background_surface)
+        if self.scale_background_old_size_flag != surface_size(self.background_surface):
+            self.scale_background_old_size_flag: tuple[int, int] = surface_size(self.background_surface)
             # Size scale:
             if self.plan == 'background_plan':
                 self.surface.blit(self.character_image, self.character_size)
@@ -89,7 +89,7 @@ class Character:
                 self.surface.blit(self.character_image, self.character_size)
             # Position correction:
             if self.position == 'middle':
-                self.move_to_middle()  # BAG? OR in SceneValidator.__call__ set scene
+                self.move_to_middle()
             if self.position == 'right':
                 self.move_to_right()
             if self.position == 'left':
@@ -110,7 +110,6 @@ class Character:
         """
         self.plan: str = plan
         self.set_pose(pose_number=self.pose_number)
-        self.scale()
 
     def move_to_middle(self):
         """
@@ -123,7 +122,7 @@ class Character:
             coordinates_pixels: list[int, int] = meddle_point_for_character_render(
                 screen_surface=self.background_surface, character_surface=self.surface)
             self.coordinates_pixels = [coordinates_pixels[0],
-                                       int(coordinates_pixels[1] - (coordinates_pixels[1] * 2))]
+                                       int(coordinates_pixels[1] + (coordinates_pixels[1] * 2))]
         self.position = 'middle'
 
     def move_to_left(self):
