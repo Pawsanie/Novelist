@@ -42,7 +42,6 @@ class SceneValidator:
     """
     Controls in what order the scenes go and their settings.
 
-    Do not add render loop in this class: pygame surface flip conflicts with it.
     :param director: Import StageDirector.
     :type director: StageDirector.
     """

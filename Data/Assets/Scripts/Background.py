@@ -33,6 +33,7 @@ class Background:
 def backgrounds_generator(*, display_surface: Surface) -> dict[str, Background]:
     """
     Generate dict with names of backgrounds and their sprites, for StageDirector.
+
     :param display_surface: pygame.Surface of pygame.display.set_mode.
     :return: Dict wth names of backgrounds and their sprites.
     """

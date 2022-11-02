@@ -147,6 +147,7 @@ class Character:
 def characters_generator(*, background_surface: Surface) -> dict[str, Character]:
     """
     Load data about characters and their sprites from json and make dict with Character class exemplars.
+
     :param background_surface: Background Surface.
     :return: Dictionary with 'character`s names as a keys and Character`s exemplar as values.
     """

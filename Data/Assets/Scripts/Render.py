@@ -13,7 +13,7 @@ def text_canvas_render(*, screen_surface: Surface) -> tuple[Surface, tuple[int, 
     # Render text canvas:
     screen_size: tuple[int, int] = surface_size(screen_surface)
     text_canvas: Surface = Surface((screen_size[0], screen_size[1] // 5), SRCALPHA)
-    text_canvas.set_alpha(128)
+    # text_canvas.set_alpha(128)
     # Text canvas coordinates:
     canvas_coordinates = (0, screen_size[1] - surface_size(text_canvas)[1])
     return text_canvas, canvas_coordinates

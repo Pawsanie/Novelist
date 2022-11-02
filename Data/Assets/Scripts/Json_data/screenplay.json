@@ -4,7 +4,7 @@
     "actors": {
       "Nurse": {
         "character_start_position": "middle",
-        "character_pose": "1",
+        "character_pose": "3",
         "character_plan": "first_plan"
       }
     },

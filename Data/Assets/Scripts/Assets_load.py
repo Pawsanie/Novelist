@@ -12,7 +12,7 @@ asset_root_path = f"{path.abspath(__file__).replace(path.join(*['Scripts', 'Asse
 def image_load(*, art_name: str, file_format: str, asset_type: str) -> image.load:
     """
     Load image by name.
-    :param asset_type: String: 'Characters' or 'Scenes'.
+    :param asset_type: String: 'Characters', 'Scenes' or 'UI'.
     :param art_name: must be string with file name in '*/Images/*' folder.
     :param file_format: Image file format: 'png' or 'jpg'.
     :return: Loaded image.

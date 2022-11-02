@@ -2,7 +2,8 @@ from pygame import display, Surface, font
 
 from .Character import characters_generator
 from .Background import backgrounds_generator
-from .Render import background_sprite_size, render, text_canvas_render
+from .Render import background_sprite_size, render
+from .User_Interface import text_canvas_generator
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -13,6 +14,7 @@ class StageDirector:
     """
     Controls game scenes and assets loads.
     StageDirector used in "Gameplay.py" for gameplay programming.
+
     :param display_screen: Display surface.
     :type display_screen: pygame.display.Surface
     """
@@ -30,13 +32,15 @@ class StageDirector:
         self.location = None
         """Make UI:"""
         # Text canvas:
-        self.text_canvas: tuple[Surface, tuple[int, int]] = text_canvas_render(screen_surface=self.background_surface)
+        self.text_canvas: tuple[Surface, tuple[int, int]] = text_canvas_generator(
+            background_surface=self.background_surface)
         """Arguments processing:"""
         self.display_screen: display = display_screen
 
     def set_scene(self, *, location: str) -> Surface.blit:
         """
         Update background Image, for scene render.
+
         :param location: String with background location name.
         :return: Background for scene render.
         """
