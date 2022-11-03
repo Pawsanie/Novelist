@@ -1,6 +1,6 @@
 {
   "test": {
-    "who": "Test Chan",
-    "what": "Hello World!"
+    "who": ["Test Chan", "#00ffff"],
+    "what": ["Hello World!", "#ffffff"]
   }
 }

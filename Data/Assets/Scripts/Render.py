@@ -109,7 +109,8 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     return result_size_x, result_size_y
 
 
-def render(*, screen: Surface, background: Surface, characters_dict: dict, text_canvas: tuple):
+def render(*, screen: Surface, background: Surface, characters_dict: dict, text_canvas: tuple,
+           speech: tuple, speaker: tuple):
     """
     Render image on display.
     :param screen: Display.
@@ -117,6 +118,8 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
     :param characters_dict: Dictionary with 'character`s surfaces',
                             'character`s arts' and character`s coordinates in pixels.
     :param text_canvas: Tuple with Surface and canvas coordinates.
+    :param speech: Words for render on text_canvas surface and their coordinates in pixels.
+    :param speaker: Speaker name for render on text_canvas surface and its coordinates in pixels.
     """
     # Characters render:
     for character in characters_dict.values():
@@ -124,6 +127,8 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
         background.blit(character.surface,
                         character.coordinates_pixels)
     # Text canvas render:
+    text_canvas[0].blit(speaker[0], speaker[1])
+    text_canvas[0].blit(speech[0], speech[1])
     background.blit(text_canvas[0], text_canvas[1])
     # Background render:
     screen.blit(background, (0, 0))

@@ -1,9 +1,10 @@
-from pygame import display, Surface, font
+from pygame import display, Surface, Rect, font
 
 from .Character import characters_generator
 from .Background import backgrounds_generator
 from .Render import background_sprite_size, render
 from .User_Interface import text_canvas_generator
+from .Dialogues import generate_dialogues, DialoguesWords
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -34,6 +35,14 @@ class StageDirector:
         # Text canvas:
         self.text_canvas: tuple[Surface, tuple[int, int]] = text_canvas_generator(
             background_surface=self.background_surface)
+        # Text generation:
+        self.text_controller = DialoguesWords(font_name=None)
+        self.language_flag = 'eng'  # ENG as default.
+        self.text_dict: dict[str] = generate_dialogues()
+        self.text_string: str = ''  # Blank as default.
+        self.text_speaker: str = ''  # Blank as default.
+        self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         """Arguments processing:"""
         self.display_screen: display = display_screen
 
@@ -67,7 +76,9 @@ class StageDirector:
         render(screen=self.display_screen,
                background=self.background_surface,
                characters_dict=self.characters_dict,
-               text_canvas=self.text_canvas)
+               text_canvas=self.text_canvas,
+               speech=self.speech,
+               speaker=self.speaker)
 
     def vanishing_scene(self):
         """
@@ -77,10 +88,29 @@ class StageDirector:
             display_surface=self.display_screen))
         for character in self.characters_dict.values():
             character.kill()
+        self.text_string: str = ''
+        self.text_speaker: str = ''
 
-    def set_words(self, *, who: str, what: str):
-        test = font.Font(font.get_default_font(), 36)
+    def set_words(self, *, script: dict):
+        """
+        Set a speaker and his words and these text colors.
+        Get data from self.text_dict.
 
-        # now print the text
-        text_surface = test.render('Hello world', antialias=True, color=(0, 0, 0))
-        # screen.blit(text_surface, dest=(0, 0))
+        :param script:
+        """
+        speaker = script['who'][0]
+        speaker_color = script['who'][1]
+        text = script['what'][0]
+        text_color = script['what'][1]
+        self.text_string: str = text
+        self.text_speaker: str = speaker
+        self.speech: tuple[Surface, tuple[int, int]] = \
+            self.text_controller.make_words(text_string=self.text_string,
+                                            text_color=text_color,
+                                            text_type='words',
+                                            backgrounds_surface=self.background_surface)
+        self.speaker: tuple[Surface, tuple[int, int]] = \
+            self.text_controller.make_words(text_string=self.text_speaker,
+                                            text_color=speaker_color,
+                                            text_type='speaker',
+                                            backgrounds_surface=self.background_surface)

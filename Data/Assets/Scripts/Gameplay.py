@@ -77,6 +77,8 @@ class SceneValidator:
             self.scene: str = self.scene_flag
             self.next_scene: str = scene['next_scene']
             self.past_scene: str = scene['past_scene']
+            # Scene text settings!:
+            self.director.set_words(script=self.director.text_dict.get(self.director.language_flag)[self.scene])
             # Special effects!:
             if scene['special_effects'] is not False:
                 ...
