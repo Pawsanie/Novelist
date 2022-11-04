@@ -1,6 +1,7 @@
 from pygame import font, Surface
 
 from .Assets_load import json_load, font_load
+from .Render import character_speech_text_coordinates
 font.init()
 """
 Contains the code for text of dialogues.
@@ -16,9 +17,10 @@ class DialoguesWords:
     :type font_name: str | None
     """
 
-    def __init__(self, *, font_name: str | None):
+    def __init__(self, *, font_name: str | None, text_canvas: Surface):
         self.font_size: int = 0
         self.font_name: str = font_name
+        self.text_canvas: Surface = text_canvas
         if self.font_name is None:
             self.set_font = font.Font(font.get_default_font(), self.font_size)
         else:
@@ -53,14 +55,21 @@ class DialoguesWords:
         """
         if text_type == 'speaker':
             self.font_size: int = backgrounds_surface.get_height() // 50
-            self.font_coordinates: tuple[int, int] = (0, 0)
+            self.font_coordinates: tuple[int, int] = character_speech_text_coordinates(
+                text_canvas_surface=self.text_canvas,
+                font_size=None,
+                text_type='name')
         if text_type == 'words':
             self.font_size: int = backgrounds_surface.get_height() // 60
-            self.font_coordinates: tuple[int, int] = (0, 0)
-        self.swap_font(font_name=self.font_name)
-        text_rectangle: Surface = self.set_font.render(text_string, True, text_color)
+            self.font_coordinates: tuple[int, int] = character_speech_text_coordinates(
+                text_canvas_surface=self.text_canvas,
+                font_size=self.font_size,
+                text_type='speech')
 
-        return text_rectangle, self.font_coordinates
+        self.swap_font(font_name=self.font_name)
+        text_surface: Surface = self.set_font.render(text_string, True, text_color)
+
+        return text_surface, self.font_coordinates
 
 
 def generate_dialogues():

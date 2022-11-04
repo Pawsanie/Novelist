@@ -1,4 +1,4 @@
-from pygame import time, QUIT, quit
+from pygame import time, QUIT, quit, VIDEORESIZE, VIDEOEXPOSE, display
 import pygame.event
 
 from .Stage_Director import StageDirector
@@ -23,6 +23,12 @@ def main_coroutine(func):
                 if event.type == QUIT:
                     quit()
                     program_running = False
+                # if event.type == VIDEORESIZE:
+                #     screen.blit(pygame.transform.scale(background, event.dict['size']), (0, 0))
+                #     display.update()
+                # if event.type == VIDEOEXPOSE:  # handles window minimising/maximising
+                #     screen.blit(pygame.transform.scale(background, screen.get_size()), (0, 0))
+                #     pygame.display.update()
             main_cycle_fps_clock.tick(main_cycle_fps)
     return coroutine
 
@@ -67,6 +73,7 @@ class SceneValidator:
                 character = scene['actors'][name]
                 self.director.set_actor(character=name).set_pose(pose_number=character['character_pose'])
                 self.director.set_actor(character=name).set_plan(plan=character['character_plan'])
+                self.director.set_actor(character=name).scale()
                 if character['character_start_position'] == 'middle':
                     self.director.set_actor(character=name).move_to_middle()
                 if character['character_start_position'] == 'right':

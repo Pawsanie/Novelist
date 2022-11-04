@@ -3,17 +3,34 @@
     "background": "back_ground_01",
     "actors": {
       "Nurse": {
-        "character_start_position": "middle",
+        "character_start_position": "right",
         "character_pose": "3",
+        "character_plan": "background_plan"
+      },
+      "Test": {
+        "character_start_position": "middle",
+        "character_pose": "2",
         "character_plan": "first_plan"
       }
     },
     "special_effects": false,
     "past_scene": "START",
     "next_scene": "test_scene02"
+  },
+
+   "test_scene02": {
+    "background": "back_ground_01",
+    "actors": {
+      "Nurse": {
+        "character_start_position": "middle",
+        "character_pose": "2",
+        "character_plan": "first_plan"
+      }
+    },
+    "special_effects": false,
+    "past_scene": "test",
+    "next_scene": "test_scene03"
   }
-
-
 
 
 }

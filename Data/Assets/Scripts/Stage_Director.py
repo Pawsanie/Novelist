@@ -1,4 +1,4 @@
-from pygame import display, Surface, Rect, font
+from pygame import display, Surface
 
 from .Character import characters_generator
 from .Background import backgrounds_generator
@@ -36,7 +36,8 @@ class StageDirector:
         self.text_canvas: tuple[Surface, tuple[int, int]] = text_canvas_generator(
             background_surface=self.background_surface)
         # Text generation:
-        self.text_controller = DialoguesWords(font_name=None)
+        self.text_controller = DialoguesWords(font_name=None,
+                                              text_canvas=self.text_canvas[0])
         self.language_flag = 'eng'  # ENG as default.
         self.text_dict: dict[str] = generate_dialogues()
         self.text_string: str = ''  # Blank as default.

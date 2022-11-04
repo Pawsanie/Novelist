@@ -2,5 +2,10 @@
   "test": {
     "who": ["Test Chan", "#00ffff"],
     "what": ["Hello World!", "#ffffff"]
+  },
+
+  "test_scene02": {
+    "who": ["Test Chan", "#00ffff"],
+    "what": ["New Scene!", "#ffffff"]
   }
 }

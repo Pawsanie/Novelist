@@ -4,6 +4,27 @@ Contains code for display image render.
 """
 
 
+def character_speech_text_coordinates(*, text_canvas_surface: Surface, font_size: int | None, text_type: str
+                                      ) -> tuple[int, int]:
+    """
+    Generate coordinates of text for render.
+
+    :param text_canvas_surface: pygame.Surface with text canvas.
+    :param font_size: Size of font like int ore None ('speech' must have int parameter!).
+    :param text_type: String: 'speech' or 'name'!
+    :return: Tuple with x and y int coordinates for speech text render.
+    """
+    text_canvas_surface_size: tuple[int, int] = surface_size(text_canvas_surface)
+    text_canvas_size_x, text_canvas_size_y = text_canvas_surface_size
+    x_result: int = (text_canvas_size_x // 100) * 15
+    if text_type == 'speech':
+        y_result: int = (font_size * 2) + ((text_canvas_size_y // 100) * 5)
+        return x_result, y_result
+    if text_type == 'name':
+        y_result: int = (text_canvas_size_y // 100) * 5
+        return x_result, y_result
+
+
 def text_canvas_render(*, screen_surface: Surface) -> tuple[Surface, tuple[int, int]]:
     """
     Generate text canvas surface with coordinates.
@@ -86,6 +107,8 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
                 result.append(int(integer * (1 - ((100 - percent) / 100))))
         return result
 
+    result_size_x, result_size_y = (0, 0)
+
     screen_size: tuple[int, int] = surface_size(background_surface)
     sprite_size: tuple[int, int] = surface_size(character_surface)
 
@@ -98,14 +121,15 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
         # Result calculation:
         result_size_x, result_size_y = percentage_increase_or_reduction(
             sprite_size, real_percent_size_sprite_difference, '+')
-    elif sprite_size[1] > real_screen_size_pixels_from_percent:
+    if sprite_size[1] > real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
         real_percent_size_sprite_difference = int(real_screen_size_pixels_from_percent / sprite_size[1] * 100)
         # Result calculation:
         result_size_x, result_size_y = percentage_increase_or_reduction(
             sprite_size, real_percent_size_sprite_difference, '-')
-    else:
+    if sprite_size[1] == real_screen_size_pixels_from_percent:
         result_size_x, result_size_y = sprite_size
+
     return result_size_x, result_size_y
 
 
@@ -123,7 +147,7 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
     """
     # Characters render:
     for character in characters_dict.values():
-        character.scale()
+        # character.scale()
         background.blit(character.surface,
                         character.coordinates_pixels)
     # Text canvas render:

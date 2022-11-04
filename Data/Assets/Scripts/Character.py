@@ -121,8 +121,9 @@ class Character:
         if self.plan == 'first_plan':
             coordinates_pixels: list[int, int] = meddle_point_for_character_render(
                 screen_surface=self.background_surface, character_surface=self.surface)
-            self.coordinates_pixels = [coordinates_pixels[0],
-                                       int(coordinates_pixels[1] + (coordinates_pixels[1] * 2))]
+            coordinates_pixels_y: int = \
+                self.background_surface.get_height() - int(self.background_surface.get_height() * 0.9)
+            self.coordinates_pixels: list[int, int] = [coordinates_pixels[0], coordinates_pixels_y]
         self.position = 'middle'
 
     def move_to_left(self):
