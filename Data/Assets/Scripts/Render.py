@@ -78,7 +78,7 @@ def background_sprite_size(*, display_surface: Surface) -> tuple[int, int]:
     if ratio_of_sizes == _16x9:
         return display_size
     else:
-        display.set_mode(display_size)     # <---------------------------------- Remake
+        # display.set_mode(display_size)     # <---------------------------------- Remake
         return display_size
 
 
@@ -92,6 +92,7 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     Or Character_Sprite - 90%_Background_and_Character_Sprite[x]_difference percent:
     ... ->
     x = Character_Sprite * (1 - (100 - x) / 100)
+
     :param background_surface: pygame.Surface of background.
     :param character_surface: pygame.Surface of character.
     :return: Tuple with x and y sizes for character`s images.
@@ -148,7 +149,6 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
     """
     # Characters render:
     for character in characters_dict.values():
-        # character.scale()
         background.blit(character.surface,
                         character.coordinates_pixels)
     # Text canvas render:

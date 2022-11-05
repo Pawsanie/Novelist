@@ -62,7 +62,7 @@ def run():
     # Display settings:
     screen_size_x, screen_size_y = game_settings['screen_size']
     if game_settings['screen_type'] == 'windowed':
-        screen = display.set_mode((screen_size_x, screen_size_y))
+        screen = display.set_mode((screen_size_x, screen_size_y), RESIZABLE)
     if game_settings['screen_type'] == 'full_screen':
         screen_size = Tk()
         screen_size_x, screen_size_y = screen_size.winfo_screenwidth(), screen_size.winfo_screenheight()

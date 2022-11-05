@@ -1,4 +1,4 @@
-from pygame import time, QUIT, quit, VIDEORESIZE, VIDEOEXPOSE, display
+from pygame import time, QUIT, quit, VIDEORESIZE, VIDEOEXPOSE
 import pygame.event
 
 from .Stage_Director import StageDirector
@@ -6,31 +6,6 @@ from .Assets_load import json_load
 """
 Contains gameplay code.
 """
-
-
-def main_coroutine(func):
-    """
-    MAIN Coroutine!:
-    Decorator with the main loop of game.
-    """
-    def coroutine(*args, **kwargs):
-        program_running = True
-        main_cycle_fps_clock = time.Clock()
-        main_cycle_fps = 30
-        while program_running:
-            func(*args, **kwargs)
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    quit()
-                    program_running = False
-                # if event.type == VIDEORESIZE:
-                #     screen.blit(pygame.transform.scale(background, event.dict['size']), (0, 0))
-                #     display.update()
-                # if event.type == VIDEOEXPOSE:  # handles window minimising/maximising
-                #     screen.blit(pygame.transform.scale(background, screen.get_size()), (0, 0))
-                #     pygame.display.update()
-            main_cycle_fps_clock.tick(main_cycle_fps)
-    return coroutine
 
 
 def gameplay_stage_director_initialization(*, display_screen):
@@ -62,7 +37,36 @@ class SceneValidator:
         self.next_scene: str = ''
         self.past_scene: str = ''
 
-    @main_coroutine
+    def main_loop(func):
+        """
+        MAIN Coroutine!:
+        Decorator with the main loop of game.
+        """
+        def coroutine(*args, **kwargs):
+            self = args[0]  # class method`s 'self.' for in class decorator.
+            program_running = True
+            main_cycle_fps_clock = time.Clock()
+            main_cycle_fps = 30
+            while program_running:
+                func(*args, **kwargs)
+                for event in pygame.event.get():
+                    # Quit by exit_icon.
+                    if event.type == QUIT:
+                        quit()
+                        program_running = False
+                    # Window resize:
+                    if event.type == VIDEORESIZE:
+                        self.director.display_screen.blit(pygame.transform.scale(
+                            self.director.background_surface, event.dict['size']), (0, 0))
+                        self.scene = 'redraw'
+                    # Window minimising/maximising:
+                    if event.type == VIDEOEXPOSE:
+                        self.director.display_screen.blit(pygame.transform.scale(
+                            self.director.background_surface, self.director.display_screen.get_size()), (0, 0))
+                main_cycle_fps_clock.tick(main_cycle_fps)
+        return coroutine
+
+    @main_loop
     def __call__(self):
         # Set new scene!:
         if self.scene_flag != self.scene:
