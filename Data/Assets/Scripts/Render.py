@@ -78,14 +78,15 @@ def background_sprite_size(*, display_surface: Surface) -> tuple[int, int]:
     if ratio_of_sizes == _16x9:
         return display_size
     else:
-        pass
+        display.set_mode(display_size)     # <---------------------------------- Remake
+        return display_size
 
 
 def character_sprite_size(*, background_surface: Surface, character_surface: Surface) -> tuple[int, int]:
     """
     Calculation character surface size.
     Formula: Character_Sprite[x] + 85%_Background_and_Character_Sprite[x]_difference percent:
-    x = Background * 85% / 100 ->
+    x = Background * 90% / 100 ->
     x = Character_Sprite / x * 100 ->
     x = Character_Sprite * (1 + x / 100)
     Or Character_Sprite - 90%_Background_and_Character_Sprite[x]_difference percent:
@@ -112,8 +113,8 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     screen_size: tuple[int, int] = surface_size(background_surface)
     sprite_size: tuple[int, int] = surface_size(character_surface)
 
-    # 95% from screen:
-    real_screen_size_pixels_from_percent = int(screen_size[1] * 95 / 100)
+    # 90% from screen:
+    real_screen_size_pixels_from_percent = int(screen_size[1] * 90 / 100)
     # Result calculation:
     if sprite_size[1] < real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
