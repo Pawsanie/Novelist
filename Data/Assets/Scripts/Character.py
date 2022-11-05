@@ -71,10 +71,11 @@ class Character:
         """
         self.surface: Surface = transform.flip(self.surface, flip_x=True, flip_y=False)
 
-    def scale(self):
+    def scale(self, *, background_surface):
         """
         Scale characters surface, with background context.
         """
+        self.background_surface = background_surface
         self.character_size: tuple[int, int] = character_sprite_size(background_surface=self.background_surface,
                                                                      character_surface=self.surface)
         if self.scale_background_old_size_flag != surface_size(self.background_surface):

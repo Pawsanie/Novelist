@@ -3,7 +3,7 @@ from pygame import display, Surface
 from .Character import characters_generator
 from .Background import backgrounds_generator
 from .Render import background_sprite_size, render
-from .User_Interface import text_canvas_generator
+from .User_Interface import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
 """
 Contains stage director program code.
@@ -33,11 +33,11 @@ class StageDirector:
         self.location = None
         """Make UI:"""
         # Text canvas:
-        self.text_canvas: tuple[Surface, tuple[int, int]] = text_canvas_generator(
-            background_surface=self.background_surface)
+        self.text_canvas = TextCanvas(background_surface=self.background_surface)
+        self.text_canvas_surface: Surface = self.text_canvas.generator()[0]
         # Text generation:
         self.text_controller = DialoguesWords(font_name=None,
-                                              text_canvas=self.text_canvas[0])
+                                              text_canvas=self.text_canvas_surface)
         self.language_flag = 'eng'  # ENG as default.
         self.text_dict: dict[str] = generate_dialogues()
         self.text_string: str = ''  # Blank as default.
@@ -74,10 +74,13 @@ class StageDirector:
         Render image.
         """
         self.location.scale()
+        self.text_canvas.scale(background_surface=self.background_surface)
+        for character in self.characters_dict.values():
+            character.scale(background_surface=self.background_surface)
         render(screen=self.display_screen,
                background=self.background_surface,
                characters_dict=self.characters_dict,
-               text_canvas=self.text_canvas,
+               text_canvas=self.text_canvas.generator(),
                speech=self.speech,
                speaker=self.speaker)
 

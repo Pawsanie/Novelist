@@ -24,9 +24,11 @@ class Background:
         """
         self.display_surface: Surface = display_surface
         self.scene_image: Surface = scene_image
+        self.scene_image_safe: Surface = scene_image  # hold standard image for rescale.
 
     def scale(self):
-        self.scene_image = transform.scale(self.scene_image, background_sprite_size(
+        scene_image = self.scene_image_safe
+        self.scene_image = transform.scale(scene_image, background_sprite_size(
             display_surface=self.display_surface))
 
 

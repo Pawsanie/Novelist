@@ -77,7 +77,6 @@ class SceneValidator:
                 character = scene['actors'][name]
                 self.director.set_actor(character=name).set_pose(pose_number=character['character_pose'])
                 self.director.set_actor(character=name).set_plan(plan=character['character_plan'])
-                self.director.set_actor(character=name).scale()
                 if character['character_start_position'] == 'middle':
                     self.director.set_actor(character=name).move_to_middle()
                 if character['character_start_position'] == 'right':
