@@ -5,6 +5,7 @@ from tkinter import Tk
 from pygame import display, RESIZABLE, FULLSCREEN
 
 from Assets.Scripts.Gameplay import gameplay_stage_director_initialization as gameplay
+from Assets.Scripts.Assets_load import image_load
 """
 Contains app shell code.
 """
@@ -69,12 +70,18 @@ def run():
         screen = display.set_mode((screen_size_x, screen_size_y), FULLSCREEN)
     # Window settings:
     display.set_caption("Visual Novel")
-    # if type_of_system == 'Windows':
-    #     display.set_icon()
-    # if type_of_system == 'Mac_OS':
-    #     display.set_icon()
-    # if type_of_system == 'linux':
-    #     display.set_icon()
+    if type_of_system == 'Windows':
+        display.set_icon(image_load(art_name='win_icon',
+                                    file_format='png',
+                                    asset_type='UI'))
+    if type_of_system == 'Mac_OS':
+        display.set_icon(image_load(art_name='mac_icon',
+                                    file_format='png',
+                                    asset_type='UI'))
+    if type_of_system == 'linux':
+        display.set_icon(image_load(art_name='nix_icon',
+                                    file_format='png',
+                                    asset_type='UI'))
     # Start game:
     gameplay(display_screen=screen)
 
