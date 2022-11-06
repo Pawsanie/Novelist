@@ -116,19 +116,24 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
 
     # 90% from screen:
     real_screen_size_pixels_from_percent = int(screen_size[1] * 90 / 100)
-    # Result calculation:
+
+    # Surface size calculation:
     if sprite_size[1] < real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
         real_percent_size_sprite_difference = int(sprite_size[1] / real_screen_size_pixels_from_percent * 100)
+
         # Result calculation:
         result_size_x, result_size_y = percentage_increase_or_reduction(
             sprite_size, real_percent_size_sprite_difference, '+')
+
     if sprite_size[1] > real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
         real_percent_size_sprite_difference = int(real_screen_size_pixels_from_percent / sprite_size[1] * 100)
+
         # Result calculation:
         result_size_x, result_size_y = percentage_increase_or_reduction(
             sprite_size, real_percent_size_sprite_difference, '-')
+
     if sprite_size[1] == real_screen_size_pixels_from_percent:
         result_size_x, result_size_y = sprite_size
 

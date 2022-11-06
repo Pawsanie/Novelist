@@ -88,7 +88,7 @@ class StageDirector:
         """
         Delete all characters and background from scene.
         """
-        self.background_surface = Surface(background_sprite_size(
+        self.background_surface: Surface = Surface(background_sprite_size(
             display_surface=self.display_screen))
         for character in self.characters_dict.values():
             character.kill()
@@ -102,10 +102,10 @@ class StageDirector:
 
         :param script:
         """
-        speaker = script['who'][0]
-        speaker_color = script['who'][1]
-        text = script['what'][0]
-        text_color = script['what'][1]
+        speaker: str = script['who'][0]
+        speaker_color: str = script['who'][1]
+        text: str = script['what'][0]
+        text_color: str = script['what'][1]
         self.text_string: str = text
         self.text_speaker: str = speaker
         self.speech: tuple[Surface, tuple[int, int]] = \
