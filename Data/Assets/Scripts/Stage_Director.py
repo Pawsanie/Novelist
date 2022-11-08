@@ -2,7 +2,7 @@ from pygame import display, Surface
 
 from .Character import characters_generator
 from .Background import backgrounds_generator
-from .Render import background_sprite_size, render
+from .Render import background_sprite_data, render
 from .User_Interface import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
 """
@@ -24,7 +24,9 @@ class StageDirector:
         Initializes class params and assets loads.
         """
         # Make background surface:
-        self.background_surface: Surface = Surface(background_sprite_size(display_surface=display_screen))
+        background_data: tuple = background_sprite_data(display_surface=display_screen)
+        self.background_surface: Surface = Surface(background_data[0])
+        self.background_coordinates: tuple[int, int] = background_data[1]
         """Assets loading:"""
         # Characters load:
         self.characters_dict: dict = characters_generator(background_surface=self.background_surface)
@@ -60,7 +62,7 @@ class StageDirector:
         scene_image: Surface = scene.scene_image
         # Update background surface:
         self.background_surface.blit(scene_image, (0, 0))
-        return self.display_screen.blit(self.background_surface, (0, 0))
+        return self.display_screen.blit(self.background_surface, self.background_coordinates)
 
     def set_actor(self, *, character: str) -> Surface.blit:
         """
@@ -82,14 +84,16 @@ class StageDirector:
                characters_dict=self.characters_dict,
                text_canvas=self.text_canvas.generator(),
                speech=self.speech,
-               speaker=self.speaker)
+               speaker=self.speaker,
+               background_coordinates=self.background_coordinates)
 
     def vanishing_scene(self):
         """
         Delete all characters and background from scene.
         """
-        self.background_surface: Surface = Surface(background_sprite_size(
-            display_surface=self.display_screen))
+        background_data: tuple = background_sprite_data(display_surface=self.display_screen)
+        self.background_surface: Surface = Surface(background_data[0])
+        self.background_coordinates: tuple[int, int] = background_data[1]
         for character in self.characters_dict.values():
             character.kill()
         self.text_string: str = ''

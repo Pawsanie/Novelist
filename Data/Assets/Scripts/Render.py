@@ -65,21 +65,61 @@ def surface_size(interested_surface: Surface) -> [int, int]:
     return character_sprite_size_x, character_sprite_size_y
 
 
-def background_sprite_size(*, display_surface: Surface) -> tuple[int, int]:
+def background_sprite_data(*, display_surface: Surface) -> tuple[tuple[int, int], tuple[int, int]]:
     """
+    Make size of background and it coordinates.
+
     :param display_surface: display.set_mode surface.
     :return: Tuple with x and y sizes for background image.
              These sizes depends display size.
+             And tuple with coordinates of rendering.
     """
-    _16x9: int = int(16 / 9 * 100)
+    def scale_y(display_ratio) -> int:
+        """
+        Calculate background Y size.
+        """
+        size_x, size_y = display_size
+        if size_x > size_y:
+            while display_ratio != _16x9:
+                if display_ratio > _16x9:
+                    size_y += 1
+                    display_ratio = int(background_size_x / size_y * 100)
+                else:
+                    size_y -= 1
+                    display_ratio = int(background_size_x / size_y * 100)
+        else:
+            while display_ratio != _16x9:
+                size_y -= 1
+                display_ratio = int(background_size_x / size_y * 100)
+        return size_y
+
+    # Display resolution:
+    # _5x4: int = int(5 / 4 * 100)  # Dinosaurs
+    _16x9: int = int(16 / 9 * 100)  # Movie, game, text and art.
+    # _21x9: int = int(21 / 9 * 100)  # Video montage and code.
+    # _32x9: int = int(32 / 9 * 100)  # 27 inches or more.
+
     display_size: tuple[int, int] = surface_size(display_surface)
-    # background_size = surface_size(background_surface)
     ratio_of_sizes = int(display_size[0] / display_size[1] * 100)
     if ratio_of_sizes == _16x9:
-        return display_size
+        return display_size, (0, 0)
     else:
-        # display.set_mode(display_size)     # <---------------------------------- Remake
-        return display_size
+        background_size_x, background_size_y = display_size
+        display_aspect_ratio = int(background_size_x / background_size_y * 100)
+        # Scale Y size!:
+        if background_size_x // 2 <= background_size_y:
+            background_size_y = scale_y(display_aspect_ratio)
+        # Scale X size!:
+        else:
+            while background_size_x // 2 > background_size_y:
+                background_size_x -= 1
+            background_size_y = scale_y(int(background_size_x / background_size_y * 100))
+        # Result:
+        background_surface_size = (background_size_x, background_size_y)
+        render_coordinates = ((display_size[0] // 2) - (background_size_x // 2),
+                              (display_size[1] // 2) - (background_size_y // 2))
+        # display.set_mode(display_size)
+        return background_surface_size, render_coordinates
 
 
 def character_sprite_size(*, background_surface: Surface, character_surface: Surface) -> tuple[int, int]:
@@ -121,15 +161,14 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     if sprite_size[1] < real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
         real_percent_size_sprite_difference = int(sprite_size[1] / real_screen_size_pixels_from_percent * 100)
-
         # Result calculation:
         result_size_x, result_size_y = percentage_increase_or_reduction(
             sprite_size, real_percent_size_sprite_difference, '+')
 
     if sprite_size[1] > real_screen_size_pixels_from_percent:
         # Percent sprite from screen:
+        # real_percent_size_sprite_difference = int(sprite_size[1] / real_screen_size_pixels_from_percent * 100)
         real_percent_size_sprite_difference = int(real_screen_size_pixels_from_percent / sprite_size[1] * 100)
-
         # Result calculation:
         result_size_x, result_size_y = percentage_increase_or_reduction(
             sprite_size, real_percent_size_sprite_difference, '-')
@@ -137,11 +176,12 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     if sprite_size[1] == real_screen_size_pixels_from_percent:
         result_size_x, result_size_y = sprite_size
 
+    # print(result_size_x, result_size_y)
     return result_size_x, result_size_y
 
 
 def render(*, screen: Surface, background: Surface, characters_dict: dict, text_canvas: tuple,
-           speech: tuple, speaker: tuple):
+           speech: tuple, speaker: tuple, background_coordinates: tuple):
     """
     Render image on display.
     :param screen: Display.
@@ -151,7 +191,10 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
     :param text_canvas: Tuple with Surface and canvas coordinates.
     :param speech: Words for render on text_canvas surface and their coordinates in pixels.
     :param speaker: Speaker name for render on text_canvas surface and its coordinates in pixels.
+    :param background_coordinates:
     """
+    # Clear old screen for not 16x9 display render.
+    screen.fill((0, 0, 0))
     # Characters render:
     for character in characters_dict.values():
         background.blit(character.surface,
@@ -161,6 +204,6 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
     text_canvas[0].blit(speech[0], speech[1])
     background.blit(text_canvas[0], text_canvas[1])
     # Background render:
-    screen.blit(background, (0, 0))
+    screen.blit(background, background_coordinates)
     # Flip all surfaces:
     display.update()

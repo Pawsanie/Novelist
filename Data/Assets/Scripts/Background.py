@@ -1,7 +1,7 @@
 from pygame import display, image, transform, Surface
 
 from .Assets_load import image_load, json_load
-from .Render import background_sprite_size
+from .Render import background_sprite_data
 """
 Contains code responsible for rendering scenes.
 """
@@ -25,11 +25,13 @@ class Background:
         self.display_surface: Surface = display_surface
         self.scene_image: Surface = scene_image
         self.scene_image_safe: Surface = scene_image  # hold standard image for rescale.
+        self.background_coordinates = (0, 0)
 
     def scale(self):
         scene_image = self.scene_image_safe
-        self.scene_image = transform.scale(scene_image, background_sprite_size(
-            display_surface=self.display_surface))
+        new_background_surface_size = background_sprite_data(display_surface=self.display_surface)
+        self.scene_image = transform.scale(scene_image, new_background_surface_size[0])
+        self.background_coordinates = new_background_surface_size[1]
 
 
 def backgrounds_generator(*, display_surface: Surface) -> dict[str, Background]:

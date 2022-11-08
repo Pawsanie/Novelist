@@ -1,5 +1,5 @@
-from pygame import time, QUIT, quit, VIDEORESIZE, VIDEOEXPOSE
-import pygame.event
+from pygame import time, QUIT, quit, VIDEORESIZE, VIDEOEXPOSE, transform
+from pygame import event as pygame_events
 
 from .Stage_Director import StageDirector
 from .Assets_load import json_load
@@ -49,20 +49,22 @@ class SceneValidator:
             main_cycle_fps = 30
             while program_running:
                 func(*args, **kwargs)
-                for event in pygame.event.get():
+                for event in pygame_events.get():
                     # Quit by exit_icon.
                     if event.type == QUIT:
                         quit()
                         program_running = False
                     # Window resize:
                     if event.type == VIDEORESIZE:
-                        self.director.display_screen.blit(pygame.transform.scale(
-                            self.director.background_surface, event.dict['size']), (0, 0))
+                        self.director.display_screen.blit(transform.scale(
+                            self.director.background_surface,
+                            event.dict['size']), (0, 0))
                         self.scene = 'redraw'
                     # Window minimising/maximising:
                     if event.type == VIDEOEXPOSE:
-                        self.director.display_screen.blit(pygame.transform.scale(
-                            self.director.background_surface, self.director.display_screen.get_size()), (0, 0))
+                        self.director.display_screen.blit(transform.scale(
+                            self.director.background_surface,
+                            self.director.display_screen.get_size()), (0, 0))
                 main_cycle_fps_clock.tick(main_cycle_fps)
         return coroutine
 

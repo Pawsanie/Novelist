@@ -1,5 +1,5 @@
 # game_settings:
-screen_size=1080x720
+screen_size=1280x720
 screen_type=windowed
 general_volume=100
 music_volume=100
