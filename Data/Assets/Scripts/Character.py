@@ -35,7 +35,7 @@ class Character:
         self.character_size: tuple[int, int] = character_size
         self.position: str = 'middle'  # [middle/right/left/custom] as 'middle' as default
         self.plan: str = 'first_plan'  # [first_plan/background_plan] as 'first_plan' as default
-        self.pose_number: str = '0'  # 0 as default
+        self.pose_number: str = '1'  # 1 as default
         self.surface.blit(character_image, (0, 0))
         # Render flag, for scale:
         self.scale_background_old_size_flag: tuple[int, int] = (0, 0)
@@ -82,10 +82,11 @@ class Character:
             self.scale_background_old_size_flag: tuple[int, int] = surface_size(self.background_surface)
             # Size scale:
             if self.plan == 'background_plan':
+                size: tuple[int, int] = self.character_size
+                self.character_size = (int(size[0] * 0.8), int(size[1] * 0.8))
+                self.surface: Surface = transform.scale(self.surface, self.character_size)
                 self.surface.blit(self.character_image, self.character_size)
             if self.plan == 'first_plan':
-                size: tuple[int, int] = self.character_size
-                self.character_size = (int(size[0] * 1.2), int(size[1] * 1.2))
                 self.surface: Surface = transform.scale(self.surface, self.character_size)
                 self.surface.blit(self.character_image, self.character_size)
             # Position correction:

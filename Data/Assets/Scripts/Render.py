@@ -125,58 +125,39 @@ def background_sprite_data(*, display_surface: Surface) -> tuple[tuple[int, int]
 def character_sprite_size(*, background_surface: Surface, character_surface: Surface) -> tuple[int, int]:
     """
     Calculation character surface size.
-    Formula: Character_Sprite[x] + 85%_Background_and_Character_Sprite[x]_difference percent:
-    x = Background * 90% / 100 ->
-    x = Character_Sprite / x * 100 ->
-    x = Character_Sprite * (1 + x / 100)
-    Or Character_Sprite - 90%_Background_and_Character_Sprite[x]_difference percent:
-    ... ->
-    x = Character_Sprite * (1 - (100 - x) / 100)
+    Formula: Character_Sprite[x] + Background_and_Character_Sprite[x]_difference percent:
+    coefficient = x / 100 ->
+    percent_difference = Character_Sprite / Background * 100 ->
+    difference = coefficient * (100 - percent_difference) ->
+    x = Character_Sprite[size] + difference
+    Or: Character_Sprite[x] - Background_and_Character_Sprite[x]_difference percent:
+    percent_difference = Background / Character_Sprite * 100 ->
+    x = Character_Sprite[size] * (1 - (100 - percent_difference) / 100)
+    Formula: Character_Sprite[Y]:
+    Character_Sprite[Y] = Background[Y]
 
     :param background_surface: pygame.Surface of background.
     :param character_surface: pygame.Surface of character.
     :return: Tuple with x and y sizes for character`s images.
              These sizes depends of main frame size.
     """
-    def percentage_increase_or_reduction(sizes: tuple, percent: int, operator: str) -> list[int, int]:
-        result = []
-        for integer in sizes:
-            coefficient = integer / 100
-            percent_integer = coefficient * (100 - percent)
-            if operator == '+':
-                result.append(int(integer + percent_integer))
-            if operator == '-':
-                result.append(int(integer * (1 - ((100 - percent) / 100))))
-        return result
-
     result_size_x, result_size_y = (0, 0)
-
     screen_size: tuple[int, int] = surface_size(background_surface)
     sprite_size: tuple[int, int] = surface_size(character_surface)
 
-    # 90% from screen:
-    real_screen_size_pixels_from_percent = int(screen_size[1] * 90 / 100)
+    if sprite_size[1] != screen_size[1]:
+        result_size_y: int = screen_size[1]
+        if sprite_size[1] < screen_size[1]:
+            percent_size_sprite_difference = int(sprite_size[1] / screen_size[1] * 100)
+            coefficient: int | float = sprite_size[0] / 100
+            percent_integer: int | float = coefficient * (100 - percent_size_sprite_difference)
+            result_size_x = int(sprite_size[0] + percent_integer)
+        if sprite_size[1] > screen_size[1]:
+            percent_size_sprite_difference = int(screen_size[1] / sprite_size[1] * 100)
+            result_size_x = int(sprite_size[0] * (1 - ((100 - percent_size_sprite_difference) / 100)))
+    else:
+        return sprite_size
 
-    # Surface size calculation:
-    if sprite_size[1] < real_screen_size_pixels_from_percent:
-        # Percent sprite from screen:
-        real_percent_size_sprite_difference = int(sprite_size[1] / real_screen_size_pixels_from_percent * 100)
-        # Result calculation:
-        result_size_x, result_size_y = percentage_increase_or_reduction(
-            sprite_size, real_percent_size_sprite_difference, '+')
-
-    if sprite_size[1] > real_screen_size_pixels_from_percent:
-        # Percent sprite from screen:
-        # real_percent_size_sprite_difference = int(sprite_size[1] / real_screen_size_pixels_from_percent * 100)
-        real_percent_size_sprite_difference = int(real_screen_size_pixels_from_percent / sprite_size[1] * 100)
-        # Result calculation:
-        result_size_x, result_size_y = percentage_increase_or_reduction(
-            sprite_size, real_percent_size_sprite_difference, '-')
-
-    if sprite_size[1] == real_screen_size_pixels_from_percent:
-        result_size_x, result_size_y = sprite_size
-
-    # print(result_size_x, result_size_y)
     return result_size_x, result_size_y
 
 
