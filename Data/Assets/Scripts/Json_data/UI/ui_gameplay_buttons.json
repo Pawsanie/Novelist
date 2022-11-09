@@ -1,0 +1,26 @@
+{
+  "past_scene": {
+    "type": "gameplay_ui",
+    "index_number": -2
+  },
+
+  "hide_interface": {
+    "type": "gameplay_ui",
+    "index_number": -1
+  },
+
+  "settings_menu": {
+    "type": "gameplay_ui",
+    "index_number": 1
+  },
+
+  "next_scene": {
+    "type": "gameplay_ui",
+    "index_number": 2
+  },
+
+  "fast_forward": {
+    "type": "gameplay_ui",
+    "index_number": 3
+  }
+}

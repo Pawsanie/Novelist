@@ -1,7 +1,7 @@
-from pygame import Surface
+from pygame import Surface, SRCALPHA, transform
 
-from .Assets_load import image_load
-from .Render import text_canvas_render
+from .Assets_load import image_load, json_load
+from .Render import text_canvas_render, surface_size
 """
 Contents code for user interface.
 """
@@ -41,6 +41,161 @@ class TextCanvas:
 
 
 class Button:
-    def __init__(self):
-        ...
+    """
+    Generate interface button surface and coordinates for render.
 
+    :param background_surface: pygame.Surface of background.
+    :type background_surface: Surface
+    :param button_name: String with button image file name.
+    :type button_name: str
+    :param button_text: String with text of button.
+    :type button_text: str | None
+    :param place_flag: Dictionary with button type string as a key and order int as value.
+    :type place_flag: dict[str, dict[str, int]]
+    """
+    def __init__(self, *, background_surface: Surface, button_name: str,
+                 button_text: str | None, place_flag: dict[str, int]):
+        """
+        :param background_surface: pygame.Surface of background.
+        :type background_surface: Surface
+        :param button_name: String with button image file name.
+        :type button_name: str
+        :param button_text: String with text of button.
+        :type button_text: str | None
+        :param place_flag: Dictionary with button type string as a key and order int as value.
+        :type place_flag: dict[str, int]
+        """
+        self.background_surface: Surface = background_surface
+        self.button_name: str = button_name
+        self.button_text: str | None = button_text
+        # Generate button image:
+        self.button_sprite_standard: Surface = image_load(
+            art_name=self.button_name,
+            file_format='png',
+            asset_type='UI')
+        self.button_sprite: Surface = self.button_sprite_standard
+        # Generate button surface:
+        self.button_size: tuple[int, int] = ...
+        self.button_surface: Surface = Surface(self.button_size, SRCALPHA)
+        # Generate button coordinates:
+        self.button_coordinates: tuple[int, int] = (0, 0)
+        self.place_flag: dict[str, int] = place_flag
+        self.coordinates(background_surface=self.background_surface)
+        # Button image render:
+        transform.scale(self.button_sprite, self.button_size)
+        self.button_surface.blit(self.button_sprite, (0, 0))
+
+    def generator(self):
+        """
+        Generate button surface and coordinates for render.
+        """
+        return self.button_surface, self.button_coordinates
+
+    def scale(self, *, background_surface):
+        """
+        Scale button surface, with background context.
+
+        :param background_surface: pygame.Surface of background.
+        :type background_surface: Surface.
+        """
+        # Arg parse:
+        self.background_surface = background_surface
+        # Button size scale:
+        self.button_sprite: Surface = self.button_sprite_standard
+        self.button_size: tuple[int, int] = ...
+        transform.scale(self.button_sprite,  self.button_size)
+        self.button_surface: Surface = transform.scale(self.button_surface,  self.button_size)
+        self.button_surface.blit(self.button_sprite, (0, 0))
+        # Scale coordinates:
+        self.coordinates(background_surface=self.background_surface)
+
+    def reflect(self):
+        """
+        Reflect button sprite surface.
+        Reflect methode must be after scale methode in prerender loop.
+        """
+        self.button_surface: Surface = transform.flip(
+            self.button_surface,
+            flip_x=True,
+            flip_y=False)
+
+    def coordinates(self, *, background_surface: Surface):
+        """
+        Generate coordinates.
+
+        :param background_surface: pygame.Surface of background.
+        :type background_surface: Surface.
+        """
+        self.background_surface = background_surface
+        place_flag = self.place_flag
+        button_coordinates_x, button_coordinates_y = (0, 0)
+        background_surface_size: list[int, int] = surface_size(interested_surface=self.background_surface)
+        background_surface_size_x_middle = background_surface_size[0]//2
+        background_surface_size_y_middle = background_surface_size[1]//2
+
+        if place_flag['type'] == 'gameplay_ui':
+            # X:
+            button_coordinates_x: int = \
+                (background_surface_size_x_middle - (self.button_size[0]//2)) + \
+                (self.button_size[0] * place_flag['index_number'])
+            # Y:
+            button_coordinates_y: int = background_surface_size[1] - self.button_size[1]
+
+        if place_flag['type'] == 'settings_menu':
+            # X:
+            # Y:
+            ...
+
+        if place_flag['type'] == 'start_menu':
+            # X:
+            # Y:
+            ...
+
+        if place_flag['type'] == 'save_menu':
+            # X:
+            # Y:
+            ...
+
+        if place_flag['type'] == 'load_menu':
+            # X:
+            # Y:
+            ...
+
+        if place_flag['type'] == 'exit_menu':
+            # X:
+            # Y:
+            ...
+
+        if place_flag['type'] == 'change_settings':
+            # X:
+            # Y:
+            ...
+
+        self.button_coordinates = (button_coordinates_x, button_coordinates_y)
+
+    def button_text(self):
+        """
+        Generate text on button if it's necessary.
+        """
+        if self.button_text is not None:
+            ...
+
+
+def button_generator(language_flag: str, background_surface: Surface):
+    """
+    Generate
+    """
+    result = {}
+
+    # User Interface gameplay buttons:
+    ui_gameplay_buttons_json: dict = json_load(['Scripts', 'Json_data', 'UI', 'ui_gameplay_buttons'])
+    ui_gameplay_buttons = {}
+    for key in ui_gameplay_buttons_json:
+        ui_gameplay_buttons.update(
+            {key: Button(
+                background_surface=background_surface,
+                button_name=key,
+                button_text=None,
+                place_flag=ui_gameplay_buttons_json[key]
+            )})
+    result.update({'ui_gameplay_buttons': ui_gameplay_buttons})

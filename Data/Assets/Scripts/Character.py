@@ -74,6 +74,9 @@ class Character:
     def scale(self, *, background_surface):
         """
         Scale characters surface, with background context.
+
+        :param background_surface: pygame.Surface of background.
+        :type background_surface: Surface.
         """
         self.background_surface = background_surface
         self.character_size: tuple[int, int] = character_sprite_size(background_surface=self.background_surface,
