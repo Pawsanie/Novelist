@@ -1,43 +1,10 @@
 from pygame import Surface, SRCALPHA, transform
 
 from .Assets_load import image_load, json_load
-from .Render import text_canvas_render, surface_size
+from .Render import surface_size, button_size
 """
-Contents code for user interface.
+Contents code for user interface buttons.
 """
-
-
-class TextCanvas:
-    """
-    Generate text canvas surface and coordinates for render.
-
-    :param background_surface: pygame.Surface of background.
-    :type background_surface: Surface.
-    """
-    def __init__(self, *, background_surface: Surface):
-        """
-        :param background_surface: pygame.Surface of background.
-        :type background_surface: Surface.
-        """
-        self.canvas_sprite: Surface = image_load(art_name='text_canvas',
-                                                 file_format='png',
-                                                 asset_type='UI')
-        text_canvas: tuple[Surface, tuple[int, int]] = text_canvas_render(screen_surface=background_surface)
-        self.text_canvas_surface: Surface = text_canvas[0]
-        self.text_canvas_surface.blit(self.canvas_sprite, (0, 0))
-        self.text_canvas_coordinates: tuple[int, int] = text_canvas[1]
-
-    def generator(self):
-        """
-        Generate text canvas surface and coordinates for render.
-        """
-        return self.text_canvas_surface, self.text_canvas_coordinates
-
-    def scale(self, *, background_surface):
-        text_canvas: tuple[Surface, tuple[int, int]] = text_canvas_render(screen_surface=background_surface)
-        self.text_canvas_surface: Surface = text_canvas[0]
-        self.text_canvas_surface.blit(self.canvas_sprite, (0, 0))
-        self.text_canvas_coordinates: tuple[int, int] = text_canvas[1]
 
 
 class Button:
@@ -75,7 +42,9 @@ class Button:
             asset_type='UI')
         self.button_sprite: Surface = self.button_sprite_standard
         # Generate button surface:
-        self.button_size: tuple[int, int] = ...
+        self.button_size: tuple[int, int] = button_size(
+            place_flag=place_flag['type'],
+            background_surface=self.background_surface)
         self.button_surface: Surface = Surface(self.button_size, SRCALPHA)
         # Generate button coordinates:
         self.button_coordinates: tuple[int, int] = (0, 0)
@@ -102,7 +71,9 @@ class Button:
         self.background_surface = background_surface
         # Button size scale:
         self.button_sprite: Surface = self.button_sprite_standard
-        self.button_size: tuple[int, int] = ...
+        self.button_size: tuple[int, int] = button_size(
+            place_flag=self.place_flag['type'],
+            background_surface=self.background_surface)
         transform.scale(self.button_sprite,  self.button_size)
         self.button_surface: Surface = transform.scale(self.button_surface,  self.button_size)
         self.button_surface.blit(self.button_sprite, (0, 0))

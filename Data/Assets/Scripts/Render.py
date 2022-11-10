@@ -161,6 +161,54 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     return result_size_x, result_size_y
 
 
+def button_size(*, place_flag, background_surface) -> tuple[int, int]:
+    """
+    Calculate button size.
+
+    :param background_surface: pygame.Surface of background.
+    :param place_flag: String with flag type of button.
+    """
+    background_surface_size: tuple[int, int] = surface_size(interested_surface=background_surface)
+    background_size_x, background_size_y = background_surface_size
+    x_size, y_size = (0, 0)
+
+    if place_flag == 'gameplay_ui':
+        # X:
+        # Y:
+        x_size, y_size = (200, 200)
+
+    if place_flag == 'settings_menu':
+        # X:
+        # Y:
+        ...
+
+    if place_flag == 'start_menu':
+        # X:
+        # Y:
+        ...
+
+    if place_flag == 'save_menu':
+        # X:
+        # Y:
+        ...
+
+    if place_flag == 'load_menu':
+        # X:
+        # Y:
+        ...
+
+    if place_flag == 'exit_menu':
+        # X:
+        # Y:
+        ...
+
+    if place_flag == 'change_settings':
+        # X:
+        # Y:
+        ...
+    return x_size, y_size
+
+
 def render(*, screen: Surface, background: Surface, characters_dict: dict, text_canvas: tuple,
            speech: tuple, speaker: tuple, background_coordinates: tuple):
     """
