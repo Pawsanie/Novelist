@@ -51,7 +51,7 @@ class Button:
         self.place_flag: dict[str, int] = place_flag
         self.coordinates(background_surface=self.background_surface)
         # Button image render:
-        transform.scale(self.button_sprite, self.button_size)
+        self.button_sprite = transform.scale(self.button_sprite, self.button_size)
         self.button_surface.blit(self.button_sprite, (0, 0))
 
     def generator(self):
@@ -74,7 +74,7 @@ class Button:
         self.button_size: tuple[int, int] = button_size(
             place_flag=self.place_flag['type'],
             background_surface=self.background_surface)
-        transform.scale(self.button_sprite,  self.button_size)
+        self.button_sprite = transform.scale(self.button_sprite,  self.button_size)
         self.button_surface: Surface = transform.scale(self.button_surface,  self.button_size)
         self.button_surface.blit(self.button_sprite, (0, 0))
         # Scale coordinates:
@@ -152,7 +152,7 @@ class Button:
             ...
 
 
-def button_generator(language_flag: str, background_surface: Surface):
+def button_generator(language_flag: str, background_surface: Surface) -> dict[str, dict[str, Button]]:
     """
     Generate
     """
@@ -170,3 +170,4 @@ def button_generator(language_flag: str, background_surface: Surface):
                 place_flag=ui_gameplay_buttons_json[key]
             )})
     result.update({'ui_gameplay_buttons': ui_gameplay_buttons})
+    return result

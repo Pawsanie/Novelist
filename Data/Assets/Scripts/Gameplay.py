@@ -53,20 +53,15 @@ class SceneValidator:
                     if event.type == QUIT:
                         quit()
                         program_running = False
+                        exit(0)
                     # Window resize:
                     if event.type == VIDEORESIZE:
-                        self.director.display_screen.blit(transform.scale(
-                            self.director.background_surface,
-                            event.dict['size']), (0, 0))
                         self.scene = 'redraw'
                         func(*args, **kwargs)
-                    # Window minimising/maximising:
-                    if event.type == VIDEOEXPOSE:
-                        self.director.display_screen.blit(transform.scale(
-                            self.director.background_surface,
-                            self.director.display_screen.get_size()), (0, 0))
+                        break
                     # Set scene:
-                    func(*args, **kwargs)
+                    if self.scene_flag != self.scene:
+                        func(*args, **kwargs)
                 main_cycle_fps_clock.tick(main_cycle_fps)
         return coroutine
 

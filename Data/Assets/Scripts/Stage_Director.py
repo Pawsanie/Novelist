@@ -5,6 +5,7 @@ from .Background import backgrounds_generator
 from .Render import background_sprite_data, render
 from .UI_Text_Canvas import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
+from .Interface_Controller import InterfaceController
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -34,18 +35,23 @@ class StageDirector:
         self.backgrounds_dict: dict = backgrounds_generator(display_surface=display_screen)
         self.location = None
         """Make UI:"""
+        self.language_flag = 'eng'  # ENG as default.
+        self.interface_controller = InterfaceController(
+            background_surface=self.background_surface,
+            language_flag=self.language_flag)
         # Text canvas:
         self.text_canvas = TextCanvas(background_surface=self.background_surface)
         self.text_canvas_surface: Surface = self.text_canvas.generator()[0]
         # Text generation:
-        self.text_controller = DialoguesWords(font_name=None,
-                                              text_canvas=self.text_canvas_surface)
-        self.language_flag = 'eng'  # ENG as default.
+        self.text_controller = DialoguesWords(
+            font_name=None,
+            text_canvas=self.text_canvas_surface)
         self.text_dict: dict[str] = generate_dialogues()
         self.text_string: str = ''  # Blank as default.
         self.text_speaker: str = ''  # Blank as default.
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        # Game UI buttons:
         """Arguments processing:"""
         self.display_screen: display = display_screen
 
@@ -75,17 +81,25 @@ class StageDirector:
         """
         Render image.
         """
+        # Scale:
         self.location.scale()
         self.text_canvas.scale(background_surface=self.background_surface)
+        self.interface_controller.language_flag = self.language_flag
+        self.interface_controller.scale(
+            background_surface=self.background_surface,
+            ui_type_flag='gameplay_ui')
         for character in self.characters_dict.values():
             character.scale(background_surface=self.background_surface)
+        # Render:
         render(screen=self.display_screen,
                background=self.background_surface,
                characters_dict=self.characters_dict,
                text_canvas=self.text_canvas.generator(),
                speech=self.speech,
                speaker=self.speaker,
-               background_coordinates=self.background_coordinates)
+               background_coordinates=self.background_coordinates,
+               gameplay_ui_dict=self.interface_controller.ui_gameplay_generator(),
+               active_game_interface_flag=self.interface_controller.active_game_interface_flag)
 
     def vanishing_scene(self):
         """
