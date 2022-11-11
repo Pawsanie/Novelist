@@ -28,6 +28,7 @@ def character_speech_text_coordinates(*, text_canvas_surface: Surface, font_size
 def text_canvas_render(*, screen_surface: Surface) -> tuple[Surface, tuple[int, int]]:
     """
     Generate text canvas surface with coordinates.
+
     :param screen_surface: pygame.Surface with background.
     :return: pygame.Surface with text_canvas coordinates.
     """
@@ -43,6 +44,7 @@ def text_canvas_render(*, screen_surface: Surface) -> tuple[Surface, tuple[int, 
 def meddle_point_for_character_render(*, screen_surface: Surface, character_surface: Surface) -> list[int]:
     """
     Calculation middle coordinates for character render.
+
     :param screen_surface: pygame.Surface of background.
     :param character_surface: pygame.Surface of character.
     :return: List with coordinates of meddle point for character render.
@@ -57,6 +59,7 @@ def meddle_point_for_character_render(*, screen_surface: Surface, character_surf
 def surface_size(interested_surface: Surface) -> [int, int]:
     """
     Calculation surface size.
+
     :param interested_surface: pygame.Surface object.
     :return: Surface size with 2 init`s.
     """
@@ -77,6 +80,7 @@ def background_sprite_data(*, display_surface: Surface) -> tuple[tuple[int, int]
     def scale_y(display_ratio) -> int:
         """
         Calculate background Y size.
+        :return: int
         """
         size_x, size_y = display_size
         if size_x > size_y:
@@ -167,6 +171,7 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
 
     :param background_surface: pygame.Surface of background.
     :param place_flag: String with flag type of button.
+    :return: Tuple with x and y sizes of button`s surface.
     """
     background_surface_size: tuple[int, int] = surface_size(interested_surface=background_surface)
     background_size_x, background_size_y = background_surface_size
@@ -213,6 +218,7 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
            active_game_interface_flag: str):
     """
     Render image on display.
+
     :param screen: Display.
     :param background: pygame.Surface with background.
     :param characters_dict: Dictionary with 'character`s surfaces',

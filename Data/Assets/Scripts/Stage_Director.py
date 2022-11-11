@@ -118,7 +118,7 @@ class StageDirector:
         Set a speaker and his words and these text colors.
         Get data from self.text_dict.
 
-        :param script:
+        :param script: Dict with scene words and speaker.
         """
         speaker: str = script['who'][0]
         speaker_color: str = script['who'][1]

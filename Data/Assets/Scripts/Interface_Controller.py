@@ -59,3 +59,29 @@ class InterfaceController:
                 for key in self.buttons_dict['ui_gameplay_buttons']:
                     button = self.buttons_dict['ui_gameplay_buttons'][key]
                     button.scale(background_surface=background_surface)
+
+    def button_clicked_status(self) -> bool:
+        """
+        Check left click of mouse to button status.
+
+        :return: True | False
+        """
+        if self.active_game_interface_flag == 'on':
+            gameplay_ui_dict = self.ui_gameplay_generator()
+            for button in gameplay_ui_dict:
+                click_status = gameplay_ui_dict[button].button_clicked_status()
+                if click_status is True:
+                    return True
+
+    def button_cursor_position_status(self) -> bool:
+        """
+        Checking the cursor position above the button.
+
+        :return: True | False
+        """
+        if self.active_game_interface_flag == 'on':
+            gameplay_ui_dict = self.ui_gameplay_generator()
+            for button in gameplay_ui_dict:
+                cursor_position_status = gameplay_ui_dict[button].button_cursor_position_status()
+                if cursor_position_status is True:
+                    return True

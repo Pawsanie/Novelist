@@ -1,4 +1,4 @@
-from pygame import Surface, SRCALPHA, transform
+from pygame import Surface, SRCALPHA, transform, mouse
 
 from .Assets_load import image_load, json_load
 from .Render import surface_size, button_size
@@ -74,11 +74,18 @@ class Button:
         self.button_size: tuple[int, int] = button_size(
             place_flag=self.place_flag['type'],
             background_surface=self.background_surface)
-        self.button_sprite = transform.scale(self.button_sprite,  self.button_size)
-        self.button_surface: Surface = transform.scale(self.button_surface,  self.button_size)
-        self.button_surface.blit(self.button_sprite, (0, 0))
+        self.button_sprite = transform.scale(self.button_sprite, self.button_size)
+        self.button_surface: Surface = transform.scale(self.button_surface, self.button_size)
         # Scale coordinates:
         self.coordinates(background_surface=self.background_surface)
+        # Default button render:
+        if self.button_cursor_position_status() is False:
+            self.button_surface.blit(self.button_sprite, (0, 0))
+            # self.button_surface.fill((0, 0, 0))
+        # Button ready to be pressed:
+        else:
+            # self.button_surface.blit(self.button_sprite, (0, 0))
+            self.button_surface.fill((0, 0, 0))  # <---------------- Remake after tests
 
     def reflect(self):
         """
@@ -151,10 +158,42 @@ class Button:
         if self.button_text is not None:
             ...
 
+    def button_cursor_position_status(self) -> bool:
+        """
+        Checking the cursor position above the button.
+
+        :return: True | False
+        """
+        # Mouse processing:
+        cursor_position: tuple[int, int] = mouse.get_pos()
+        # Button processing:
+        button_x_size, button_y_size = surface_size(self.button_surface)
+        button_coordinates_x, button_coordinates_y = self.button_coordinates
+        # Drawing a button while hovering over:
+        if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size and \
+                button_coordinates_y < cursor_position[1] < button_coordinates_y + button_y_size:
+            return True
+        # Default Button Rendering:
+        else:
+            return False
+
+    def button_clicked_status(self) -> bool:
+        """
+        Check left click of mouse to button status.
+
+        :return: True | False
+        """
+        if self.button_cursor_position_status() is True:
+            button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
+            if button_clicked[0] is True:
+                return True
+
 
 def button_generator(language_flag: str, background_surface: Surface) -> dict[str, dict[str, Button]]:
     """
-    Generate
+    Generate dict with buttons for user interface.
+
+    :return: A nested dictionary of buttons group and an instance of the Button class.
     """
     result = {}
 

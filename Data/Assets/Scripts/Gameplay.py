@@ -62,6 +62,17 @@ class SceneValidator:
                     # Set scene:
                     if self.scene_flag != self.scene:
                         func(*args, **kwargs)
+                        break
+                    # Button gameplay ui status:
+                    if self.director.interface_controller.button_clicked_status() is True:
+                        func(*args, **kwargs)
+                        break
+                    if self.director.interface_controller.button_cursor_position_status() is True:
+                        self.scene = 'redraw'
+                        func(*args, **kwargs)
+                    else:
+                        self.scene = 'redraw'
+                        func(*args, **kwargs)
                 main_cycle_fps_clock.tick(main_cycle_fps)
         return coroutine
 
