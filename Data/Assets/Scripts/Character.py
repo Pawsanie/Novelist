@@ -37,8 +37,6 @@ class Character:
         self.plan: str = 'first_plan'  # [first_plan/background_plan] as 'first_plan' as default
         self.pose_number: str = '1'  # 1 as default
         self.surface.blit(character_image, (0, 0))
-        # Render flag, for scale:
-        self.scale_background_old_size_flag: tuple[int, int] = (0, 0)
 
     def move_custom(self, *, coordinates: list[int, int]):
         """
@@ -79,28 +77,27 @@ class Character:
         :type background_surface: Surface.
         """
         self.background_surface = background_surface
-        self.character_size: tuple[int, int] = character_sprite_size(background_surface=self.background_surface,
-                                                                     character_surface=self.surface)
-        if self.scale_background_old_size_flag != surface_size(self.background_surface):
-            self.scale_background_old_size_flag: tuple[int, int] = surface_size(self.background_surface)
-            # Size scale:
-            if self.plan == 'background_plan':
-                size: tuple[int, int] = self.character_size
-                self.character_size = (int(size[0] * 0.8), int(size[1] * 0.8))
-                self.surface: Surface = transform.scale(self.surface, self.character_size)
-                self.surface.blit(self.character_image, self.character_size)
-            if self.plan == 'first_plan':
-                self.surface: Surface = transform.scale(self.surface, self.character_size)
-                self.surface.blit(self.character_image, self.character_size)
-            # Position correction:
-            if self.position == 'middle':
-                self.move_to_middle()
-            if self.position == 'right':
-                self.move_to_right()
-            if self.position == 'left':
-                self.move_to_left()
-            if self.position == 'custom':
-                ...
+        self.character_size: tuple[int, int] = character_sprite_size(
+            background_surface=self.background_surface,
+            character_surface=self.surface)
+        # Size scale:
+        if self.plan == 'background_plan':
+            size: tuple[int, int] = self.character_size
+            self.character_size = (int(size[0] * 0.8), int(size[1] * 0.8))
+            self.surface: Surface = transform.scale(self.surface, self.character_size)
+            self.surface.blit(self.character_image, self.character_size)
+        if self.plan == 'first_plan':
+            self.surface: Surface = transform.scale(self.surface, self.character_size)
+            self.surface.blit(self.character_image, self.character_size)
+        # Position correction:
+        if self.position == 'middle':
+            self.move_to_middle()
+        if self.position == 'right':
+            self.move_to_right()
+        if self.position == 'left':
+            self.move_to_left()
+        if self.position == 'custom':
+            ...
 
     def kill(self):
         """
@@ -170,13 +167,15 @@ def characters_generator(*, background_surface: Surface) -> dict[str, Character]
         character_size_base: tuple[int, int] = (character_poses['1']['x'][1],
                                                 character_poses['1']['y'][1])
         character_surface: Surface = Surface(character_size_base, SRCALPHA)
-        coordinates_pixels: list[int] = meddle_point_for_character_render(screen_surface=background_surface,
-                                                                          character_surface=character_surface)
-        result.update({str(character_name): Character(surface=character_surface,
-                                                      character_image=sprite,
-                                                      character_size=character_size_base,
-                                                      coordinates_pixels=coordinates_pixels,
-                                                      character_poses=character_poses,
-                                                      background_surface=background_surface)})
+        coordinates_pixels: list[int] = meddle_point_for_character_render(
+            screen_surface=background_surface,
+            character_surface=character_surface)
+        result.update({str(character_name): Character(
+            surface=character_surface,
+            character_image=sprite,
+            character_size=character_size_base,
+            coordinates_pixels=coordinates_pixels,
+            character_poses=character_poses,
+            background_surface=background_surface)})
 
     return result

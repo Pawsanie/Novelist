@@ -81,7 +81,6 @@ class Button:
         # Default button render:
         if self.button_cursor_position_status() is False:
             self.button_surface.blit(self.button_sprite, (0, 0))
-            # self.button_surface.fill((0, 0, 0))
         # Button ready to be pressed:
         else:
             # self.button_surface.blit(self.button_sprite, (0, 0))

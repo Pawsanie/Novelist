@@ -1,4 +1,4 @@
-from pygame import time, QUIT, quit, VIDEORESIZE, VIDEOEXPOSE, transform
+from pygame import time, QUIT, quit, VIDEORESIZE
 from pygame import event as pygame_events
 
 from .Stage_Director import StageDirector
@@ -54,25 +54,15 @@ class SceneValidator:
                         quit()
                         program_running = False
                         exit(0)
-                    # Window resize:
-                    if event.type == VIDEORESIZE:
-                        self.scene = 'redraw'
-                        func(*args, **kwargs)
-                        break
                     # Set scene:
                     if self.scene_flag != self.scene:
                         func(*args, **kwargs)
                         break
+                    # Window resize:
+                    if event.type == VIDEORESIZE:
+                        self.scene = 'redraw'
                     # Button gameplay ui status:
-                    if self.director.interface_controller.button_clicked_status() is True:
-                        func(*args, **kwargs)
-                        break
-                    if self.director.interface_controller.button_cursor_position_status() is True:
-                        self.scene = 'redraw'
-                        func(*args, **kwargs)
-                    else:
-                        self.scene = 'redraw'
-                        func(*args, **kwargs)
+                    self.button_gameplay_ui_status()
                 main_cycle_fps_clock.tick(main_cycle_fps)
         return coroutine
 
@@ -106,3 +96,17 @@ class SceneValidator:
         else:
             pass
         self.director.action()
+
+    def button_gameplay_ui_status(self):
+        """
+        Processing the gameplay interface.
+        """
+        if self.director.interface_controller.active_game_interface_flag == 'on':
+            gameplay_ui_buttons: tuple[str, bool] = self.director.interface_controller.button_clicked_status()
+            if gameplay_ui_buttons[1] is True:
+                print(gameplay_ui_buttons[0])
+                self.scene = 'redraw'
+            if self.director.interface_controller.button_cursor_position_status() is True:
+                self.scene = 'redraw'
+            else:
+                self.scene = 'redraw'

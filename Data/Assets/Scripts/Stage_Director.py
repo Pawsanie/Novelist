@@ -1,7 +1,7 @@
 from pygame import display, Surface
 
 from .Character import characters_generator
-from .Background import backgrounds_generator
+from .Background import backgrounds_generator, Background
 from .Render import background_sprite_data, render
 from .UI_Text_Canvas import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
@@ -62,8 +62,8 @@ class StageDirector:
         :param location: String with background location name.
         :return: Background for scene render.
         """
-        scene = self.backgrounds_dict.get(location)
-        self.location = scene
+        scene: Background = self.backgrounds_dict.get(location)
+        self.location: Background = scene
         scene.scale()
         scene_image: Surface = scene.scene_image
         # Update background surface:
@@ -127,12 +127,14 @@ class StageDirector:
         self.text_string: str = text
         self.text_speaker: str = speaker
         self.speech: tuple[Surface, tuple[int, int]] = \
-            self.text_controller.make_words(text_string=self.text_string,
-                                            text_color=text_color,
-                                            text_type='words',
-                                            backgrounds_surface=self.background_surface)
+            self.text_controller.make_words(
+                text_string=self.text_string,
+                text_color=text_color,
+                text_type='words',
+                backgrounds_surface=self.background_surface)
         self.speaker: tuple[Surface, tuple[int, int]] = \
-            self.text_controller.make_words(text_string=self.text_speaker,
-                                            text_color=speaker_color,
-                                            text_type='speaker',
-                                            backgrounds_surface=self.background_surface)
+            self.text_controller.make_words(
+                text_string=self.text_speaker,
+                text_color=speaker_color,
+                text_type='speaker',
+                backgrounds_surface=self.background_surface)
