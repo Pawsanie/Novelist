@@ -8,6 +8,38 @@ Contains gameplay code.
 """
 
 
+def main_loop(func):
+    """
+    MAIN Coroutine!:
+    Decorator with the main loop of game.
+    """
+    def coroutine(*args, **kwargs):
+        self = args[0]  # class method`s 'self.' for in class decorator.
+        program_running = True
+        main_cycle_fps_clock = time.Clock()
+        main_cycle_fps = 30
+        while program_running:
+            for event in pygame_events.get():
+                # Quit by exit_icon.
+                if event.type == QUIT:
+                    quit()
+                    program_running = False
+                    exit(0)
+                # Set scene:
+                if self.scene_flag != self.scene:
+                    func(*args, **kwargs)
+                # Window resize:
+                if event.type == VIDEORESIZE:
+                    self.scene = 'redraw'
+                # Button gameplay ui status:
+                self.key_bord_gameplay_key_down(event)
+                # Button gameplay key bord status:
+                self.button_gameplay_ui_status()
+            main_cycle_fps_clock.tick(main_cycle_fps)
+
+    return coroutine
+
+
 def gameplay_stage_director_initialization(*, display_screen):
     """
     Set all settings for Stage Director and game.
@@ -42,36 +74,7 @@ class SceneValidator:
         self.scene_flag: str = 'test'  # <------- TEST SCENE!
         self.next_scene: str = ''
         self.past_scene: str = ''
-
-    def main_loop(func):
-        """
-        MAIN Coroutine!:
-        Decorator with the main loop of game.
-        """
-        def coroutine(*args, **kwargs):
-            self = args[0]  # class method`s 'self.' for in class decorator.
-            program_running = True
-            main_cycle_fps_clock = time.Clock()
-            main_cycle_fps = 30
-            while program_running:
-                for event in pygame_events.get():
-                    # Quit by exit_icon.
-                    if event.type == QUIT:
-                        quit()
-                        program_running = False
-                        exit(0)
-                    # Set scene:
-                    if self.scene_flag != self.scene:
-                        func(*args, **kwargs)
-                    # Window resize:
-                    if event.type == VIDEORESIZE:
-                        self.scene = 'redraw'
-                    # Button gameplay ui status:
-                    self.key_bord_gameplay_key_down(event)
-                    # Button gameplay key bord status:
-                    self.button_gameplay_ui_status()
-                main_cycle_fps_clock.tick(main_cycle_fps)
-        return coroutine
+        self.settings_menu_status = 'off'  # "off" as default! "off|on"
 
     @main_loop
     def __call__(self):
@@ -166,11 +169,11 @@ class SceneValidator:
                     if self.next_scene != 'FINISH':
                         self.scene_flag = self.next_scene
             if event.key == K_ESCAPE:
-                self.settings_menu()
+                if self.settings_menu_status == 'on':
+                    self.settings_menu()
 
     def settings_menu(self):
         """
         Launches the in-game menu.
         """
-        print('ESC')
         ...

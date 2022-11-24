@@ -1,0 +1,10 @@
+{
+  "load_menu_load": {
+    "type": "load_menu",
+    "index_number": 0
+  },
+  "load_menu_back": {
+    "type": "load_menu",
+    "index_number": 1
+  }
+}

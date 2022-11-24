@@ -1,0 +1,11 @@
+{
+  "yes": {
+    "type": "exit_menu",
+    "index_number": 0
+  },
+
+  "no": {
+    "type": "exit_menu",
+    "index_number": 1
+  }
+}

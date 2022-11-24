@@ -1,0 +1,26 @@
+{
+  "game_menu_continue": {
+    "type": "game_menu",
+    "index_number": 0
+  },
+
+  "game_menu_save": {
+    "type": "game_menu",
+    "index_number": 1
+  },
+
+  "game_menu_load": {
+    "type": "game_menu",
+    "index_number": 2
+  },
+
+  "game_menu_settings": {
+    "type": "game_menu",
+    "index_number": 3
+  },
+
+  "game_menu_exit": {
+    "type": "game_menu",
+    "index_number": 4
+  }
+}

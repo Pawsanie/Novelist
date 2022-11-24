@@ -1,0 +1,11 @@
+{
+  "settings_status_menu_apply": {
+    "type": "settings_status_menu",
+    "index_number": 0
+  },
+
+  "settings_status_menu_cancel": {
+    "type": "settings_status_menu",
+    "index_number": 1
+  }
+}

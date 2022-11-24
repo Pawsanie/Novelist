@@ -1,0 +1,31 @@
+{
+  "start_menu_new_game": {
+    "type": "start_menu",
+    "index_number": 0
+  },
+
+  "start_menu_continue": {
+    "type": "start_menu",
+    "index_number": 1
+  },
+
+  "start_menu_load": {
+    "type": "start_menu",
+    "index_number": 2
+  },
+
+  "start_menu_settings": {
+    "type": "start_menu",
+    "index_number": 3
+  },
+
+  "start_menu_creators": {
+    "type": "start_menu",
+    "index_number": 4
+  },
+
+  "start_menu_exit": {
+    "type": "start_menu",
+    "index_number": 5
+  }
+}

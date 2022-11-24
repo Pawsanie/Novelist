@@ -52,4 +52,3 @@ def backgrounds_generator(*, display_surface: Surface) -> dict[str, Background]:
         result.update({location: Background(display_surface=display_surface,
                                             scene_image=sprite)})
     return result
-

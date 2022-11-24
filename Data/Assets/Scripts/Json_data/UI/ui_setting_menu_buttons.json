@@ -1,0 +1,21 @@
+{
+  "settings_menu_video": {
+    "type": "settings_menu",
+    "index_number": 0
+  },
+
+  "settings_menu_audio": {
+    "type": "settings_menu",
+    "index_number": 1
+  },
+
+  "settings_menu_localization": {
+    "type": "settings_menu",
+    "index_number": 2
+  },
+
+  "settings_menu_back": {
+    "type": "settings_menu",
+    "index_number": 3
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "save_menu_save": {
+    "type": "save_menu",
+    "index_number": 0
+  },
+  "save_menu_back": {
+    "type": "save_menu",
+    "index_number": 1
+  }
+}

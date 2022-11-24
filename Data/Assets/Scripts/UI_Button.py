@@ -1,3 +1,5 @@
+from os import path
+
 from pygame import Surface, SRCALPHA, transform, mouse
 
 from .Assets_load import image_load, json_load
@@ -21,7 +23,8 @@ class Button:
     :type place_flag: dict[str, dict[str, int]]
     """
     def __init__(self, *, background_surface: Surface, button_name: str,
-                 button_text: str | None, place_flag: dict[str, int]):
+                 button_text: str | None, place_flag: dict[str, int],
+                 language_flag: str, button_text_localization_dict: dict[str]):
         """
         :param background_surface: pygame.Surface of background.
         :type background_surface: Surface
@@ -31,25 +34,35 @@ class Button:
         :type button_text: str | None
         :param place_flag: Dictionary with button type string as a key and order int as value.
         :type place_flag: dict[str, int]
+        :param language_flag:
+        :type language_flag:
+        :param button_text_localization_dict:
+        :type button_text_localization_dict:
         """
         self.background_surface: Surface = background_surface
         self.button_name: str = button_name
         self.button_text: str | None = button_text
+        self.language_flag = language_flag
+        self.button_text_localization_dict = button_text_localization_dict
+
         # Generate button image:
         self.button_sprite_standard: Surface = image_load(
             art_name=self.button_name,
             file_format='png',
-            asset_type='UI')
+            asset_type=path.join(*['UI', 'Buttons']))
         self.button_sprite: Surface = self.button_sprite_standard
+
         # Generate button surface:
         self.button_size: tuple[int, int] = button_size(
             place_flag=place_flag['type'],
             background_surface=self.background_surface)
         self.button_surface: Surface = Surface(self.button_size, SRCALPHA)
+
         # Generate button coordinates:
         self.button_coordinates: tuple[int, int] = (0, 0)
         self.place_flag: dict[str, int] = place_flag
         self.coordinates(background_surface=self.background_surface)
+
         # Button image render:
         self.button_sprite = transform.scale(self.button_sprite, self.button_size)
         self.button_surface.blit(self.button_sprite, (0, 0))
@@ -69,6 +82,7 @@ class Button:
         """
         # Arg parse:
         self.background_surface = background_surface
+
         # Button size scale:
         self.button_sprite: Surface = self.button_sprite_standard
         self.button_size: tuple[int, int] = button_size(
@@ -76,11 +90,14 @@ class Button:
             background_surface=self.background_surface)
         self.button_sprite = transform.scale(self.button_sprite, self.button_size)
         self.button_surface: Surface = transform.scale(self.button_surface, self.button_size)
+
         # Scale coordinates:
         self.coordinates(background_surface=self.background_surface)
+
         # Default button render:
         if self.button_cursor_position_status() is False:
             self.button_surface.blit(self.button_sprite, (0, 0))
+
         # Button ready to be pressed:
         else:
             # self.button_surface.blit(self.button_sprite, (0, 0))
@@ -118,7 +135,7 @@ class Button:
             # Y:
             button_coordinates_y: int = background_surface_size[1] - self.button_size[1]
 
-        if place_flag['type'] == 'settings_menu':
+        if place_flag['type'] == 'game_menu':
             # X:
             # Y:
             ...
@@ -143,14 +160,14 @@ class Button:
             # Y:
             ...
 
-        if place_flag['type'] == 'change_settings':
+        if place_flag['type'] == 'settings_menu':
             # X:
             # Y:
             ...
 
         self.button_coordinates = (button_coordinates_x, button_coordinates_y)
 
-    def button_text(self):
+    def button_text(self, language_flag: str):
         """
         Generate text on button if it's necessary.
         """
@@ -194,18 +211,42 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
 
     :return: A nested dictionary of buttons group and an instance of the Button class.
     """
-    result = {}
+    result, ui_buttons_json = {}, {}
+    # Tuple with user interface button`s json file`s names:
+    ui_buttons_files: tuple = (
+        'ui_exit_menu_buttons',
+        'ui_game_menu_buttons',
+        'ui_gameplay_buttons',
+        'ui_load_menu_buttons',
+        'ui_save_menu_buttons',
+        'ui_setting_menu_buttons',
+        'ui_setting_status',
+        'ui_start_menu_buttons')
 
-    # User Interface gameplay buttons:
-    ui_gameplay_buttons_json: dict = json_load(['Scripts', 'Json_data', 'UI', 'ui_gameplay_buttons'])
-    ui_gameplay_buttons = {}
-    for key in ui_gameplay_buttons_json:
-        ui_gameplay_buttons.update(
-            {key: Button(
-                background_surface=background_surface,
-                button_name=key,
-                button_text=None,
-                place_flag=ui_gameplay_buttons_json[key]
-            )})
-    result.update({'ui_gameplay_buttons': ui_gameplay_buttons})
+    localizations: tuple = (
+        'eng',
+        'ru')
+
+    # Buttons text:
+    buttons_text_localization_dict = {}
+    for localization in localizations:
+        buttons_text_localization_dict.update(
+            {localization: json_load(['Scripts', 'Json_data', 'UI', 'Localization', language_flag])})
+    # Remake key sort for buttons to {"Lang": text} in localization dict.
+
+    # User Interface buttons:
+    for file_name in ui_buttons_files:
+        ui_buttons_json: dict = json_load(['Scripts', 'Json_data', 'UI', file_name])
+        ui_buttons = {}
+        for key in ui_buttons_json:
+            ui_buttons.update(
+                {key: Button(
+                    background_surface=background_surface,
+                    button_name=key,
+                    button_text=None,
+                    place_flag=ui_buttons_json[key],
+                    language_flag=language_flag,
+                    button_text_localization_dict=buttons_text_localization_dict
+                )})
+        result.update({file_name: ui_buttons})
     return result
