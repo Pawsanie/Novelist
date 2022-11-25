@@ -1,11 +1,13 @@
 {
   "settings_status_menu_apply": {
     "type": "settings_status_menu",
-    "index_number": 0
+    "index_number": 0,
+    "sprite_name": "exit_menu_buttons"
   },
 
   "settings_status_menu_cancel": {
     "type": "settings_status_menu",
-    "index_number": 1
+    "index_number": 1,
+    "sprite_name": "exit_menu_buttons"
   }
 }

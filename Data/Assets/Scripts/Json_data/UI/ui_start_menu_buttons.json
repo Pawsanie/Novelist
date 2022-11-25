@@ -1,31 +1,37 @@
 {
   "start_menu_new_game": {
     "type": "start_menu",
-    "index_number": 0
+    "index_number": 0,
+    "sprite_name": "game_menu_buttons"
   },
 
   "start_menu_continue": {
     "type": "start_menu",
-    "index_number": 1
+    "index_number": 1,
+    "sprite_name": "game_menu_buttons"
   },
 
   "start_menu_load": {
     "type": "start_menu",
-    "index_number": 2
+    "index_number": 2,
+    "sprite_name": "game_menu_buttons"
   },
 
   "start_menu_settings": {
     "type": "start_menu",
-    "index_number": 3
+    "index_number": 3,
+    "sprite_name": "game_menu_buttons"
   },
 
   "start_menu_creators": {
     "type": "start_menu",
-    "index_number": 4
+    "index_number": 4,
+    "sprite_name": "game_menu_buttons"
   },
 
   "start_menu_exit": {
     "type": "start_menu",
-    "index_number": 5
+    "index_number": 5,
+    "sprite_name": "game_menu_buttons"
   }
 }

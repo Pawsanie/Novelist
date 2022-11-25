@@ -1,26 +1,31 @@
 {
   "past_scene": {
     "type": "gameplay_ui",
-    "index_number": -2
+    "index_number": -2,
+    "sprite_name": "past_scene"
   },
 
   "hide_interface": {
     "type": "gameplay_ui",
-    "index_number": -1
+    "index_number": -1,
+    "sprite_name": "hide_interface"
   },
 
   "settings_menu": {
     "type": "gameplay_ui",
-    "index_number": 0
+    "index_number": 0,
+    "sprite_name": "settings_menu"
   },
 
   "next_scene": {
     "type": "gameplay_ui",
-    "index_number": 1
+    "index_number": 1,
+    "sprite_name": "next_scene"
   },
 
   "fast_forward": {
     "type": "gameplay_ui",
-    "index_number": 2
+    "index_number": 2,
+    "sprite_name": "fast_forward"
   }
 }

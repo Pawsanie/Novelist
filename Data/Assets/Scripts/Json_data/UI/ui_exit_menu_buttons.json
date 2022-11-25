@@ -1,11 +1,13 @@
 {
-  "yes": {
+  "exit_menu_yes": {
     "type": "exit_menu",
-    "index_number": 0
+    "index_number": 0,
+    "sprite_name": "exit_menu_buttons"
   },
 
-  "no": {
+  "exit_menu_no": {
     "type": "exit_menu",
-    "index_number": 1
+    "index_number": 1,
+    "sprite_name": "exit_menu_buttons"
   }
 }

@@ -1,10 +1,12 @@
 {
   "save_menu_save": {
     "type": "save_menu",
-    "index_number": 0
+    "index_number": 0,
+    "sprite_name": "exit_menu_buttons"
   },
   "save_menu_back": {
     "type": "save_menu",
-    "index_number": 1
+    "index_number": 1,
+    "sprite_name": "exit_menu_buttons"
   }
 }

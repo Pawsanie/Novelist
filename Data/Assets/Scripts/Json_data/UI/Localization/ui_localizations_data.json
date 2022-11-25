@@ -1,0 +1,16 @@
+{
+  "ui_buttons_files": [
+    "ui_exit_menu_buttons",
+    "ui_game_menu_buttons",
+    "ui_gameplay_buttons",
+    "ui_load_menu_buttons",
+    "ui_save_menu_buttons",
+    "ui_setting_menu_buttons",
+    "ui_settings_status",
+    "ui_start_menu_buttons"
+  ],
+  "localizations": [
+    "eng",
+    "ru"
+  ]
+}
