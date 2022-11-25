@@ -86,8 +86,7 @@ class StageDirector:
         self.text_canvas.scale(background_surface=self.background_surface)
         self.interface_controller.language_flag = self.language_flag
         self.interface_controller.scale(
-            background_surface=self.background_surface,
-            ui_type_flag='gameplay_ui')
+            background_surface=self.background_surface)
         for character in self.characters_dict.values():
             character.scale(background_surface=self.background_surface)
         # Render:
@@ -98,7 +97,7 @@ class StageDirector:
                speech=self.speech,
                speaker=self.speaker,
                background_coordinates=self.background_coordinates,
-               gameplay_ui_dict=self.interface_controller.ui_gameplay_generator(),
+               gameplay_ui_dict=self.interface_controller.get_ui_buttons_status(),
                active_game_interface_flag=self.interface_controller.gameplay_interface_status)
 
     def vanishing_scene(self):
