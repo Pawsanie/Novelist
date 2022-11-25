@@ -48,8 +48,8 @@ class Button:
         self.background_surface: Surface = background_surface
         self.button_name: str = button_name
         self.button_text: str | None = button_text
-        self.language_flag = language_flag
-        self.button_text_localization_dict = button_text_localization_dict
+        self.language_flag: str = language_flag
+        self.button_text_localization_dict: dict[str] = button_text_localization_dict
         self.localization_button_text(language_flag=self.language_flag)
         self.button_image_data: dict[str, int] = button_image_data
 
@@ -71,7 +71,7 @@ class Button:
         self.coordinates(background_surface=self.background_surface)
 
         # Button image render:
-        self.button_sprite = transform.scale(self.button_sprite, self.button_size)
+        self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
         self.button_surface.blit(self.button_sprite, (0, 0))
 
     def generator(self):
@@ -88,14 +88,14 @@ class Button:
         :type background_surface: Surface.
         """
         # Arg parse:
-        self.background_surface = background_surface
+        self.background_surface: Surface = background_surface
 
         # Button size scale:
         self.button_sprite: Surface = self.button_sprite_standard
         self.button_size: tuple[int, int] = button_size(
             place_flag=self.button_image_data['type'],
             background_surface=self.background_surface)
-        self.button_sprite = transform.scale(self.button_sprite, self.button_size)
+        self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
         self.button_surface: Surface = transform.scale(self.button_surface, self.button_size)
 
         # Scale coordinates:
@@ -243,13 +243,12 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
 
             # Generate text localizations for button:
             button_text_localization: dict = {}
-            button_text: str | None = None
             try:
                 for language in all_buttons_text_localizations_dict:
                     button_text_localization.update({language: all_buttons_text_localizations_dict[language][key]})
-                button_text = all_buttons_text_localizations_dict[language_flag][key]
+                button_text: str = all_buttons_text_localizations_dict[language_flag][key]
             except KeyError:
-                button_text = None
+                button_text: None = None
 
             # Generate button:
             ui_buttons.update(

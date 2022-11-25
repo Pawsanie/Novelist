@@ -33,9 +33,9 @@ class StageDirector:
         self.characters_dict: dict = characters_generator(background_surface=self.background_surface)
         # Backgrounds load:
         self.backgrounds_dict: dict = backgrounds_generator(display_surface=display_screen)
-        self.location = None
+        self.location: Background | None = None
         """Make UI:"""
-        self.language_flag = 'eng'  # 'eng' as default.
+        self.language_flag: str = 'eng'  # 'eng' as default.
         self.interface_controller = InterfaceController(
             background_surface=self.background_surface,
             language_flag=self.language_flag)

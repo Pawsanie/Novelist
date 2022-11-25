@@ -24,7 +24,7 @@ class DialoguesWords:
         if self.font_name is None:
             self.set_font = font.Font(font.get_default_font(), self.font_size)
         else:
-            self.set_font = font_load(font_name=font_name, font_size=self.font_size)
+            self.set_font: font.Font = font_load(font_name=font_name, font_size=self.font_size)
         self.font_coordinates: tuple[int, int] = (0, 0)
 
     def swap_font(self, *, font_name: str | None):
@@ -36,7 +36,7 @@ class DialoguesWords:
         if self.font_name is None:
             self.set_font = font.Font(font.get_default_font(), self.font_size)
         else:
-            self.set_font = font_load(font_name=font_name, font_size=self.font_size)
+            self.set_font: font.Font = font_load(font_name=font_name, font_size=self.font_size)
 
     def make_words(self, *, text_string: str, text_color: str, text_type: str,
                    backgrounds_surface: Surface) -> tuple[Surface, tuple[int, int]]:
@@ -77,12 +77,12 @@ def generate_dialogues():
     Generate dict with dialogues.
     With keys as languages flags and json dictionary as value.
     """
-    result = {}
-    language_flags = (
-        'eng',
-        'ru'
-    )
+    result: dict = {}
+    language_flags: tuple = (json_load([
+        'Scripts', 'Json_data', 'Dialogues', 'dialogues_localizations_data']
+    )['language_flags'])
+
     for flag in language_flags:
-        json_values = json_load(['Scripts', 'Json_data', 'Dialogues', flag])
+        json_values: dict = json_load(['Scripts', 'Json_data', 'Dialogues', flag])
         result.update({flag: json_values})
     return result

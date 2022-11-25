@@ -10,5 +10,5 @@ def video_generator():
                                   'Json_data',
                                   'video_info.json'])
     for video_name in video_list:
-        video = VideoFileClip(video_list[video_name]['footage'])
+        video: VideoFileClip = VideoFileClip(video_list[video_name]['footage'])
 #   video.preview()

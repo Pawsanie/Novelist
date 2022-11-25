@@ -2,7 +2,7 @@ from os import path
 from sys import platform
 from tkinter import Tk
 
-from pygame import display, RESIZABLE, FULLSCREEN
+from pygame import display, RESIZABLE, FULLSCREEN, Surface
 
 from Assets.Scripts.Gameplay import gameplay_stage_director_initialization as gameplay
 from Assets.Scripts.Assets_load import image_load
@@ -29,9 +29,9 @@ def read_settings() -> dict[str | int | tuple[int, int]]:
 
     :return: Dict with game settings.
     """
-    script_root_path = f"{path.abspath(__file__).replace(path.join(*['Visual_novel_game.py']), '')}"
-    user_settings_path = f"{script_root_path}{path.join(*['Assets', 'user_settings'])}"
-    start_settings = {}
+    script_root_path: str = f"{path.abspath(__file__).replace(path.join(*['Visual_novel_game.py']), '')}"
+    user_settings_path: str = f"{script_root_path}{path.join(*['Assets', 'user_settings'])}"
+    start_settings: dict = {}
     with open(user_settings_path) as game_settings:
         for row in game_settings:
             setting_type: list[str] = row.replace('\n', '').split('=')
@@ -59,17 +59,17 @@ def run():
     # Set game settings:
     type_of_system: str = system_type()
     game_settings: dict[str | int | tuple[int, int]] = read_settings()
-    screen = None
+    screen: None = None
     # Display settings:
     screen_size_x, screen_size_y = game_settings['screen_size']
     if game_settings['screen_type'] == 'windowed':
-        screen = display.set_mode((screen_size_x, screen_size_y), RESIZABLE)
+        screen: Surface = display.set_mode((screen_size_x, screen_size_y), RESIZABLE)
     if game_settings['screen_type'] == 'full_screen':
         screen_size = Tk()
         screen_size_x, screen_size_y = screen_size.winfo_screenwidth(), screen_size.winfo_screenheight()
-        screen = display.set_mode((screen_size_x, screen_size_y), FULLSCREEN)
+        screen: Surface = display.set_mode((screen_size_x, screen_size_y), FULLSCREEN)
     # Path to icons:
-    path_to_icons = path.join(*['UI', 'Icons'])
+    path_to_icons: str = path.join(*['UI', 'Icons'])
     # Window settings:
     display.set_caption("Visual Novel")
     if type_of_system == 'Windows':

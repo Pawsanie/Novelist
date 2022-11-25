@@ -35,11 +35,11 @@ class InterfaceController:
         # self.text_canvas = TextCanvas(background_surface=self.background_surface)
         # self.text_canvas_surface: Surface = self.text_canvas.generator()[0]
         # Game settings menu:
-        self.settings_menu_background = Surface(surface_size(self.background_surface))
+        self.settings_menu_background: Surface = Surface(surface_size(self.background_surface))
         self.settings_menu_background.set_alpha(128)
         self.settings_menu_canvas = ...
         # In game user interface:
-        self.active_game_interface_flag = 'on'  # "on/off" and "on" as default.
+        self.active_game_interface_flag: str = 'on'  # "on/off" and "on" as default.
 
     def ui_gameplay_generator(self):
         """
@@ -73,7 +73,6 @@ class InterfaceController:
                 if click_status is True:
                     return button, True
             return None, False
-        ...
 
     def button_cursor_position_status(self) -> bool:
         """
@@ -81,7 +80,7 @@ class InterfaceController:
 
         :return: True | False
         """
-        gameplay_ui_dict = self.ui_gameplay_generator()
+        gameplay_ui_dict: dict = self.ui_gameplay_generator()
         for button in gameplay_ui_dict:
             cursor_position_status = gameplay_ui_dict[button].button_cursor_position_status()
             if cursor_position_status is True:

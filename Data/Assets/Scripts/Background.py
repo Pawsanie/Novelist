@@ -25,13 +25,13 @@ class Background:
         self.display_surface: Surface = display_surface
         self.scene_image: Surface = scene_image
         self.scene_image_safe: Surface = scene_image  # hold standard image for rescale.
-        self.background_coordinates = (0, 0)
+        self.background_coordinates: tuple[int, int] = (0, 0)
 
     def scale(self):
-        scene_image = self.scene_image_safe
-        new_background_surface_size = background_sprite_data(display_surface=self.display_surface)
-        self.scene_image = transform.scale(scene_image, new_background_surface_size[0])
-        self.background_coordinates = new_background_surface_size[1]
+        scene_image: Surface = self.scene_image_safe
+        new_background_surface_size: tuple = background_sprite_data(display_surface=self.display_surface)
+        self.scene_image: Surface = transform.scale(scene_image, new_background_surface_size[0])
+        self.background_coordinates: tuple[int, int] = new_background_surface_size[1]
 
 
 def backgrounds_generator(*, display_surface: Surface) -> dict[str, Background]:
@@ -41,7 +41,7 @@ def backgrounds_generator(*, display_surface: Surface) -> dict[str, Background]:
     :param display_surface: pygame.Surface of pygame.display.set_mode.
     :return: Dict wth names of backgrounds and their sprites.
     """
-    result = {}
+    result: dict = {}
     backgrounds_list: dict = json_load(['Scripts',
                                        'Json_data',
                                         'backgrounds_sprites'])

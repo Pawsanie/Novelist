@@ -44,7 +44,7 @@ class Character:
         :param coordinates: Tuple with x and y coordinates.
         """
         self.coordinates_pixels: list[int, int] = [coordinates[0], coordinates[1]]
-        self.position = 'custom'
+        self.position: str = 'custom'
 
     def set_pose(self, *, pose_number: str):
         """
@@ -103,7 +103,7 @@ class Character:
         """
         Remove the character from the stage.
         """
-        self.surface = Surface((0, 0), SRCALPHA)
+        self.surface: Surface = Surface((0, 0), SRCALPHA)
 
     def set_plan(self, *, plan: str):
         """
@@ -126,7 +126,7 @@ class Character:
             coordinates_pixels_y: int = \
                 self.background_surface.get_height() - int(self.background_surface.get_height() * 0.9)
             self.coordinates_pixels: list[int, int] = [coordinates_pixels[0], coordinates_pixels_y]
-        self.position = 'middle'
+        self.position: str = 'middle'
 
     def move_to_left(self):
         """
@@ -134,7 +134,7 @@ class Character:
         """
         self.move_to_middle()
         coordinates_pixels: list[int, int] = self.coordinates_pixels
-        self.coordinates_pixels = [coordinates_pixels[0] // 3, coordinates_pixels[1]]
+        self.coordinates_pixels: list[int, int] = [coordinates_pixels[0] // 3, coordinates_pixels[1]]
         self.position = 'left'
 
     def move_to_right(self):
@@ -143,7 +143,7 @@ class Character:
         """
         self.move_to_middle()
         coordinates_pixels: list[int, int] = self.coordinates_pixels
-        self.coordinates_pixels = [int(coordinates_pixels[0] * 1.64), coordinates_pixels[1]]
+        self.coordinates_pixels: list[int, int] = [int(coordinates_pixels[0] * 1.64), coordinates_pixels[1]]
         self.position = 'right'
 
 
@@ -154,7 +154,7 @@ def characters_generator(*, background_surface: Surface) -> dict[str, Character]
     :param background_surface: Background Surface.
     :return: Dictionary with 'character`s names as a keys and Character`s exemplar as values.
     """
-    result = {}
+    result: dict = {}
     characters_list: dict = json_load(['Scripts',
                                        'Json_data',
                                        'characters_sprites'])

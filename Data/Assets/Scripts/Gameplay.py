@@ -74,7 +74,7 @@ class SceneValidator:
         self.scene_flag: str = 'test'  # <------- TEST SCENE!
         self.next_scene: str = ''
         self.past_scene: str = ''
-        self.settings_menu_status = 'off'  # "off" as default! "off|on"
+        self.settings_menu_status: str = 'off'  # "off" as default! "off|on"
 
     @main_loop
     def __call__(self):
@@ -124,7 +124,7 @@ class SceneValidator:
                 command = gameplay_ui_buttons[0]
                 if command == 'past_scene':
                     if self.past_scene != 'START':
-                        self.scene_flag = self.past_scene
+                        self.scene_flag: str = self.past_scene
                     else:
                         ...
                 if command == 'hide_interface':
@@ -133,13 +133,13 @@ class SceneValidator:
                     self.settings_menu()
                 if command == 'next_scene':
                     if self.next_scene != 'FINISH':
-                        self.scene_flag = self.next_scene
+                        self.scene_flag: str = self.next_scene
                     else:
                         ...
                 if command == 'fast_forward':
                     if button_clicked[0] is not False:
                         if self.next_scene != 'FINISH':
-                            self.scene_flag = self.next_scene
+                            self.scene_flag: str = self.next_scene
 
         # If user interface is hidden:
         else:
@@ -148,9 +148,9 @@ class SceneValidator:
 
         # Cursor position above the button:
         if self.director.interface_controller.button_cursor_position_status() is True:
-            self.scene = 'redraw'
+            self.scene: str = 'redraw'
         else:
-            self.scene = 'redraw'
+            self.scene: str = 'redraw'
 
     def key_bord_gameplay_key_down(self, event):
         """
