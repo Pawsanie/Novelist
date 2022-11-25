@@ -99,7 +99,7 @@ class StageDirector:
                speaker=self.speaker,
                background_coordinates=self.background_coordinates,
                gameplay_ui_dict=self.interface_controller.ui_gameplay_generator(),
-               active_game_interface_flag=self.interface_controller.active_game_interface_flag)
+               active_game_interface_flag=self.interface_controller.gameplay_interface_status)
 
     def vanishing_scene(self):
         """

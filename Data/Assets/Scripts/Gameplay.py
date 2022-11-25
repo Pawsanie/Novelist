@@ -1,4 +1,5 @@
-from pygame import time, QUIT, quit, VIDEORESIZE, KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse, KEYUP
+from pygame import time, QUIT, quit, VIDEORESIZE, KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse, KEYUP, Surface, \
+    display
 from pygame import event as pygame_events
 
 from .Stage_Director import StageDirector
@@ -74,7 +75,13 @@ class SceneValidator:
         self.scene_flag: str = 'test'  # <------- TEST SCENE!
         self.next_scene: str = ''
         self.past_scene: str = ''
-        self.settings_menu_status: str = 'off'  # "off" as default! "off|on"
+
+    # @main_loop
+    # def __call__(self):
+    #     if self.settings_menu_status == 'off':
+    #         self.gameplay()
+    #     else:
+    #         self.settings_menu()
 
     @main_loop
     def __call__(self):
@@ -117,7 +124,7 @@ class SceneValidator:
         button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
 
         # If user interface is not hidden:
-        if self.director.interface_controller.active_game_interface_flag == 'on':
+        if self.director.interface_controller.gameplay_interface_status is True:
             gameplay_ui_buttons: tuple[str, bool] = self.director.interface_controller.button_clicked_status()
             # Clicking a button with a mouse:
             if gameplay_ui_buttons[1] is True:
@@ -128,7 +135,7 @@ class SceneValidator:
                     else:
                         ...
                 if command == 'hide_interface':
-                    self.director.interface_controller.active_game_interface_flag = 'off'
+                    self.director.interface_controller.gameplay_interface_status = False
                 if command == 'settings_menu':
                     self.settings_menu()
                 if command == 'next_scene':
@@ -144,7 +151,7 @@ class SceneValidator:
         # If user interface is hidden:
         else:
             if button_clicked[0] is True:
-                self.director.interface_controller.active_game_interface_flag = 'on'
+                self.director.interface_controller.gameplay_interface_status = True
 
         # Cursor position above the button:
         if self.director.interface_controller.button_cursor_position_status() is True:
@@ -158,22 +165,35 @@ class SceneValidator:
         Runs the functions associated with the desired keys.
         """
         if event.type == KEYDOWN:
-            if self.director.interface_controller.active_game_interface_flag == 'on':
+            if self.director.interface_controller.gameplay_interface_status is True:
                 if event.key == K_LEFT:
                     if self.past_scene != 'START':
-                        self.scene_flag = self.past_scene
+                        self.scene_flag: str = self.past_scene
                 if event.key == K_RIGHT:
                     if self.next_scene != 'FINISH':
-                        self.scene_flag = self.next_scene
+                        self.scene_flag: str = self.next_scene
                 if event.key == K_SPACE:
                     if self.next_scene != 'FINISH':
-                        self.scene_flag = self.next_scene
-            if event.key == K_ESCAPE:
-                if self.settings_menu_status == 'on':
+                        self.scene_flag: str = self.next_scene
+            if self.director.interface_controller.game_menu_status is False:
+                if event.key == K_ESCAPE:
+                    self.director.interface_controller.game_menu_status = True
                     self.settings_menu()
+            else:
+                if event.key == K_ESCAPE:
+                    self.director.interface_controller.game_menu_status = False
 
     def settings_menu(self):
         """
         Launches the in-game menu.
         """
-        ...
+        self.director.interface_controller.gameplay_interface_status = False
+        self.director.interface_controller.game_menu_status = True
+        screen: Surface = self.director.display_screen
+
+        screen_mask = Surface([screen.get_width(), screen.get_height()])
+        screen_mask.fill((0, 0, 0))
+        screen_mask.set_alpha(128)
+
+        screen.blit(screen_mask, (0, 0))
+        display.update()

@@ -215,7 +215,7 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
 
 def render(*, screen: Surface, background: Surface, characters_dict: dict, text_canvas: tuple,
            speech: tuple, speaker: tuple, background_coordinates: tuple, gameplay_ui_dict: dict,
-           active_game_interface_flag: str):
+           active_game_interface_flag: bool):
     """
     Render image on display.
 
@@ -228,7 +228,7 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
     :param speaker: Speaker name for render on text_canvas surface and its coordinates in pixels.
     :param background_coordinates:
     :param gameplay_ui_dict: Dictionary with Button class exemplar.
-    :param active_game_interface_flag: String with status of interface visibility.
+    :param active_game_interface_flag: Bool status of interface visibility.
     """
     # Clear old screen for not 16x9 display render.
     screen.fill((0, 0, 0))
@@ -236,7 +236,7 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
     for character in characters_dict.values():
         background.blit(character.surface,
                         character.coordinates_pixels)
-    if active_game_interface_flag == 'on':
+    if active_game_interface_flag is True:
         # Text canvas render:
         text_canvas[0].blit(speaker[0], speaker[1])
         text_canvas[0].blit(speech[0], speech[1])

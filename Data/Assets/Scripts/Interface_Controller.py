@@ -39,7 +39,11 @@ class InterfaceController:
         self.settings_menu_background.set_alpha(128)
         self.settings_menu_canvas = ...
         # In game user interface:
-        self.active_game_interface_flag: str = 'on'  # "on/off" and "on" as default.
+        # "True/False" and "True" as default.
+        self.gameplay_interface_status: bool = True
+        # "True/False" and "False" as default.
+        self.game_menu_status: bool = False
+        self.settings_menu_status: bool = False
 
     def ui_gameplay_generator(self):
         """
@@ -55,7 +59,7 @@ class InterfaceController:
         :type ui_type_flag: str
         """
         if ui_type_flag == 'gameplay_ui':
-            if self.active_game_interface_flag == 'on':
+            if self.gameplay_interface_status is True:
                 for key in self.buttons_dict['ui_gameplay_buttons']:
                     button = self.buttons_dict['ui_gameplay_buttons'][key]
                     button.scale(background_surface=background_surface)
@@ -66,7 +70,7 @@ class InterfaceController:
 
         :return: tuple[str | None, True | False]
         """
-        if self.active_game_interface_flag == 'on':
+        if self.gameplay_interface_status is True:
             gameplay_ui_dict = self.ui_gameplay_generator()
             for button in gameplay_ui_dict:
                 click_status = gameplay_ui_dict[button].button_clicked_status()
