@@ -4,4 +4,5 @@ screen_type=windowed
 general_volume=100
 music_volume=100
 sound_volume=100
-language=Eng
+text_language=eng
+voice_acting_language=eng

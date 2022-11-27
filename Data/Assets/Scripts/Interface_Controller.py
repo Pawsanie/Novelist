@@ -53,7 +53,7 @@ class InterfaceController:
         # "True/False" and "False" as default.
         self.start_menu_status: bool = False
 
-    def get_ui_buttons_status(self):
+    def get_ui_buttons_dict(self):
         """
         Generate user interface buttons.
         """
@@ -79,7 +79,7 @@ class InterfaceController:
         :param background_surface: pygame.Surface of background.
         :type background_surface: Surface
         """
-        ui_buttons_dict = self.get_ui_buttons_status()
+        ui_buttons_dict = self.get_ui_buttons_dict()
         for key in ui_buttons_dict:
             button = ui_buttons_dict[key]
             button.scale(background_surface=background_surface)
@@ -91,7 +91,7 @@ class InterfaceController:
         :return: tuple[str | None, True | False]
         """
         if self.gameplay_interface_status is True:
-            gameplay_ui_dict = self.get_ui_buttons_status()
+            gameplay_ui_dict = self.get_ui_buttons_dict()
             for button in gameplay_ui_dict:
                 click_status = gameplay_ui_dict[button].button_clicked_status()
                 if click_status is True:
@@ -104,7 +104,7 @@ class InterfaceController:
 
         :return: True | False
         """
-        gameplay_ui_dict: dict = self.get_ui_buttons_status()
+        gameplay_ui_dict: dict = self.get_ui_buttons_dict()
         for button in gameplay_ui_dict:
             cursor_position_status = gameplay_ui_dict[button].button_cursor_position_status()
             if cursor_position_status is True:

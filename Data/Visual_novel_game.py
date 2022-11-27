@@ -1,55 +1,16 @@
 from os import path
-from sys import platform
 from tkinter import Tk
 
 from pygame import display, RESIZABLE, FULLSCREEN, Surface
 
-from Assets.Scripts.Gameplay import gameplay_stage_director_initialization as gameplay
 from Assets.Scripts.Assets_load import image_load
+from Assets.Scripts.Settings_Keeper import SettingsKeeper
+from Assets.Scripts.Game_Master import GameMaster
 """
 Contains app shell code.
 """
 
-
-def system_type() -> str:
-    """
-    :return: String with system type.
-    """
-    if platform == "linux" or platform == "linux2":
-        return 'linux'
-    elif platform == "darwin":
-        return 'Mac_OS'
-    elif platform == "win32" or platform == "win64":
-        return 'Windows'
-
-
-def read_settings() -> dict[str | int | tuple[int, int]]:
-    """
-    Reading settings from "settings" file.
-
-    :return: Dict with game settings.
-    """
-    script_root_path: str = f"{path.abspath(__file__).replace(path.join(*['Visual_novel_game.py']), '')}"
-    user_settings_path: str = f"{script_root_path}{path.join(*['Assets', 'user_settings'])}"
-    start_settings: dict = {}
-    with open(user_settings_path) as game_settings:
-        for row in game_settings:
-            setting_type: list[str] = row.replace('\n', '').split('=')
-            if setting_type[0] == 'screen_size':
-                screen_size_settings: list[str] = setting_type[1].split('x')
-                screen_size: tuple[int, int] = (int(screen_size_settings[0]), int(screen_size_settings[1]))
-                start_settings.update({'screen_size': screen_size})
-            if setting_type[0] == 'general_volume':
-                start_settings.update({'general_volume': setting_type[1]})
-            if setting_type[0] == 'music_volume':
-                start_settings.update({'music_volume': setting_type[1]})
-            if setting_type[0] == 'sound_volume':
-                start_settings.update({'sound_volume': setting_type[1]})
-            if setting_type[0] == 'screen_type':
-                start_settings.update({'screen_type': setting_type[1]})
-            if setting_type[0] == 'language':
-                start_settings.update({'language': setting_type[1]})
-    return start_settings
+start_settings: SettingsKeeper = SettingsKeeper()
 
 
 def run():
@@ -57,14 +18,13 @@ def run():
     Initialization.
     """
     # Set game settings:
-    type_of_system: str = system_type()
-    game_settings: dict[str | int | tuple[int, int]] = read_settings()
+    type_of_system: str = start_settings.system_type
     screen: None = None
     # Display settings:
-    screen_size_x, screen_size_y = game_settings['screen_size']
-    if game_settings['screen_type'] == 'windowed':
+    screen_size_x, screen_size_y = start_settings.screen_size
+    if start_settings.screen_type == 'windowed':
         screen: Surface = display.set_mode((screen_size_x, screen_size_y), RESIZABLE)
-    if game_settings['screen_type'] == 'full_screen':
+    if start_settings.screen_type == 'full_screen':
         screen_size = Tk()
         screen_size_x, screen_size_y = screen_size.winfo_screenwidth(), screen_size.winfo_screenheight()
         screen: Surface = display.set_mode((screen_size_x, screen_size_y), FULLSCREEN)
@@ -87,7 +47,8 @@ def run():
                                     file_format='png',
                                     asset_type=path_to_icons))
     # Start game:
-    gameplay(display_screen=screen)
+    gameplay = GameMaster(display_screen=screen, start_settings=start_settings)
+    gameplay()
 
 
 if __name__ == '__main__':

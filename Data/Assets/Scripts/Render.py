@@ -250,3 +250,126 @@ def render(*, screen: Surface, background: Surface, characters_dict: dict, text_
     screen.blit(background, background_coordinates)
     # Flip all surfaces:
     display.update()
+
+
+# class Render:
+#     """
+#     Render image on display.
+#
+#     :param screen: Display surface.
+#     :param background: pygame.Surface with background.
+#     :param characters_dict: Dictionary with 'character`s surfaces',
+#                             'character`s arts' and character`s coordinates in pixels.
+#     :param text_canvas: Tuple with Surface and canvas coordinates.
+#     :param speech: Words for render on text_canvas surface and their coordinates in pixels.
+#     :param speaker: Speaker name for render on text_canvas surface and its coordinates in pixels.
+#     :param background_coordinates:
+#     :param gameplay_ui_dict: Dictionary with Button class exemplar.
+#     :param active_game_interface_flag: Bool status of interface visibility.
+#     """
+#     def __init__(self, *, screen: Surface, background: Surface, characters_dict: dict,
+#                  speech: tuple, speaker: tuple, background_coordinates: tuple, language_flag: str):
+#         """
+#         :param InterfaceController:
+#         """
+#         # Display layers:
+#         self.screen: Surface = screen
+#         self.background: Surface = background
+#         self.characters_dict: dict = characters_dict
+#         # Speech text:
+#         # self.text_canvas: tuple[Surface, tuple[int, int]] = text_canvas
+#         self.speech: tuple[Surface, tuple[int, int]] = speech
+#         self.speaker: tuple[Surface, tuple[int, int]] = speaker
+#         # Coordinates:
+#         self.background_coordinates: tuple[int, int] = background_coordinates
+#
+#     def screen_clear(self):
+#         """
+#         Clear scene before scene render.
+#         """
+#         self.screen.fill((0, 0, 0))
+#
+#     def gameplay_text_render(self):
+#         if self.interface_controller.gameplay_interface_status is True:
+#             # Text canvas render:
+#             self.text_canvas[0].blit(self.speaker[0], self.speaker[1])
+#             self.text_canvas[0].blit(self.speech[0], self.speech[1])
+#             self.background.blit(self.text_canvas[0], self.text_canvas[1])
+#
+#     def ui_buttons_render(self):
+#         """
+#         User interface render.
+#         """
+#         get_ui_buttons_dict = self.interface_controller.get_ui_buttons_dict()
+#         if self.interface_controller.gameplay_interface_status is True:
+#             for button_key in get_ui_buttons_dict:
+#                 button = get_ui_buttons_dict[button_key]
+#                 button_surface, button_coordinates = button.generator()
+#                 self.background.blit(button_surface, button_coordinates)
+#
+#     def characters_render(self):
+#         """
+#         Scene characters render.
+#         """
+#         for character in self.characters_dict.values():
+#             self.background.blit(character.surface,
+#                                  character.coordinates_pixels)
+#
+#     def background_render(self):
+#         """
+#         Background render.
+#         """
+#         self.screen.blit(self.background, self.background_coordinates)
+#
+#     def gameplay_read_scene(self):
+#         """
+#         Render reading scene.
+#         """
+#         # Clear old screen for not 16x9 display render:
+#         self.screen_clear()
+#         # Characters render:
+#         self.characters_render()
+#         # Text render:
+#         self.gameplay_text_render()
+#         # Gameplay ui render:
+#         self.ui_buttons_render()
+#         # Background render:
+#         self.background_render()
+#         # Flip all surfaces:
+#         display.update()
+#
+#     def image_render(self):
+#         """
+#         Display image render.
+#         """
+#         if self.interface_controller.gameplay_interface_status is True:
+#             return self.gameplay_read_scene()
+#         if self.interface_controller.game_menu_status is True:
+#             return self.game_menu()
+#         if self.interface_controller.settings_menu_status is True:
+#             ...
+#         if self.interface_controller.exit_menu_status is True:
+#             ...
+#         if self.interface_controller.load_menu_status is True:
+#             ...
+#         if self.interface_controller.save_menu_status is True:
+#             ...
+#         if self.interface_controller.settings_status_menu_status is True:
+#             ...
+#         if self.interface_controller.start_menu_status is True:
+#             ...
+#
+#     def game_menu(self):
+#         """
+#         Render game menu scene.
+#         """
+#         # Clear old screen for not 16x9 display render:
+#         self.screen_clear()
+#         # Characters render:
+#         self.characters_render()
+#         # Gameplay ui render:
+#         self.ui_buttons_render()
+#         # Background render:
+#         self.background_render()
+#         # Flip all surfaces:
+#         display.update()
