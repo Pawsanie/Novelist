@@ -40,8 +40,8 @@ class InterfaceController:
         self.settings_menu_canvas = ...
         # In game user interface:
         # "True/False" and "True" as default.
+        self.gameplay_interface_hidden_status: bool = False
         self.gameplay_interface_status: bool = True
-        self.gameplay_interface: bool = True
         # "True/False" and "False" as default.
         self.game_menu_status: bool = False
         self.settings_menu_status: bool = False
@@ -57,7 +57,7 @@ class InterfaceController:
         """
         Generate user interface buttons.
         """
-        if self.gameplay_interface is True:
+        if self.gameplay_interface_status is True:
             return self.buttons_dict['ui_gameplay_buttons']
         if self.game_menu_status is True:
             return self.buttons_dict['ui_game_menu_buttons']
@@ -90,7 +90,7 @@ class InterfaceController:
 
         :return: tuple[str | None, True | False]
         """
-        if self.gameplay_interface_status is True:
+        if self.gameplay_interface_hidden_status is False:
             gameplay_ui_dict = self.get_ui_buttons_dict()
             for button in gameplay_ui_dict:
                 click_status = gameplay_ui_dict[button].button_clicked_status()

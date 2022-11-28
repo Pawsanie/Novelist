@@ -213,163 +213,133 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
     return x_size, y_size
 
 
-def render(*, screen: Surface, background: Surface, characters_dict: dict, text_canvas: tuple,
-           speech: tuple, speaker: tuple, background_coordinates: tuple, gameplay_ui_dict: dict,
-           active_game_interface_flag: bool):
+class Render:
     """
     Render image on display.
 
-    :param screen: Display.
-    :param background: pygame.Surface with background.
-    :param characters_dict: Dictionary with 'character`s surfaces',
-                            'character`s arts' and character`s coordinates in pixels.
-    :param text_canvas: Tuple with Surface and canvas coordinates.
-    :param speech: Words for render on text_canvas surface and their coordinates in pixels.
-    :param speaker: Speaker name for render on text_canvas surface and its coordinates in pixels.
-    :param background_coordinates:
-    :param gameplay_ui_dict: Dictionary with Button class exemplar.
-    :param active_game_interface_flag: Bool status of interface visibility.
+    :param screen: Display surface for image render.
+    :type screen: pygame.Surface
+    :param interface_controller: InterfaceController for access to user interface.
+    :type interface_controller: InterfaceController
+    :param stage_director: StageDirector for access to scenes data.
+    :type stage_director: StageDirector
     """
-    # Clear old screen for not 16x9 display render.
-    screen.fill((0, 0, 0))
-    # Characters render:
-    for character in characters_dict.values():
-        background.blit(character.surface,
-                        character.coordinates_pixels)
-    if active_game_interface_flag is True:
-        # Text canvas render:
-        text_canvas[0].blit(speaker[0], speaker[1])
-        text_canvas[0].blit(speech[0], speech[1])
-        background.blit(text_canvas[0], text_canvas[1])
+    def __init__(self, *, screen: Surface, interface_controller, stage_director):
+        """
+        :param screen: Display surface for image render.
+        :type screen: pygame.Surface
+        :param interface_controller: InterfaceController for access to user interface.
+        :type interface_controller: InterfaceController
+        :param stage_director: StageDirector for access to scenes data.
+        :type stage_director: StageDirector
+        """
+        self.screen: Surface = screen
+        self.stage_director = stage_director
+        self.interface_controller = interface_controller
+
+    def screen_clear(self):
+        """
+        Clear scene before scene render.
+        """
+        self.screen.fill((0, 0, 0))
+
+    def gameplay_text_render(self):
+        # Get data from StageDirector:
+        background: Surface = self.stage_director.get_background()[0]
+        text_canvas: tuple[Surface, tuple[int, int]] = self.stage_director.text_canvas.generator()  # Remake
+        speaker: tuple[Surface, tuple[int, int]] = self.stage_director.speaker
+        speech: tuple[Surface, tuple[int, int]] = self.stage_director.speech
+        # Render:
+        if self.interface_controller.gameplay_interface_hidden_status is False:
+            text_canvas[0].blit(speaker[0], speaker[1])
+            text_canvas[0].blit(speech[0], speech[1])
+            background.blit(text_canvas[0], text_canvas[1])
+
+    def ui_buttons_render(self):
+        """
+        User interface render.
+        """
+        # Get data from StageDirector and InterfaceController:
+        background: Surface = self.stage_director.get_background()[0]
+        get_ui_buttons_dict = self.interface_controller.get_ui_buttons_dict()
+        # Render:
+        if self.interface_controller.gameplay_interface_hidden_status is False:
+            for button_key in get_ui_buttons_dict:
+                button = get_ui_buttons_dict[button_key]
+                button_surface, button_coordinates = button.generator()
+                background.blit(button_surface, button_coordinates)
+
+    def characters_render(self):
+        """
+        Scene characters render.
+        """
+        # Get data from StageDirector:
+        background = self.stage_director.get_background()[0]
+        characters_dict = self.stage_director.characters_dict
+        # Render:
+        for character in characters_dict.values():
+            background.blit(character.surface,
+                            character.coordinates_pixels)
+
+    def background_render(self):
+        """
+        Background render.
+        """
+        # Get data from StageDirector:
+        get_background_data: tuple[Surface, tuple[int, int]] = self.stage_director.get_background()
+        background, background_coordinates = get_background_data
+        # Render:
+        self.screen.blit(background, background_coordinates)
+
+    def gameplay_read_scene(self):
+        """
+        Render reading scene.
+        """
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        # Characters render:
+        self.characters_render()
+        # Text render:
+        self.gameplay_text_render()
         # Gameplay ui render:
-        for button_key in gameplay_ui_dict:
-            button = gameplay_ui_dict[button_key]
-            button_surface, button_coordinates = button.generator()
-            background.blit(button_surface, button_coordinates)
-    # Background render:
-    screen.blit(background, background_coordinates)
-    # Flip all surfaces:
-    display.update()
+        self.ui_buttons_render()
+        # Background render:
+        self.background_render()
+        # Flip all surfaces:
+        display.update()
 
+    def image_render(self):
+        """
+        Display image render.
+        """
+        if self.interface_controller.gameplay_interface_status is True:
+            self.gameplay_read_scene()
+        if self.interface_controller.game_menu_status is True:
+            self.game_menu()
+        if self.interface_controller.settings_menu_status is True:
+            ...
+        if self.interface_controller.exit_menu_status is True:
+            ...
+        if self.interface_controller.load_menu_status is True:
+            ...
+        if self.interface_controller.save_menu_status is True:
+            ...
+        if self.interface_controller.settings_status_menu_status is True:
+            ...
+        if self.interface_controller.start_menu_status is True:
+            ...
 
-# class Render:
-#     """
-#     Render image on display.
-#
-#     :param screen: Display surface.
-#     :param background: pygame.Surface with background.
-#     :param characters_dict: Dictionary with 'character`s surfaces',
-#                             'character`s arts' and character`s coordinates in pixels.
-#     :param text_canvas: Tuple with Surface and canvas coordinates.
-#     :param speech: Words for render on text_canvas surface and their coordinates in pixels.
-#     :param speaker: Speaker name for render on text_canvas surface and its coordinates in pixels.
-#     :param background_coordinates:
-#     :param gameplay_ui_dict: Dictionary with Button class exemplar.
-#     :param active_game_interface_flag: Bool status of interface visibility.
-#     """
-#     def __init__(self, *, screen: Surface, background: Surface, characters_dict: dict,
-#                  speech: tuple, speaker: tuple, background_coordinates: tuple, language_flag: str):
-#         """
-#         :param InterfaceController:
-#         """
-#         # Display layers:
-#         self.screen: Surface = screen
-#         self.background: Surface = background
-#         self.characters_dict: dict = characters_dict
-#         # Speech text:
-#         # self.text_canvas: tuple[Surface, tuple[int, int]] = text_canvas
-#         self.speech: tuple[Surface, tuple[int, int]] = speech
-#         self.speaker: tuple[Surface, tuple[int, int]] = speaker
-#         # Coordinates:
-#         self.background_coordinates: tuple[int, int] = background_coordinates
-#
-#     def screen_clear(self):
-#         """
-#         Clear scene before scene render.
-#         """
-#         self.screen.fill((0, 0, 0))
-#
-#     def gameplay_text_render(self):
-#         if self.interface_controller.gameplay_interface_status is True:
-#             # Text canvas render:
-#             self.text_canvas[0].blit(self.speaker[0], self.speaker[1])
-#             self.text_canvas[0].blit(self.speech[0], self.speech[1])
-#             self.background.blit(self.text_canvas[0], self.text_canvas[1])
-#
-#     def ui_buttons_render(self):
-#         """
-#         User interface render.
-#         """
-#         get_ui_buttons_dict = self.interface_controller.get_ui_buttons_dict()
-#         if self.interface_controller.gameplay_interface_status is True:
-#             for button_key in get_ui_buttons_dict:
-#                 button = get_ui_buttons_dict[button_key]
-#                 button_surface, button_coordinates = button.generator()
-#                 self.background.blit(button_surface, button_coordinates)
-#
-#     def characters_render(self):
-#         """
-#         Scene characters render.
-#         """
-#         for character in self.characters_dict.values():
-#             self.background.blit(character.surface,
-#                                  character.coordinates_pixels)
-#
-#     def background_render(self):
-#         """
-#         Background render.
-#         """
-#         self.screen.blit(self.background, self.background_coordinates)
-#
-#     def gameplay_read_scene(self):
-#         """
-#         Render reading scene.
-#         """
-#         # Clear old screen for not 16x9 display render:
-#         self.screen_clear()
-#         # Characters render:
-#         self.characters_render()
-#         # Text render:
-#         self.gameplay_text_render()
-#         # Gameplay ui render:
-#         self.ui_buttons_render()
-#         # Background render:
-#         self.background_render()
-#         # Flip all surfaces:
-#         display.update()
-#
-#     def image_render(self):
-#         """
-#         Display image render.
-#         """
-#         if self.interface_controller.gameplay_interface_status is True:
-#             return self.gameplay_read_scene()
-#         if self.interface_controller.game_menu_status is True:
-#             return self.game_menu()
-#         if self.interface_controller.settings_menu_status is True:
-#             ...
-#         if self.interface_controller.exit_menu_status is True:
-#             ...
-#         if self.interface_controller.load_menu_status is True:
-#             ...
-#         if self.interface_controller.save_menu_status is True:
-#             ...
-#         if self.interface_controller.settings_status_menu_status is True:
-#             ...
-#         if self.interface_controller.start_menu_status is True:
-#             ...
-#
-#     def game_menu(self):
-#         """
-#         Render game menu scene.
-#         """
-#         # Clear old screen for not 16x9 display render:
-#         self.screen_clear()
-#         # Characters render:
-#         self.characters_render()
-#         # Gameplay ui render:
-#         self.ui_buttons_render()
-#         # Background render:
-#         self.background_render()
-#         # Flip all surfaces:
-#         display.update()
+    def game_menu(self):
+        """
+        Render game menu scene.
+        """
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        # Characters render:
+        self.characters_render()
+        # Gameplay ui render:
+        self.ui_buttons_render()
+        # Background render:
+        self.background_render()
+        # Flip all surfaces:
+        display.update()

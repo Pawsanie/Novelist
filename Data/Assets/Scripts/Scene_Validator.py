@@ -58,4 +58,6 @@ class SceneValidator:
         # Keep current scene!:
         else:
             pass
-        self.director.action()
+
+    def get_scene_name(self):
+        return self.scene

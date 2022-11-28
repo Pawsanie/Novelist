@@ -2,10 +2,9 @@ from pygame import display, Surface
 
 from .Character import characters_generator
 from .Background import backgrounds_generator, Background
-from .Render import background_sprite_data, render
+from .Render import background_sprite_data
 from .UI_Text_Canvas import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
-from .Interface_Controller import InterfaceController
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -20,7 +19,7 @@ class StageDirector:
     :param display_screen: Display surface.
     :type display_screen: pygame.display.Surface
     """
-    def __init__(self, *, display_screen: display):
+    def __init__(self, *, display_screen: display, language_flag: str):
         """
         Initializes class params and assets loads.
         """
@@ -35,10 +34,8 @@ class StageDirector:
         self.backgrounds_dict: dict = backgrounds_generator(display_surface=display_screen)
         self.location: Background | None = None
         """Make UI:"""
-        self.language_flag: str = 'eng'  # 'eng' as default.
-        self.interface_controller = InterfaceController(
-            background_surface=self.background_surface,
-            language_flag=self.language_flag)
+        # Set language:
+        self.language_flag: str = language_flag
         # Text canvas:
         self.text_canvas = TextCanvas(background_surface=self.background_surface)
         self.text_canvas_surface: Surface = self.text_canvas.generator()[0]
@@ -77,28 +74,18 @@ class StageDirector:
         """
         return self.characters_dict.get(character)
 
-    def action(self):
+    def scale(self, interface_controller):
         """
-        Render image.
+        Render image scale.
         """
         # Scale:
         self.location.scale()
         self.text_canvas.scale(background_surface=self.background_surface)
-        self.interface_controller.language_flag = self.language_flag
-        self.interface_controller.scale(
+        interface_controller.language_flag = self.language_flag
+        interface_controller.scale(
             background_surface=self.background_surface)
         for character in self.characters_dict.values():
             character.scale(background_surface=self.background_surface)
-        # Render:
-        render(screen=self.display_screen,
-               background=self.background_surface,
-               characters_dict=self.characters_dict,
-               text_canvas=self.text_canvas.generator(),
-               speech=self.speech,
-               speaker=self.speaker,
-               background_coordinates=self.background_coordinates,
-               gameplay_ui_dict=self.interface_controller.get_ui_buttons_dict(),
-               active_game_interface_flag=self.interface_controller.gameplay_interface_status)
 
     def vanishing_scene(self):
         """
@@ -137,3 +124,21 @@ class StageDirector:
                 text_color=speaker_color,
                 text_type='speaker',
                 backgrounds_surface=self.background_surface)
+
+    def get_speech(self) -> tuple[Surface, tuple[int, int]]:
+        """
+        Get character speech text and coordinates in tuple[int, int].
+        """
+        return self.speech
+
+    def get_speaker(self) -> tuple[Surface, tuple[int, int]]:
+        """
+        Get character speaker name text and coordinates in tuple[int, int].
+        """
+        return self.speaker
+
+    def get_background(self) -> tuple[Surface, tuple[int, int]]:
+        """
+        Get tuple with background surface and background coordinates in tuple[int, int].
+        """
+        return self.background_surface, self.background_coordinates

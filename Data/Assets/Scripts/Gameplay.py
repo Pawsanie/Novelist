@@ -60,8 +60,8 @@ class GamePlay:
         button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
 
         # If user interface is not hidden:
-        if self.director.interface_controller.gameplay_interface_status is True:
-            gameplay_ui_buttons: tuple[str, bool] = self.director.interface_controller.button_clicked_status()
+        if self.interface_controller.gameplay_interface_hidden_status is False:
+            gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
             # Clicking a button with a mouse:
             if gameplay_ui_buttons[1] is True:
                 command = gameplay_ui_buttons[0]
@@ -71,9 +71,10 @@ class GamePlay:
                     else:
                         ...
                 if command == 'hide_interface':
-                    self.director.interface_controller.gameplay_interface_status = False
+                    self.interface_controller.gameplay_interface_hidden_status = True
                 if command == 'settings_menu':
-                    self.settings_menu()
+                    self.interface_controller.game_menu_status = True
+                    self.interface_controller.gameplay_interface_status = False
                 if command == 'next_scene':
                     if self.scene_validator.next_scene != 'FINISH':
                         self.scene_validator.scene_flag = self.scene_validator.next_scene
@@ -87,10 +88,10 @@ class GamePlay:
         # If user interface is hidden:
         else:
             if button_clicked[0] is True:
-                self.director.interface_controller.gameplay_interface_status = True
+                self.interface_controller.gameplay_interface_hidden_status = False
 
         # Cursor position above the button:
-        if self.director.interface_controller.button_cursor_position_status() is True:
+        if self.interface_controller.button_cursor_position_status() is True:
             self.scene_validator.scene = 'redraw'
         else:
             self.scene_validator.scene = 'redraw'
@@ -101,7 +102,7 @@ class GamePlay:
         Runs the functions associated with the desired keys.
         """
         if event.type == KEYDOWN:
-            if self.director.interface_controller.gameplay_interface_status is True:
+            if self.interface_controller.gameplay_interface_hidden_status is False:
                 if event.key == K_LEFT:
                     if self.scene_validator.past_scene != 'START':
                         self.scene_validator.scene_flag = self.scene_validator.past_scene
@@ -111,20 +112,22 @@ class GamePlay:
                 if event.key == K_SPACE:
                     if self.scene_validator.next_scene != 'FINISH':
                         self.scene_validator.scene_flag = self.scene_validator.next_scene
-            if self.director.interface_controller.game_menu_status is False:
+            if self.interface_controller.game_menu_status is False:
                 if event.key == K_ESCAPE:
-                    self.director.interface_controller.game_menu_status = True
-                    # self.settings_menu()
+                    self.interface_controller.game_menu_status = True
+                    self.interface_controller.gameplay_interface_status = False
             else:
                 if event.key == K_ESCAPE:
-                    self.director.interface_controller.game_menu_status = False
+                    self.interface_controller.gameplay_interface_status = True
+                    self.interface_controller.game_menu_status = False
 
     def settings_menu(self):
         """
         Launches the in-game menu.
         """
-        self.director.interface_controller.gameplay_interface_status = False
-        self.director.interface_controller.game_menu_status = True
+        ...
+        # self.interface_controller.gameplay_interface_hidden_status = True
+        # self.interface_controller.game_menu_status = True
         # screen: Surface = self.director.display_screen
         #
         # screen_mask = Surface([screen.get_width(), screen.get_height()])
