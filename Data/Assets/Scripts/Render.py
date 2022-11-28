@@ -181,6 +181,12 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
         side_of_the_square: int = int(background_size_y / 100 * 4.17)
         x_size, y_size = (side_of_the_square, side_of_the_square)
 
+    if place_flag == 'game_menu':
+        # X:
+        x_size: int = int(background_size_x / 100 * 30)
+        # Y:
+        y_size: int = int(background_size_y / 100 * 10)
+
     if place_flag == 'settings_menu':
         # X:
         # Y:
@@ -263,11 +269,17 @@ class Render:
         background: Surface = self.stage_director.get_background()[0]
         get_ui_buttons_dict = self.interface_controller.get_ui_buttons_dict()
         # Render:
-        if self.interface_controller.gameplay_interface_hidden_status is False:
+        if self.interface_controller.gameplay_interface_status is True:
+            if self.interface_controller.gameplay_interface_hidden_status is False:
+                for button_key in get_ui_buttons_dict:
+                    button = get_ui_buttons_dict[button_key]
+                    button_surface, button_coordinates = button.generator()
+                    background.blit(button_surface, button_coordinates)
+        else:
             for button_key in get_ui_buttons_dict:
                 button = get_ui_buttons_dict[button_key]
                 button_surface, button_coordinates = button.generator()
-                background.blit(button_surface, button_coordinates)
+                self.screen.blit(button_surface, button_coordinates)
 
     def characters_render(self):
         """
@@ -333,13 +345,19 @@ class Render:
         """
         Render game menu scene.
         """
+        # Mask settings:
+        screen_mask: Surface = Surface([self.screen.get_width(), self.screen.get_height()])
+        screen_mask.fill((0, 0, 0))
+        screen_mask.set_alpha(210)
         # Clear old screen for not 16x9 display render:
         self.screen_clear()
         # Characters render:
         self.characters_render()
-        # Gameplay ui render:
-        self.ui_buttons_render()
         # Background render:
         self.background_render()
+        # Menu mask render:
+        self.screen.blit(screen_mask, (0, 0))
+        # Gameplay ui render:
+        self.ui_buttons_render()
         # Flip all surfaces:
         display.update()

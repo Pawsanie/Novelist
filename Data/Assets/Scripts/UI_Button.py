@@ -144,7 +144,9 @@ class Button:
 
         if place_flag['type'] == 'game_menu':
             # X:
-            button_coordinates_x: int = background_surface_size[1] - self.button_size[1]
+            button_coordinates_x: int = background_surface_size[0] \
+                                        - (background_surface_size[0] // 2)\
+                                        - (self.button_size[0] // 2)
             # Y:
             button_coordinates_y: int = \
                 (background_surface_size_y_middle - (self.button_size[1] // 2)) + \
