@@ -22,7 +22,7 @@ class DialoguesWords:
         self.font_name: str = font_name
         self.text_canvas: Surface = text_canvas
         if self.font_name is None:
-            self.set_font = font.Font(font.get_default_font(), self.font_size)
+            self.set_font: font.Font = font.Font(font.get_default_font(), self.font_size)
         else:
             self.set_font: font.Font = font_load(font_name=font_name, font_size=self.font_size)
         self.font_coordinates: tuple[int, int] = (0, 0)

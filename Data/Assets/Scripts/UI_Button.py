@@ -1,9 +1,10 @@
 from os import path
 
-from pygame import Surface, SRCALPHA, transform, mouse
+from pygame import Surface, SRCALPHA, transform, mouse, font
 
-from .Assets_load import image_load, json_load
+from .Assets_load import image_load, json_load, font_load
 from .Render import surface_size, button_size
+font.init()
 """
 Contents code for user interface buttons.
 """
@@ -74,6 +75,16 @@ class Button:
         self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
         self.button_surface.blit(self.button_sprite, (0, 0))
 
+        # Button text:
+        if self.button_text is not None:
+            self.font_name: str | None = None  # <-----------------------------------------------------Remake
+            self.text_color = (0, 0, 0)
+            self.font_size: int = 0
+            if self.font_name is None:
+                self.set_button_font: font.Font = font.Font(font.get_default_font(), self.font_size)
+            else:
+                self.set_button_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
+
     def generator(self):
         """
         Generate button surface and coordinates for render.
@@ -100,6 +111,10 @@ class Button:
 
         # Scale coordinates:
         self.coordinates(background_surface=self.background_surface)
+
+        # Button text scale and render:
+        if self.button_text is not None:
+            self.button_text_render()
 
         # Default button render:
         if self.button_cursor_position_status() is False:
@@ -199,6 +214,24 @@ class Button:
         if self.button_text is not None:
             self.language_flag: str = language_flag
             self.button_text: str = self.button_text_localization_dict[self.language_flag]
+
+    def button_text_render(self):
+        # Localization button text:
+        self.localization_button_text(language_flag=self.language_flag)
+        self.font_size: int = self.background_surface.get_height() // 50
+        # Font reload for size scale:
+        if self.font_name is None:
+            self.set_button_font: font.Font = font.Font(font.get_default_font(), self.font_size)
+        else:
+            self.set_button_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
+        text_surface: Surface = self.set_button_font.render(self.button_text, True, self.text_color)
+        # Button text coordinates:
+        button_text_coordinates: tuple[int, int] = (
+            (self.button_surface.get_width() // 2) - (text_surface.get_width() // 2),
+            (self.button_surface.get_height() // 2) - (text_surface.get_height() // 2)
+        )
+        # Button text render:
+        self.button_sprite.blit(text_surface, button_text_coordinates)
 
     def button_cursor_position_status(self) -> bool:
         """
