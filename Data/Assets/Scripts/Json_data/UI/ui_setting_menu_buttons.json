@@ -2,24 +2,32 @@
   "settings_menu_video": {
     "type": "settings_menu",
     "index_number": 0,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   },
 
   "settings_menu_audio": {
     "type": "settings_menu",
     "index_number": 1,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   },
 
   "settings_menu_localization": {
     "type": "settings_menu",
     "index_number": 2,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   },
 
   "settings_menu_back": {
     "type": "settings_menu",
     "index_number": 3,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   }
 }

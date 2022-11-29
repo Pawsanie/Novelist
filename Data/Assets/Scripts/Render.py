@@ -194,8 +194,9 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
 
     if place_flag == 'start_menu':
         # X:
+        x_size: int = int(background_size_x / 100 * 30)
         # Y:
-        ...
+        y_size: int = int(background_size_y / 100 * 10)
 
     if place_flag == 'save_menu':
         # X:
@@ -209,13 +210,15 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
 
     if place_flag == 'exit_menu':
         # X:
+        x_size: int = int(background_size_x / 100 * 15)
         # Y:
-        ...
+        y_size: int = int(background_size_y / 100 * 10)
 
     if place_flag == 'change_settings':
         # X:
         # Y:
         ...
+
     return x_size, y_size
 
 
@@ -329,17 +332,17 @@ class Render:
         if self.interface_controller.game_menu_status is True:
             self.game_menu()
         if self.interface_controller.settings_menu_status is True:
-            ...
+            self.settings_menu()
         if self.interface_controller.exit_menu_status is True:
-            ...
+            self.exit_menu()
         if self.interface_controller.load_menu_status is True:
-            ...
+            self.load_menu()
         if self.interface_controller.save_menu_status is True:
-            ...
+            self.save_menu()
         if self.interface_controller.settings_status_menu_status is True:
-            ...
+            self.settings_status_menu()
         if self.interface_controller.start_menu_status is True:
-            ...
+            self.start_menu()
 
     def game_menu(self):
         """
@@ -357,7 +360,42 @@ class Render:
         self.background_render()
         # Menu mask render:
         self.screen.blit(screen_mask, (0, 0))
-        # Gameplay ui render:
+        # Game menu ui render:
         self.ui_buttons_render()
         # Flip all surfaces:
         display.update()
+
+    def exit_menu(self):
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        # Background render:
+        # self.background_render()
+        # Exit menu ui render:
+        self.ui_buttons_render()
+        # Flip all surfaces:
+        display.update()
+
+    def settings_menu(self):
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        ...
+
+    def load_menu(self):
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        ...
+
+    def save_menu(self):
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        ...
+
+    def settings_status_menu(self):
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        ...
+
+    def start_menu(self):
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        ...

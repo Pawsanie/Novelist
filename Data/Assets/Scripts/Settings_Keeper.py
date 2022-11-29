@@ -44,3 +44,9 @@ class SettingsKeeper:
                 if setting_type[0] == 'voice_acting_language':
                     self.voice_acting_language: str = setting_type[1]
         self.system_type: str = system_type()
+
+    def update_settings(self):
+        ...
+
+    def save_settings(self):
+        ...

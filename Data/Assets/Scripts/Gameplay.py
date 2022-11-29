@@ -32,10 +32,8 @@ def main_loop(func):
                 # Window resize:
                 if event.type == VIDEORESIZE:
                     self.scene = 'redraw'
-                # Button gameplay ui status:
-                self.gameplay.key_bord_gameplay_key_down(event)
-                # Button gameplay key bord status:
-                self.gameplay.button_gameplay_ui_status()
+                # User commands:
+                self.gameplay.input_devices(event)
             main_cycle_fps_clock.tick(main_cycle_fps)
 
     return coroutine
@@ -91,10 +89,10 @@ class GamePlay:
                 self.interface_controller.gameplay_interface_hidden_status = False
 
         # Cursor position above the button:
-        if self.interface_controller.button_cursor_position_status() is True:
-            self.scene_validator.scene = 'redraw'
-        else:
-            self.scene_validator.scene = 'redraw'
+        # if self.interface_controller.button_cursor_position_status() is True:
+        #     self.scene_validator.scene = 'redraw'
+        # else:
+        #     self.scene_validator.scene = 'redraw'
 
     def key_bord_gameplay_key_down(self, event):
         """
@@ -116,23 +114,87 @@ class GamePlay:
                 if event.key == K_ESCAPE:
                     self.interface_controller.game_menu_status = True
                     self.interface_controller.gameplay_interface_status = False
-            else:
-                if event.key == K_ESCAPE:
-                    self.interface_controller.gameplay_interface_status = True
-                    self.interface_controller.game_menu_status = False
 
-    def settings_menu(self):
+    def game_menu_ui_status(self):
         """
-        Launches the in-game menu.
+        Interface interaction in in-game menu.
         """
-        ...
-        # self.interface_controller.gameplay_interface_hidden_status = True
-        # self.interface_controller.game_menu_status = True
-        # screen: Surface = self.director.display_screen
-        #
-        # screen_mask = Surface([screen.get_width(), screen.get_height()])
-        # screen_mask.fill((0, 0, 0))
-        # screen_mask.set_alpha(128)
-        #
-        # screen.blit(screen_mask, (0, 0))
-        # display.update()
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        # Clicking a button with a mouse:
+        if gameplay_ui_buttons[1] is True:
+            command = gameplay_ui_buttons[0]
+            if command == 'game_menu_continue':
+                self.interface_controller.game_menu_status = False
+                self.interface_controller.gameplay_interface_status = True
+            if command == 'game_menu_save':
+                self.interface_controller.game_menu_status = False
+                self.interface_controller.save_menu_status = True
+            if command == 'game_menu_load':
+                self.interface_controller.game_menu_status = False
+                self.interface_controller.load_menu_status = True
+            if command == 'game_menu_settings':
+                self.interface_controller.game_menu_status = False
+                self.interface_controller.settings_status_menu_status = True
+            if command == 'game_menu_exit':
+                self.interface_controller.game_menu_status = False
+                self.interface_controller.exit_menu_status = True
+
+    def key_bord_game_menu_key_down(self, event):
+        """
+        Interface interaction in in-game menu.
+        """
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                self.interface_controller.game_menu_status = False
+                self.interface_controller.gameplay_interface_status = True
+
+    def game_exit_ui_from_game_menu_status(self):
+        """
+        Interface interaction in in-game exit menu.
+        """
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        # Clicking a button with a mouse:
+        if gameplay_ui_buttons[1] is True:
+            command = gameplay_ui_buttons[0]
+            if command == 'exit_menu_yes':
+                quit()
+                exit(0)
+            if command == 'exit_menu_no':
+                self.interface_controller.exit_menu_status = False
+                self.interface_controller.gameplay_interface_status = True
+
+    def key_bord_exit_menu_from_game_menu_key_down(self, event):
+        """
+        Interface interaction in in-game exit menu.
+        """
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                self.interface_controller.exit_menu_status = False
+                self.interface_controller.gameplay_interface_status = True
+
+    def input_devices(self, event):
+        """
+        User commands:
+        """
+        if self.interface_controller.gameplay_interface_status is True:
+            # Button gameplay ui status:
+            self.button_gameplay_ui_status()
+            # Button gameplay key bord status:
+            self.key_bord_gameplay_key_down(event)
+            self.scene_validator.scene = 'redraw'
+            return
+        if self.interface_controller.game_menu_status is True:
+            # Button game menu ui status:
+            self.game_menu_ui_status()
+            # Button game menu key bord status:
+            self.key_bord_game_menu_key_down(event)
+            self.scene_validator.scene = 'redraw'
+            return
+        if self.interface_controller.exit_menu_status is True:
+            if self.interface_controller is True:
+                # Button game menu ui status:
+                self.game_exit_ui_from_game_menu_status()
+                # Button game menu key bord status:
+                self.key_bord_exit_menu_from_game_menu_key_down(event)
+            self.scene_validator.scene = 'redraw'
+            return

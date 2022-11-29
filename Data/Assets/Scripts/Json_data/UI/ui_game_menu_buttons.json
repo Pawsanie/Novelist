@@ -2,30 +2,40 @@
   "game_menu_continue": {
     "type": "game_menu",
     "index_number": 0,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   },
 
   "game_menu_save": {
     "type": "game_menu",
     "index_number": 1,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   },
 
   "game_menu_load": {
     "type": "game_menu",
     "index_number": 2,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   },
 
   "game_menu_settings": {
     "type": "game_menu",
     "index_number": 3,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   },
 
   "game_menu_exit": {
     "type": "game_menu",
     "index_number": 4,
-    "sprite_name": "game_menu_buttons"
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
   }
 }

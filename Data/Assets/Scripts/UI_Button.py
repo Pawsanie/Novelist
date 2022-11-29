@@ -77,13 +77,14 @@ class Button:
 
         # Button text:
         if self.button_text is not None:
-            self.font_name: str | None = None  # <-----------------------------------------------------Remake
-            self.text_color = (0, 0, 0)
             self.font_size: int = 0
-            if self.font_name is None:
-                self.set_button_font: font.Font = font.Font(font.get_default_font(), self.font_size)
-            else:
+            self.text_color: str = str(self.button_image_data['color'])
+            if self.button_image_data['font'] is not None:
+                self.font_name: str = str(self.button_image_data['font'])
                 self.set_button_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
+            else:
+                self.font_name: None = None
+                self.set_button_font: font.Font = font.Font(font.get_default_font(), self.font_size)
 
     def generator(self):
         """
@@ -122,8 +123,13 @@ class Button:
 
         # Button ready to be pressed:
         else:
-            # self.button_surface.blit(self.button_sprite, (0, 0))
-            self.button_surface.fill((0, 0, 0))  # <---------------- Remake after tests
+            # Mask settings:
+            screen_mask: Surface = Surface([self.button_surface.get_width(), self.button_surface.get_height()])
+            screen_mask.fill((100, 0, 0))
+            screen_mask.set_alpha(150)
+            # Button render:
+            self.button_surface.blit(self.button_sprite, (0, 0))
+            self.button_surface.blit(screen_mask, (0, 0))
 
     def reflect(self):
         """
@@ -159,9 +165,9 @@ class Button:
 
         if place_flag['type'] == 'game_menu':
             # X:
-            button_coordinates_x: int = background_surface_size[0] \
-                                        - (background_surface_size[0] // 2)\
-                                        - (self.button_size[0] // 2)
+            button_coordinates_x: int = (
+                    (background_surface_size[0] // 2)
+                    - (self.button_size[0] // 2))
             # Y:
             button_coordinates_y: int = \
                 (background_surface_size_y_middle - (self.button_size[1] // 2)) + \
@@ -169,10 +175,13 @@ class Button:
 
         if place_flag['type'] == 'start_menu':
             # X:
-            button_coordinates_x: int = ...
+            button_coordinates_x: int = (
+                    (background_surface_size[0] // 2)
+                    - (self.button_size[0] // 2))
             # Y:
-            button_coordinates_y: int = ...
-            ...
+            button_coordinates_y: int = \
+                (background_surface_size_y_middle - (self.button_size[1] // 2)) + \
+                (self.button_size[1] * place_flag['index_number'])
 
         if place_flag['type'] == 'save_menu':
             # X:
@@ -190,10 +199,13 @@ class Button:
 
         if place_flag['type'] == 'exit_menu':
             # X:
-            button_coordinates_x: int = ...
+            button_coordinates_x: int = (
+                    (background_surface_size[0] // 2)
+                    - self.button_size[0] * place_flag['index_number'])
             # Y:
-            button_coordinates_y: int = ...
-            ...
+            button_coordinates_y: int = (
+                (background_surface_size[1] // 2)
+                + (background_surface_size[1] // 4))
 
         if place_flag['type'] == 'settings_menu':
             # X:
