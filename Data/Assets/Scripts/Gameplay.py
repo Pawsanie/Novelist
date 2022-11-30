@@ -11,7 +11,6 @@ Contains gameplay code.
 
 def main_loop(func):
     """
-    MAIN Coroutine!:
     Decorator with the main loop of game.
     """
     def coroutine(*args, **kwargs):
@@ -33,15 +32,40 @@ def main_loop(func):
                 if event.type == VIDEORESIZE:
                     self.scene = 'redraw'
                 # User commands:
-                self.gameplay.input_devices(event)
+                self.gameplay.reactions_to_input_commands(event)
             main_cycle_fps_clock.tick(main_cycle_fps)
 
     return coroutine
 
 
 class GamePlay:
+    """
+    Controls reactions to user input commands from mouse or key bord by conveyor
+    in 'reactions_to_input_commands' method from 'main_loop'.
+
+    :param stage_director: Stage Director class exemplar.
+                           Responsible for stage production.
+    :type stage_director: StageDirector
+    :param interface_controller: InterfaceController exemplar.
+                                 Responsible for user interface status and buttons.
+    :type interface_controller: InterfaceController
+    :param scene_validator: SceneValidator exemplar.
+                            Responsible for scene order and scene construction.
+    :type scene_validator: SceneValidator
+    """
     def __init__(self, *, stage_director: StageDirector, interface_controller: InterfaceController,
                  scene_validator: SceneValidator):
+        """
+        :param stage_director: Stage Director class exemplar.
+                               Responsible for stage production.
+        :type stage_director: StageDirector
+        :param interface_controller: InterfaceController exemplar.
+                                     Responsible for user interface status and buttons.
+        :type interface_controller: InterfaceController
+        :param scene_validator: SceneValidator exemplar.
+                                Responsible for scene order and scene construction.
+        :type scene_validator: SceneValidator
+        """
         # Stage Director settings:
         self.director: StageDirector = stage_director
         self.scene_validator: SceneValidator = scene_validator
@@ -49,6 +73,9 @@ class GamePlay:
         self.interface_controller: InterfaceController = interface_controller
 
     def __call__(self):
+        """
+        Need for calling by Game_Master class in main_loop.
+        """
         pass
 
     def button_gameplay_ui_status(self):
@@ -92,6 +119,7 @@ class GamePlay:
         """
         Checking pressed keys.
         Runs the functions associated with the desired keys.
+        :param event: pygame.event from main_loop.
         """
         if event.type == KEYDOWN:
             if self.interface_controller.gameplay_interface_hidden_status is False:
@@ -136,6 +164,7 @@ class GamePlay:
     def key_bord_game_menu_key_down(self, event):
         """
         Interface interaction in in-game menu.
+        :param event: pygame.event from main_loop.
         """
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
@@ -162,6 +191,7 @@ class GamePlay:
         """
         Interface interaction in in-game exit menu.
         From GAME menu!
+        :param event: pygame.event from main_loop.
         """
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE or event.key == K_TAB:
@@ -191,6 +221,7 @@ class GamePlay:
         """
         Interface interaction in in-game exit menu.
         From START menu!
+        :param event: pygame.event from main_loop.
         """
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE or event.key == K_TAB:
@@ -207,6 +238,10 @@ class GamePlay:
         self.scene_validator.scene = 'redraw'
 
     def gameplay_input(self, event):
+        """
+        Gameplay input conveyor:
+        :param event: pygame.event from main_loop.
+        """
         # Button gameplay ui status:
         self.button_gameplay_ui_status()
         # Button gameplay key bord status:
@@ -214,6 +249,10 @@ class GamePlay:
         self.input_wait_ready()
 
     def game_menu_input(self, event):
+        """
+        Game menu input conveyor:
+        :param event: pygame.event from main_loop.
+        """
         # Exit menu "from called" status flag:
         self.interface_controller.exit_from_start_menu_flag = False
         self.interface_controller.exit_from_game_menu_flag = True
@@ -224,6 +263,10 @@ class GamePlay:
         self.input_wait_ready()
 
     def exit_menu_input(self, event):
+        """
+        Exit menu input conveyor:
+        :param event: pygame.event from main_loop.
+        """
         if self.interface_controller.exit_from_start_menu_flag is True:
             # Button game menu ui status:
             self.game_exit_ui_from_start_menu_status()
@@ -236,9 +279,45 @@ class GamePlay:
             self.key_bord_exit_menu_from_game_menu_key_down(event)
         self.input_wait_ready()
 
-    def input_devices(self, event):
+    def setting_menu_input(self, event):
         """
-        User commands:
+        Setting menu conveyor:
+        :param event: pygame.event from main_loop.
+        """
+        ...
+
+    def load_menu_input(self, event):
+        """
+        Load menu conveyor:
+        :param event: pygame.event from main_loop.
+        """
+        ...
+
+    def save_menu_input(self, event):
+        """
+        Save menu conveyor:
+        :param event: pygame.event from main_loop.
+        """
+        ...
+
+    def start_menu_input(self, event):
+        """
+        Start menu conveyor:
+        :param event: pygame.event from main_loop.
+        """
+        ...
+
+    def settings_status_menu_input(self, event):
+        """
+        Settings status menu conveyor:
+        :param event: pygame.event from main_loop.
+        """
+        ...
+
+    def reactions_to_input_commands(self, event):
+        """
+        User commands conveyor:
+        :param event: pygame.event from main_loop.
         """
         # Gameplay:
         if self.interface_controller.gameplay_interface_status is True:
@@ -251,4 +330,24 @@ class GamePlay:
         # Exit menu:
         if self.interface_controller.exit_menu_status is True:
             self.exit_menu_input(event)
+            return
+        # Setting menu:
+        if self.interface_controller.settings_menu_status is True:
+            self.setting_menu_input(event)
+            return
+        # Load menu:
+        if self.interface_controller.load_menu_status is True:
+            self.load_menu_input(event)
+            return
+        # Save menu:
+        if self.interface_controller.save_menu_status is True:
+            self.save_menu_input(event)
+            return
+        # Settings status menu:
+        if self.interface_controller.settings_status_menu_status is True:
+            self.settings_status_menu_input(event)
+            return
+        # Start menu:
+        if self.interface_controller.start_menu_status is True:
+            self.start_menu_input(event)
             return
