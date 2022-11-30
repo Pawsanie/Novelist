@@ -52,6 +52,9 @@ class InterfaceController:
         # Start Menu:
         # "True/False" and "False" as default.
         self.start_menu_status: bool = False
+        # Exit menu "from called" flag:
+        self.exit_from_start_menu_flag = True
+        self.exit_from_game_menu_flag = False
 
     def get_ui_buttons_dict(self):
         """
@@ -96,7 +99,7 @@ class InterfaceController:
                 click_status = gameplay_ui_dict[button].button_clicked_status()
                 if click_status is True:
                     return button, True
-            return None, False
+        return None, False
 
     def button_cursor_position_status(self) -> bool:
         """

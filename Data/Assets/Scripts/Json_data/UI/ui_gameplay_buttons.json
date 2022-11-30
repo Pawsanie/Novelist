@@ -11,7 +11,7 @@
     "sprite_name": "hide_interface"
   },
 
-  "settings_menu": {
+  "game_menu": {
     "type": "gameplay_ui",
     "index_number": 0,
     "sprite_name": "settings_menu"
