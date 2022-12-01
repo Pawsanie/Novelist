@@ -369,7 +369,8 @@ class Render:
         # Clear old screen for not 16x9 display render:
         self.screen_clear()
         # Background render:
-        # self.background_render()
+        self.stage_director.set_scene(location='exit_menu')
+        self.background_render()
         # Exit menu ui render:
         self.ui_buttons_render()
         # Flip all surfaces:

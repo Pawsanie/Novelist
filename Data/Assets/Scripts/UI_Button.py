@@ -141,6 +141,37 @@ class Button:
             flip_x=True,
             flip_y=False)
 
+    def menu_yes_no_coordinates(self, *, background_surface_size, place_flag):
+        """
+        Coordinates for exit menu and settings status menu buttons.
+        """
+        # X:
+        button_coordinates_x: int = int(
+            (background_surface_size[0] // 2)
+            - (self.button_size[0] // 2)
+            + (self.button_size[0] * place_flag['index_number'])
+        )
+        # Y:
+        button_coordinates_y: int = (
+                (background_surface_size[1] // 2)
+                + (background_surface_size[1] // 4))
+        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
+    def menu_start_and_settings_coordinates(self, *, background_surface_size,
+                                            background_surface_size_y_middle, place_flag):
+        """
+        Coordinates for start menu and settings menu buttons.
+        """
+        # X:
+        button_coordinates_x: int = (
+                (background_surface_size[0] // 2)
+                - (self.button_size[0] // 2))
+        # Y:
+        button_coordinates_y: int = \
+            (background_surface_size_y_middle - (self.button_size[1] // 2)) + \
+            (self.button_size[1] * place_flag['index_number'])
+        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
     def coordinates(self, *, background_surface: Surface):
         """
         Generate coordinates.
@@ -164,24 +195,18 @@ class Button:
             button_coordinates_y: int = background_surface_size[1] - self.button_size[1]
 
         if place_flag['type'] == 'game_menu':
-            # X:
-            button_coordinates_x: int = (
-                    (background_surface_size[0] // 2)
-                    - (self.button_size[0] // 2))
-            # Y:
-            button_coordinates_y: int = \
-                (background_surface_size_y_middle - (self.button_size[1] // 2)) + \
-                (self.button_size[1] * place_flag['index_number'])
+            self.menu_start_and_settings_coordinates(
+                background_surface_size=background_surface_size,
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                place_flag=place_flag)
+            return
 
         if place_flag['type'] == 'start_menu':
-            # X:
-            button_coordinates_x: int = (
-                    (background_surface_size[0] // 2)
-                    - (self.button_size[0] // 2))
-            # Y:
-            button_coordinates_y: int = \
-                (background_surface_size_y_middle - (self.button_size[1] // 2)) + \
-                (self.button_size[1] * place_flag['index_number'])
+            self.menu_start_and_settings_coordinates(
+                background_surface_size=background_surface_size,
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                place_flag=place_flag)
+            return
 
         if place_flag['type'] == 'save_menu':
             # X:
@@ -198,14 +223,10 @@ class Button:
             ...
 
         if place_flag['type'] == 'exit_menu':
-            # X:
-            button_coordinates_x: int = (
-                    (background_surface_size[0] // 2)
-                    - self.button_size[0] * place_flag['index_number'])
-            # Y:
-            button_coordinates_y: int = (
-                (background_surface_size[1] // 2)
-                + (background_surface_size[1] // 4))
+            self.menu_yes_no_coordinates(
+                background_surface_size=background_surface_size,
+                place_flag=place_flag)
+            return
 
         if place_flag['type'] == 'settings_menu':
             # X:
@@ -213,6 +234,12 @@ class Button:
             # Y:
             button_coordinates_y: int = ...
             ...
+
+        if place_flag['type'] == 'settings_status_menu':
+            self.menu_yes_no_coordinates(
+                background_surface_size=background_surface_size,
+                place_flag=place_flag)
+            return
 
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 

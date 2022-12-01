@@ -58,3 +58,13 @@ def json_load(path_list: list[str]) -> json.loads:
     with open(scene_options_path, 'r', encoding='utf-8') as json_file:
         json_data: str = json_file.read()
         return json.loads(json_data)
+
+
+def video_load(*, video_name: str, video_format) -> str:
+    """
+    :param video_name: String name of video file.
+    :type video_name: str
+    :param video_format: String with the video format of file.
+    :type video_format: str
+    """
+    return f"{asset_root_path}{path.join(*['Video', video_name])}.{video_format}"
