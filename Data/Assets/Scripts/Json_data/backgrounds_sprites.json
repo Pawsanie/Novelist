@@ -1,5 +1,10 @@
 {
   "back_ground_01": "blank",
 
-  "exit_menu": "blank"
+  "exit_menu": "blank",
+  "settings_menu": "blank",
+  "load_menu": "blank",
+  "save_menu": "blank",
+  "settings_status_menu": "blank",
+  "start_menu": "blank"
 }

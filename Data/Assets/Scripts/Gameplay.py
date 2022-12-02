@@ -156,7 +156,7 @@ class GamePlay:
                 self.interface_controller.load_menu_status = True
             if command == 'game_menu_settings':
                 self.interface_controller.game_menu_status = False
-                self.interface_controller.settings_status_menu_status = True
+                self.interface_controller.settings_menu_status = True
             if command == 'game_menu_exit':
                 self.interface_controller.game_menu_status = False
                 self.interface_controller.exit_menu_status = True
@@ -284,6 +284,7 @@ class GamePlay:
         Setting menu conveyor:
         :param event: pygame.event from main_loop.
         """
+        self.input_wait_ready()
         ...
 
     def load_menu_input(self, event):

@@ -65,7 +65,7 @@ class InterfaceController:
         if self.game_menu_status is True:
             return self.buttons_dict['ui_game_menu_buttons']
         if self.settings_menu_status is True:
-            return self.buttons_dict['game_menu_settings']
+            return self.buttons_dict['ui_setting_menu_buttons']
         if self.exit_menu_status is True:
             return self.buttons_dict['ui_exit_menu_buttons']
         if self.load_menu_status is True:

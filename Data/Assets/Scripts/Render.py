@@ -165,6 +165,38 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     return result_size_x, result_size_y
 
 
+def yes_no_menu_button_size(background_size_x, background_size_y):
+    """
+    Calculate button size.
+
+    :param background_size_x: surface_size result.
+    :type background_size_x: int
+    :param background_size_y: surface_size result.
+    :type background_size_y: int
+    """
+    # X:
+    x_size: int = int(background_size_x / 100 * 15)
+    # Y:
+    y_size: int = int(background_size_y / 100 * 10)
+    return x_size, y_size
+
+
+def menu_long_button_size(background_size_x, background_size_y):
+    """
+    Calculate button size.
+
+    :param background_size_x: surface_size result.
+    :type background_size_x: int
+    :param background_size_y: surface_size result.
+    :type background_size_y: int
+    """
+    # X:
+    x_size: int = int(background_size_x / 100 * 30)
+    # Y:
+    y_size: int = int(background_size_y / 100 * 10)
+    return x_size, y_size
+
+
 def button_size(*, place_flag, background_surface) -> tuple[int, int]:
     """
     Calculate button size.
@@ -182,44 +214,42 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
         x_size, y_size = (side_of_the_square, side_of_the_square)
 
     if place_flag == 'game_menu':
-        # X:
-        x_size: int = int(background_size_x / 100 * 30)
-        # Y:
-        y_size: int = int(background_size_y / 100 * 10)
+        x_size, y_size = menu_long_button_size(background_size_x, background_size_y)
 
     if place_flag == 'settings_menu':
-        # X:
-        # Y:
-        ...
+        x_size, y_size = menu_long_button_size(background_size_x, background_size_y)
 
     if place_flag == 'start_menu':
-        # X:
-        x_size: int = int(background_size_x / 100 * 30)
-        # Y:
-        y_size: int = int(background_size_y / 100 * 10)
+        x_size, y_size = menu_long_button_size(background_size_x, background_size_y)
 
     if place_flag == 'save_menu':
-        # X:
-        # Y:
-        ...
+        x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
 
     if place_flag == 'load_menu':
-        # X:
-        # Y:
-        ...
+        x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
 
     if place_flag == 'exit_menu':
-        # X:
-        x_size: int = int(background_size_x / 100 * 15)
-        # Y:
-        y_size: int = int(background_size_y / 100 * 10)
+        x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
 
-    if place_flag == 'change_settings':
-        # X:
-        # Y:
-        ...
+    if place_flag == 'settings_status_menu':
+        x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
 
     return x_size, y_size
+
+
+def render(func):
+    """
+    Decorator with the main render process.
+    """
+    def base_render(*args, **kwargs):
+        self = args[0]  # class method`s 'self.' for in class decorator.
+        # Clear old screen for not 16x9 display render:
+        self.screen_clear()
+        # Function render:
+        func(*args, **kwargs)
+        # Flip all surfaces:
+        display.update()
+    return base_render
 
 
 class Render:
@@ -306,12 +336,18 @@ class Render:
         # Render:
         self.screen.blit(background, background_coordinates)
 
+    def standard_menu_render(self, background_name):
+        # Background render:
+        self.stage_director.set_scene(location=background_name)
+        self.background_render()
+        # Exit menu ui render:
+        self.ui_buttons_render()
+
+    @render
     def gameplay_read_scene(self):
         """
         Render reading scene.
         """
-        # Clear old screen for not 16x9 display render:
-        self.screen_clear()
         # Characters render:
         self.characters_render()
         # Text render:
@@ -320,8 +356,6 @@ class Render:
         self.ui_buttons_render()
         # Background render:
         self.background_render()
-        # Flip all surfaces:
-        display.update()
 
     def image_render(self):
         """
@@ -344,6 +378,7 @@ class Render:
         if self.interface_controller.start_menu_status is True:
             self.start_menu()
 
+    @render
     def game_menu(self):
         """
         Render game menu scene.
@@ -352,8 +387,6 @@ class Render:
         screen_mask: Surface = Surface([self.screen.get_width(), self.screen.get_height()])
         screen_mask.fill((0, 0, 0))
         screen_mask.set_alpha(210)
-        # Clear old screen for not 16x9 display render:
-        self.screen_clear()
         # Characters render:
         self.characters_render()
         # Background render:
@@ -362,41 +395,27 @@ class Render:
         self.screen.blit(screen_mask, (0, 0))
         # Game menu ui render:
         self.ui_buttons_render()
-        # Flip all surfaces:
-        display.update()
 
+    @render
     def exit_menu(self):
-        # Clear old screen for not 16x9 display render:
-        self.screen_clear()
-        # Background render:
-        self.stage_director.set_scene(location='exit_menu')
-        self.background_render()
-        # Exit menu ui render:
-        self.ui_buttons_render()
-        # Flip all surfaces:
-        display.update()
+        self.standard_menu_render('exit_menu')
 
+    @render
     def settings_menu(self):
-        # Clear old screen for not 16x9 display render:
-        self.screen_clear()
-        ...
+        self.standard_menu_render('settings_menu')
 
+    @render
     def load_menu(self):
-        # Clear old screen for not 16x9 display render:
-        self.screen_clear()
-        ...
+        self.standard_menu_render('load_menu')
 
+    @render
     def save_menu(self):
-        # Clear old screen for not 16x9 display render:
-        self.screen_clear()
-        ...
+        self.standard_menu_render('save_menu')
 
+    @render
     def settings_status_menu(self):
-        # Clear old screen for not 16x9 display render:
-        self.screen_clear()
-        ...
+        self.standard_menu_render('settings_status_menu')
 
+    @render
     def start_menu(self):
-        # Clear old screen for not 16x9 display render:
-        self.screen_clear()
-        ...
+        self.standard_menu_render('start_menu')

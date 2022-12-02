@@ -229,11 +229,11 @@ class Button:
             return
 
         if place_flag['type'] == 'settings_menu':
-            # X:
-            button_coordinates_x: int = ...
-            # Y:
-            button_coordinates_y: int = ...
-            ...
+            self.menu_start_and_settings_coordinates(
+                background_surface_size=background_surface_size,
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                place_flag=place_flag)
+            return
 
         if place_flag['type'] == 'settings_status_menu':
             self.menu_yes_no_coordinates(
