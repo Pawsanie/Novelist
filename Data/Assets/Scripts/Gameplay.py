@@ -78,6 +78,51 @@ class GamePlay:
         """
         pass
 
+    def input_wait_ready(self):
+        """
+        Stop loop after user command and redraw image.
+        """
+        self.scene_validator.scene = 'redraw'
+
+    def reactions_to_input_commands(self, event):
+        """
+        User commands conveyor:
+        :param event: pygame.event from main_loop.
+        """
+        # Gameplay:
+        if self.interface_controller.gameplay_interface_status is True:
+            self.gameplay_input(event)
+            return
+        # Game menu:
+        if self.interface_controller.game_menu_status is True:
+            self.game_menu_input(event)
+            return
+        # Exit menu:
+        if self.interface_controller.exit_menu_status is True:
+            self.exit_menu_input(event)
+            return
+        # Setting menu:
+        if self.interface_controller.settings_menu_status is True:
+            self.setting_menu_input(event)
+            return
+        # Load menu:
+        if self.interface_controller.load_menu_status is True:
+            self.load_menu_input(event)
+            return
+        # Save menu:
+        if self.interface_controller.save_menu_status is True:
+            self.save_menu_input(event)
+            return
+        # Settings status menu:
+        if self.interface_controller.settings_status_menu_status is True:
+            self.settings_status_menu_input(event)
+            return
+        # Start menu:
+        if self.interface_controller.start_menu_status is True:
+            self.start_menu_input(event)
+            return
+
+    """Gameplay reading:____________________________________________________________"""
     def button_gameplay_ui_status(self):
         """
         Processing the gameplay interface.
@@ -137,6 +182,18 @@ class GamePlay:
                     self.interface_controller.game_menu_status = True
                     self.interface_controller.gameplay_interface_status = False
 
+    def gameplay_input(self, event):
+        """
+        Gameplay input conveyor:
+        :param event: pygame.event from main_loop.
+        """
+        # Button gameplay ui status:
+        self.button_gameplay_ui_status()
+        # Button gameplay key bord status:
+        self.key_bord_gameplay_key_down(event)
+        self.input_wait_ready()
+
+    """Game Menu:____________________________________________________________"""
     def game_menu_ui_status(self):
         """
         Interface interaction in in-game menu.
@@ -171,6 +228,21 @@ class GamePlay:
                 self.interface_controller.game_menu_status = False
                 self.interface_controller.gameplay_interface_status = True
 
+    def game_menu_input(self, event):
+        """
+        Game menu input conveyor:
+        :param event: pygame.event from main_loop.
+        """
+        # Exit menu "from called" status flag:
+        self.interface_controller.exit_from_start_menu_flag = False
+        self.interface_controller.exit_from_game_menu_flag = True
+        # Button game menu ui status:
+        self.game_menu_ui_status()
+        # Button game menu key bord status:
+        self.key_bord_game_menu_key_down(event)
+        self.input_wait_ready()
+
+    """Exit Menu:____________________________________________________________"""
     def game_exit_ui_from_game_menu_status(self):
         """
         Interface interaction in in-game exit menu.
@@ -231,37 +303,6 @@ class GamePlay:
                 quit()
                 exit(0)
 
-    def input_wait_ready(self):
-        """
-        Stop loop after user command and redraw image.
-        """
-        self.scene_validator.scene = 'redraw'
-
-    def gameplay_input(self, event):
-        """
-        Gameplay input conveyor:
-        :param event: pygame.event from main_loop.
-        """
-        # Button gameplay ui status:
-        self.button_gameplay_ui_status()
-        # Button gameplay key bord status:
-        self.key_bord_gameplay_key_down(event)
-        self.input_wait_ready()
-
-    def game_menu_input(self, event):
-        """
-        Game menu input conveyor:
-        :param event: pygame.event from main_loop.
-        """
-        # Exit menu "from called" status flag:
-        self.interface_controller.exit_from_start_menu_flag = False
-        self.interface_controller.exit_from_game_menu_flag = True
-        # Button game menu ui status:
-        self.game_menu_ui_status()
-        # Button game menu key bord status:
-        self.key_bord_game_menu_key_down(event)
-        self.input_wait_ready()
-
     def exit_menu_input(self, event):
         """
         Exit menu input conveyor:
@@ -279,21 +320,51 @@ class GamePlay:
             self.key_bord_exit_menu_from_game_menu_key_down(event)
         self.input_wait_ready()
 
+    """Setting menu:____________________________________________________________"""
+    def settings_menu_ui_mouse(self):
+        """
+        Interface interaction in in-game exit menu.
+        From GAME menu!
+        """
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        # Clicking a button with a mouse:
+        if gameplay_ui_buttons[1] is True:
+            command = gameplay_ui_buttons[0]
+            if command == 'settings_menu_video':
+                ...
+            if command == 'settings_menu_audio':
+                ...
+            if command == 'settings_menu_localization':
+                ...
+            if command == 'settings_menu_back':
+                if self.interface_controller.settings_from_start_menu_flag is True:
+                    self.interface_controller.settings_menu_status = False
+                    self.interface_controller.start_menu_status = True
+                if self.interface_controller.settings_from_game_menu_flag is True:
+                    self.interface_controller.settings_menu_status = False
+                    self.interface_controller.game_menu_status = True
+
     def setting_menu_input(self, event):
         """
         Setting menu conveyor:
         :param event: pygame.event from main_loop.
         """
+        self.settings_menu_ui_mouse()
         self.input_wait_ready()
-        ...
 
+    """Load menu:____________________________________________________________"""
     def load_menu_input(self, event):
         """
         Load menu conveyor:
         :param event: pygame.event from main_loop.
         """
-        ...
+        if self.interface_controller.load_from_start_menu_flag is True:
+            ...
+        if self.interface_controller.load_from_game_menu_flag is True:
+            ...
+        self.input_wait_ready()
 
+    """Save menu:____________________________________________________________"""
     def save_menu_input(self, event):
         """
         Save menu conveyor:
@@ -301,6 +372,7 @@ class GamePlay:
         """
         ...
 
+    """Start menu:____________________________________________________________"""
     def start_menu_input(self, event):
         """
         Start menu conveyor:
@@ -308,47 +380,10 @@ class GamePlay:
         """
         ...
 
+    """Settings status menu:____________________________________________________________"""
     def settings_status_menu_input(self, event):
         """
         Settings status menu conveyor:
         :param event: pygame.event from main_loop.
         """
         ...
-
-    def reactions_to_input_commands(self, event):
-        """
-        User commands conveyor:
-        :param event: pygame.event from main_loop.
-        """
-        # Gameplay:
-        if self.interface_controller.gameplay_interface_status is True:
-            self.gameplay_input(event)
-            return
-        # Game menu:
-        if self.interface_controller.game_menu_status is True:
-            self.game_menu_input(event)
-            return
-        # Exit menu:
-        if self.interface_controller.exit_menu_status is True:
-            self.exit_menu_input(event)
-            return
-        # Setting menu:
-        if self.interface_controller.settings_menu_status is True:
-            self.setting_menu_input(event)
-            return
-        # Load menu:
-        if self.interface_controller.load_menu_status is True:
-            self.load_menu_input(event)
-            return
-        # Save menu:
-        if self.interface_controller.save_menu_status is True:
-            self.save_menu_input(event)
-            return
-        # Settings status menu:
-        if self.interface_controller.settings_status_menu_status is True:
-            self.settings_status_menu_input(event)
-            return
-        # Start menu:
-        if self.interface_controller.start_menu_status is True:
-            self.start_menu_input(event)
-            return

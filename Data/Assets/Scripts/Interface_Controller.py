@@ -53,8 +53,14 @@ class InterfaceController:
         # "True/False" and "False" as default.
         self.start_menu_status: bool = False
         # Exit menu "from called" flag:
-        self.exit_from_start_menu_flag = True
-        self.exit_from_game_menu_flag = False
+        self.exit_from_start_menu_flag: bool = True
+        self.exit_from_game_menu_flag: bool = False
+        # Setting menu "from called" flag:
+        self.settings_from_start_menu_flag: bool = False
+        self.settings_from_game_menu_flag: bool = True
+        # Load menu "from called" flag:
+        self.load_from_start_menu_flag: bool = False
+        self.load_from_game_menu_flag: bool = True
 
     def get_ui_buttons_dict(self):
         """
