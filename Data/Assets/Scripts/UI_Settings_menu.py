@@ -38,8 +38,7 @@ class SettingsMenu(BaseMenu):
 
     def settings_menu_ui_mouse(self):
         """
-        Interface interaction in in-game exit menu.
-        From GAME menu!
+        Interface interaction in in-game setting menu.
         """
         gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
         # Clicking a button with a mouse:

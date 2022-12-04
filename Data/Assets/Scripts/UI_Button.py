@@ -172,6 +172,24 @@ class Button:
             (self.button_size[1] * place_flag['index_number'])
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
+    def menu_save_and_load_coordinates(self, *, background_surface_size_y_middle,
+                                       background_surface_size_x_middle, place_flag):
+        """
+        Coordinates for save menu and load menu buttons.
+        """
+        # X:
+        button_coordinates_x: int = int(
+                background_surface_size_x_middle
+                + (self.button_size[0] * place_flag['index_number'])
+                + (background_surface_size_x_middle // 3)
+        )
+        # Y:
+        button_coordinates_y: int = (
+                background_surface_size_y_middle
+                + ((background_surface_size_y_middle // 3) * 2)
+        )
+        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
     def coordinates(self, *, background_surface: Surface):
         """
         Generate coordinates.
@@ -209,18 +227,18 @@ class Button:
             return
 
         if place_flag['type'] == 'save_menu':
-            # X:
-            button_coordinates_x: int = ...
-            # Y:
-            button_coordinates_y: int = ...
-            ...
+            self.menu_save_and_load_coordinates(
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                background_surface_size_x_middle=background_surface_size_x_middle,
+                place_flag=place_flag)
+            return
 
         if place_flag['type'] == 'load_menu':
-            # X:
-            button_coordinates_x: int = ...
-            # Y:
-            button_coordinates_y: int = ...
-            ...
+            self.menu_save_and_load_coordinates(
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                background_surface_size_x_middle=background_surface_size_x_middle,
+                place_flag=place_flag)
+            return
 
         if place_flag['type'] == 'exit_menu':
             self.menu_yes_no_coordinates(

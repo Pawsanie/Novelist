@@ -33,4 +33,4 @@ class SaveMenu(BaseMenu):
         Save menu conveyor:
         :param event: pygame.event from main_loop.
         """
-        ...
+        self.input_wait_ready()

@@ -2,7 +2,6 @@ from pygame import Surface
 
 from .UI_Button import button_generator
 # from .UI_Text_Canvas import TextCanvas
-from .Render import surface_size
 """
 Contents code for user interface controller.
 """
@@ -34,10 +33,6 @@ class InterfaceController:
         # Text canvas:
         # self.text_canvas = TextCanvas(background_surface=self.background_surface)
         # self.text_canvas_surface: Surface = self.text_canvas.generator()[0]
-        # Game settings menu:
-        self.settings_menu_background: Surface = Surface(surface_size(self.background_surface))
-        self.settings_menu_background.set_alpha(128)
-        self.settings_menu_canvas = ...
         # In game user interface:
         # "True/False" and "True" as default.
         self.gameplay_interface_hidden_status: bool = False
@@ -62,9 +57,10 @@ class InterfaceController:
         self.load_from_start_menu_flag: bool = False
         self.load_from_game_menu_flag: bool = True
 
-    def get_ui_buttons_dict(self):
+    def get_ui_buttons_dict(self) -> dict[str]:
         """
         Generate user interface buttons.
+        :return: Dict with buttons names strings as values.
         """
         if self.gameplay_interface_status is True:
             return self.buttons_dict['ui_gameplay_buttons']

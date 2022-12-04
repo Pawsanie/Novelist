@@ -121,6 +121,9 @@ class InputCommandsReactions:
         )
 
     def __call__(self):
+        """
+        Need for calling by Game_Master class in main_loop.
+        """
         pass
 
     def reactions_to_input_commands(self, event):

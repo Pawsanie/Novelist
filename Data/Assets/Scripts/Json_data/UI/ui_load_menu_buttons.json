@@ -1,14 +1,14 @@
 {
   "load_menu_load": {
     "type": "load_menu",
-    "index_number": 0,
+    "index_number": -1,
     "sprite_name": "exit_menu_buttons",
     "font": null,
     "color": "#000000"
   },
   "load_menu_back": {
     "type": "load_menu",
-    "index_number": 1,
+    "index_number": 0.5,
     "sprite_name": "exit_menu_buttons",
     "font": null,
     "color": "#000000"

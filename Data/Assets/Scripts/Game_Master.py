@@ -64,6 +64,9 @@ class GameMaster:
 
     @main_loop
     def __call__(self):
+        """
+        Main game loop call.
+        """
         self.reactions_to_input_commands()
         self.scene_validator()
         self.stage_director.scale(self.interface_controller)
