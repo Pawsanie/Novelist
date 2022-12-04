@@ -1,11 +1,12 @@
 from pygame import Surface
 
-from .Gameplay import main_loop, GamePlay
+from .Reactrions_to_input_commands import main_loop, InputCommandsReactions
 from .Stage_Director import StageDirector
 from .Render import Render
 from .Scene_Validator import SceneValidator
 from .Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
+from .GamePlay_Reading import GamePlayReading
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
@@ -37,12 +38,12 @@ class GameMaster:
         self.scene_validator: SceneValidator = SceneValidator(director=self.stage_director)
 
         # Interface Controller settings:
-        self.interface_controller = InterfaceController(
+        self.interface_controller: InterfaceController = InterfaceController(
             background_surface=self.stage_director.background_surface,
             language_flag=self.language_flag)
 
         # Gameplay input controller:
-        self.gameplay = GamePlay(
+        self.gameplay_reading: GamePlayReading = GamePlayReading(
             stage_director=self.stage_director,
             interface_controller=self.interface_controller,
             scene_validator=self.scene_validator)
@@ -51,12 +52,19 @@ class GameMaster:
         self.render: Render = Render(
             screen=self.display_screen,
             interface_controller=self.interface_controller,
-            stage_director=self.stage_director
+            stage_director=self.stage_director)
+
+        # User input commands processing:
+        self.reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions(
+            interface_controller=self.interface_controller,
+            settings_keeper=self.settings_keeper,
+            stage_director=self.stage_director,
+            scene_validator=self.scene_validator
         )
 
     @main_loop
     def __call__(self):
-        self.gameplay()
+        self.reactions_to_input_commands()
         self.scene_validator()
         self.stage_director.scale(self.interface_controller)
         self.render.image_render()

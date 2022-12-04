@@ -14,7 +14,7 @@ Stage director control scenes by class methods interfaces.
 class StageDirector:
     """
     Controls game scenes and assets loads.
-    StageDirector used in "Gameplay.py" for gameplay programming.
+    StageDirector used in "GamePlay_Reading.py" for gameplay programming.
 
     :param display_screen: Display surface.
     :type display_screen: pygame.display.Surface
