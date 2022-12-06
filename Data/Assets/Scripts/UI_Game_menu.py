@@ -30,7 +30,7 @@ class GameMenu(BaseMenu):
             interface_controller=interface_controller,
             scene_validator=scene_validator)
 
-    def game_menu_ui_status(self):
+    def game_menu_input_mouse(self):
         """
         Interface interaction in in-game menu.
         """
@@ -72,8 +72,11 @@ class GameMenu(BaseMenu):
         # Exit menu "from called" status flag:
         self.interface_controller.exit_from_start_menu_flag = False
         self.interface_controller.exit_from_game_menu_flag = True
+        # Load menu "from called" status flag:
+        self.interface_controller.load_from_start_menu_flag = False
+        self.interface_controller.load_from_game_menu_flag = True
         # Button game menu ui status:
-        self.game_menu_ui_status()
+        self.game_menu_input_mouse()
         # Button game menu key bord status:
         self.key_bord_game_menu_key_down(event)
         self.input_wait_ready()

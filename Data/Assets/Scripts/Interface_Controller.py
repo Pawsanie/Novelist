@@ -36,7 +36,7 @@ class InterfaceController:
         # In game user interface:
         # "True/False" and "True" as default.
         self.gameplay_interface_hidden_status: bool = False
-        self.gameplay_interface_status: bool = True
+        self.gameplay_interface_status: bool = False
         # "True/False" and "False" as default.
         self.game_menu_status: bool = False
         self.settings_menu_status: bool = False
@@ -46,16 +46,16 @@ class InterfaceController:
         self.settings_status_menu_status: bool = False
         # Start Menu:
         # "True/False" and "False" as default.
-        self.start_menu_status: bool = False
+        self.start_menu_status: bool = True
         # Exit menu "from called" flag:
         self.exit_from_start_menu_flag: bool = True
         self.exit_from_game_menu_flag: bool = False
         # Setting menu "from called" flag:
-        self.settings_from_start_menu_flag: bool = False
-        self.settings_from_game_menu_flag: bool = True
+        self.settings_from_start_menu_flag: bool = True
+        self.settings_from_game_menu_flag: bool = False
         # Load menu "from called" flag:
-        self.load_from_start_menu_flag: bool = False
-        self.load_from_game_menu_flag: bool = True
+        self.load_from_start_menu_flag: bool = True
+        self.load_from_game_menu_flag: bool = False
 
     def get_ui_buttons_dict(self) -> dict[str]:
         """

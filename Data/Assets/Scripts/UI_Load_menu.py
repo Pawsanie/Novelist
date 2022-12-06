@@ -39,10 +39,11 @@ class LoadMenu(BaseMenu):
             if command == 'load_menu_load':
                 ...
             if command == 'load_menu_back':
+                self.interface_controller.load_menu_status = False
                 if self.interface_controller.load_from_start_menu_flag is True:
-                    ...
+                    self.interface_controller.start_menu_status = True
                 if self.interface_controller.load_from_game_menu_flag is True:
-                    ...
+                    self.interface_controller.game_menu_status = True
 
     def load_menu_input(self, event):
         """

@@ -1,5 +1,3 @@
-# from pygame import KEYDOWN
-
 from .Settings_Keeper import SettingsKeeper
 from .UI_Base_menu import BaseMenu
 """
@@ -51,20 +49,11 @@ class SettingsMenu(BaseMenu):
             if command == 'settings_menu_localization':
                 ...
             if command == 'settings_menu_back':
+                self.interface_controller.settings_menu_status = False
                 if self.interface_controller.settings_from_start_menu_flag is True:
-                    self.interface_controller.settings_menu_status = False
                     self.interface_controller.start_menu_status = True
                 if self.interface_controller.settings_from_game_menu_flag is True:
-                    self.interface_controller.settings_menu_status = False
                     self.interface_controller.game_menu_status = True
-
-    def key_bord_setting_menu_ui_key_down(self, event):
-        """
-        :param event: pygame.event from main_loop.
-        """
-        ...
-        # if event.type == KEYDOWN:
-        #     if event.key == ...:
 
     def setting_menu_input(self, event):
         """
@@ -72,5 +61,4 @@ class SettingsMenu(BaseMenu):
         :param event: pygame.event from main_loop.
         """
         self.settings_menu_ui_mouse()
-        self.key_bord_setting_menu_ui_key_down(event)
         self.input_wait_ready()

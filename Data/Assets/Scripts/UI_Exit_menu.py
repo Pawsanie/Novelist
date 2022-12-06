@@ -30,10 +30,19 @@ class ExitMenu(BaseMenu):
             interface_controller=interface_controller,
             scene_validator=scene_validator)
 
-    def game_exit_ui_from_game_menu_status(self):
+    def exit_menu_back(self):
+        """
+        Back from exit menu.
+        """
+        self.interface_controller.exit_menu_status = False
+        if self.interface_controller.exit_from_start_menu_flag is True:
+            self.interface_controller.start_menu_status = True
+        if self.interface_controller.exit_from_game_menu_flag is True:
+            self.interface_controller.game_menu_status = True
+
+    def exit_menu_input_mouse(self):
         """
         Interface interaction in in-game exit menu.
-        From GAME menu!
         """
         gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
         # Clicking a button with a mouse:
@@ -43,49 +52,16 @@ class ExitMenu(BaseMenu):
                 quit()
                 exit(0)
             if command == 'exit_menu_no':
-                self.interface_controller.exit_menu_status = False
-                self.interface_controller.game_menu_status = True
+                self.exit_menu_back()
 
-    def key_bord_exit_menu_from_game_menu_key_down(self, event):
+    def key_bord_exit_menu_key_down(self, event):
         """
         Interface interaction in in-game exit menu.
-        From GAME menu!
         :param event: pygame.event from main_loop.
         """
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE or event.key == K_TAB:
-                self.interface_controller.exit_menu_status = False
-                self.interface_controller.game_menu_status = True
-            if event.key == K_e:
-                quit()
-                exit(0)
-
-    def game_exit_ui_from_start_menu_status(self):
-        """
-        Interface interaction in in-game exit menu.
-        From START menu!
-        """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
-        # Clicking a button with a mouse:
-        if gameplay_ui_buttons[1] is True:
-            command = gameplay_ui_buttons[0]
-            if command == 'exit_menu_yes':
-                quit()
-                exit(0)
-            if command == 'exit_menu_no':
-                self.interface_controller.exit_menu_status = False
-                self.interface_controller.start_menu_status = True
-
-    def key_bord_exit_menu_from_start_menu_key_down(self, event):
-        """
-        Interface interaction in in-game exit menu.
-        From START menu!
-        :param event: pygame.event from main_loop.
-        """
-        if event.type == KEYDOWN:
-            if event.key == K_ESCAPE or event.key == K_TAB:
-                self.interface_controller.exit_menu_status = False
-                self.interface_controller.start_menu_status = True
+                self.exit_menu_back()
             if event.key == K_e:
                 quit()
                 exit(0)
@@ -95,14 +71,8 @@ class ExitMenu(BaseMenu):
         Exit menu input conveyor:
         :param event: pygame.event from main_loop.
         """
-        if self.interface_controller.exit_from_start_menu_flag is True:
-            # Button game menu ui status:
-            self.game_exit_ui_from_start_menu_status()
-            # Button game menu key bord status:
-            self.key_bord_exit_menu_from_start_menu_key_down(event)
-        if self.interface_controller.exit_from_game_menu_flag is True:
-            # Button game menu ui status:
-            self.game_exit_ui_from_game_menu_status()
-            # Button game menu key bord status:
-            self.key_bord_exit_menu_from_game_menu_key_down(event)
+        # Button game menu ui status:
+        self.exit_menu_input_mouse()
+        # Button game menu key bord status:
+        self.key_bord_exit_menu_key_down(event)
         self.input_wait_ready()
