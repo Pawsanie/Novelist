@@ -14,7 +14,7 @@
   "game_menu": {
     "type": "gameplay_ui",
     "index_number": 0,
-    "sprite_name": "settings_menu"
+    "sprite_name": "game_menu"
   },
 
   "next_scene": {
