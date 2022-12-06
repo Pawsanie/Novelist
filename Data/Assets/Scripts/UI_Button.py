@@ -158,7 +158,7 @@ class Button:
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def menu_start_and_settings_coordinates(self, *, background_surface_size,
-                                            background_surface_size_y_middle, place_flag):
+                                            background_surface_size_y_middle, place_flag, multiplier):
         """
         Coordinates for start menu and settings menu buttons.
         """
@@ -167,9 +167,16 @@ class Button:
                 (background_surface_size[0] // 2)
                 - (self.button_size[0] // 2))
         # Y:
-        button_coordinates_y: int = \
-            (background_surface_size_y_middle - (self.button_size[1] // 2)) + \
-            (self.button_size[1] * place_flag['index_number'])
+        button_coordinates_y: int = (
+            (background_surface_size_y_middle - (self.button_size[1] // 2))
+            + (self.button_size[1] * place_flag['index_number'])
+        )
+        if multiplier != 0:
+            button_coordinates_y: int = (
+                button_coordinates_y
+                - (background_surface_size_y_middle // multiplier)
+                                         )
+
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def menu_save_and_load_coordinates(self, *, background_surface_size_y_middle,
@@ -216,14 +223,16 @@ class Button:
             self.menu_start_and_settings_coordinates(
                 background_surface_size=background_surface_size,
                 background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag)
+                place_flag=place_flag,
+                multiplier=3)
             return
 
         if place_flag['type'] == 'start_menu':
             self.menu_start_and_settings_coordinates(
                 background_surface_size=background_surface_size,
                 background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag)
+                place_flag=place_flag,
+                multiplier=3)
             return
 
         if place_flag['type'] == 'save_menu':
@@ -250,7 +259,8 @@ class Button:
             self.menu_start_and_settings_coordinates(
                 background_surface_size=background_surface_size,
                 background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag)
+                place_flag=place_flag,
+                multiplier=3)
             return
 
         if place_flag['type'] == 'settings_status_menu':
