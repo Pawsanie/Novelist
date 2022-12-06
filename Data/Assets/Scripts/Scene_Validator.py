@@ -23,7 +23,7 @@ class SceneValidator:
         self.director: StageDirector = director
         # Scene FLAG:
         self.scene: str = 'START'  # START as default!
-        self.scene_flag: str = 'test'  # <------- TEST SCENE!
+        self.scene_flag: str = 'scene_01'  # 'scene_01' as default!
         self.next_scene: str = ''
         self.past_scene: str = ''
 

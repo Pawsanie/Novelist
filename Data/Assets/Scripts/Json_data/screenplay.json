@@ -1,5 +1,5 @@
 {
-  "test": {
+  "scene_01": {
     "background": "back_ground_01",
     "actors": {
       "Nurse": {
@@ -28,7 +28,7 @@
       }
     },
     "special_effects": false,
-    "past_scene": "test",
+    "past_scene": "scene_01",
     "next_scene": "FINISH"
   }
 

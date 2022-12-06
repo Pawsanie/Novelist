@@ -30,6 +30,7 @@ class StartMenu(BaseMenu):
 
     def start_game(self, scene_name: str):
         self.scene_validator.scene = scene_name
+        self.scene_validator.scene_flag = scene_name
         self.interface_controller.start_menu_status = False
         self.interface_controller.gameplay_interface_hidden_status = False
         self.interface_controller.gameplay_interface_status = True
@@ -43,7 +44,7 @@ class StartMenu(BaseMenu):
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
             if command == 'start_menu_new_game':
-                self.start_game('START')
+                self.start_game('scene_01')  # 'scene_01' as default!
             if command == 'start_menu_continue':
                 ...
             if command == 'start_menu_load':
