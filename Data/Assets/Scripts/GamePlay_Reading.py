@@ -51,7 +51,7 @@ class GamePlayReading(BaseMenu):
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:
             gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
-            # Clicking a button with a mouse:
+            # Clicking a virtual button with a mouse:
             if gameplay_ui_buttons[1] is True:
                 command = gameplay_ui_buttons[0]
                 if command == 'past_scene':
@@ -73,6 +73,11 @@ class GamePlayReading(BaseMenu):
                     if button_clicked[0] is not False:
                         if self.scene_validator.next_scene != 'FINISH':
                             self.scene_validator.scene_flag = self.scene_validator.next_scene
+            # Next scene without virtual buttons:
+            else:
+                if button_clicked[0] is True:
+                    if self.scene_validator.next_scene != 'FINISH':
+                        self.scene_validator.scene_flag = self.scene_validator.next_scene
 
         # If user interface is hidden:
         else:
