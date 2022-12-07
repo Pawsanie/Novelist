@@ -8,7 +8,9 @@ As well as not wanting to learn RenPy scripting language.
 In addition, writing your own game, almost from scratch, is quite interesting.
 
 ## Disclaimer:
-**Using** some or all of the elements of this code, **You** assume **responsibility for any consequences!**<br/><br/>
+**Using** some or all of the elements of this code, **You** assume **responsibility for any consequences!**<br>
+
+The **licenses** for the technologies on which the code **depends** are subject to **change by their authors**.<br><br>
 
 ___
 <br>
