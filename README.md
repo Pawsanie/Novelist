@@ -1,8 +1,22 @@
-# Visual Novel
-Visual Novel app code.
+# Visual Novel app code:
+This repository contains the source code to create a visual novel game based on minimal edits using python if it needed.<br/>
+And just setting up a few jason files.
+
+I was inspired to develop this code by the inability to use RenPy to create a game in the form in which I want.<br>
+As well as not wanting to learn RenPy scripting language.
+
+In addition, writing your own game, almost from scratch, is quite interesting.
 
 ## Disclaimer:
-**Using** some or all of the elements of this code, **You** assume **responsibility for any consequences!**<br/>
+**Using** some or all of the elements of this code, **You** assume **responsibility for any consequences!**<br/><br/>
+
+***
+
+## Required:
+The application code is written in python and obviously depends on it.<br>
+**Python** version 3.6 [Python Software Foundation License / (with) Zero-Clause BSD license (after 3.8.6 version Python)]:
+* [Python GitHub](https://github.com/python)
+* [Python internet page](https://www.python.org/)
 
 ## Required Packages:
 **PyGame** [GNU LGPL version 2.1]:
@@ -113,3 +127,7 @@ The game reads them at startup and saves them there, with the consent to change 
 ./:open_file_folder:Data<br>
    ├── :file_folder:Assets<br>
             ├── :page_facing_up:user_settings<br>
+
+***
+
+Thank you for your interest in my work.<br><br>
