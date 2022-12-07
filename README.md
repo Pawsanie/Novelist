@@ -11,6 +11,7 @@ In addition, writing your own game, almost from scratch, is quite interesting.
 **Using** some or all of the elements of this code, **You** assume **responsibility for any consequences!**<br/><br/>
 
 ___
+<br>
 
 ## Required:
 The application code is written in python and obviously depends on it.<br>
@@ -202,4 +203,4 @@ The game reads them at startup and saves them there, with the consent to change 
 
 ***
 
-Thank you for your interest in my work.<br><br>
+**Thank you** for your interest in my work.<br><br>
