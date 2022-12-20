@@ -1,6 +1,6 @@
 from pygame import Surface
 
-from .UI_Button import button_generator
+from .User_Interface.UI_Button import button_generator
 # from .UI_Text_Canvas import TextCanvas
 """
 Contents code for user interface controller.

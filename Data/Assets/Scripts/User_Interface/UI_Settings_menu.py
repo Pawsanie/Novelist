@@ -1,4 +1,4 @@
-from .Settings_Keeper import SettingsKeeper
+from ..Settings_Keeper import SettingsKeeper
 from .UI_Base_menu import BaseMenu
 """
 Contains settings menu code.

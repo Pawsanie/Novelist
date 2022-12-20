@@ -3,7 +3,7 @@ from pygame import display, Surface
 from .Character import characters_generator
 from .Background import backgrounds_generator, Background
 from .Render import background_sprite_data
-from .UI_Text_Canvas import TextCanvas
+from .User_Interface.UI_Text_Canvas import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
 """
 Contains stage director program code.

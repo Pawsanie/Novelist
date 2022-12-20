@@ -78,6 +78,9 @@ class GameMenu(BaseMenu):
         # Load menu "from called" status flag:
         self.interface_controller.load_from_start_menu_flag = False
         self.interface_controller.load_from_game_menu_flag = True
+        # Setting menu "from called" status flag:
+        self.interface_controller.settings_from_start_menu_flag = False
+        self.interface_controller.settings_from_game_menu_flag = True
         # Button game menu ui status:
         self.game_menu_input_mouse()
         # Button game menu key bord status:

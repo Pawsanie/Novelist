@@ -18,20 +18,20 @@ ___
 ## Required:
 The application code is written in python and obviously depends on it.<br>
 **Python** version 3.6 [Python Software Foundation License / (with) Zero-Clause BSD license (after 3.8.6 version Python)]:
-* [Python GitHub](https://github.com/python)
-* [Python internet page](https://www.python.org/)
+* :octocat:[Python GitHub](https://github.com/python)
+* :bookmark_tabs:[Python internet page](https://www.python.org/)
 
 ## Required Packages:
 **PyGame** [GNU LGPL version 2.1]:
-* [PyGame GitHub](https://github.com/pygame/pygame)
-* [Pygame internet page](https://www.pygame.org/news)
+* :octocat:[PyGame GitHub](https://github.com/pygame/pygame)
+* :bookmark_tabs:[Pygame internet page](https://www.pygame.org/news)
 
 Used to create windows, surfaces and draw them on top of each other.<br>
 Also for flipping the screen and drawing the window icon.
 
 **OpenCV** [3-clause BSD / Apache 2 (after 4.5 version OpenCV)]:
-* [OpenCV GitHub](https://github.com/opencv/opencv)
-* [OpenCV internet page](https://opencv.org/)
+* :octocat:[OpenCV GitHub](https://github.com/opencv/opencv)
+* :bookmark_tabs:[OpenCV internet page](https://opencv.org/)
 
 Used to cut video into frames and determine the number of frames in the video.
 

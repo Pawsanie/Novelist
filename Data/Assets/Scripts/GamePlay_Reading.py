@@ -3,7 +3,7 @@ from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse
 from .Stage_Director import StageDirector
 from .Scene_Validator import SceneValidator
 from .Interface_Controller import InterfaceController
-from .UI_Base_menu import BaseMenu
+from .User_Interface.UI_Base_menu import BaseMenu
 """
 Contains gameplay code.
 """

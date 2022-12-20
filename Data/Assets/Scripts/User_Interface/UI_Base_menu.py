@@ -1,5 +1,5 @@
-from .Interface_Controller import InterfaceController
-from .Scene_Validator import SceneValidator
+from ..Interface_Controller import InterfaceController
+from ..Scene_Validator import SceneValidator
 """
 Contains code for User Interface Master Class.
 """

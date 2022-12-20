@@ -2,8 +2,8 @@ from os import path
 
 from pygame import Surface, SRCALPHA, transform, mouse, font
 
-from .Assets_load import image_load, json_load, font_load
-from .Render import surface_size, button_size
+from ..Assets_load import image_load, json_load, font_load
+from ..Render import surface_size, button_size
 font.init()
 """
 Contents code for user interface buttons.

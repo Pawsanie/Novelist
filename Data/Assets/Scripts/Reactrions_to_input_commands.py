@@ -5,13 +5,13 @@ from .Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Stage_Director import StageDirector
 from .Scene_Validator import SceneValidator
-from .UI_Exit_menu import ExitMenu
-from .UI_Game_menu import GameMenu
-from .UI_Load_menu import LoadMenu
-from .UI_Save_menu import SaveMenu
-from .UI_Settings_menu import SettingsMenu
-from .UI_Settings_Status_menu import SettingsStatusMenu
-from .UI_Start_menu import StartMenu
+from .User_Interface.UI_Exit_menu import ExitMenu
+from .User_Interface.UI_Game_menu import GameMenu
+from .User_Interface.UI_Load_menu import LoadMenu
+from .User_Interface.UI_Save_menu import SaveMenu
+from .User_Interface.UI_Settings_menu import SettingsMenu
+from .User_Interface.UI_Settings_Status_menu import SettingsStatusMenu
+from .User_Interface.UI_Start_menu import StartMenu
 from .GamePlay_Reading import GamePlayReading
 """
 Contains code for reactions to input commands.

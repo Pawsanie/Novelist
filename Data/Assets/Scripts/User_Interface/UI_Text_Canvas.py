@@ -1,7 +1,7 @@
 from pygame import Surface
 
-from .Assets_load import image_load
-from .Render import text_canvas_render
+from ..Assets_load import image_load
+from ..Render import text_canvas_render
 """
 Contents code for user interface text canvas.
 """
