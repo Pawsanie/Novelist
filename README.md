@@ -51,10 +51,10 @@ In last scene next_scene key **must** be **'FINISH'**.
 
 **File location:**<br>
 ./:open_file_folder:Data<br>
-   ├── :file_folder:Assets<br>
-            ├── :file_folder:Scripts<br>
-                     ├── :file_folder:Json_data<br>
-                              ├── :page_facing_up:screenplay.json<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Scripts<br>
+                     └── :file_folder:Json_data<br>
+                              └── :page_facing_up:screenplay.json<br>
 
 **Example of one scene in screenplay.json file:**
 ```json
@@ -90,12 +90,12 @@ You need to name localization language tags for translation in the game settings
 
 **Files location:**<br>
 **./**:open_file_folder:Data<br>
-   ├── :file_folder:Assets<br>
-            ├── :file_folder:Scripts<br>
-                     ├── :file_folder:Json_data<br>
-                              ├── :file_folder:Dialogues<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Scripts<br>
+                     └── :file_folder:Json_data<br>
+                              └── :file_folder:Dialogues<br>
                                        ├── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                       ├── :page_facing_up:dialogues_localizations_data.json<br>
+                                       └── :page_facing_up:dialogues_localizations_data.json<br>
 
 **Example of one scene in 'eng.json' file:**
 ```json
@@ -128,10 +128,10 @@ It needs to list the names by which the game will look for characters. <br>
 Sprite file name. And the x|y coordinates for sprite animations.<br>
 **File location:**<br>
 **./**:open_file_folder:Data<br>
-   ├── :file_folder:Assets<br>
-            ├── :file_folder:Scripts<br>
-                     ├── :file_folder:Json_data<br>
-                              ├── :page_facing_up:characters_sprites.json<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Scripts<br>
+                     └── :file_folder:Json_data<br>
+                              └── :page_facing_up:characters_sprites.json<br>
 **Example of 'characters_sprites.json' file:**
 ```json
 {
@@ -156,9 +156,9 @@ As example 'eng.json' file from 'Dialogues' folder.
 Sprites must be in **png** format and stored in a 'Characters' folder.<br>
 **Folder location:**<br>
 ./:open_file_folder:Data<br>
-   ├── :file_folder:Assets<br>
+   └── :file_folder:Assets<br>
             ├── :file_folder:Images<br>
-            ├── :file_folder:Characters<br>
+            └── :file_folder:Characters<br>
 
 ## Backgrounds ands its sprites:
 Information about the backgrounds and its sprites must be entered into the 'backgrounds_sprites.json' file.<br>
@@ -166,10 +166,10 @@ The names that will be given here are used to create scenes in 'screenplay.json'
 
 **File location:**<br>
 **./**:open_file_folder:Data<br>
-   ├── :file_folder:Assets<br>
-            ├── :file_folder:Scripts<br>
-                     ├── :file_folder:Json_data<br>
-                              ├── :page_facing_up:backgrounds_sprites.json<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Scripts<br>
+                     └── :file_folder:Json_data<br>
+                              └── :page_facing_up:backgrounds_sprites.json<br>
 **Example of 'backgrounds_sprites.json' file:**
 ```json
 {
@@ -188,9 +188,9 @@ As you can see from the example, names are also used for static menus.
 Sprites must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
 ./:open_file_folder:Data<br>
-   ├── :file_folder:Assets<br>
+   └── :file_folder:Assets<br>
             ├── :file_folder:Images<br>
-            ├── :file_folder:Backgrounds<br>
+            └── :file_folder:Backgrounds<br>
 
 However, you can change the sprite's format requirement by modifying it in the code.
 
@@ -200,8 +200,8 @@ The game reads them at startup and saves them there, with the consent to change 
 
 **File location:**<br>
 ./:open_file_folder:Data<br>
-   ├── :file_folder:Assets<br>
-            ├── :page_facing_up:user_settings<br>
+   └── :file_folder:Assets<br>
+            └── :page_facing_up:user_settings<br>
 
 ***
 
