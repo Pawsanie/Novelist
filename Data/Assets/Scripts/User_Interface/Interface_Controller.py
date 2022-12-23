@@ -1,7 +1,6 @@
 from pygame import Surface
 
-from .User_Interface.UI_Button import button_generator
-# from .UI_Text_Canvas import TextCanvas
+from ..User_Interface.UI_Button import button_generator
 """
 Contents code for user interface controller.
 """
@@ -10,11 +9,6 @@ Contents code for user interface controller.
 class InterfaceController:
     """
     Generate user interface: text canvas, buttons, menu and control it.
-
-    :param background_surface: pygame.Surface of background.
-    :type background_surface: Surface
-    :param language_flag: String with language flag for button text localization..
-    :type language_flag: str
     """
     def __init__(self, *, background_surface: Surface, language_flag: str):
         """

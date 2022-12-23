@@ -4,9 +4,9 @@ from .Reactrions_to_input_commands import main_loop, InputCommandsReactions
 from .Stage_Director import StageDirector
 from .Render import Render
 from .Scene_Validator import SceneValidator
-from .Interface_Controller import InterfaceController
+from .User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
-from .GamePlay_Reading import GamePlayReading
+from .GamePlay.GamePlay_Reading import GamePlayReading
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
@@ -17,9 +17,6 @@ class GameMaster:
     """
     Set all settings for Stage Director and game.
     Entry point for gameplay.
-
-    :param display_screen: pygame.display.Surface
-    :param start_settings: SettingsKeeper
     """
     def __init__(self, *, display_screen, start_settings):
         """
@@ -34,26 +31,28 @@ class GameMaster:
         # Stage Director settings:
         self.stage_director: StageDirector = StageDirector(
             display_screen=self.display_screen,
-            language_flag=self.language_flag)
-        self.scene_validator: SceneValidator = SceneValidator(director=self.stage_director)
-
+            language_flag=self.language_flag
+        )
+        self.scene_validator: SceneValidator = SceneValidator(
+            stage_director=self.stage_director
+        )
         # Interface Controller settings:
         self.interface_controller: InterfaceController = InterfaceController(
             background_surface=self.stage_director.background_surface,
-            language_flag=self.language_flag)
-
+            language_flag=self.language_flag
+        )
         # Gameplay input controller:
         self.gameplay_reading: GamePlayReading = GamePlayReading(
             stage_director=self.stage_director,
             interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator)
-
+            scene_validator=self.scene_validator
+        )
         # Render settings:
         self.render: Render = Render(
             screen=self.display_screen,
             interface_controller=self.interface_controller,
-            stage_director=self.stage_director)
-
+            stage_director=self.stage_director
+        )
         # User input commands processing:
         self.reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions(
             interface_controller=self.interface_controller,

@@ -1,7 +1,7 @@
 from pygame import time, QUIT, quit, VIDEORESIZE
 from pygame import event as pygame_events
 
-from .Interface_Controller import InterfaceController
+from .User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Stage_Director import StageDirector
 from .Scene_Validator import SceneValidator
@@ -12,7 +12,7 @@ from .User_Interface.UI_Save_menu import SaveMenu
 from .User_Interface.UI_Settings_menu import SettingsMenu
 from .User_Interface.UI_Settings_Status_menu import SettingsStatusMenu
 from .User_Interface.UI_Start_menu import StartMenu
-from .GamePlay_Reading import GamePlayReading
+from .GamePlay.GamePlay_Administrator import GamePlayAdministrator
 """
 Contains code for reactions to input commands.
 """
@@ -50,18 +50,6 @@ class InputCommandsReactions:
     """
     Controls reactions to user input commands from mouse or key bord by conveyor
     in 'reactions_to_input_commands' method from 'main_loop'.
-
-    :param interface_controller: InterfaceController exemplar.
-                                 Responsible for user interface status and buttons.
-    :type interface_controller: InterfaceController
-    :param scene_validator: SceneValidator exemplar.
-                        Responsible for scene order and scene construction.
-    :type scene_validator: SceneValidator
-    :param settings_keeper: Settings controller class.
-    :type settings_keeper: SettingsKeeper
-    :param stage_director: Stage Director class exemplar.
-                           Responsible for stage production.
-    :type stage_director: StageDirector
     """
     def __init__(self, *, interface_controller, settings_keeper, stage_director, scene_validator):
         """
@@ -114,7 +102,7 @@ class InputCommandsReactions:
             scene_validator=self.scene_validator
         )
         # Settings for gameplay:
-        self.gameplay_reading: GamePlayReading = GamePlayReading(
+        self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator(
             stage_director=self.stage_director,
             interface_controller=self.interface_controller,
             scene_validator=self.scene_validator
@@ -133,7 +121,7 @@ class InputCommandsReactions:
         """
         # Gameplay:
         if self.interface_controller.gameplay_interface_status is True:
-            self.gameplay_reading.gameplay_input(event)
+            self.gameplay_administrator.gameplay_input(event)
             return
         # Game menu:
         if self.interface_controller.game_menu_status is True:

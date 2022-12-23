@@ -14,6 +14,7 @@
       }
     },
     "special_effects": false,
+    "gameplay_type": "reading",
     "past_scene": "START",
     "next_scene": "test_scene02"
   },
@@ -28,6 +29,7 @@
       }
     },
     "special_effects": false,
+    "gameplay_type": "reading",
     "past_scene": "scene_01",
     "next_scene": "FINISH"
   }

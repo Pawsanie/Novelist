@@ -15,13 +15,15 @@ class StageDirector:
     """
     Controls game scenes and assets loads.
     StageDirector used in "GamePlay_Reading.py" for gameplay programming.
-
-    :param display_screen: Display surface.
-    :type display_screen: pygame.display.Surface
     """
     def __init__(self, *, display_screen: display, language_flag: str):
         """
         Initializes class params and assets loads.
+
+        :param display_screen: Display surface.
+        :type display_screen: pygame.display.Surface
+        :param language_flag: String with language flag for localisation.
+        :type language_flag: str
         """
         # Make background surface:
         background_data: tuple = background_sprite_data(display_surface=display_screen)

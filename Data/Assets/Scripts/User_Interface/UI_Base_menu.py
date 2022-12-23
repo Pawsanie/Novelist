@@ -1,4 +1,4 @@
-from ..Interface_Controller import InterfaceController
+from Visual_Novel.Data.Assets.Scripts.User_Interface.Interface_Controller import InterfaceController
 from ..Scene_Validator import SceneValidator
 """
 Contains code for User Interface Master Class.
@@ -8,13 +8,6 @@ Contains code for User Interface Master Class.
 class BaseMenu:
     """
     User Interface menu Master Class!
-
-    :param interface_controller: InterfaceController exemplar.
-                                 Responsible for user interface status and buttons.
-    :type interface_controller: InterfaceController
-    :param scene_validator: SceneValidator exemplar.
-                            Responsible for scene order and scene construction.
-    :type scene_validator: SceneValidator
     """
     def __init__(self, *, interface_controller: InterfaceController,
                  scene_validator: SceneValidator):

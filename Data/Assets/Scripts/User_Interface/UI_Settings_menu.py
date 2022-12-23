@@ -8,15 +8,6 @@ Contains settings menu code.
 class SettingsMenu(BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in Settings Menu.
-
-    :param interface_controller: InterfaceController exemplar.
-                                 Responsible for user interface status and buttons.
-    :type interface_controller: InterfaceController
-    :param scene_validator: SceneValidator exemplar.
-                        Responsible for scene order and scene construction.
-    :type scene_validator: SceneValidator
-    :param settings_keeper: Settings controller class.
-    :type settings_keeper: SettingsKeeper
     """
     def __init__(self, *, interface_controller, settings_keeper, scene_validator):
         """

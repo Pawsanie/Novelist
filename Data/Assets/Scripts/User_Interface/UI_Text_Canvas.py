@@ -10,9 +10,6 @@ Contents code for user interface text canvas.
 class TextCanvas:
     """
     Generate text canvas surface and coordinates for render.
-
-    :param background_surface: pygame.Surface of background.
-    :type background_surface: Surface.
     """
     def __init__(self, *, background_surface: Surface):
         """

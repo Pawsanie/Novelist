@@ -1,27 +1,17 @@
 from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse
 
-from .Stage_Director import StageDirector
-from .Scene_Validator import SceneValidator
-from .Interface_Controller import InterfaceController
-from .User_Interface.UI_Base_menu import BaseMenu
+from ..Stage_Director import StageDirector
+from ..Scene_Validator import SceneValidator
+from ..User_Interface.Interface_Controller import InterfaceController
+from ..User_Interface.UI_Base_menu import BaseMenu
 """
-Contains gameplay code.
+Contains gameplay reading code.
 """
 
 
 class GamePlayReading(BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in reading gameplay.
-
-    :param stage_director: Stage Director class exemplar.
-                           Responsible for stage production.
-    :type stage_director: StageDirector
-    :param interface_controller: InterfaceController exemplar.
-                                 Responsible for user interface status and buttons.
-    :type interface_controller: InterfaceController
-    :param scene_validator: SceneValidator exemplar.
-                            Responsible for scene order and scene construction.
-    :type scene_validator: SceneValidator
     """
     def __init__(self, *, stage_director: StageDirector, interface_controller: InterfaceController,
                  scene_validator: SceneValidator):
@@ -36,11 +26,12 @@ class GamePlayReading(BaseMenu):
                                 Responsible for scene order and scene construction.
         :type scene_validator: SceneValidator
         """
+        # Arguments processing:
         super(GamePlayReading, self).__init__(
             interface_controller=interface_controller,
             scene_validator=scene_validator)
         # Stage Director settings:
-        self.director: StageDirector = stage_director
+        self.stage_director = stage_director
 
     def button_gameplay_ui_status(self):
         """

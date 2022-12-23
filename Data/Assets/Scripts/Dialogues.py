@@ -12,19 +12,24 @@ class DialoguesWords:
     """
     Control dialog scenes text and control font size.
     Load font asset and generate text coordinates.
-
-    :param font_name: String with font file name.
-    :type font_name: str | None
     """
 
     def __init__(self, *, font_name: str | None, text_canvas: Surface):
+        """
+        :param font_name: String with font file name.
+        :type font_name: str | None
+        """
         self.font_size: int = 0
         self.font_name: str = font_name
         self.text_canvas: Surface = text_canvas
         if self.font_name is None:
-            self.set_font: font.Font = font.Font(font.get_default_font(), self.font_size)
+            self.set_font: font.Font = font.Font(
+                font.get_default_font(),
+                self.font_size)
         else:
-            self.set_font: font.Font = font_load(font_name=font_name, font_size=self.font_size)
+            self.set_font: font.Font = font_load(
+                font_name=font_name,
+                font_size=self.font_size)
         self.font_coordinates: tuple[int, int] = (0, 0)
 
     def swap_font(self, *, font_name: str | None):
@@ -34,9 +39,13 @@ class DialoguesWords:
         """
         self.font_name: str = font_name
         if self.font_name is None:
-            self.set_font = font.Font(font.get_default_font(), self.font_size)
+            self.set_font = font.Font(
+                font.get_default_font(),
+                self.font_size)
         else:
-            self.set_font: font.Font = font_load(font_name=font_name, font_size=self.font_size)
+            self.set_font: font.Font = font_load(
+                font_name=font_name,
+                font_size=self.font_size)
 
     def make_words(self, *, text_string: str, text_color: str, text_type: str,
                    backgrounds_surface: Surface) -> tuple[Surface, tuple[int, int]]:
@@ -65,7 +74,6 @@ class DialoguesWords:
                 text_canvas_surface=self.text_canvas,
                 font_size=self.font_size,
                 text_type='speech')
-
         self.swap_font(font_name=self.font_name)
         text_surface: Surface = self.set_font.render(text_string, True, text_color)
 
@@ -78,11 +86,23 @@ def generate_dialogues():
     With keys as languages flags and json dictionary as value.
     """
     result: dict = {}
-    language_flags: tuple = (json_load([
-        'Scripts', 'Json_data', 'Dialogues', 'dialogues_localizations_data']
+    language_flags: tuple = (json_load(
+        [
+            'Scripts',
+            'Json_data',
+            'Dialogues',
+            'dialogues_localizations_data'
+        ]
     )['language_flags'])
 
     for flag in language_flags:
-        json_values: dict = json_load(['Scripts', 'Json_data', 'Dialogues', flag])
+        json_values: dict = json_load(
+            [
+                'Scripts',
+                'Json_data',
+                'Dialogues',
+                flag
+            ]
+        )
         result.update({flag: json_values})
     return result

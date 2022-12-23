@@ -13,20 +13,6 @@ Contents code for user interface buttons.
 class Button:
     """
     Generate interface button surface and coordinates for render.
-
-    :param background_surface: pygame.Surface of background.
-    :type background_surface: Surface
-    :param button_name: String with button image file name.
-    :type button_name: str
-    :param button_text: String with text of button.
-    :type button_text: str | None
-    :param button_image_data: Nested dictionary with button name as key and dictionary with button type,
-                              index order position and sprite name as values.
-    :type button_image_data: dict[str, dict[str, int]]
-    :param language_flag: String with language flag.
-    :type language_flag: str
-    :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
-    :type button_text_localization_dict: dict[str]
     """
     def __init__(self, *, background_surface: Surface, button_name: str,
                  button_text: str | None, button_image_data: dict[str, int],

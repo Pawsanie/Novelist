@@ -1,6 +1,6 @@
 from pygame import transform, Surface, SRCALPHA
 
-from .Render import character_sprite_size, meddle_point_for_character_render, surface_size
+from .Render import character_sprite_size, meddle_point_for_character_render
 from .Assets_load import image_load, json_load
 """
 Contains code responsible for rendering character.
@@ -11,22 +11,23 @@ class Character:
     """
     Super class for characters.
     Control characters by a lot of methods.
-
-    :param surface: Character surface object for render.
-    :type surface: pygame.Surface
-    :param character_image: Surface with image loaded.
-    :type character_image: pygame.Surface
-    :param character_size: Base character size.
-    :type character_size: tuple[int, int]
-    :param coordinates_pixels: Base coordinates for character render.
-    :type coordinates_pixels: list[int, int]
-    :param character_poses: All poses coordinates for sprite animation.
-    :type character_poses: dict[dict[str, int]]
-    :param background_surface: Surface with background.
-    :type background_surface: pygame.Surface
     """
     def __init__(self, *, surface: Surface, character_image: Surface, character_size: tuple,
                  coordinates_pixels: list[int], character_poses: dict, background_surface: Surface):
+        """
+        :param surface: Character surface object for render.
+        :type surface: pygame.Surface
+        :param character_image: Surface with image loaded.
+        :type character_image: pygame.Surface
+        :param character_size: Base character size.
+        :type character_size: tuple[int, int]
+        :param coordinates_pixels: Base coordinates for character render.
+        :type coordinates_pixels: list[int, int]
+        :param character_poses: All poses coordinates for sprite animation.
+        :type character_poses: dict[dict[str, int]]
+        :param background_surface: Surface with background.
+        :type background_surface: pygame.Surface
+        """
         self.surface: Surface = surface
         self.character_image: Surface = character_image
         self.coordinates_pixels: list[int, int] = coordinates_pixels

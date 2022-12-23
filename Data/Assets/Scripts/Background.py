@@ -11,16 +11,16 @@ class Background:
     """
     Load scene image by name and update the scene.
     Can scale scene size to display size.
-
-    :param display_surface: Display surface object.
-    :type display_surface: display.set_mode
-    :param scene_image: Image for background.
-    :type scene_image: pygame.image.load
     """
     def __init__(self, *, display_surface: display.set_mode, scene_image: image.load):
         """
         Set background image.
         Transform background to screen size.
+
+        :param display_surface: Display surface object.
+        :type display_surface: display.set_mode
+        :param scene_image: Image for background.
+        :type scene_image: pygame.image.load
         """
         self.display_surface: Surface = display_surface
         self.scene_image: Surface = scene_image

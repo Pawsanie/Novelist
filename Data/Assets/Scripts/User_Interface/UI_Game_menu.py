@@ -9,13 +9,6 @@ Contains game menu code.
 class GameMenu(BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in Game Menu.
-
-    :param interface_controller: InterfaceController exemplar.
-                                 Responsible for user interface status and buttons.
-    :type interface_controller: InterfaceController
-    :param scene_validator: SceneValidator exemplar.
-                        Responsible for scene order and scene construction.
-    :type scene_validator: SceneValidator
     """
     def __init__(self, *, interface_controller, scene_validator):
         """

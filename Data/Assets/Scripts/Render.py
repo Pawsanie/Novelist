@@ -255,13 +255,6 @@ def render(func):
 class Render:
     """
     Render image on display.
-
-    :param screen: Display surface for image render.
-    :type screen: pygame.Surface
-    :param interface_controller: InterfaceController for access to user interface.
-    :type interface_controller: InterfaceController
-    :param stage_director: StageDirector for access to scenes data.
-    :type stage_director: StageDirector
     """
     def __init__(self, *, screen: Surface, interface_controller, stage_director):
         """
