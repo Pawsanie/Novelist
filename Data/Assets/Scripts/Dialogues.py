@@ -1,7 +1,7 @@
 from pygame import font, Surface
 
 from .Assets_load import json_load, font_load
-from .Universal_computing import  surface_size
+from .Universal_computing import surface_size
 font.init()
 """
 Contains the code for text of dialogues.
@@ -22,28 +22,22 @@ class DialoguesWords:
         self.font_size: int = 0
         self.font_name: str = font_name
         self.text_canvas: Surface = text_canvas
-        if self.font_name is None:
-            self.set_font: font.Font = font.Font(
-                font.get_default_font(),
-                self.font_size)
-        else:
-            self.set_font: font.Font = font_load(
-                font_name=font_name,
-                font_size=self.font_size)
+        self.used_font: font.Font | None = None
+        self.set_font(font_name=font_name)
         self.font_coordinates: tuple[int, int] = (0, 0)
 
-    def swap_font(self, *, font_name: str | None):
+    def set_font(self, *, font_name: str | None):
         """
         :param font_name: String with font file name.
         :type font_name: str | None
         """
         self.font_name: str = font_name
         if self.font_name is None:
-            self.set_font = font.Font(
+            self.used_font = font.Font(
                 font.get_default_font(),
                 self.font_size)
         else:
-            self.set_font: font.Font = font_load(
+            self.used_font: font.Font = font_load(
                 font_name=font_name,
                 font_size=self.font_size)
 
@@ -63,15 +57,15 @@ class DialoguesWords:
         :return: tuple[pygame.Rect, tuple[int, int]]
         """
         if text_type == 'speaker':
-            self.font_size: int = backgrounds_surface.get_height() // 50
+            self.font_size: int = backgrounds_surface.get_height() // 40
             self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(
                 text_type='name')
         if text_type == 'words':
-            self.font_size: int = backgrounds_surface.get_height() // 60
+            self.font_size: int = backgrounds_surface.get_height() // 50
             self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(
                 text_type='speech')
-        self.swap_font(font_name=self.font_name)
-        text_surface: Surface = self.set_font.render(text_string, True, text_color)
+        self.set_font(font_name=self.font_name)
+        text_surface: Surface = self.used_font.render(text_string, True, text_color)
 
         return text_surface, self.font_coordinates
 
@@ -86,9 +80,11 @@ class DialoguesWords:
         text_canvas_size_x, text_canvas_size_y = text_canvas_surface_size
         x_result: int = (text_canvas_size_x // 100) * 15
         if text_type == 'speech':
+            # x_result: int = (text_canvas_size_x // 100) * 15
             y_result: int = (self.font_size * 2) + ((text_canvas_size_y // 100) * 5)
             return x_result, y_result
         if text_type == 'name':
+            # x_result: int = (text_canvas_size_x // 100) * 30
             y_result: int = (text_canvas_size_y // 100) * 5
             return x_result, y_result
 

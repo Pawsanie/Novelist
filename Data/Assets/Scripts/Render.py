@@ -45,7 +45,7 @@ class Render:
     def gameplay_text_render(self):
         # Get data from StageDirector:
         background: Surface = self.stage_director.get_background()[0]
-        text_canvas: tuple[Surface, tuple[int, int]] = self.stage_director.text_canvas.get()  # Remake
+        text_canvas: tuple[Surface, tuple[int, int]] = self.stage_director.text_canvas.get()  # Remake?
         speaker: tuple[Surface, tuple[int, int]] = self.stage_director.speaker
         speech: tuple[Surface, tuple[int, int]] = self.stage_director.speech
         # Render:
