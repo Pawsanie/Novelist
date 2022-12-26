@@ -39,7 +39,7 @@ class StageDirector:
         self.language_flag: str = language_flag
         # Text canvas:
         self.text_canvas = TextCanvas(background_surface=self.background_surface)
-        self.text_canvas_surface: Surface = self.text_canvas.generator()[0]
+        self.text_canvas_surface: Surface = self.text_canvas.get()[0]
         # Text generation:
         self.text_controller = DialoguesWords(
             font_name=None,
