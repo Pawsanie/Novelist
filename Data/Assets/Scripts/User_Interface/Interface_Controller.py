@@ -24,9 +24,6 @@ class InterfaceController:
         self.buttons_dict: dict = button_generator(
             language_flag=language_flag,
             background_surface=self.background_surface)
-        # Text canvas:
-        # self.text_canvas = TextCanvas(background_surface=self.background_surface)
-        # self.text_canvas_surface: Surface = self.text_canvas.generator()[0]
         # In game user interface:
         # "True/False" and "True" as default.
         self.gameplay_interface_hidden_status: bool = False

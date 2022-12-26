@@ -1,7 +1,7 @@
 from pygame import font, Surface
 
 from .Assets_load import json_load, font_load
-from .Render import character_speech_text_coordinates
+from .Universal_computing import  surface_size
 font.init()
 """
 Contains the code for text of dialogues.
@@ -64,20 +64,33 @@ class DialoguesWords:
         """
         if text_type == 'speaker':
             self.font_size: int = backgrounds_surface.get_height() // 50
-            self.font_coordinates: tuple[int, int] = character_speech_text_coordinates(
-                text_canvas_surface=self.text_canvas,
-                font_size=None,
+            self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(
                 text_type='name')
         if text_type == 'words':
             self.font_size: int = backgrounds_surface.get_height() // 60
-            self.font_coordinates: tuple[int, int] = character_speech_text_coordinates(
-                text_canvas_surface=self.text_canvas,
-                font_size=self.font_size,
+            self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(
                 text_type='speech')
         self.swap_font(font_name=self.font_name)
         text_surface: Surface = self.set_font.render(text_string, True, text_color)
 
         return text_surface, self.font_coordinates
+
+    def character_speech_text_coordinates(self, *, text_type: str) -> tuple[int, int]:
+        """
+        Generate coordinates of text for render.
+
+        :param text_type: String: 'speech' or 'name'!
+        :return: Tuple with x and y int coordinates for speech text render.
+        """
+        text_canvas_surface_size: tuple[int, int] = surface_size(self.text_canvas)
+        text_canvas_size_x, text_canvas_size_y = text_canvas_surface_size
+        x_result: int = (text_canvas_size_x // 100) * 15
+        if text_type == 'speech':
+            y_result: int = (self.font_size * 2) + ((text_canvas_size_y // 100) * 5)
+            return x_result, y_result
+        if text_type == 'name':
+            y_result: int = (text_canvas_size_y // 100) * 5
+            return x_result, y_result
 
 
 def generate_dialogues():

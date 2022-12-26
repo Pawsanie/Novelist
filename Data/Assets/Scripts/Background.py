@@ -1,10 +1,69 @@
 from pygame import display, image, transform, Surface
 
 from .Assets_load import image_load, json_load
-from .Render import background_sprite_data
+from .Universal_computing import surface_size
 """
 Contains code responsible for rendering scenes.
 """
+
+
+def background_sprite_data(*, display_surface: Surface) -> tuple[tuple[int, int], tuple[int, int]]:
+    """
+    Make size of background and it coordinates.
+
+    :param display_surface: display.set_mode surface.
+    :return: Tuple with x and y sizes for background image.
+             These sizes depends display size.
+             And tuple with coordinates of rendering.
+    """
+
+    def scale_y(display_ratio) -> int:
+        """
+        Calculate background Y size.
+        :return: int
+        """
+        size_x, size_y = display_size
+        if size_x > size_y:
+            while display_ratio != _16x9:
+                if display_ratio > _16x9:
+                    size_y += 1
+                    display_ratio = int(background_size_x / size_y * 100)
+                else:
+                    size_y -= 1
+                    display_ratio = int(background_size_x / size_y * 100)
+        else:
+            while display_ratio != _16x9:
+                size_y -= 1
+                display_ratio = int(background_size_x / size_y * 100)
+        return size_y
+
+    # Display resolution:
+    # _5x4: int = int(5 / 4 * 100)  # Dinosaurs
+    _16x9: int = int(16 / 9 * 100)  # Movie, game, text and art.
+    # _21x9: int = int(21 / 9 * 100)  # Video montage and code.
+    # _32x9: int = int(32 / 9 * 100)  # 27 inches or more.
+
+    display_size: tuple[int, int] = surface_size(display_surface)
+    ratio_of_sizes = int(display_size[0] / display_size[1] * 100)
+    if ratio_of_sizes == _16x9:
+        return display_size, (0, 0)
+    else:
+        background_size_x, background_size_y = display_size
+        display_aspect_ratio = int(background_size_x / background_size_y * 100)
+        # Scale Y size!:
+        if background_size_x // 2 <= background_size_y:
+            background_size_y = scale_y(display_aspect_ratio)
+        # Scale X size!:
+        else:
+            while background_size_x // 2 > background_size_y:
+                background_size_x -= 1
+            background_size_y = scale_y(int(background_size_x / background_size_y * 100))
+        # Result:
+        background_surface_size = (background_size_x, background_size_y)
+        render_coordinates = ((display_size[0] // 2) - (background_size_x // 2),
+                              (display_size[1] // 2) - (background_size_y // 2))
+        # display.set_mode(display_size)
+        return background_surface_size, render_coordinates
 
 
 class Background:

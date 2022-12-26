@@ -42,7 +42,7 @@ class GamePlayAdministrator(BaseMenu):
     def gameplay_input(self, event):
         if self.scene_validator.scene_gameplay_type == 'reading':
             self.gameplay_reading.gameplay_input(event)
-        if self.scene_validator.scene_gameplay_type == 'reading':
+        if self.scene_validator.scene_gameplay_type == 'choice':
             ...
-        if self.scene_validator.scene_gameplay_type == 'reading':
+        if self.scene_validator.scene_gameplay_type is False:
             ...
