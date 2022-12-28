@@ -211,7 +211,9 @@ Localization of the standard interface is stored in the appropriate files: 'eng.
                                        └── :file_folder:Localization<br>
                                                 ├── :page_facing_up:eng.json **(Can be your localization)**<br>
                                                 └── :page_facing_up:ui_localizations_data.json<br>
-###Json interface settings files:
+
+**Json interface settings files:**<br>
+
 **Example of 'ui_localizations_data.json' file:**
 ```json
 {
@@ -279,7 +281,8 @@ Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
                     └── :file_folder:UI<br>
                             └── :file_folder:Buttons<br>
 
-###Learn more about coding your own interface:
+**Learn more about coding your own interface:**<br>
+
 **Files locations:**<br>
 **./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
