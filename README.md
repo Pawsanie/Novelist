@@ -332,18 +332,23 @@ The game reads them at startup and saves them there, with the consent to change 
 
 'Visual_novel_game.py' initializes game and call 'GameMaster' class.<br>
 During the initiation process, the script creates the '**SettingsKeeper**' object that is responsible for the game settings.<br>
-**GameMaster** class control game loop and generates lower-level entities that control the gameplay.<br>
+The **GameMaster** class control game loop and generates lower-level entities that control the gameplay.<br>
 * **StageDirector** - Controls the actions on the stage.<br>
 Controls who and what will say as well as the appearance of the characters.<br>
 Manages the scene background.<br>
-Generates '**Character**', '**Background**' and '**DialoguesWords**' objects used to control staging.
-* **SceneValidator** - controls the order of the scenes.
+Generates a '**Character**', '**Background**' and '**DialoguesWords**' objects used to control staging.
+* **SceneValidator** - controls the order of the scenes.<br>
 Stores inside itself information about the type of scene with which the StageDirector.
 * **InterfaceController** - controls all interface with which the player can interact.<br>
 Generates '**Button**' instances and make menus from them.
 * **InputCommandsReactions** - catches user commands inside the game and passes them inside the loop to other entities.<br>
 Generates '**GamePlayAdministrator**' and all **menus** objects.
 * **Render** - renders the image after the calculations.
+
+Simplified: the **InputCommandsReactions** processes user commands.<br>
+The **SceneValidator** checks for changes.<br>
+The **StageDirector** builds a scene.<br>
+**Or** the **InterfaceController** switches menu.
 
 **Files locations:**<br>
 **./**:open_file_folder:Data<br>
