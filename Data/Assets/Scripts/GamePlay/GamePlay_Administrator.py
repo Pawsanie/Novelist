@@ -3,6 +3,7 @@ from ..Scene_Validator import SceneValidator
 from ..User_Interface.Interface_Controller import InterfaceController
 from .GamePlay_Reading import GamePlayReading
 from ..User_Interface.UI_Base_menu import BaseMenu
+from .GamePlay_dialogues_choice import GamePlayDialoguesChoice
 """
 Contains gameplay code.
 """
@@ -38,11 +39,19 @@ class GamePlayAdministrator(BaseMenu):
             interface_controller=self.interface_controller,
             scene_validator=self.scene_validator
         )
+        self.gameplay_dialogues_choice = GamePlayDialoguesChoice(
+            stage_director=self.stage_director,
+            interface_controller=self.interface_controller,
+            scene_validator=self.scene_validator
+        )
 
     def gameplay_input(self, event):
+        # Gameplay reading:
         if self.scene_validator.scene_gameplay_type == 'reading':
             self.gameplay_reading.gameplay_input(event)
+        # Gameplay choice:
         if self.scene_validator.scene_gameplay_type == 'choice':
-            ...
+            self.gameplay_dialogues_choice.gameplay_input(event)
+        #
         if self.scene_validator.scene_gameplay_type is False:
             ...

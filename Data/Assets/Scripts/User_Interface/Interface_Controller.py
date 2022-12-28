@@ -8,7 +8,9 @@ Contents code for user interface controller.
 
 class InterfaceController:
     """
-    Generate user interface: text canvas, buttons, menu and control it.
+    Generate user interface: buttons, menu and control it.
+    InterfaceController used in "GamePlay_Administrator.py" for gameplay programming.
+    Created in GameMaster class in Game_Master.py.
     """
     def __init__(self, *, background_surface: Surface, language_flag: str):
         """
@@ -25,9 +27,10 @@ class InterfaceController:
             language_flag=language_flag,
             background_surface=self.background_surface)
         # In game user interface:
-        # "True/False" and "True" as default.
+        # "True/False" and "False" as default.
         self.gameplay_interface_hidden_status: bool = False
         self.gameplay_interface_status: bool = False
+        # Menu interface:
         # "True/False" and "False" as default.
         self.game_menu_status: bool = False
         self.settings_menu_status: bool = False
@@ -36,21 +39,25 @@ class InterfaceController:
         self.save_menu_status: bool = False
         self.settings_status_menu_status: bool = False
         # Start Menu:
-        # "True/False" and "False" as default.
+        # "True/False" and "True" as default.
         self.start_menu_status: bool = True
         # Exit menu "from called" flag:
+        # "True/False" and "start_menu_flag - True" as default.
         self.exit_from_start_menu_flag: bool = True
         self.exit_from_game_menu_flag: bool = False
         # Setting menu "from called" flag:
+        # "True/False" and "start_menu_flag - True" as default.
         self.settings_from_start_menu_flag: bool = True
         self.settings_from_game_menu_flag: bool = False
         # Load menu "from called" flag:
+        # "True/False" and "start_menu_flag - True" as default.
         self.load_from_start_menu_flag: bool = True
         self.load_from_game_menu_flag: bool = False
 
     def get_ui_buttons_dict(self) -> dict[str]:
         """
         Generate user interface buttons.
+
         :return: Dict with buttons names strings as values.
         """
         if self.gameplay_interface_status is True:
@@ -66,7 +73,7 @@ class InterfaceController:
         if self.save_menu_status is True:
             return self.buttons_dict['ui_save_menu_buttons']
         if self.settings_status_menu_status is True:
-            return self.buttons_dict['ui_settings_status']
+            return self.buttons_dict['ui_settings_status_buttons']
         if self.start_menu_status is True:
             return self.buttons_dict['ui_start_menu_buttons']
 

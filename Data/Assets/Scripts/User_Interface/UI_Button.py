@@ -14,6 +14,8 @@ Contents code for user interface buttons.
 class Button:
     """
     Generate interface button surface and coordinates for render.
+
+    Instances are created from button_generator function by InterfaceController class.
     """
     def __init__(self, *, background_surface: Surface, button_name: str,
                  button_text: str | None, button_image_data: dict[str, int],
@@ -184,6 +186,28 @@ class Button:
         )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
+    def gameplay_dialogues_choice(self, *, background_surface_size,
+                                  background_surface_size_y_middle, place_flag, multiplier):
+        """
+        Coordinates for gameplay dialogues choice buttons.
+        """
+        # X:
+        button_coordinates_x: int = (
+                (background_surface_size[0] // 2)
+                - (self.button_size[0] // 2))
+        # Y:
+        button_coordinates_y: int = (
+            (background_surface_size_y_middle - (self.button_size[1] // 2))
+            + ((self.button_size[1] * 2) * place_flag['index_number'])
+        )
+        if multiplier != 0:
+            button_coordinates_y: int = (
+                button_coordinates_y
+                - (background_surface_size_y_middle // multiplier)
+                                         )
+
+        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
     def coordinates(self, *, background_surface: Surface):
         """
         Generate coordinates.
@@ -256,6 +280,14 @@ class Button:
                 place_flag=place_flag)
             return
 
+        if place_flag['type'] == 'gameplay_dialogues_choice':
+            self.gameplay_dialogues_choice(
+                background_surface_size=background_surface_size,
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                place_flag=place_flag,
+                multiplier=3)
+            return
+
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def localization_button_text(self, *, language_flag):
@@ -321,6 +353,7 @@ class Button:
 def button_generator(language_flag: str, background_surface: Surface) -> dict[str, dict[str, Button]]:
     """
     Generate dict with buttons for user interface.
+    Used by InterfaceController.
 
     :return: A nested dictionary of buttons group and an instance of the Button class.
     """

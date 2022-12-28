@@ -6,7 +6,6 @@ from .Render import Render
 from .Scene_Validator import SceneValidator
 from .User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
-from .GamePlay.GamePlay_Reading import GamePlayReading
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
@@ -40,12 +39,6 @@ class GameMaster:
         self.interface_controller: InterfaceController = InterfaceController(
             background_surface=self.stage_director.background_surface,
             language_flag=self.language_flag
-        )
-        # Gameplay input controller:
-        self.gameplay_reading: GamePlayReading = GamePlayReading(
-            stage_director=self.stage_director,
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
         )
         # Render settings:
         self.render: Render = Render(

@@ -6,7 +6,7 @@
     "ui_load_menu_buttons",
     "ui_save_menu_buttons",
     "ui_setting_menu_buttons",
-    "ui_settings_status",
+    "ui_settings_status_buttons",
     "ui_start_menu_buttons"
   ],
   "localizations": [

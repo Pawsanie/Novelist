@@ -13,7 +13,8 @@ Stage director control scenes by class methods interfaces.
 class StageDirector:
     """
     Controls game scenes and assets loads.
-    StageDirector used in "GamePlay_Reading.py" for gameplay programming.
+    StageDirector used in "GamePlay_Administrator.py" for gameplay programming.
+    Created in GameMaster class in Game_Master.py.
     """
     def __init__(self, *, display_screen: display, language_flag: str):
         """
@@ -129,6 +130,7 @@ class StageDirector:
     def get_speech(self) -> tuple[Surface, tuple[int, int]]:
         """
         Get character speech text and coordinates in tuple[int, int].
+
         :return: tuple[Surface, tuple[int, int]]
         """
         return self.speech
@@ -136,6 +138,7 @@ class StageDirector:
     def get_speaker(self) -> tuple[Surface, tuple[int, int]]:
         """
         Get character speaker name text and coordinates in tuple[int, int].
+
         :return: tuple[Surface, tuple[int, int]]
         """
         return self.speaker
@@ -143,6 +146,7 @@ class StageDirector:
     def get_background(self) -> tuple[Surface, tuple[int, int]]:
         """
         Get tuple with background surface and background coordinates in tuple[int, int].
+
         :return: tuple[Surface, tuple[int, int]]
         """
         return self.background_surface, self.background_coordinates
