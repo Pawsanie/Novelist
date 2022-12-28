@@ -340,7 +340,7 @@ Generates '**Character**', '**Background**' and '**DialoguesWords**' objects use
 * **SceneValidator** - controls the order of the scenes.
 Stores inside itself information about the type of scene with which the StageDirector.
 * **InterfaceController** - controls all interface with which the player can interact.<br>
-Generates 'Button' and make menus from them.
+Generates '**Button**' instances and make menus from them.
 * **InputCommandsReactions** - catches user commands inside the game and passes them inside the loop to other entities.<br>
 Generates '**GamePlayAdministrator**' and all **menus** objects.
 * **Render** - renders the image after the calculations.
