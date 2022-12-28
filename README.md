@@ -342,7 +342,7 @@ Stores inside itself information about the type of scene with which the StageDir
 * **InterfaceController** - controls all interface with which the player can interact.<br>
 Generates 'Button' and make menus from them.
 * **InputCommandsReactions** - catches user commands inside the game and passes them inside the loop to other entities.<br>
-Generates '**GamePlayAdministrator**' and all menus objects.
+Generates '**GamePlayAdministrator**' and all **menus** objects.
 * **Render** - renders the image after the calculations.
 
 **Files locations:**<br>
