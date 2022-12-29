@@ -52,6 +52,6 @@ class GamePlayAdministrator(BaseMenu):
         # Gameplay choice:
         if self.scene_validator.scene_gameplay_type == 'choice':
             self.gameplay_dialogues_choice.gameplay_input(event)
-        #
+        # Have no gameplay:
         if self.scene_validator.scene_gameplay_type is False:
-            ...
+            pass

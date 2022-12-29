@@ -10,7 +10,7 @@ from Assets.Scripts.Game_Master import GameMaster
 Contains app shell code.
 """
 
-start_settings: SettingsKeeper = SettingsKeeper()
+app_name: str = "Visual Novel"
 
 
 def run():
@@ -18,6 +18,7 @@ def run():
     Initialization.
     """
     # Set game settings:
+    start_settings: SettingsKeeper = SettingsKeeper()
     type_of_system: str = start_settings.system_type
     screen: None = None
     # Display settings:
@@ -30,8 +31,9 @@ def run():
         screen: Surface = display.set_mode((screen_size_x, screen_size_y), FULLSCREEN)
     # Path to icons:
     path_to_icons: str = path.join(*['UI', 'Icons'])
+    # Application name in window:
+    display.set_caption(app_name)
     # Window settings:
-    display.set_caption("Visual Novel")
     if type_of_system == 'Windows':
         display.set_icon(image_load(art_name='win_icon',
                                     file_format='png',

@@ -74,6 +74,7 @@ In last scene next_scene key **must** be **'FINISH'**.
          }
       },
       "special_effects": false,
+      "gameplay_type": "reading",
       "past_scene": "START",
       "next_scene": "scene_02"
    }
@@ -305,6 +306,26 @@ And create and fill a new 'ui_*_menu_buttons.json' file, for your menu.
 
 Finally, you will need to program your menu to work in a new python file.<br>
 The 'UI_Start_menu.py' as example.
+
+## The name and icon of the game window:
+In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>
+**File location:**<br>
+**./**:open_file_folder:Data<br>
+   └── :page_facing_up:Visual_novel_game.py
+
+**Example of app_name variable:**
+```python
+app_name: str = "Visual Novel"
+```
+
+In order to change the program window icons, please replace the icon files in the '**Icons**' folder.<br>
+Icons images must be in **png** format and have the default size and titles.<br>
+**Folder location:**<br>
+./:open_file_folder:Data<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Images<br>
+                    └── :file_folder:UI<br>
+                            └── :file_folder:Icons<br>
 
 ## GamePlay:
 All gameplay code is stored in the folder 'GamePlay'.<br>
