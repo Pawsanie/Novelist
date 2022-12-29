@@ -1,0 +1,12 @@
+{
+  "scene_01": false,
+
+  "test_scene_02": {
+    "choice_01": "Got to Scene 01",
+    "choice_02": "ERROR!",
+    "choice_03": "Go to Scene 03"
+  },
+
+  "test_scene_03": false
+
+}

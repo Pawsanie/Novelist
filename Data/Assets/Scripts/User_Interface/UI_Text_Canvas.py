@@ -23,6 +23,7 @@ class TextCanvas:
         )
         self.text_canvas_surface: Surface = Surface((0, 0))
         self.text_canvas_coordinates: tuple[int, int] = (0, 0)
+        self.text_canvas_status: bool = True
         # Calculate:
         self.scale(background_surface=background_surface)
 
@@ -30,7 +31,10 @@ class TextCanvas:
         """
         Generate text canvas surface and coordinates for render.
         """
-        return self.text_canvas_surface, self.text_canvas_coordinates
+        if self.text_canvas_status is True:
+            return self.text_canvas_surface, self.text_canvas_coordinates
+        if self.text_canvas_status is False:
+            return Surface((0, 0)), (0, 0)
 
     def scale(self, *, background_surface):
         self.text_canvas_generator(background_surface=background_surface)

@@ -1,0 +1,18 @@
+{
+  "scene_01": false,
+
+  "test_scene_02": {
+    "choice_01": {
+      "branching": "scene_01"
+    },
+    "choice_02": {
+      "branching": false
+    },
+    "choice_03": {
+      "branching": "test_scene_03"
+    }
+  },
+
+  "test_scene_03": false
+
+}

@@ -16,6 +16,7 @@ class SceneValidator:
         """
         # Screenplay loading:
         self.screenplay: dict = json_load(path_list=['Scripts', 'Json_data', 'screenplay'])
+        self.choices_data: dict = json_load(path_list=['Scripts', 'Json_data', 'choices_data'])
         # Stage Director settings:
         self.stage_director: StageDirector = stage_director
         # Scene FLAG:
@@ -44,17 +45,25 @@ class SceneValidator:
                     self.stage_director.set_actor(character=name).move_to_right()
                 if character['character_start_position'] == 'left':
                     self.stage_director.set_actor(character=name).move_to_left()
+
             # Scene FLAG settings!:
             self.scene: str = self.scene_flag
             self.next_scene: str = scene['next_scene']
             self.past_scene: str = scene['past_scene']
             self.scene_gameplay_type: str = scene['gameplay_type']
+
             # Scene text settings!:
-            if scene['gameplay_type'] is not False:
-                self.stage_director.set_words(
-                    script=self.stage_director.text_dict.get(
-                        self.stage_director.language_flag)[self.scene]
-                )
+            if self.scene_gameplay_type is not False:
+                if self.scene_gameplay_type == 'reading':
+                    self.stage_director.text_canvas.text_canvas_status = True
+                    self.stage_director.set_reading_words(
+                        script=self.stage_director.text_dict_reading.get(
+                            self.stage_director.language_flag)[self.scene]
+                    )
+                if self.scene_gameplay_type == 'choice':
+                    self.stage_director.text_canvas.text_canvas_status = False
+            else:
+                self.stage_director.text_canvas.text_canvas_status = False  # Remake?
             # Special effects!:
             if scene['special_effects'] is not False:
                 ...

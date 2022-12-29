@@ -16,10 +16,25 @@
     "special_effects": false,
     "gameplay_type": "reading",
     "past_scene": "START",
-    "next_scene": "test_scene02"
+    "next_scene": "test_scene_02"
   },
 
-   "test_scene02": {
+   "test_scene_02": {
+    "background": "back_ground_01",
+    "actors": {
+      "Nurse": {
+        "character_start_position": "middle",
+        "character_pose": "2",
+        "character_plan": "first_plan"
+      }
+    },
+    "special_effects": false,
+    "gameplay_type": "choice",
+    "past_scene": "scene_01",
+    "next_scene": false
+  },
+
+  "test_scene_03": {
     "background": "back_ground_01",
     "actors": {
       "Nurse": {
@@ -30,9 +45,8 @@
     },
     "special_effects": false,
     "gameplay_type": "reading",
-    "past_scene": "scene_01",
+    "past_scene": "test_scene_02",
     "next_scene": "FINISH"
   }
-
 
 }

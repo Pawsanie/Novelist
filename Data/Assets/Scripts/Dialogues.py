@@ -105,13 +105,15 @@ def generate_dialogues():
     )['language_flags'])
 
     for flag in language_flags:
-        json_values: dict = json_load(
-            [
-                'Scripts',
-                'Json_data',
-                'Dialogues',
-                flag
-            ]
-        )
-        result.update({flag: json_values})
+        for dialogs_type in ['Reading', 'Choice']:
+            json_values: dict = json_load(
+                [
+                    'Scripts',
+                    'Json_data',
+                    'Dialogues',
+                    dialogs_type,
+                    flag
+                ]
+            )
+            result.setdefault(dialogs_type, {flag: json_values})
     return result

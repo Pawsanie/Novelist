@@ -46,8 +46,8 @@ pip install opencv-python
 ### Scene order:
 To adjust the scene order, you need to change the json file **'screenplay.json'**.<br>
 At the same time, the first scene **must** be named **scene_01**!<br>
-And 'past_scene' key of 'scene_01' **must** be **'START'**.<br>
-In last scene next_scene key **must** be **'FINISH'**.
+And the 'past_scene' key of 'scene_01' **must** be **'START'**.<br>
+In the last scene next_scene key **must** be **'FINISH'**.<br>
 
 **File location:**<br>
 ./:open_file_folder:Data<br>
@@ -82,7 +82,8 @@ In last scene next_scene key **must** be **'FINISH'**.
 ```
 In this case, the keys indicate which scene was before 'scene_01' and which should be after (scene_02).<br>
 Scenes 'START' or 'FINISH' do not exist.<br>
-But the game focuses on its flags.
+But the game focuses on its flags.<br>
+Please note that a '**gameplay_type**' key value must be **reading/choice/false** where the first two options are strings.
 
 ### Dialogues:
 Game dialogues have to be writen in **lang_tag.json** file... **eng.json** as example...<br>
@@ -95,22 +96,23 @@ You need to name localization language tags for translation in the game settings
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
                               └── :file_folder:Dialogues<br>
-                                       ├── :page_facing_up:eng.json **(Can be your localization)**<br>
+                                       ├── :file_folder:Reading<br>
+                                       │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
                                        └── :page_facing_up:dialogues_localizations_data.json<br>
 
 **Example of one scene in 'eng.json' file:**
 ```json
 {
    "scene_01": {
-      "who": [
-         "Test Character",
-         "#00ffff"
-      ],
-      "what": [
-         "Hello World!",
-         "#ffffff"
-      ]
-   }
+    "who": {
+      "text": "Test Chan",
+      "color": "#00ffff"
+    },
+    "what": {
+      "text": "Hello World!",
+      "color": "#ffffff"
+    }
+  }
 }
 ```
 **Example of 'dialogues_localizations_data.json' file:**
@@ -385,7 +387,7 @@ The **StageDirector** builds a scene.<br>
                      ├── :page_facing_up:Character.py<br>
                      ├── :page_facing_up:Dialogues.py<br>
                      ├── :page_facing_up:Game_Master.py<br>
-                     ├── :page_facing_up:Reactrions_to_input_commands.py<br>
+                     ├── :page_facing_up:Reactions_to_input_commands.py<br>
                      ├── :page_facing_up:Render.py<br>
                      ├── :page_facing_up:Scene_Validator.py<br>
                      ├── :page_facing_up:Settings_Keeper.py<br>

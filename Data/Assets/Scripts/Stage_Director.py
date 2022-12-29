@@ -45,11 +45,15 @@ class StageDirector:
         self.text_controller = DialoguesWords(
             font_name=None,
             text_canvas=self.text_canvas_surface)
-        self.text_dict: dict[str] = generate_dialogues()
-        self.text_string: str = ''  # Blank as default.
-        self.text_speaker: str = ''  # Blank as default.
+        self.text_dict_all: dict[str] = generate_dialogues()
+        # Text Reading gameplay:
+        self.text_dict_reading: dict[str] = self.text_dict_all['Reading']
+        self.text_string_reading: str = ''  # Blank as default.
+        self.text_speaker_reading: str = ''  # Blank as default.
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        # Text Choice gameplay:
+        self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
         # Game UI buttons:
         """Arguments processing:"""
         self.display_screen: display = display_screen
@@ -98,31 +102,31 @@ class StageDirector:
         self.background_coordinates: tuple[int, int] = background_data[1]
         for character in self.characters_dict.values():
             character.kill()
-        self.text_string: str = ''
-        self.text_speaker: str = ''
+        self.text_string_reading: str = ''
+        self.text_speaker_reading: str = ''
 
-    def set_words(self, *, script: dict):
+    def set_reading_words(self, *, script: dict):
         """
         Set a speaker and his words and these text colors.
         Get data from self.text_dict.
 
         :param script: Dict with scene words and speaker.
         """
-        speaker: str = script['who'][0]
-        speaker_color: str = script['who'][1]
-        text: str = script['what'][0]
-        text_color: str = script['what'][1]
-        self.text_string: str = text
-        self.text_speaker: str = speaker
+        speaker: str = script['who']['text']
+        speaker_color: str = script['who']['color']
+        text: str = script['what']['text']
+        text_color: str = script['what']['color']
+        self.text_string_reading: str = text
+        self.text_speaker_reading: str = speaker
         self.speech: tuple[Surface, tuple[int, int]] = \
             self.text_controller.make_words(
-                text_string=self.text_string,
+                text_string=self.text_string_reading,
                 text_color=text_color,
                 text_type='words',
                 backgrounds_surface=self.background_surface)
         self.speaker: tuple[Surface, tuple[int, int]] = \
             self.text_controller.make_words(
-                text_string=self.text_speaker,
+                text_string=self.text_speaker_reading,
                 text_color=speaker_color,
                 text_type='speaker',
                 backgrounds_surface=self.background_surface)

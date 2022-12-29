@@ -38,6 +38,7 @@ class GamePlayDialoguesChoice(BaseMenu):
         Processing the gameplay interface.
         """
         button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
+        choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
 
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:

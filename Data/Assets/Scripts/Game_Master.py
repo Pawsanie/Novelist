@@ -1,6 +1,6 @@
 from pygame import Surface
 
-from .Reactrions_to_input_commands import main_loop, InputCommandsReactions
+from .Reactions_to_input_commands import main_loop, InputCommandsReactions
 from .Stage_Director import StageDirector
 from .Render import Render
 from .Scene_Validator import SceneValidator
