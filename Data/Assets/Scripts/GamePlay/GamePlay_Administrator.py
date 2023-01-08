@@ -48,9 +48,13 @@ class GamePlayAdministrator(BaseMenu):
     def gameplay_input(self, event):
         # Gameplay reading:
         if self.scene_validator.scene_gameplay_type == 'reading':
+            self.interface_controller.gameplay_type_reading = True
+            self.interface_controller.gameplay_type_choice = False
             self.gameplay_reading.gameplay_input(event)
         # Gameplay choice:
         if self.scene_validator.scene_gameplay_type == 'choice':
+            self.interface_controller.gameplay_type_reading = False
+            self.interface_controller.gameplay_type_choice = True
             self.gameplay_dialogues_choice.gameplay_input(event)
         # Have no gameplay:
         if self.scene_validator.scene_gameplay_type is False:

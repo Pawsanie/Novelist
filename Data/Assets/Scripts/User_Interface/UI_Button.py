@@ -8,6 +8,7 @@ from .UI_buttons_calculations import button_size
 font.init()
 """
 Contents code for user interface buttons.
+Path of code of user interface buttons in 'UI_buttons_calculations.py' file...
 """
 
 
@@ -357,9 +358,9 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
 
     :return: A nested dictionary of buttons group and an instance of the Button class.
     """
-    result, ui_buttons_json = {}, {}
+    result: dict = {}
     # localizations instructions from 'ui_localizations_data.json': UI files and languages for UI.
-    localizations_data: dict = json_load(['Scripts', 'Json_data', 'UI', 'Localization', 'ui_localizations_data'])
+    localizations_data: dict[str] = json_load(['Scripts', 'Json_data', 'UI', 'Localization', 'ui_localizations_data'])
     # localizations data:
     ui_buttons_files: tuple[str] = (localizations_data['ui_buttons_files'])
     localizations: tuple[str] = (localizations_data['localizations'])
@@ -372,7 +373,7 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
 
     # User Interface buttons:
     for file_name in ui_buttons_files:
-        ui_buttons_json: dict = json_load(['Scripts', 'Json_data', 'UI', file_name])
+        ui_buttons_json: dict[str] = json_load(['Scripts', 'Json_data', 'UI', file_name])
         ui_buttons: dict = {}
         for key in ui_buttons_json:
 

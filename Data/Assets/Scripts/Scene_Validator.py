@@ -16,7 +16,7 @@ class SceneValidator:
         """
         # Screenplay loading:
         self.screenplay: dict = json_load(path_list=['Scripts', 'Json_data', 'screenplay'])
-        self.choices_data: dict = json_load(path_list=['Scripts', 'Json_data', 'choices_data'])
+        self.choices_data: dict = json_load(path_list=['Scripts', 'Json_data', 'Dialogues', 'choices_data'])
         # Stage Director settings:
         self.stage_director: StageDirector = stage_director
         # Scene FLAG:

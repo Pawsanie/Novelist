@@ -118,6 +118,18 @@ class Render:
         self.background_render()
 
     @render
+    def gameplay_choice_scene(self):
+        """
+        Render choice scene.
+        """
+        # Characters render:
+        self.characters_render()
+        # Gameplay ui render:
+        self.ui_buttons_render()
+        # Background render:
+        self.background_render()
+
+    @render
     def game_menu(self):
         """
         Render game menu scene.
@@ -164,7 +176,10 @@ class Render:
         Display image render.
         """
         if self.interface_controller.gameplay_interface_status is True:
-            self.gameplay_read_scene()
+            if self.interface_controller.gameplay_type_reading is True:
+                self.gameplay_read_scene()
+            if self.interface_controller.gameplay_type_choice is True:
+                self.gameplay_choice_scene()
         if self.interface_controller.game_menu_status is True:
             self.game_menu()
         if self.interface_controller.settings_menu_status is True:

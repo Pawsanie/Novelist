@@ -26,6 +26,7 @@ class InterfaceController:
         self.buttons_dict: dict = button_generator(
             language_flag=language_flag,
             background_surface=self.background_surface)
+        self.gameplay_choice_buttons: dict = {}
         # In game user interface:
         # "True/False" and "False" as default.
         self.gameplay_interface_hidden_status: bool = False
@@ -53,6 +54,9 @@ class InterfaceController:
         # "True/False" and "start_menu_flag - True" as default.
         self.load_from_start_menu_flag: bool = True
         self.load_from_game_menu_flag: bool = False
+        # GamePlay type:
+        self.gameplay_type_reading: bool = True
+        self.gameplay_type_choice: bool = False
 
     def get_ui_buttons_dict(self) -> dict[str]:
         """
@@ -61,7 +65,10 @@ class InterfaceController:
         :return: Dict with buttons names strings as values.
         """
         if self.gameplay_interface_status is True:
-            return self.buttons_dict['ui_gameplay_buttons']
+            if self.gameplay_type_reading is True:
+                return self.buttons_dict['ui_gameplay_buttons']
+            if self.gameplay_type_choice is True:
+                return self.gameplay_choice_buttons
         if self.game_menu_status is True:
             return self.buttons_dict['ui_game_menu_buttons']
         if self.settings_menu_status is True:

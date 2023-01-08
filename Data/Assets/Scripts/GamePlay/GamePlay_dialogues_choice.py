@@ -1,9 +1,13 @@
-from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse
+from os import path
+
+from pygame import mouse
 
 from ..Stage_Director import StageDirector
 from ..Scene_Validator import SceneValidator
 from ..User_Interface.Interface_Controller import InterfaceController
 from ..User_Interface.UI_Base_menu import BaseMenu
+from ..User_Interface.UI_Button import Button
+from ..Assets_load import json_load
 """
 Contains gameplay reading code.
 """
@@ -32,13 +36,63 @@ class GamePlayDialoguesChoice(BaseMenu):
             scene_validator=scene_validator)
         # Stage Director settings:
         self.stage_director = stage_director
+        # Gameplay choice buttons generate:
+        self.dialogues_buttons: dict = {}
+        self.dialogues_choice_buttons_generations()
+
+    def dialogues_choice_buttons_generations(self):
+        """
+        Generate dict with buttons for dialogues choice gameplay.
+        This is a nested dictionary of buttons group and an instance of the Button class.
+        """
+        self.dialogues_buttons: dict = {}
+        # localizations instructions from 'dialogues_localizations_data.json'.
+        localizations_data: dict[str] = json_load(
+            ['Scripts', 'Json_data', 'Dialogues', 'dialogues_localizations_data']
+        )
+        # localizations data:
+        localizations: tuple[str] = (
+            localizations_data['language_flags']
+        )
+        # All buttons text localizations:
+        all_buttons_text_localizations_dict: dict = {}
+        for language in localizations:
+            all_buttons_text_localizations_dict.update(
+                {language: json_load(['Scripts', 'Json_data', 'Dialogues', 'Choice', language])}
+            )
+        choice_buttons_text: dict[str] = all_buttons_text_localizations_dict[self.stage_director.language_flag]
+        # Generate dialogues choice buttons:
+        dialogues_buttons: dict = {}
+        for scene in choice_buttons_text:
+            if choice_buttons_text[scene] is not False:
+                for index, choice in enumerate(choice_buttons_text[scene]):
+                    # Generate text localizations for button:
+                    buttons_text_localization: dict = {}
+                    for language in all_buttons_text_localizations_dict:
+                        buttons_text_localization.update(
+                            {language: all_buttons_text_localizations_dict[language][scene][choice]}
+                        )
+                    # Generate sprite data for button:
+                    image_data_dict: dict = json_load(['Scripts', 'Json_data', 'Dialogues', 'dialogues_choice_buttons'])
+                    image_data_dict.update({"index_number": index})
+                    # Generate button:
+                    dialogues_buttons.update(
+                        {choice: Button(
+                            background_surface=self.stage_director.background_surface,
+                            button_name=scene,
+                            button_text=choice_buttons_text[scene][choice],
+                            button_image_data=image_data_dict,
+                            language_flag=self.stage_director.language_flag,
+                            button_text_localization_dict=buttons_text_localization
+                        )})
+                    self.dialogues_buttons.setdefault(scene, dialogues_buttons)
 
     def button_gameplay_ui_status(self):
         """
-        Processing the gameplay interface.
+        Processing the gameplay choice.
         """
-        button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
         choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
+        self.interface_controller.gameplay_choice_buttons = self.dialogues_buttons[self.scene_validator.scene]
 
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:
@@ -46,8 +100,12 @@ class GamePlayDialoguesChoice(BaseMenu):
             # Clicking a virtual button with a mouse:
             if gameplay_ui_buttons[1] is True:
                 command = gameplay_ui_buttons[0]
-                if command == '  ':
-                    ...
+                for choice in choice_data:
+                    if command == choice:
+                        if choice_data['branching'] is not False:
+                            self.scene_validator.scene = choice_data['branching']
+                        if choice_data['counter_change'] is not False:
+                            ...
 
     def key_bord_gameplay_key_down(self, event):
         ...
