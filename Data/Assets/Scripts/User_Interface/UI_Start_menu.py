@@ -63,6 +63,9 @@ class StartMenu(BaseMenu):
         # Load menu "from called" status flag:
         self.interface_controller.load_from_start_menu_flag = True
         self.interface_controller.load_from_game_menu_flag = False
+        # Setting menu "from called" status flag:
+        self.interface_controller.settings_from_start_menu_flag = True
+        self.interface_controller.settings_from_game_menu_flag = False
         # Input:
         self.start_menu_input_mouse()
         self.input_wait_ready()
