@@ -55,7 +55,8 @@ class InterfaceController:
         self.load_from_start_menu_flag: bool = True
         self.load_from_game_menu_flag: bool = False
         # GamePlay type:
-        self.gameplay_type_reading: bool = True
+        # "True/False" and "False" as default.
+        self.gameplay_type_reading: bool = False
         self.gameplay_type_choice: bool = False
 
     def get_ui_buttons_dict(self) -> dict[str]:
@@ -84,11 +85,15 @@ class InterfaceController:
         if self.start_menu_status is True:
             return self.buttons_dict['ui_start_menu_buttons']
 
-    def scale(self, *, background_surface):
+    def scale(self, *, language_flag: None or str = None, background_surface):
         """
         :param background_surface: pygame.Surface of background.
         :type background_surface: Surface
+        :param language_flag: str with new 'language_flag'.
+        :type language_flag: str
         """
+        if language_flag is not None:
+            self.language_flag: str = language_flag
         ui_buttons_dict = self.get_ui_buttons_dict()
         for key in ui_buttons_dict:
             button = ui_buttons_dict[key]

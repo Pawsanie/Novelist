@@ -24,15 +24,15 @@ def main_loop(func):
     """
     def coroutine(*args, **kwargs):
         self = args[0]  # class method`s 'self.' for in class decorator.
-        program_running = True
+        program_running: bool = True
         main_cycle_fps_clock = time.Clock()
-        main_cycle_fps = 30
+        main_cycle_fps: int = 30
         while program_running:
             for event in pygame_events.get():
                 # Quit by exit_icon.
                 if event.type == QUIT:
                     quit()
-                    program_running = False
+                    program_running: bool = False
                     exit(0)
                 # Set scene:
                 if self.scene_validator.scene_flag != self.scene_validator.scene:
@@ -112,6 +112,9 @@ class InputCommandsReactions:
         """
         Need for calling by Game_Master class in main_loop.
         """
+        # Get settings for 'reactions_to_input_commands' 'Gameplay':
+        # Associated with the main loop.
+        self.gameplay_administrator.set_gameplay_type()
         pass
 
     def reactions_to_input_commands(self, event):

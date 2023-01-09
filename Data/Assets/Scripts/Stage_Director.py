@@ -53,7 +53,7 @@ class StageDirector:
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         # Text Choice gameplay:
-        self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
+        # self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
         # Game UI buttons:
         """Arguments processing:"""
         self.display_screen: display = display_screen
@@ -80,16 +80,13 @@ class StageDirector:
         """
         return self.characters_dict.get(character)
 
-    def scale(self, interface_controller):
+    def scale(self):
         """
         Render image scale.
         """
         # Scale:
         self.location.scale()
         self.text_canvas.scale(background_surface=self.background_surface)
-        interface_controller.language_flag = self.language_flag
-        interface_controller.scale(
-            background_surface=self.background_surface)
         for character in self.characters_dict.values():
             character.scale(background_surface=self.background_surface)
 

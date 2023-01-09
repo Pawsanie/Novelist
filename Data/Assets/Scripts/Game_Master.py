@@ -59,7 +59,15 @@ class GameMaster:
         """
         Main game loop call.
         """
+        # User input commands processing:
         self.reactions_to_input_commands()
+        # Build scene:
         self.scene_validator()
-        self.stage_director.scale(self.interface_controller)
+        self.stage_director.scale()
+        # Build interface:
+        self.interface_controller.scale(
+            language_flag=self.language_flag,
+            background_surface=self.stage_director.background_surface
+        )
+        # Image render:
         self.render.image_render()

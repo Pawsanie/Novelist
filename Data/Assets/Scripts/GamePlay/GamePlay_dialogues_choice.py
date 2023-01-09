@@ -1,7 +1,3 @@
-from os import path
-
-from pygame import mouse
-
 from ..Stage_Director import StageDirector
 from ..Scene_Validator import SceneValidator
 from ..User_Interface.Interface_Controller import InterfaceController
@@ -16,6 +12,7 @@ Contains gameplay reading code.
 class GamePlayDialoguesChoice(BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in reading gameplay.
+    Generated in GamePlayAdministrator from 'Game_Play_Administrator.py' file.
     """
     def __init__(self, *, stage_director: StageDirector, interface_controller: InterfaceController,
                  scene_validator: SceneValidator):
@@ -35,7 +32,7 @@ class GamePlayDialoguesChoice(BaseMenu):
             interface_controller=interface_controller,
             scene_validator=scene_validator)
         # Stage Director settings:
-        self.stage_director = stage_director
+        self.stage_director: StageDirector = stage_director
         # Gameplay choice buttons generate:
         self.dialogues_buttons: dict = {}
         self.dialogues_choice_buttons_generations()
@@ -79,7 +76,7 @@ class GamePlayDialoguesChoice(BaseMenu):
                     dialogues_buttons.update(
                         {choice: Button(
                             background_surface=self.stage_director.background_surface,
-                            button_name=scene,
+                            button_name=choice_buttons_text[scene],
                             button_text=choice_buttons_text[scene][choice],
                             button_image_data=image_data_dict,
                             language_flag=self.stage_director.language_flag,
@@ -91,7 +88,9 @@ class GamePlayDialoguesChoice(BaseMenu):
         """
         Processing the gameplay choice.
         """
+        # Rules of choice for scene:
         choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
+        # Push dialogue buttons to 'InterfaceController':
         self.interface_controller.gameplay_choice_buttons = self.dialogues_buttons[self.scene_validator.scene]
 
         # If user interface is not hidden:
@@ -102,9 +101,9 @@ class GamePlayDialoguesChoice(BaseMenu):
                 command = gameplay_ui_buttons[0]
                 for choice in choice_data:
                     if command == choice:
-                        if choice_data['branching'] is not False:
-                            self.scene_validator.scene = choice_data['branching']
-                        if choice_data['counter_change'] is not False:
+                        if choice_data[choice]['branching'] is not False:
+                            self.scene_validator.scene_flag = choice_data[choice]['branching']
+                        if choice_data[choice]['counter_change'] is not False:
                             ...
 
     def key_bord_gameplay_key_down(self, event):

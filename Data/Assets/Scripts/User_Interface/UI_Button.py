@@ -110,7 +110,6 @@ class Button:
         # Default button render:
         if self.button_cursor_position_status() is False:
             self.button_surface.blit(self.button_sprite, (0, 0))
-
         # Button ready to be pressed:
         else:
             # Mask settings:
@@ -144,7 +143,8 @@ class Button:
         # Y:
         button_coordinates_y: int = (
                 (background_surface_size[1] // 2)
-                + (background_surface_size[1] // 4))
+                + (background_surface_size[1] // 4)
+        )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def menu_start_and_settings_coordinates(self, *, background_surface_size,
@@ -166,7 +166,6 @@ class Button:
                 button_coordinates_y
                 - (background_surface_size_y_middle // multiplier)
                                          )
-
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def menu_save_and_load_coordinates(self, *, background_surface_size_y_middle,
@@ -187,8 +186,8 @@ class Button:
         )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def gameplay_dialogues_choice(self, *, background_surface_size,
-                                  background_surface_size_y_middle, place_flag, multiplier):
+    def gameplay_dialogues_choice_coordinates(self, *, background_surface_size,
+                                              background_surface_size_y_middle, place_flag, multiplier):
         """
         Coordinates for gameplay dialogues choice buttons.
         """
@@ -206,7 +205,6 @@ class Button:
                 button_coordinates_y
                 - (background_surface_size_y_middle // multiplier)
                                          )
-
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def coordinates(self, *, background_surface: Surface):
@@ -282,7 +280,7 @@ class Button:
             return
 
         if place_flag['type'] == 'gameplay_dialogues_choice':
-            self.gameplay_dialogues_choice(
+            self.gameplay_dialogues_choice_coordinates(
                 background_surface_size=background_surface_size,
                 background_surface_size_y_middle=background_surface_size_y_middle,
                 place_flag=place_flag,

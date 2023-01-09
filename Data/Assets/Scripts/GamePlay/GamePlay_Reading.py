@@ -12,6 +12,7 @@ Contains gameplay reading code.
 class GamePlayReading(BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in reading gameplay.
+    Generated in GamePlayAdministrator from 'Game_Play_Administrator.py' file.
     """
     def __init__(self, *, stage_director: StageDirector, interface_controller: InterfaceController,
                  scene_validator: SceneValidator):
