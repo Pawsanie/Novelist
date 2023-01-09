@@ -92,6 +92,9 @@ class Button:
         # Arg parse:
         self.background_surface: Surface = background_surface
 
+        # Devnull button_surface for new render:
+        self.button_surface = Surface((0, 0), SRCALPHA)
+
         # Button size scale:
         self.button_sprite: Surface = self.button_sprite_standard
         self.button_size: tuple[int, int] = button_size(
