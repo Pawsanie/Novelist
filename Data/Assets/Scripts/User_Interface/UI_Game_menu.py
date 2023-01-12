@@ -45,7 +45,7 @@ class GameMenu(BaseMenu):
                 self.interface_controller.settings_menu_status = True
             if command == 'game_menu_start_menu':
                 self.interface_controller.game_menu_status = False
-                self.interface_controller.start_menu_status = True
+                self.interface_controller.back_to_start_menu_status = True
             if command == 'game_menu_exit':
                 self.interface_controller.game_menu_status = False
                 self.interface_controller.exit_menu_status = True

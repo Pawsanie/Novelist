@@ -39,6 +39,7 @@ class InterfaceController:
         self.load_menu_status: bool = False
         self.save_menu_status: bool = False
         self.settings_status_menu_status: bool = False
+        self.back_to_start_menu_status: bool = False
         # Start Menu:
         # "True/False" and "True" as default.
         self.start_menu_status: bool = True
@@ -84,6 +85,8 @@ class InterfaceController:
             return self.buttons_dict['ui_settings_status_buttons']
         if self.start_menu_status is True:
             return self.buttons_dict['ui_start_menu_buttons']
+        if self.back_to_start_menu_status is True:
+            return self.buttons_dict['ui_back_to_start_menu_status_menu_buttons']
 
     def scale(self, *, language_flag: None or str = None, background_surface):
         """

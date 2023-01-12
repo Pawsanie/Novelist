@@ -12,6 +12,7 @@ from .User_Interface.UI_Save_menu import SaveMenu
 from .User_Interface.UI_Settings_menu import SettingsMenu
 from .User_Interface.UI_Settings_Status_menu import SettingsStatusMenu
 from .User_Interface.UI_Start_menu import StartMenu
+from .User_Interface.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
 from .GamePlay.GamePlay_Administrator import GamePlayAdministrator
 """
 Contains code for reactions to input commands.
@@ -42,6 +43,7 @@ def main_loop(func):
                     self.scene = 'redraw'
                 # User commands:
                 self.reactions_to_input_commands.reactions_to_input_commands(event)
+            pygame_events.clear()
             main_cycle_fps_clock.tick(main_cycle_fps)
     return coroutine
 
@@ -101,6 +103,10 @@ class InputCommandsReactions:
             interface_controller=self.interface_controller,
             scene_validator=self.scene_validator
         )
+        self.back_to_start_menu_status_menu: BackToStartMenuStatusMenu = BackToStartMenuStatusMenu(
+            interface_controller=self.interface_controller,
+            scene_validator=self.scene_validator
+        )
         # Settings for gameplay:
         self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator(
             stage_director=self.stage_director,
@@ -153,4 +159,8 @@ class InputCommandsReactions:
         # Start menu:
         if self.interface_controller.start_menu_status is True:
             self.start_menu.start_menu_input(event)
+            return
+        # Back to "Start menu" status menu:
+        if self.interface_controller.back_to_start_menu_status is True:
+            self.back_to_start_menu_status_menu.back_to_start_menu_status_menu_input(event)
             return

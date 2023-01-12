@@ -293,6 +293,7 @@ Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
                      └── :file_folder:User_Interface<br>
                               ├── :page_facing_up:Interface_Controller.py<br>
                               ├── :page_facing_up:UI_Button.py<br>
+                              ├── :page_facing_up:UI_buttons_calculations.py<br>
                               └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
 New menu need to be added in '**coordinates**' method of '**Button**' class in 'UI_Button.py' file.<br>
@@ -300,8 +301,11 @@ Also you need to **write a new method** finding button coordinates.<br>
 'menu_yes_no_coordinates' method as example of **horizontal** menu.<br>
 And 'menu_start_and_settings_coordinates' as example of **vertical** menu.
 
+New menu buttons need to be added in 'UI_buttons_calculations.py **button_size** function.'
+
 You will need to modify the class constructor of '**InterfaceController**' in 'Interface_Controller.py' file.<br>
-And add new 'return' to 'get_ui_buttons_dict' in method of 'InterfaceController' class.
+Add new menu class like variable to it.
+And add new 'return' to '**get_ui_buttons_dict**' in method of 'InterfaceController' class.
 
 You will also need to add your buttons to 'ui_localizations_data.json', and localization.json 'eng.json' as example.<br>
 And create and fill a new 'ui_*_menu_buttons.json' file, for your menu.

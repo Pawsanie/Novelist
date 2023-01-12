@@ -1,0 +1,17 @@
+{
+  "back_to_start_menu_yes": {
+    "type": "back_to_start_menu_status_menu",
+    "index_number": 1,
+    "sprite_name": "exit_menu_buttons",
+    "font": null,
+    "color": "#000000"
+  },
+
+  "back_to_start_menu_no": {
+    "type": "back_to_start_menu_status_menu",
+    "index_number": -1,
+    "sprite_name": "exit_menu_buttons",
+    "font": null,
+    "color": "#000000"
+  }
+}

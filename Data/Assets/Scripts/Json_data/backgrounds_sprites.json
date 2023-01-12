@@ -6,5 +6,6 @@
   "load_menu": "blank",
   "save_menu": "blank",
   "settings_status_menu": "blank",
-  "start_menu": "blank"
+  "start_menu": "blank",
+  "back_to_start_menu_status_menu": "blank"
 }

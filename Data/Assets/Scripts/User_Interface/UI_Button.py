@@ -1,6 +1,9 @@
 from os import path
+from concurrent.futures import ThreadPoolExecutor
+from time import sleep
 
 from pygame import Surface, SRCALPHA, transform, mouse, font
+from pygame import event as pygame_events
 
 from ..Assets_load import image_load, json_load, font_load
 from ..Universal_computing import surface_size
@@ -197,7 +200,8 @@ class Button:
         # X:
         button_coordinates_x: int = (
                 (background_surface_size[0] // 2)
-                - (self.button_size[0] // 2))
+                - (self.button_size[0] // 2)
+        )
         # Y:
         button_coordinates_y: int = (
             (background_surface_size_y_middle - (self.button_size[1] // 2))
@@ -219,7 +223,6 @@ class Button:
         """
         self.background_surface: Surface = background_surface
         place_flag: dict[str, int] = self.button_image_data
-        button_coordinates_x, button_coordinates_y = (0, 0)
         background_surface_size: list[int, int] = surface_size(interested_surface=self.background_surface)
         background_surface_size_x_middle: int = background_surface_size[0]//2
         background_surface_size_y_middle: int = background_surface_size[1]//2
@@ -231,6 +234,17 @@ class Button:
                 (self.button_size[0] * place_flag['index_number'])
             # Y:
             button_coordinates_y: int = background_surface_size[1] - self.button_size[1]
+            # Result:
+            self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+            return
+
+        if place_flag['type'] == 'gameplay_dialogues_choice':
+            self.gameplay_dialogues_choice_coordinates(
+                background_surface_size=background_surface_size,
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                place_flag=place_flag,
+                multiplier=3)
+            return
 
         if place_flag['type'] == 'game_menu':
             self.menu_start_and_settings_coordinates(
@@ -282,15 +296,11 @@ class Button:
                 place_flag=place_flag)
             return
 
-        if place_flag['type'] == 'gameplay_dialogues_choice':
-            self.gameplay_dialogues_choice_coordinates(
+        if place_flag['type'] == 'back_to_start_menu_status_menu':
+            self.menu_yes_no_coordinates(
                 background_surface_size=background_surface_size,
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag,
-                multiplier=3)
+                place_flag=place_flag)
             return
-
-        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def localization_button_text(self, *, language_flag):
         """
@@ -340,6 +350,17 @@ class Button:
         else:
             return False
 
+    def push_out_mouse_button(self) -> bool:
+        """
+        Check that left click of mouse push out.
+
+        :return: True | False
+        """
+        if self.button_cursor_position_status() is True:
+            button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
+            if button_clicked[0] is True:
+                return True
+
     def button_clicked_status(self) -> bool:
         """
         Check left click of mouse to button status.
@@ -349,7 +370,10 @@ class Button:
         if self.button_cursor_position_status() is True:
             button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
             if button_clicked[0] is True:
-                return True
+                with ThreadPoolExecutor() as executor:
+                    callback = executor.submit(self.push_out_mouse_button)
+                if callback.result() is True:
+                    return True
 
 
 def button_generator(language_flag: str, background_surface: Surface) -> dict[str, dict[str, Button]]:

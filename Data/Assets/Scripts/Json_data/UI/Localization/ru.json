@@ -28,5 +28,8 @@
   "settings_menu_back": "Назад",
 
   "settings_status_menu_apply": "Применить",
-  "settings_status_menu_cancel": "Отменить"
+  "settings_status_menu_cancel": "Отменить",
+
+  "back_to_start_menu_yes": "Да",
+  "back_to_start_menu_no": "Нет"
 }

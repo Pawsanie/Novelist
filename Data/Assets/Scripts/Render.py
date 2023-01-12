@@ -171,6 +171,10 @@ class Render:
     def start_menu(self):
         self.standard_menu_render('start_menu')
 
+    @render
+    def back_to_start_menu_status_menu(self):
+        self.standard_menu_render('back_to_start_menu_status_menu')
+
     def image_render(self):
         """
         Display image render.
@@ -180,17 +184,28 @@ class Render:
                 self.gameplay_read_scene()
             if self.interface_controller.gameplay_type_choice is True:
                 self.gameplay_choice_scene()
+            return
         if self.interface_controller.game_menu_status is True:
             self.game_menu()
+            return
         if self.interface_controller.settings_menu_status is True:
             self.settings_menu()
+            return
         if self.interface_controller.exit_menu_status is True:
             self.exit_menu()
+            return
         if self.interface_controller.load_menu_status is True:
             self.load_menu()
+            return
         if self.interface_controller.save_menu_status is True:
             self.save_menu()
+            return
         if self.interface_controller.settings_status_menu_status is True:
             self.settings_status_menu()
+            return
         if self.interface_controller.start_menu_status is True:
             self.start_menu()
+            return
+        if self.interface_controller.back_to_start_menu_status is True:
+            self.back_to_start_menu_status_menu()
+            return

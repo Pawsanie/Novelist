@@ -28,5 +28,8 @@
   "settings_menu_back": "Back",
 
   "settings_status_menu_apply": "Apply",
-  "settings_status_menu_cancel": "Cancel"
+  "settings_status_menu_cancel": "Cancel",
+
+  "back_to_start_menu_yes": "Yes",
+  "back_to_start_menu_no": "No"
 }
