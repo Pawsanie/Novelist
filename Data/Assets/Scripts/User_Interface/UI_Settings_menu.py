@@ -25,11 +25,12 @@ class SettingsMenu(BaseMenu):
             scene_validator=scene_validator)
         self.settings_keeper: SettingsKeeper = settings_keeper
 
-    def settings_menu_ui_mouse(self):
+    def settings_menu_ui_mouse(self, event):
         """
         Interface interaction in in-game setting menu.
+        :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
@@ -51,5 +52,5 @@ class SettingsMenu(BaseMenu):
         Setting menu conveyor:
         :param event: pygame.event from main_loop.
         """
-        self.settings_menu_ui_mouse()
+        self.settings_menu_ui_mouse(event)
         self.input_wait_ready()

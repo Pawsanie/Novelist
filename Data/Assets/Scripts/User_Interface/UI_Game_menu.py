@@ -23,11 +23,12 @@ class GameMenu(BaseMenu):
             interface_controller=interface_controller,
             scene_validator=scene_validator)
 
-    def game_menu_input_mouse(self):
+    def game_menu_input_mouse(self, event):
         """
         Interface interaction in in-game menu.
+        :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
@@ -75,7 +76,7 @@ class GameMenu(BaseMenu):
         self.interface_controller.settings_from_start_menu_flag = False
         self.interface_controller.settings_from_game_menu_flag = True
         # Button game menu ui status:
-        self.game_menu_input_mouse()
+        self.game_menu_input_mouse(event)
         # Button game menu key bord status:
         self.key_bord_game_menu_key_down(event)
         self.input_wait_ready()

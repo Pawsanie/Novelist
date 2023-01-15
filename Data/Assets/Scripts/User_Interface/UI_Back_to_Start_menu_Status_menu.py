@@ -37,11 +37,12 @@ class BackToStartMenuStatusMenu(BaseMenu):
         self.interface_controller.back_to_start_menu_status = False
         self.interface_controller.game_menu_status = True
 
-    def back_to_start_menu_status_menu_input_mouse(self):
+    def back_to_start_menu_status_menu_input_mouse(self, event):
         """
         Interface interaction in in-game back to start menu status menu.
+        :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
@@ -67,7 +68,7 @@ class BackToStartMenuStatusMenu(BaseMenu):
         :param event: pygame.event from main_loop.
         """
         # Button game menu ui status:
-        self.back_to_start_menu_status_menu_input_mouse()
+        self.back_to_start_menu_status_menu_input_mouse(event)
         # Button game menu key bord status:
         self.key_bord_back_to_start_menu_status_menu_key_down(event)
         self.input_wait_ready()

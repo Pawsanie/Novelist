@@ -46,6 +46,9 @@ class GamePlayAdministrator(BaseMenu):
         )
 
     def set_gameplay_type(self):
+        """
+        Set gameplay type.
+        """
         if self.scene_validator.scene_gameplay_type == 'reading':
             self.interface_controller.gameplay_type_choice = False
             self.interface_controller.gameplay_type_reading = True
@@ -56,6 +59,10 @@ class GamePlayAdministrator(BaseMenu):
             return
 
     def gameplay_input(self, event):
+        """
+        Gameplay interaction.
+        :param event: pygame.event from main_loop.
+        """
         # Gameplay reading:
         if self.scene_validator.scene_gameplay_type == 'reading':
             self.gameplay_reading.gameplay_input(event)

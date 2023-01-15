@@ -102,16 +102,17 @@ class InterfaceController:
             button = ui_buttons_dict[key]
             button.scale(background_surface=background_surface)
 
-    def button_clicked_status(self) -> tuple[str | None, bool]:
+    def button_clicked_status(self, event) -> tuple[str | None, bool]:
         """
         Check left click of mouse to button status.
 
+        :param event: pygame.event from main_loop.
         :return: tuple[str | None, True | False]
         """
         if self.gameplay_interface_hidden_status is False:
             gameplay_ui_dict = self.get_ui_buttons_dict()
             for button in gameplay_ui_dict:
-                click_status = gameplay_ui_dict[button].button_clicked_status()
+                click_status = gameplay_ui_dict[button].button_clicked_status(event)
                 if click_status is True:
                     return button, True
         return None, False

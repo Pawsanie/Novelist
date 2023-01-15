@@ -33,11 +33,12 @@ class ExitMenu(BaseMenu):
         if self.interface_controller.exit_from_game_menu_flag is True:
             self.interface_controller.game_menu_status = True
 
-    def exit_menu_input_mouse(self):
+    def exit_menu_input_mouse(self, event):
         """
         Interface interaction in in-game exit menu.
+        :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
@@ -65,7 +66,7 @@ class ExitMenu(BaseMenu):
         :param event: pygame.event from main_loop.
         """
         # Button game menu ui status:
-        self.exit_menu_input_mouse()
+        self.exit_menu_input_mouse(event)
         # Button game menu key bord status:
         self.key_bord_exit_menu_key_down(event)
         self.input_wait_ready()

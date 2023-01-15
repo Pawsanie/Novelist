@@ -1,9 +1,6 @@
 from os import path
-from concurrent.futures import ThreadPoolExecutor
-from time import sleep
 
-from pygame import Surface, SRCALPHA, transform, mouse, font
-from pygame import event as pygame_events
+from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP
 
 from ..Assets_load import image_load, json_load, font_load
 from ..Universal_computing import surface_size
@@ -350,18 +347,7 @@ class Button:
         else:
             return False
 
-    def push_out_mouse_button(self) -> bool:
-        """
-        Check that left click of mouse push out.
-
-        :return: True | False
-        """
-        if self.button_cursor_position_status() is True:
-            button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
-            if button_clicked[0] is True:
-                return True
-
-    def button_clicked_status(self) -> bool:
+    def button_click_hold(self) -> bool:
         """
         Check left click of mouse to button status.
 
@@ -370,10 +356,18 @@ class Button:
         if self.button_cursor_position_status() is True:
             button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
             if button_clicked[0] is True:
-                with ThreadPoolExecutor() as executor:
-                    callback = executor.submit(self.push_out_mouse_button)
-                if callback.result() is True:
-                    return True
+                return True
+
+    def button_clicked_status(self, event) -> bool:
+        """
+        Check left push out mouse left button status.
+
+        :param event: pygame.event element.
+        :return: True | False
+        """
+        if self.button_cursor_position_status() is True:
+            if event.type == MOUSEBUTTONUP:
+                return True
 
 
 def button_generator(language_flag: str, background_surface: Surface) -> dict[str, dict[str, Button]]:

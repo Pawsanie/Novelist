@@ -21,11 +21,12 @@ class SaveMenu(BaseMenu):
             interface_controller=interface_controller,
             scene_validator=scene_validator)
 
-    def save_menu_input_mouse(self):
+    def save_menu_input_mouse(self, event):
         """
         Interface interaction in in-game save menu.
+        :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
@@ -40,5 +41,5 @@ class SaveMenu(BaseMenu):
         Save menu conveyor:
         :param event: pygame.event from main_loop.
         """
-        self.save_menu_input_mouse()
+        self.save_menu_input_mouse(event)
         self.input_wait_ready()

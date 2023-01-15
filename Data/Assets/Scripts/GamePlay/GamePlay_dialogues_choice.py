@@ -84,9 +84,10 @@ class GamePlayDialoguesChoice(BaseMenu):
                         )})
                     self.dialogues_buttons.setdefault(scene, dialogues_buttons)
 
-    def button_gameplay_ui_status(self):
+    def button_gameplay_ui_status(self, event):
         """
         Processing the gameplay choice.
+        :param event: pygame.event from main_loop.
         """
         # Rules of choice for scene:
         choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
@@ -95,7 +96,7 @@ class GamePlayDialoguesChoice(BaseMenu):
 
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:
-            gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+            gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
             # Clicking a virtual button with a mouse:
             if gameplay_ui_buttons[1] is True:
                 command = gameplay_ui_buttons[0]
@@ -115,7 +116,7 @@ class GamePlayDialoguesChoice(BaseMenu):
         :param event: pygame.event from main_loop.
         """
         # Button gameplay ui status:
-        self.button_gameplay_ui_status()
+        self.button_gameplay_ui_status(event)
         # Button gameplay key bord status:
         self.key_bord_gameplay_key_down(event)
         self.input_wait_ready()

@@ -28,11 +28,12 @@ class StartMenu(BaseMenu):
         self.interface_controller.gameplay_interface_hidden_status = False
         self.interface_controller.gameplay_interface_status = True
 
-    def start_menu_input_mouse(self):
+    def start_menu_input_mouse(self, event):
         """
         Interface interaction in in-game start menu.
+        :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status()
+        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
@@ -67,5 +68,5 @@ class StartMenu(BaseMenu):
         self.interface_controller.settings_from_start_menu_flag = True
         self.interface_controller.settings_from_game_menu_flag = False
         # Input:
-        self.start_menu_input_mouse()
+        self.start_menu_input_mouse(event)
         self.input_wait_ready()
