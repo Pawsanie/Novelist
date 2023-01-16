@@ -366,7 +366,7 @@ class Button:
         :return: True | False
         """
         if self.button_cursor_position_status() is True:
-            if event.type == MOUSEBUTTONUP:
+            if event.type == MOUSEBUTTONUP and event.button == 1:  # event.button return int of button type.
                 return True
 
 

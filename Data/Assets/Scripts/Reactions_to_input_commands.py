@@ -43,6 +43,9 @@ def main_loop(func):
                     self.scene = 'redraw'
                 # User commands:
                 self.reactions_to_input_commands.reactions_to_input_commands(event)
+            # Set scene without events:
+            if self.scene_validator.scene_flag != self.scene_validator.scene:
+                func(*args, **kwargs)
             pygame_events.clear()
             main_cycle_fps_clock.tick(main_cycle_fps)
     return coroutine

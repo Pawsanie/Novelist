@@ -1,4 +1,4 @@
-from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse, MOUSEBUTTONDOWN
+from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse, MOUSEBUTTONDOWN, MOUSEBUTTONUP
 
 from ..Stage_Director import StageDirector
 from ..Scene_Validator import SceneValidator
@@ -44,32 +44,35 @@ class GamePlayReading(BaseMenu):
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:
             if event.type != MOUSEBUTTONDOWN:
-                gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
-                # Clicking a virtual button with a mouse:
-                if gameplay_ui_buttons[1] is True:
+                if event.type == MOUSEBUTTONUP:
+                    gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
                     command = gameplay_ui_buttons[0]
-                    if command == 'past_scene':
-                        if self.scene_validator.past_scene != 'START':
-                            self.scene_validator.scene_flag = self.scene_validator.past_scene
-                        else:
-                            ...
-                    if command == 'hide_interface':
-                        self.interface_controller.gameplay_interface_hidden_status = True
-                    if command == 'game_menu':
-                        self.interface_controller.game_menu_status = True
-                        self.interface_controller.gameplay_interface_status = False
-                    if command == 'next_scene':
-                        if self.scene_validator.next_scene != 'FINISH':
-                            self.scene_validator.scene_flag = self.scene_validator.next_scene
-                        else:
-                            ...
-                    if command == 'fast_forward':
-                        if button_clicked[0] is not False:
+                    # Clicking a virtual button with a mouse:
+                    if gameplay_ui_buttons[1] is True:
+                        if command == 'past_scene':
+                            if self.scene_validator.past_scene != 'START':
+                                self.scene_validator.scene_flag = self.scene_validator.past_scene
+                            else:
+                                ...
+                        if command == 'hide_interface':
+                            self.interface_controller.gameplay_interface_hidden_status = True
+                        if command == 'game_menu':
+                            self.interface_controller.game_menu_status = True
+                            self.interface_controller.gameplay_interface_status = False
+                        if command == 'next_scene':
                             if self.scene_validator.next_scene != 'FINISH':
                                 self.scene_validator.scene_flag = self.scene_validator.next_scene
-                # Next scene without virtual buttons:
-                else:
-                    if button_clicked[0] is True:
+                            else:
+                                ...
+                        if command == 'fast_forward':
+                            if button_clicked[0] is not False:
+                                if self.scene_validator.next_scene != 'FINISH':
+                                    self.scene_validator.scene_flag = self.scene_validator.next_scene
+            # Next scene without virtual buttons:
+            else:
+                if button_clicked[0] is True:
+                    gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_push_status()
+                    if gameplay_ui_buttons[1] is False:
                         if self.scene_validator.next_scene != 'FINISH':
                             self.scene_validator.scene_flag = self.scene_validator.next_scene
 

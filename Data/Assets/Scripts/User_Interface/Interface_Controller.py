@@ -117,6 +117,20 @@ class InterfaceController:
                     return button, True
         return None, False
 
+    def button_push_status(self) -> tuple[str | None, bool]:
+        """
+        Check left click of mouse to button status.
+
+        :return: tuple[str | None, True | False]
+        """
+        if self.gameplay_interface_hidden_status is False:
+            gameplay_ui_dict = self.get_ui_buttons_dict()
+            for button in gameplay_ui_dict:
+                click_status = gameplay_ui_dict[button].button_click_hold()
+                if click_status is True:
+                    return button, True
+        return None, False
+
     def button_cursor_position_status(self) -> bool:
         """
         Checking the cursor position above the button.
