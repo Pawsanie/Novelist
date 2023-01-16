@@ -45,19 +45,6 @@ class GamePlayAdministrator(BaseMenu):
             scene_validator=self.scene_validator
         )
 
-    def set_gameplay_type(self):
-        """
-        Set gameplay type.
-        """
-        if self.scene_validator.scene_gameplay_type == 'reading':
-            self.interface_controller.gameplay_type_choice = False
-            self.interface_controller.gameplay_type_reading = True
-            return
-        if self.scene_validator.scene_gameplay_type == 'choice':
-            self.interface_controller.gameplay_type_reading = False
-            self.interface_controller.gameplay_type_choice = True
-            return
-
     def gameplay_input(self, event):
         """
         Gameplay interaction.

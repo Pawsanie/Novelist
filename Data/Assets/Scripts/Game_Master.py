@@ -54,6 +54,19 @@ class GameMaster:
             scene_validator=self.scene_validator
         )
 
+    def set_gameplay_type(self):
+        """
+        Set gameplay type.
+        """
+        if self.scene_validator.scene_gameplay_type == 'reading':
+            self.interface_controller.gameplay_type_choice = False
+            self.interface_controller.gameplay_type_reading = True
+            return
+        if self.scene_validator.scene_gameplay_type == 'choice':
+            self.interface_controller.gameplay_type_reading = False
+            self.interface_controller.gameplay_type_choice = True
+            return
+
     @main_loop
     def __call__(self):
         """
@@ -64,6 +77,8 @@ class GameMaster:
         # Build scene:
         self.scene_validator()
         self.stage_director.scale()
+        # Chose gameplay settings:
+        self.set_gameplay_type()
         # Build interface:
         self.interface_controller.scale(
             language_flag=self.language_flag,

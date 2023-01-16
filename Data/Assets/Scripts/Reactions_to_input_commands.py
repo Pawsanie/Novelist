@@ -14,6 +14,7 @@ from .User_Interface.UI_Settings_Status_menu import SettingsStatusMenu
 from .User_Interface.UI_Start_menu import StartMenu
 from .User_Interface.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
 from .GamePlay.GamePlay_Administrator import GamePlayAdministrator
+from .Universal_computing import coroutine_decorator
 """
 Contains code for reactions to input commands.
 """
@@ -40,7 +41,7 @@ def main_loop(func):
                     func(*args, **kwargs)
                 # Window resize:
                 if event.type == VIDEORESIZE:
-                    self.scene = 'redraw'
+                    self.scene_validator.scene = 'redraw'
                 # User commands:
                 self.reactions_to_input_commands.reactions_to_input_commands(event)
             # Set scene without events:
@@ -121,11 +122,9 @@ class InputCommandsReactions:
         """
         Need for calling by Game_Master class in main_loop.
         """
-        # Get settings for 'reactions_to_input_commands' 'Gameplay':
-        # Associated with the main loop.
-        self.gameplay_administrator.set_gameplay_type()
         pass
 
+    @coroutine_decorator
     def reactions_to_input_commands(self, event):
         """
         User commands conveyor:
