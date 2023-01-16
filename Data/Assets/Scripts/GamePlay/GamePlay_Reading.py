@@ -1,4 +1,5 @@
 from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse, MOUSEBUTTONDOWN, MOUSEBUTTONUP
+from pygame import event as pygame_events
 
 from ..Stage_Director import StageDirector
 from ..Scene_Validator import SceneValidator
@@ -75,6 +76,9 @@ class GamePlayReading(BaseMenu):
                     if gameplay_ui_buttons[1] is False:
                         if self.scene_validator.next_scene != 'FINISH':
                             self.scene_validator.scene_flag = self.scene_validator.next_scene
+                        new_event = pygame_events.wait()
+                        while new_event.type != MOUSEBUTTONUP:
+                            new_event = pygame_events.wait()
 
         # If user interface is hidden:
         else:

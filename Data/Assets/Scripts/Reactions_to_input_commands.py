@@ -14,7 +14,6 @@ from .User_Interface.UI_Settings_Status_menu import SettingsStatusMenu
 from .User_Interface.UI_Start_menu import StartMenu
 from .User_Interface.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
 from .GamePlay.GamePlay_Administrator import GamePlayAdministrator
-from .Universal_computing import coroutine_decorator
 """
 Contains code for reactions to input commands.
 """
@@ -124,7 +123,6 @@ class InputCommandsReactions:
         """
         pass
 
-    @coroutine_decorator
     def reactions_to_input_commands(self, event):
         """
         User commands conveyor:

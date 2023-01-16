@@ -65,6 +65,11 @@ class GameMaster:
         if self.scene_validator.scene_gameplay_type == 'choice':
             self.interface_controller.gameplay_type_reading = False
             self.interface_controller.gameplay_type_choice = True
+            # Push dialogue buttons to 'InterfaceController':
+            self.interface_controller.gameplay_choice_buttons = \
+                self.reactions_to_input_commands.gameplay_administrator\
+                .gameplay_dialogues_choice\
+                .dialogues_buttons[self.scene_validator.scene]
             return
 
     @main_loop

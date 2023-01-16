@@ -42,7 +42,6 @@ class GamePlayDialoguesChoice(BaseMenu):
         Generate dict with buttons for dialogues choice gameplay.
         This is a nested dictionary of buttons group and an instance of the Button class.
         """
-        self.dialogues_buttons: dict = {}
         # localizations instructions from 'dialogues_localizations_data.json'.
         localizations_data: dict[str] = json_load(
             ['Scripts', 'Json_data', 'Dialogues', 'dialogues_localizations_data']
@@ -91,8 +90,6 @@ class GamePlayDialoguesChoice(BaseMenu):
         """
         # Rules of choice for scene:
         choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
-        # Push dialogue buttons to 'InterfaceController':
-        self.interface_controller.gameplay_choice_buttons = self.dialogues_buttons[self.scene_validator.scene]
 
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:
