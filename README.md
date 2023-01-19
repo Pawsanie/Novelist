@@ -83,7 +83,12 @@ In the last scene next_scene key **must** be **'FINISH'**.<br>
 In this case, the keys indicate which scene was before 'scene_01' and which should be after (scene_02).<br>
 Scenes 'START' or 'FINISH' do not exist.<br>
 But the game focuses on its flags.<br>
-Please note that a '**gameplay_type**' key value must be **reading/choice/false** where the first two options are strings.
+Please note that a '**gameplay_type**' key value must be **reading/choice/false** where the first two options are strings.<br>
+Please note that a **actors** characters keys must match certain values:<br>
+**character_start_position** - may have values **right/middle/left**.<br>
+**character_pose** - can be any key from the dictionary 'characters_sprites.json'. <br>
+                     More on this later in **"Characters and their sprites"**.<br>
+**character_plan** - may have values **background_plan/first_plan**.
 
 ### Dialogues:
 Game dialogues have to be writen in **lang_tag.json** file... **eng.json** as example...<br>
