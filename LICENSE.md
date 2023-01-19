@@ -1,4 +1,4 @@
-The 3-Clause BSD License
+BSD 3-Clause License
 
 Copyright (c) [2022-2023] [Alexander Progun]
 
