@@ -87,7 +87,7 @@ Please note that a '**gameplay_type**' key value must be **reading/choice/false*
 Please note that a **actors** characters keys must match certain values:<br>
 **character_start_position** - may have values **right/middle/left**.<br>
 **character_pose** - can be any key from the dictionary 'characters_sprites.json'. <br>
-                     More on this later in **"Characters and their sprites"**.<br>
+More on this later in **"Characters and their sprites"**.<br>
 **character_plan** - may have values **background_plan/first_plan**.
 
 ### Dialogues:
@@ -101,11 +101,13 @@ You need to name localization language tags for translation in the game settings
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
                               └── :file_folder:Dialogues<br>
+                                       ├── :file_folder:Choice<br>
+                                       │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
                                        ├── :file_folder:Reading<br>
                                        │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
                                        └── :page_facing_up:dialogues_localizations_data.json<br>
 
-**Example of one scene in 'eng.json' file:**
+**Example of one scene in 'eng.json' file in 'Reading' folder':**
 ```json
 {
    "scene_01": {
@@ -120,6 +122,22 @@ You need to name localization language tags for translation in the game settings
   }
 }
 ```
+**Example of 'eng.json' file in 'Choice' folder':**
+```json
+{
+  "scene_01": false,
+
+  "test_scene_02": {
+    "choice_01": "Got to Scene 01",
+    "choice_02": "ERROR!",
+    "choice_03": "Go to Scene 03"
+  },
+
+  "test_scene_03": false
+
+}
+```
+Scenes with '**false**' keys can be omitted.<br>
 **Example of 'dialogues_localizations_data.json' file:**
 ```json
 {
