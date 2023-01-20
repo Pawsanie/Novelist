@@ -137,7 +137,8 @@ You need to name localization language tags for translation in the game settings
 
 }
 ```
-Scenes with '**false**' keys can be omitted.<br>
+Scenes with '**false**' keys can be omitted.
+
 **Example of 'dialogues_localizations_data.json' file:**
 ```json
 {
