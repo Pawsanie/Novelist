@@ -87,7 +87,7 @@ Please note that a '**gameplay_type**' key value must be **reading/choice/false*
 Please note that a **actors** characters keys must match certain values:<br>
 **character_start_position** - may have values **right/middle/left**.<br>
 **character_pose** - can be any key from the dictionary 'characters_sprites.json'. <br>
-More on this later in **"Characters and their sprites"**.<br>
+More about this further in **"Characters and their sprites"** paragraph.<br>
 **character_plan** - may have values **background_plan/first_plan**.
 
 ### Dialogues:
