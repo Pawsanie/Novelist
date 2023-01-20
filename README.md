@@ -176,7 +176,7 @@ Sprite file name. And the x|y coordinates for sprite animations.<br>
 Please note that the name of the sprite is indicated without the file extension.<br>
 The coordinates are in pixels.<br>
 **Please note** that the name specified here is how the key is used in the **'screenplay.json'** file!<br>
-And this name is in no way related to the one you can set in the dialogs!
+And this name is in no way related to the one you can set in the dialogs!<br>
 As example 'eng.json' file from 'Dialogues' folder.
 
 Sprites must be in **png** format and stored in a 'Characters' folder.<br>
@@ -327,7 +327,7 @@ And 'menu_start_and_settings_coordinates' as example of **vertical** menu.
 New menu buttons need to be added in 'UI_buttons_calculations.py **button_size** function.'
 
 You will need to modify the class constructor of '**InterfaceController**' in 'Interface_Controller.py' file.<br>
-Add new menu class like variable to it.
+Add new menu class like variable to it.<br>
 And add new 'return' to '**get_ui_buttons_dict**' in method of 'InterfaceController' class.
 
 You will also need to add your buttons to 'ui_localizations_data.json', and localization.json 'eng.json' as example.<br>
