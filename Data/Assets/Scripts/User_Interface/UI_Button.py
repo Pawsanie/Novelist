@@ -379,7 +379,9 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
     """
     result: dict = {}
     # localizations instructions from 'ui_localizations_data.json': UI files and languages for UI.
-    localizations_data: dict[str] = json_load(['Scripts', 'Json_data', 'UI', 'Localization', 'ui_localizations_data'])
+    localizations_data: dict[str] = json_load(
+        ['Scripts', 'Json_data', 'UI', 'UI_Buttons', 'Localization', 'ui_localizations_data']
+    )
     # localizations data:
     ui_buttons_files: tuple[str] = (localizations_data['ui_buttons_files'])
     localizations: tuple[str] = (localizations_data['localizations'])
@@ -388,11 +390,16 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
     all_buttons_text_localizations_dict: dict = {}
     for language in localizations:
         all_buttons_text_localizations_dict.update(
-            {language: json_load(['Scripts', 'Json_data', 'UI', 'Localization', language])})
+            {language: json_load(
+                ['Scripts', 'Json_data', 'UI', 'UI_Buttons', 'Localization', language]
+            )}
+        )
 
     # User Interface buttons:
     for file_name in ui_buttons_files:
-        ui_buttons_json: dict[str] = json_load(['Scripts', 'Json_data', 'UI', file_name])
+        ui_buttons_json: dict[str] = json_load(
+            ['Scripts', 'Json_data', 'UI', 'UI_Buttons', file_name]
+        )
         ui_buttons: dict = {}
         for key in ui_buttons_json:
 
@@ -400,7 +407,9 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
             button_text_localization: dict = {}
             try:
                 for language in all_buttons_text_localizations_dict:
-                    button_text_localization.update({language: all_buttons_text_localizations_dict[language][key]})
+                    button_text_localization.update(
+                        {language: all_buttons_text_localizations_dict[language][key]}
+                    )
                 button_text: str = all_buttons_text_localizations_dict[language_flag][key]
             except KeyError:
                 button_text: None = None
