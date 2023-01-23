@@ -234,10 +234,10 @@ Localization of the standard interface is stored in the appropriate files: 'eng.
                      └── :file_folder:Json_data<br>
                               └── :file_folder:UI<br>
                                        ├── :file_folder:UI_Buttons<br>
-                                       |        ├── :page_facing_up:ui_\*_buttons.json **(Can be your button file)**<br>
-                                       |        └── :file_folder:Localization<br>
-                                       |                 ├── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                       |                 └── :page_facing_up:ui_localizations_data.json<br>
+                                        |        ├── :page_facing_up:ui_\*_buttons.json **(Can be your button file)**<br>
+                                        |        └── :file_folder:Localization<br>
+                                        |                 ├── :page_facing_up:eng.json **(Can be your localization)**<br>
+                                        |                 └── :page_facing_up:ui_localizations_data.json<br>
                                        └── :file_folder:UI_Menu_texts<br>
                                                 ├── :page_facing_up:eng.json **(Can be your localization)**<br>
                                                 └── :page_facing_up:ui_menu_texts_localizations_data.json<br>
