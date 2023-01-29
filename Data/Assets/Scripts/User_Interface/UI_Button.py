@@ -375,16 +375,26 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
     Generate dict with buttons for user interface.
     Used by InterfaceController.
 
+    :param language_flag: String with language flag.
+    :type language_flag: str
+    :param background_surface: Surface of background.
+    :type background_surface: pygame.Surface
     :return: A nested dictionary of buttons group and an instance of the Button class.
     """
     result: dict = {}
+
     # localizations instructions from 'ui_localizations_data.json': UI files and languages for UI.
     localizations_data: dict[str] = json_load(
         ['Scripts', 'Json_data', 'UI', 'UI_Buttons', 'Localization', 'ui_localizations_data']
     )
+
     # localizations data:
-    ui_buttons_files: tuple[str] = (localizations_data['ui_buttons_files'])
-    localizations: tuple[str] = (localizations_data['localizations'])
+    ui_buttons_files: tuple[str] = (
+        localizations_data['ui_buttons_files']
+    )
+    localizations: tuple[str] = (
+        localizations_data['localizations']
+    )
 
     # All buttons text localizations:
     all_buttons_text_localizations_dict: dict = {}

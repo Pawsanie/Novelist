@@ -23,8 +23,8 @@ class SettingsKeeper:
     """
     def __init__(self):
         script_root_path: str = f"{path.abspath(__file__).replace(path.join(*['Scripts', 'Settings_Keeper.py']), '')}"
-        user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
-        with open(user_settings_path) as game_settings:
+        self.user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
+        with open(self.user_settings_path, 'r') as game_settings:
             for row in game_settings:
                 setting_type: list[str] = row.replace('\n', '').split('=')
                 if setting_type[0] == 'screen_size':
@@ -49,4 +49,17 @@ class SettingsKeeper:
         ...
 
     def save_settings(self):
-        ...
+        """
+        Save new settings to "user_settings" file.
+        """
+        with open(self.user_settings_path, 'w') as settings_file:
+            settings_file.write(
+                f"# game_settings:\n"
+                f"screen_size={self.screen_size[0]}x{self.screen_size[1]}\n"
+                f"screen_type={self.screen_type}\n"
+                f"general_volume={self.general_volume}\n"
+                f"music_volume={self.music_volume}\n"
+                f"sound_volume={self.sound_volume}\n"
+                f"text_language={self.text_language}\n"
+                f"voice_acting_language={self.voice_acting_language}"
+            )
