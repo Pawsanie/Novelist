@@ -1,5 +1,8 @@
 from os import path
 from sys import platform
+from tkinter import Tk
+
+from pygame import Surface, display, FULLSCREEN, RESIZABLE
 """
 Contains the code responsible for the game settings.
 """
@@ -22,8 +25,11 @@ class SettingsKeeper:
     Reading settings from "settings" file.
     """
     def __init__(self):
-        script_root_path: str = f"{path.abspath(__file__).replace(path.join(*['Scripts', 'Settings_Keeper.py']), '')}"
+        # Path settings:
+        script_root_path: str = path.abspath(__file__)\
+            .replace(path.join(*['Scripts', 'Settings_Keeper.py']), '')
         self.user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
+        # Read settings configuration file:
         with open(self.user_settings_path, 'r') as game_settings:
             for row in game_settings:
                 setting_type: list[str] = row.replace('\n', '').split('=')
@@ -43,10 +49,36 @@ class SettingsKeeper:
                     self.text_language: str = setting_type[1]
                 if setting_type[0] == 'voice_acting_language':
                     self.voice_acting_language: str = setting_type[1]
+        # Get system type:
         self.system_type: str = system_type()
+        # Display settings:
+        self.screen = self.set_windows_settings()
+
+    def get_windows_settings(self):
+        return self.screen
+
+    def set_windows_settings(self) -> Surface:
+        """
+        Generate or set new display mode.
+        :result: pygame.display.Surface
+        """
+        if self.screen_type == 'full_screen':
+            screen_size = Tk()
+            screen_size_x, screen_size_y = \
+                screen_size.winfo_screenwidth(), \
+                screen_size.winfo_screenheight()
+            screen: Surface = display.set_mode((screen_size_x, screen_size_y), FULLSCREEN)
+            return screen
+        if self.screen_type == 'windowed':
+            screen: Surface = display.set_mode(self.screen_size, RESIZABLE)
+            return screen
 
     def update_settings(self):
-        ...
+        """
+        Update game settings.
+        """
+        self.screen = self.set_windows_settings()
+        self.save_settings()
 
     def save_settings(self):
         """

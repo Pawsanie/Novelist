@@ -17,14 +17,13 @@ class GameMaster:
     Set all settings for Stage Director and game.
     Entry point for gameplay.
     """
-    def __init__(self, *, display_screen, start_settings):
+    def __init__(self, *, start_settings):
         """
-        :param display_screen: pygame.display.Surface
         :param start_settings: SettingsKeeper
         """
         # Collect base game settings:
         self.settings_keeper: SettingsKeeper = start_settings
-        self.display_screen: Surface = display_screen
+        self.display_screen: Surface = self.settings_keeper.get_windows_settings()
         self.language_flag: str = self.settings_keeper.text_language
 
         # Stage Director settings:
