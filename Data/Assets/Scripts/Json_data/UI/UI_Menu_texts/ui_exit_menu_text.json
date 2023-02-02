@@ -1,0 +1,10 @@
+{
+  "type": "exit_menu",
+  "text": "exit_menu_text",
+  "coordinates": {
+    "x": 1,
+    "y": 1
+  },
+  "font": null,
+  "color": "#000000"
+}

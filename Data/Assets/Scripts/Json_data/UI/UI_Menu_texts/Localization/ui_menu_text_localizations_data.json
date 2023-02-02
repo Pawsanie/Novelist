@@ -1,0 +1,11 @@
+{
+  "ui_buttons_files": [
+    "ui_back_to_start_menu_status_menu_text",
+    "ui_exit_menu_text",
+    "ui_settings_status_text"
+  ],
+  "localizations": [
+    "eng",
+    "ru"
+  ]
+}

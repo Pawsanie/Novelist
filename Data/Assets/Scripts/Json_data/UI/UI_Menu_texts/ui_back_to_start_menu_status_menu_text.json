@@ -1,0 +1,10 @@
+{
+  "type": "back_to_start_menu_status_menu",
+  "text": "back_to_start_menu_status_menu_text",
+  "coordinates": {
+    "x": 1,
+    "y": 1
+  },
+  "font": null,
+  "color": "#000000"
+}

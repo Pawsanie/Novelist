@@ -385,7 +385,7 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
 
     # localizations instructions from 'ui_localizations_data.json': UI files and languages for UI.
     localizations_data: dict[str] = json_load(
-        ['Scripts', 'Json_data', 'UI', 'UI_Buttons', 'Localization', 'ui_localizations_data']
+        ['Scripts', 'Json_data', 'UI', 'UI_Buttons', 'Localization', 'ui_buttons_localizations_data']
     )
 
     # localizations data:
