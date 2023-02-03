@@ -54,7 +54,10 @@ class SettingsKeeper:
         # Display settings:
         self.screen = self.set_windows_settings()
 
-    def get_windows_settings(self):
+    def get_windows_settings(self) -> Surface:
+        """
+        Get "display.set_mode(...)" pygame.Surface with actual settings.
+        """
         return self.screen
 
     def set_windows_settings(self) -> Surface:

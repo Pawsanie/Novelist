@@ -25,7 +25,8 @@ class InterfaceController:
         # Generate buttons:
         self.buttons_dict: dict = button_generator(
             language_flag=language_flag,
-            background_surface=self.background_surface)
+            background_surface=self.background_surface
+        )
         self.gameplay_choice_buttons: dict = {}
         # In game user interface:
         # "True/False" and "False" as default.
