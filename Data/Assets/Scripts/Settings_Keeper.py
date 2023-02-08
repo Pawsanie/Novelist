@@ -3,6 +3,8 @@ from sys import platform
 from tkinter import Tk
 
 from pygame import Surface, display, FULLSCREEN, RESIZABLE
+
+from .Universal_computing import SingletonPattern
 """
 Contains the code responsible for the game settings.
 """
@@ -20,7 +22,7 @@ def system_type() -> str:
         return 'Windows'
 
 
-class SettingsKeeper:
+class SettingsKeeper(SingletonPattern):
     """
     Reading settings from "settings" file.
     """

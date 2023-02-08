@@ -232,7 +232,7 @@ Localization of the standard interface is stored in the appropriate files: 'eng.
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
-                              └── :file_folder:UI<br>
+                              └── :file_folder:User_Interface<br>
                                        ├── :file_folder:UI_Buttons<br>
                                        │        ├── :page_facing_up:ui_\*_buttons.json **(Can be your button file)**<br>
                                        │        └── :file_folder:Localization<br>
@@ -308,7 +308,7 @@ Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
 ./:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
-                    └── :file_folder:UI<br>
+                    └── :file_folder:User_Interface<br>
                             └── :file_folder:Buttons<br>
 
 **Learn more about coding your own interface:**<br>

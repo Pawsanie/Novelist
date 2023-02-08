@@ -1,12 +1,14 @@
 from pygame import Surface
 
 from ..User_Interface.UI_Button import button_generator
+from ..Universal_computing import SingletonPattern
+from ..User_Interface.UI_Menus_Text import menus_text_generator
 """
 Contents code for user interface controller.
 """
 
 
-class InterfaceController:
+class InterfaceController(SingletonPattern):
     """
     Generate user interface: buttons, menu and control it.
     InterfaceController used in "GamePlay_Administrator.py" for gameplay programming.
@@ -22,12 +24,19 @@ class InterfaceController:
         # Parse args:
         self.background_surface: Surface = background_surface
         self.language_flag: str = language_flag
+
         # Generate buttons:
         self.buttons_dict: dict = button_generator(
             language_flag=language_flag,
             background_surface=self.background_surface
         )
         self.gameplay_choice_buttons: dict = {}
+        # Generate menus text:
+        self.menus_text: dict = menus_text_generator(
+            language_flag=language_flag,
+            background_surface=self.background_surface
+        )
+
         # In game user interface:
         # "True/False" and "False" as default.
         self.gameplay_interface_hidden_status: bool = False

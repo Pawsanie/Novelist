@@ -6,6 +6,21 @@ Contains universal computing for objects.
 """
 
 
+class SingletonPattern:
+    """
+    Contain singleton design pattern code super class.
+    """
+    # Singleton instance flag:
+    __singleton_instance: object or None = None
+
+    def __new__(cls, *args, **kwargs):
+        # Singleton design pattern class constructor part:
+        if cls.__singleton_instance is None:
+            cls.__singleton_instance = super(SingletonPattern, cls).__new__(cls)
+
+        return cls.__singleton_instance
+
+
 def surface_size(interested_surface: Surface) -> [int, int]:
     """
     Calculation surface size.

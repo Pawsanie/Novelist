@@ -1,4 +1,6 @@
 from pygame import display, Surface
+
+from .Universal_computing import SingletonPattern
 """
 Contains code for display image render.
 """
@@ -19,7 +21,7 @@ def render(func):
     return base_render
 
 
-class Render:
+class Render(SingletonPattern):
     """
     Render image on display.
     """

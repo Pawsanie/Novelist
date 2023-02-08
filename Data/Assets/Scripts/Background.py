@@ -1,7 +1,7 @@
 from pygame import display, image, transform, Surface
 
 from .Assets_load import image_load, json_load
-from .Universal_computing import surface_size
+from .Universal_computing import surface_size, SingletonPattern
 """
 Contains code responsible for rendering scenes.
 """
@@ -66,7 +66,7 @@ def background_sprite_data(*, display_surface: Surface) -> tuple[tuple[int, int]
         return background_surface_size, render_coordinates
 
 
-class Background:
+class Background(SingletonPattern):
     """
     Load scene image by name and update the scene.
     Can scale scene size to display size.
@@ -101,9 +101,9 @@ def backgrounds_generator(*, display_surface: Surface) -> dict[str, Background]:
     :return: Dict wth names of backgrounds and their sprites.
     """
     result: dict = {}
-    backgrounds_list: dict = json_load(['Scripts',
-                                       'Json_data',
-                                        'backgrounds_sprites'])
+    backgrounds_list: dict = json_load(
+        ['Scripts', 'Json_data', 'backgrounds_sprites']
+    )
     for location in backgrounds_list:
         sprite: Surface = image_load(art_name=backgrounds_list[location],
                                      file_format='jpg',

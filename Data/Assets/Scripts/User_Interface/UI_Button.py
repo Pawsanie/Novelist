@@ -48,7 +48,7 @@ class Button:
         self.button_sprite_standard: Surface = image_load(
             art_name=str(self.button_image_data['sprite_name']),
             file_format='png',
-            asset_type=path.join(*['UI', 'Buttons']))
+            asset_type=path.join(*['User_Interface', 'Buttons']))
         self.button_sprite: Surface = self.button_sprite_standard
 
         # Generate button surface:
@@ -76,7 +76,7 @@ class Button:
                 self.font_name: None = None
                 self.set_button_font: font.Font = font.Font(font.get_default_font(), self.font_size)
 
-    def generator(self):
+    def generator(self) -> tuple[Surface, tuple[int, int]]:
         """
         Generate button surface and coordinates for render.
         """
@@ -383,9 +383,9 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
     """
     result: dict = {}
 
-    # localizations instructions from 'ui_localizations_data.json': UI files and languages for UI.
+    # localizations instructions from 'ui_buttons_localizations_data.json': UI files and languages for UI.
     localizations_data: dict[str] = json_load(
-        ['Scripts', 'Json_data', 'UI', 'UI_Buttons', 'Localization', 'ui_buttons_localizations_data']
+        ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'Localization', 'ui_buttons_localizations_data']
     )
 
     # localizations data:
@@ -401,14 +401,14 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
     for language in localizations:
         all_buttons_text_localizations_dict.update(
             {language: json_load(
-                ['Scripts', 'Json_data', 'UI', 'UI_Buttons', 'Localization', language]
+                ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'Localization', language]
             )}
         )
 
     # User Interface buttons:
     for file_name in ui_buttons_files:
         ui_buttons_json: dict[str] = json_load(
-            ['Scripts', 'Json_data', 'UI', 'UI_Buttons', file_name]
+            ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', file_name]
         )
         ui_buttons: dict = {}
         for key in ui_buttons_json:

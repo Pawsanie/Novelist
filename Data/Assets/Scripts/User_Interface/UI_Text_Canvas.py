@@ -19,7 +19,7 @@ class TextCanvas:
         self.canvas_sprite: Surface = image_load(
             art_name='text_canvas',
             file_format='png',
-            asset_type='UI'
+            asset_type='User_Interface'
         )
         self.text_canvas_surface: Surface = Surface((0, 0))
         self.text_canvas_coordinates: tuple[int, int] = (0, 0)

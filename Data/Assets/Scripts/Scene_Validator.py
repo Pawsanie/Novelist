@@ -1,11 +1,12 @@
 from .Stage_Director import StageDirector
 from .Assets_load import json_load
+from .Universal_computing import SingletonPattern
 """
 Contains SceneValidator code.
 """
 
 
-class SceneValidator:
+class SceneValidator(SingletonPattern):
     """
     Controls in what order the scenes go and their settings.
     """

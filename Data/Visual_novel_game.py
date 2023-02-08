@@ -20,7 +20,7 @@ def run():
     start_settings: SettingsKeeper = SettingsKeeper()
     type_of_system: str = start_settings.system_type
     # Path to icons:
-    path_to_icons: str = path.join(*['UI', 'Icons'])
+    path_to_icons: str = path.join(*['User_Interface', 'Icons'])
     # Application name in window:
     display.set_caption(app_name)
     # Window settings:

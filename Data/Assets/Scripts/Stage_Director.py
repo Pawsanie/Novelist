@@ -4,13 +4,14 @@ from .Character import characters_generator
 from .Background import backgrounds_generator, Background, background_sprite_data
 from .User_Interface.UI_Text_Canvas import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
+from .Universal_computing import SingletonPattern
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
 """
 
 
-class StageDirector:
+class StageDirector(SingletonPattern):
     """
     Controls game scenes and assets loads.
     StageDirector used in "GamePlay_Administrator.py" for gameplay programming.
