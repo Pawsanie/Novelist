@@ -357,7 +357,7 @@ Icons images must be in **png** format and have the default size and titles.<br>
 ./:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
-                    └── :file_folder:UI<br>
+                    └── :file_folder:User_Interface<br>
                             └── :file_folder:Icons<br>
 
 ## GamePlay:
