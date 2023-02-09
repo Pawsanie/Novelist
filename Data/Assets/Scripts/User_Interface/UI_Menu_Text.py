@@ -138,10 +138,12 @@ class MenuText:
             text_surface: Surface = self.set_text_font.render(row, True, self.text_color)
             # Menu surface text coordinates:
             text_coordinates: tuple[int, int] = (
-                (self.menu_text_surface.get_width() // 2) - (text_surface.get_width() // 2),
+                ((self.menu_text_surface.get_width() // 2) - (text_surface.get_width() // 2))
+                * self.menu_text_coordinates_x,
 
-                ((self.menu_text_surface.get_height() // 2) - (text_surface.get_height() // 2))
-                - ((text_surface.get_height() // 2) * (index - 1) * 2)
+                (((self.menu_text_surface.get_height() // 2) - (text_surface.get_height() // 2))
+                 - ((text_surface.get_height() // 2) * (index - 1) * 2))
+                * self.menu_text_coordinates_y
             )
             rows_list.append((text_surface, text_coordinates))
 
