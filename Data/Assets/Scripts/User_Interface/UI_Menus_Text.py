@@ -3,7 +3,6 @@ from os import path
 from pygame import Surface, font, SRCALPHA, transform
 
 from ..Assets_load import json_load, font_load, image_load
-from ..Background import Background
 font.init()
 """
 Contents code for menus text keeper.
