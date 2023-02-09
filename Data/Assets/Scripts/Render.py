@@ -76,6 +76,9 @@ class Render(SingletonPattern):
                 button_surface, button_coordinates = button.generator()
                 self.screen.blit(button_surface, button_coordinates)
 
+    def ui_text_render(self):
+        ...
+
     def characters_render(self):
         """
         Scene characters render.

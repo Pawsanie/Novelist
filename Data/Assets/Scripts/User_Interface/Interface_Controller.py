@@ -32,7 +32,7 @@ class InterfaceController(SingletonPattern):
         )
         self.gameplay_choice_buttons: dict = {}
         # Generate menus text:
-        self.menus_text: dict = menus_text_generator(
+        self.menus_text_dict: dict = menus_text_generator(
             language_flag=language_flag,
             background_surface=self.background_surface
         )
@@ -97,6 +97,19 @@ class InterfaceController(SingletonPattern):
             return self.buttons_dict['ui_start_menu_buttons']
         if self.back_to_start_menu_status is True:
             return self.buttons_dict['ui_back_to_start_menu_status_menu_buttons']
+
+    def menus_text_dict(self) -> dict:
+        """
+        Generate text for same menu.
+
+        :return: dict
+        """
+        if self.exit_menu_status is True:
+            return self.menus_text_dict['ui_exit_menu_text']
+        if self.settings_status_menu_status is True:
+            return self.menus_text_dict['ui_settings_status_text']
+        if self.back_to_start_menu_status is True:
+            return self.menus_text_dict['ui_back_to_start_menu_status_menu_text']
 
     def scale(self, *, language_flag: None or str = None, background_surface):
         """

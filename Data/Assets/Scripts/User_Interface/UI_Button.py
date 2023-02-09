@@ -301,7 +301,7 @@ class Button:
 
     def localization_button_text(self, *, language_flag):
         """
-        Generate text on button if it's necessary.
+        Localization text of button if it's necessary.
 
         :param language_flag: String with language flag.
         :type language_flag: str
@@ -311,15 +311,20 @@ class Button:
             self.button_text: str = self.button_text_localization_dict[self.language_flag]
 
     def button_text_render(self):
+        """
+        Generate text on button if it's necessary.
+        """
         # Localization button text:
         self.localization_button_text(language_flag=self.language_flag)
         self.font_size: int = self.background_surface.get_height() // 50
+
         # Font reload for size scale:
         if self.font_name is None:
             self.set_button_font: font.Font = font.Font(font.get_default_font(), self.font_size)
         else:
             self.set_button_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
         text_surface: Surface = self.set_button_font.render(self.button_text, True, self.text_color)
+
         # Button text coordinates:
         button_text_coordinates: tuple[int, int] = (
             (self.button_surface.get_width() // 2) - (text_surface.get_width() // 2),

@@ -6,5 +6,6 @@
     "y": 1
   },
   "font": null,
-  "color": "#000000"
+  "color": "#000000",
+  "substrate": "blank_big"
 }
