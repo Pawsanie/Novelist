@@ -239,8 +239,10 @@ Localization of the standard interface is stored in the appropriate files: 'eng.
                                        │                 ├── :page_facing_up:eng.json **(Can be your localization)**<br>
                                        │                 └── :page_facing_up:ui_localizations_data.json<br>
                                        └── :file_folder:UI_Menu_texts<br>
-                                                ├── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                                └── :page_facing_up:ui_menu_texts_localizations_data.json<br>
+                                                ├── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
+                                                └── :file_folder:Localization<br>
+                                                         ├── :page_facing_up:eng.json **(Can be your localization)**<br>
+                                                         └── :page_facing_up:ui_menu_texts_localizations_data.json<br>
 
 **Json interface settings files:**<br>
 
@@ -264,7 +266,7 @@ In 'get_ui_buttons_dict' method of 'InterfaceController' class.<br>
 Please note that you need to write file names in ui_buttons_files key values.<br>
 Note that localization tags work similarly to scene text localization.
 
-**Example of start menu in 'eng.json' file:**
+**Example of start menu in './UI_Buttons/\*/eng.json' file:**
 ```json
 {
   "start_menu_new_game": "New game",
@@ -311,6 +313,64 @@ Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
                     └── :file_folder:User_Interface<br>
                             └── :file_folder:Buttons<br>
 
+**Example of 'ui_menu_text_localizations_data.json' file:**
+```json
+{
+  "ui_menus_text_files": [
+    "ui_back_to_start_menu_status_menu_text",
+    "ui_exit_menu_text",
+    "ui_settings_status_text"
+  ],
+  "localizations": [
+    "eng",
+    "ru"
+  ]
+}
+```
+Arranged by **analogy** with the 'ui_localizations_data.json'.<br>
+Only instead of the 'ui_buttons_files' key the 'ui_menus_text_files'.
+
+**Example of text in './UI_Menu_texts/\*/eng.json' file:**
+```json
+{
+  "back_to_start_menu_status_menu_text": "Would you like to return to the main menu?\nAll unsaved progress will be lost!",
+
+  "exit_menu_text": "Would you like to exit the game?\nAll unsaved progress will be lost!",
+
+  "settings_status_menu_text": "Would you like to change the game settings?"
+}
+```
+Note that you can use the line break '\n' character for text.
+
+**Example of 'ui_exit_menu_text.json' file:**
+```json
+{
+  "type": "exit_menu",
+  "text": "exit_menu_text",
+  "coordinates": {
+    "x": 1,
+    "y": 1
+  },
+  "font": null,
+  "color": "#FFFFFF",
+  "substrate": "blank_big"
+}
+```
+**text** key contains as value link to text in localisation.
+
+**coordinates** key contains as value dictionary with multipliers for the coordinates on which the text will be positioned, from the center.
+
+**color** key contains as value color like string.
+
+Please note that the '**substrate**' key contains the name of the sprite, as the value.<br>
+Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
+**Folder location:**<br>
+./:open_file_folder:Data<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Images<br>
+                    └── :file_folder:User_Interface<br>
+                            └── :file_folder:Menu_Substrate<br>
+
 **Learn more about coding your own interface:**<br>
 
 **Files locations:**<br>
@@ -319,10 +379,12 @@ Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:User_Interface<br>
                               ├── :page_facing_up:Interface_Controller.py<br>
+                              ├── :page_facing_up:UI_Menu_Text.py<br>
                               ├── :page_facing_up:UI_Button.py<br>
                               ├── :page_facing_up:UI_buttons_calculations.py<br>
                               └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
+**Buttons for new menu:**
 New menu need to be added in '**coordinates**' method of '**Button**' class in 'UI_Button.py' file.<br>
 Also you need to **write a new method** finding button coordinates.<br>
 'menu_yes_no_coordinates' method as example of **horizontal** menu.<br>
@@ -339,6 +401,13 @@ And create and fill a new 'ui_*_menu_buttons.json' file, for your menu.
 
 Finally, you will need to program your menu to work in a new python file.<br>
 The 'UI_Start_menu.py' as example.
+
+**Informative text for new menu:**<br>
+If you need to add static text, with or without a background, to your new menu then a new menu needs to be added to 'ui_menu_text_localizations_data.json'.<br>
+In addition, you will need to create a new ui_*_menu_text.json for the new menu and fill it with correct data.
+
+You will also need to add a new menu to 'UI_Menu_Text.py' **MenuText** class '**scale**' method`s list.<br>
+And add new 'return' to '**get_menus_text_dict**' in method of '**InterfaceController**' class.
 
 ## The name and icon of the game window:
 In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>

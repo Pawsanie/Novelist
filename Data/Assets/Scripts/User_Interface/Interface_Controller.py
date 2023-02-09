@@ -2,7 +2,7 @@ from pygame import Surface
 
 from ..User_Interface.UI_Button import button_generator
 from ..Universal_computing import SingletonPattern
-from ..User_Interface.UI_Menus_Text import menus_text_generator, MenuText
+from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 """
 Contents code for user interface controller.
 """
