@@ -45,6 +45,9 @@ class Render(SingletonPattern):
         self.screen.fill((0, 0, 0))
 
     def gameplay_text_render(self):
+        """
+        Render game play text for gameplay_read_scene method.
+        """
         # Get data from StageDirector:
         background: Surface = self.stage_director.get_background()[0]
         text_canvas: tuple[Surface, tuple[int, int]] = self.stage_director.text_canvas.get()  # Remake?
@@ -62,7 +65,7 @@ class Render(SingletonPattern):
         """
         # Get data from StageDirector and InterfaceController:
         background: Surface = self.stage_director.get_background()[0]
-        get_ui_buttons_dict = self.interface_controller.get_ui_buttons_dict()
+        get_ui_buttons_dict: dict = self.interface_controller.get_ui_buttons_dict()
         # Render:
         if self.interface_controller.gameplay_interface_status is True:
             if self.interface_controller.gameplay_interface_hidden_status is False:
@@ -77,7 +80,17 @@ class Render(SingletonPattern):
                 self.screen.blit(button_surface, button_coordinates)
 
     def ui_text_render(self):
-        ...
+        """
+        Render text for menus if it possible.
+        """
+        menus_text_dict: dict = self.interface_controller.get_menus_text_dict()
+        if menus_text_dict is not None:
+            background: Surface = self.stage_director.get_background()[0]
+            for text in menus_text_dict.values():
+                text.scale(background_surface=background)
+                self.screen.blit(
+                    text.get_text()[0], text.get_text()[1]
+                )
 
     def characters_render(self):
         """
@@ -102,10 +115,14 @@ class Render(SingletonPattern):
         self.screen.blit(background, background_coordinates)
 
     def standard_menu_render(self, background_name):
+        """
+        Standard render pipeline for menus render.
+        """
         # Background render:
         self.stage_director.set_scene(location=background_name)
         self.background_render()
-        # Exit menu ui render:
+        # Menu ui render:
+        self.ui_text_render()
         self.ui_buttons_render()
 
     @render

@@ -2,7 +2,7 @@ from pygame import Surface
 
 from ..User_Interface.UI_Button import button_generator
 from ..Universal_computing import SingletonPattern
-from ..User_Interface.UI_Menus_Text import menus_text_generator
+from ..User_Interface.UI_Menus_Text import menus_text_generator, MenuText
 """
 Contents code for user interface controller.
 """
@@ -98,7 +98,7 @@ class InterfaceController(SingletonPattern):
         if self.back_to_start_menu_status is True:
             return self.buttons_dict['ui_back_to_start_menu_status_menu_buttons']
 
-    def menus_text_dict(self) -> dict:
+    def get_menus_text_dict(self) -> dict[str, MenuText]:
         """
         Generate text for same menu.
 

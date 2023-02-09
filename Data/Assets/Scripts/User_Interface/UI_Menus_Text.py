@@ -1,8 +1,9 @@
 from os import path
 
-from pygame import Surface, font, SRCALPHA
+from pygame import Surface, font, SRCALPHA, transform
 
 from ..Assets_load import json_load, font_load, image_load
+from ..Background import Background
 font.init()
 """
 Contents code for menus text keeper.
@@ -67,19 +68,45 @@ class MenuText:
         self.menu_text_coordinates: tuple[int, int] = (0, 0)
         self.menu_text_surface_size: tuple[int, int] = (0, 0)
 
-    def scale(self):
+    def scale(self, *, background_surface):
         """
         Scale menu text for render.
         """
-        self.menu_text_surface: Surface = Surface((0, 0), SRCALPHA)
+        # Devnull interesting data:
+        self.background_surface = background_surface
+        self.menu_text_surface_size: tuple[int, int] = (0, 0)
         self.menu_text_coordinates: tuple[int, int] = (0, 0)
+        # Set menu lists:
+        yes_no_menu_text_list = [
+            'back_to_start_menu_status_menu',
+            'exit_menu',
+            'settings_status_menu'
+        ]
 
-        self.text_render()
+        # Calculating surface size and text coordinates:
+        if self.menu_name in yes_no_menu_text_list:
+            self.menu_text_surface_size: tuple[int, int] = (
+                (self.background_surface.get_width() // 3),
+                (self.background_surface.get_height() // 3)
+            )
+            self.menu_text_coordinates: tuple[int, int] = (
+                (self.background_surface.get_width() // 2) - (self.menu_text_surface_size[0] // 2),
+                (self.background_surface.get_height() // 2) - (self.menu_text_surface_size[1] // 2)
+            )
+
+        # Surface scale:
+        if self.menu_text_substrate_sprite is not None:
+            menu_text_substrate_standard = self.menu_text_substrate_standard
+            menu_text_substrate_standard = transform.scale(menu_text_substrate_standard, self.menu_text_surface_size)
+            self.menu_text_substrate_sprite: Surface = Surface(self.menu_text_surface_size, SRCALPHA)
+            self.menu_text_substrate_sprite.blit(menu_text_substrate_standard, (0, 0))
+        self.menu_text_surface: Surface = Surface(self.menu_text_surface_size, SRCALPHA)
 
     def get_text(self) -> tuple[Surface, tuple[int, int]]:
         """
         :return: menu`s object and text coordinates.
         """
+        self.text_render()
         return self.menu_text_surface, self.menu_text_coordinates
 
     def localization_menu_text(self, *, language_flag):
@@ -105,24 +132,28 @@ class MenuText:
             self.set_text_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
         else:
             self.set_text_font: font.Font = font.Font(font.get_default_font(), self.font_size)
-        text_surface: Surface = self.set_text_font.render(self.menu_text, True, self.text_color)
 
-        # Button text coordinates:
-        self.menu_text_coordinates: tuple[int, int] = (
-            (self.background_surface.get_width() // 2) - (text_surface.get_width() // 2),
-            (self.background_surface.get_height() // 2) - (text_surface.get_height() // 2)
-        )
-        self.menu_text_substrate_render()
-        self.menu_text_surface = self.menu_text_surface.blit(text_surface, self.menu_text_coordinates)
+        # Generate text:
+        rows_list: list = []
+        for index, row in enumerate(self.menu_text.split('\n')):
+            text_surface: Surface = self.set_text_font.render(row, True, self.text_color)
+            # Menu surface text coordinates:
+            text_coordinates: tuple[int, int] = (
+                (self.menu_text_surface.get_width() // 2) - (text_surface.get_width() // 2),
 
-    def menu_text_substrate_render(self):
-        """
-        Render text on substrate if it possible.
-        """
-        if self.menu_text_substrate_sprite is None:
-            return
-        self.menu_text_substrate_sprite: Surface = self.menu_text_substrate_standard
-        self.menu_text_surface = self.menu_text_surface.blit(self.menu_text_substrate_sprite, (0, 0))
+                ((self.menu_text_surface.get_height() // 2) - (text_surface.get_height() // 2))
+                - ((text_surface.get_height() // 2) * (index - 1) * 2)
+            )
+            rows_list.append((text_surface, text_coordinates))
+
+        # Render text on substrate if it possible:
+        if self.menu_text_substrate_sprite is not None:
+            for row in rows_list:
+                self.menu_text_substrate_sprite.blit(row[0], row[1])
+            self.menu_text_surface.blit(self.menu_text_substrate_sprite, (0, 0))
+        else:
+            for row in rows_list:
+                self.menu_text_surface.blit(row[0], row[1])
 
 
 def menus_text_generator(language_flag: str, background_surface: Surface) -> dict[str, dict[str]]:
