@@ -6,6 +6,7 @@ from .Render import Render
 from .Scene_Validator import SceneValidator
 from .User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
+from .Save_Master import SaveMaster
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
@@ -52,6 +53,8 @@ class GameMaster:
             stage_director=self.stage_director,
             scene_validator=self.scene_validator
         )
+        # Save and load system:
+        self.save_master: SaveMaster = SaveMaster()
 
     def set_gameplay_type(self):
         """

@@ -32,7 +32,7 @@ class SettingsKeeper(SingletonPattern):
             .replace(path.join(*['Scripts', 'Settings_Keeper.py']), '')
         self.user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
         # Read settings configuration file:
-        with open(self.user_settings_path, 'r') as game_settings:
+        with open(self.user_settings_path, 'r', encoding='utf-8') as game_settings:
             for row in game_settings:
                 setting_type: list[str] = row.replace('\n', '').split('=')
                 if setting_type[0] == 'screen_size':
@@ -89,7 +89,7 @@ class SettingsKeeper(SingletonPattern):
         """
         Save new settings to "user_settings" file.
         """
-        with open(self.user_settings_path, 'w') as settings_file:
+        with open(self.user_settings_path, 'w', encoding='utf-8') as settings_file:
             settings_file.write(
                 f"# game_settings:\n"
                 f"screen_size={self.screen_size[0]}x{self.screen_size[1]}\n"

@@ -102,7 +102,7 @@ class InterfaceController(SingletonPattern):
         """
         Generate text for same menu.
 
-        :return: dict
+        :return: Dict with menu text.
         """
         if self.exit_menu_status is True:
             return self.menus_text_dict['ui_exit_menu_text']
