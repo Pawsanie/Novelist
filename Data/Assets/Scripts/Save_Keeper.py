@@ -2,6 +2,7 @@ from os import path, walk, makedirs
 import json
 from time import strftime, localtime, strptime
 import logging
+import traceback
 
 from .Universal_computing import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
@@ -66,19 +67,41 @@ class SaveKeeper(SingletonPattern):
         }
         return json.dumps(data_to_save, indent=4)
 
-    def continue_game(self) -> str:
+    def continue_game(self) -> str or bool:
         """
         Get scene name for game continue.
         Used in StartMenu class from "UI_Start_menu.py".
 
         :return: String with scene name from last save.
+                 Or False if save file was corrupted.
         """
         self.saves_read()
-        if self.saves_dict is None:
+        if self.saves_dict is None or len(self.saves_dict) == 0:
             return 'scene_01'
         else:
             last_save: list[str] = sorted(self.saves_dict.keys(), reverse=True)
-            return self.saves_dict[last_save[0]]["save_data"]["scene"]
+
+            try:
+
+                return self.saves_dict[last_save[0]]["save_data"]["scene"]
+
+            # Logging errors:
+            except Exception as error:
+                try:
+                    corrupted_data = self.saves_dict[last_save[0]]
+                except Exception as corrupted_data_error:
+                    corrupted_data = corrupted_data_error
+                logging.error(
+                        f"{'=' * 30}\n"
+                        f"SaveKeeper Exception in 'continue_game' method:"
+                        f"\n{'-'*30}"
+                        f"\nIssue with: {repr(error)}"
+                        f"\n{traceback.format_exc()}"
+                        f"\n{'-'*30}"
+                        f"\nSaves list: \n{corrupted_data}"
+                        f"\n{'='*30}\n\n"
+                    )
+                return False
 
     def saves_read(self):
         """
@@ -102,23 +125,27 @@ class SaveKeeper(SingletonPattern):
                                 *[self.save_folder_path, file]
                             ), 'r') as save_file:
                         # Generate save frame for save collection:
-                        save_data: dict = json.load(save_file)
+                        file_data: str = save_file.read()
+                        save_data: dict = json.loads(file_data)
                         self.saves_dict.update({
                             strptime(save_data['date'], "%Y:%m:%d:%H:%M:%S"): {
                                 "file_name": file,
                                 "save_data": save_data
                             }
                         })
+
+                # Logging Errors:
                 except Exception as error:
                     try:
-                        save_data: dict = json.load(save_file)
+                        save_data: str = json.loads(file_data)
                     except Exception as save_data_error:
                         save_data: Exception = save_data_error
                     logging.error(
                         f"{'=' * 30}\n"
-                        f"SaveKeeper Exception:"
+                        f"SaveKeeper Exception in 'saves_read' method:"
+                        f"\nIssue with: {repr(error)}"
                         f"\n{'-'*30}"
-                        f"\n{error}"
+                        f"\n{traceback.format_exc()}"
                         f"\n{'-'*30}"
                         f"\nFile name: {file}"
                         f"\n{'-'*30}"

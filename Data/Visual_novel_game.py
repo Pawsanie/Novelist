@@ -1,4 +1,6 @@
+import logging
 from os import path
+import traceback
 
 from pygame import display
 
@@ -49,4 +51,13 @@ if __name__ == '__main__':
         log_path="logg_file.txt",
         log_level=30
     )
-    run()
+    try:
+        run()
+    except Exception as error:
+        logging.error(
+            f"{'=' * 30}\n"
+            f"Program launch raise: '{repr(error)}'"
+            f"\n{'-'*30}"
+            f"\n{traceback.format_exc()}"
+            f"\n{'='*30}\n\n"
+        )
