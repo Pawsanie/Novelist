@@ -1,4 +1,6 @@
 from .UI_Base_menu import BaseMenu
+
+from ..Save_Keeper import SaveKeeper
 """
 Contains Start menu code.
 """
@@ -20,6 +22,9 @@ class StartMenu(BaseMenu):
         super(StartMenu, self).__init__(
             interface_controller=interface_controller,
             scene_validator=scene_validator)
+        self.save_keeper: SaveKeeper = SaveKeeper(
+            scene_validator=scene_validator
+        )
 
     def start_game(self, scene_name: str):
         self.scene_validator.scene = scene_name
@@ -40,7 +45,9 @@ class StartMenu(BaseMenu):
             if command == 'start_menu_new_game':
                 self.start_game('scene_01')  # 'scene_01' as default!
             if command == 'start_menu_continue':
-                ...
+                self.start_game(
+                    self.save_keeper.continue_game()
+                )
             if command == 'start_menu_load':
                 self.interface_controller.start_menu_status = False
                 self.interface_controller.load_menu_status = True
