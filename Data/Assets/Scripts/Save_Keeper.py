@@ -1,6 +1,7 @@
 from os import path, walk, makedirs
 import json
 from time import strftime, localtime, strptime
+import logging
 
 from .Universal_computing import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
@@ -28,13 +29,12 @@ class SaveKeeper(SingletonPattern):
         # Path settings:
         script_root_path: str = path.abspath(__file__) \
             .replace(path.join(
-                *['Assets', 'Scripts', 'Save_Master.py']
+                *['Assets', 'Scripts', 'Save_Keeper.py']
             ), '')
         self.save_folder_path: str = path.join(*[script_root_path, 'Saves'])
 
         # Saves collection:
         self.saves_dict: dict | None = {}
-        self.saves_read()
 
     def save(self, *, auto_save: bool):
         """
@@ -96,15 +96,33 @@ class SaveKeeper(SingletonPattern):
         else:
             self.saves_dict: dict = {}
             for file in save_files:
-                with open(
-                        path.join(
-                            *[self.save_folder_path, file]
-                        ), 'r') as save_file:
-                    # Generate save frame for save collection:
-                    save_data: dict = json.load(save_file)
-                    self.saves_dict.update({
-                        strptime(save_data['date'], "%Y:%m:%d:%H:%M:%S"): {
-                            "file_name": file,
-                            "save_data": save_data
-                        }
-                    })
+                try:
+                    with open(
+                            path.join(
+                                *[self.save_folder_path, file]
+                            ), 'r') as save_file:
+                        # Generate save frame for save collection:
+                        save_data: dict = json.load(save_file)
+                        self.saves_dict.update({
+                            strptime(save_data['date'], "%Y:%m:%d:%H:%M:%S"): {
+                                "file_name": file,
+                                "save_data": save_data
+                            }
+                        })
+                except Exception as error:
+                    try:
+                        save_data: dict = json.load(save_file)
+                    except Exception as save_data_error:
+                        save_data: Exception = save_data_error
+                    logging.error(
+                        f"{'=' * 30}\n"
+                        f"SaveKeeper Exception:"
+                        f"\n{'-'*30}"
+                        f"\n{error}"
+                        f"\n{'-'*30}"
+                        f"\nFile name: {file}"
+                        f"\n{'-'*30}"
+                        f"\nFile data:"
+                        f"\n{save_data}"
+                        f"\n{'='*30}\n\n"
+                    )

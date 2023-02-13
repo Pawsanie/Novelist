@@ -5,6 +5,7 @@ from pygame import display
 from Assets.Scripts.Assets_load import image_load
 from Assets.Scripts.Settings_Keeper import SettingsKeeper
 from Assets.Scripts.Game_Master import GameMaster
+from Assets.Scripts.Logging_Config import logging_config
 """
 Contains app shell code.
 """
@@ -44,4 +45,8 @@ def run():
 
 
 if __name__ == '__main__':
+    logging_config(
+        log_path="logg_file.txt",
+        log_level=30
+    )
     run()
