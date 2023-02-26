@@ -161,7 +161,10 @@ class MenuText:
             for row in rows_list:
                 self.menu_text_surface.blit(row[0], row[1])
 
-    def devnull_text(self):
+    def devnull_menu_text(self):
+        """
+        Remove menu text from display.
+        """
         self.menu_text_surface: Surface = Surface((0, 0))
 
 

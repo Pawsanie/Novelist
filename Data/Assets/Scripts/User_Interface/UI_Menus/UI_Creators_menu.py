@@ -17,7 +17,7 @@ class CreatorsMenu(BaseMenu):
         """
         Back to start menu.
         """
-        self.interface_controller.creator_menu = False
+        self.interface_controller.creators_menu_status = False
         self.interface_controller.start_menu_status = True
 
     def key_bord_exit_menu_key_down(self, event):
