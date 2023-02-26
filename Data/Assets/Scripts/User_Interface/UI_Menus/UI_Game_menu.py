@@ -1,27 +1,18 @@
 from pygame import KEYDOWN, K_ESCAPE
 
-from .UI_Base_menu import BaseMenu
+from ..UI_Base_menu import BaseMenu
+from ...Universal_computing import SingletonPattern
 """
 Contains game menu code.
 """
 
 
-class GameMenu(BaseMenu):
+class GameMenu(SingletonPattern, BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in Game Menu.
     """
-    def __init__(self, *, interface_controller, scene_validator):
-        """
-        :param interface_controller: InterfaceController exemplar.
-                                     Responsible for user interface status and buttons.
-        :type interface_controller: InterfaceController
-        :param scene_validator: SceneValidator exemplar.
-                            Responsible for scene order and scene construction.
-        :type scene_validator: SceneValidator
-        """
-        super(GameMenu, self).__init__(
-            interface_controller=interface_controller,
-            scene_validator=scene_validator)
+    def __init__(self):
+        super(GameMenu, self).__init__()
 
     def game_menu_input_mouse(self, event):
         """

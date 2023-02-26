@@ -382,7 +382,8 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
                               ├── :page_facing_up:UI_Menu_Text.py<br>
                               ├── :page_facing_up:UI_Button.py<br>
                               ├── :page_facing_up:UI_buttons_calculations.py<br>
-                              └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
+                              └── :file_folder:UI_Menus<br>
+                                       └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
 **Buttons for new menu:**
 New menu need to be added in '**coordinates**' method of '**Button**' class in 'UI_Button.py' file.<br>

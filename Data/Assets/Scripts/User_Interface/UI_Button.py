@@ -299,6 +299,14 @@ class Button:
                 place_flag=place_flag)
             return
 
+        if place_flag['type'] == 'creators_menu':
+            self.menu_start_and_settings_coordinates(
+                background_surface_size=background_surface_size,
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                place_flag=place_flag,
+                multiplier=3)
+            return
+
     def localization_button_text(self, *, language_flag):
         """
         Localization text of button if it's necessary.

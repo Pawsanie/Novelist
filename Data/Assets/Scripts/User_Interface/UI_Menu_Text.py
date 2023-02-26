@@ -58,7 +58,9 @@ class MenuText:
             self.menu_text_substrate_standard: Surface = image_load(
                 art_name=menu_text_substrate,
                 file_format='png',
-                asset_type=path.join(*['User_Interface', 'Menu_Substrate']))
+                asset_type=path.join(
+                    *['User_Interface', 'Menu_Substrate']
+                ))
             self.menu_text_substrate_sprite: Surface = self.menu_text_substrate_standard
         else:
             self.menu_text_substrate_sprite: None = None
@@ -76,10 +78,11 @@ class MenuText:
         self.menu_text_surface_size: tuple[int, int] = (0, 0)
         self.menu_text_coordinates: tuple[int, int] = (0, 0)
         # Set menu lists:
-        yes_no_menu_text_list = [
+        yes_no_menu_text_list: list = [
             'back_to_start_menu_status_menu',
             'exit_menu',
-            'settings_status_menu'
+            'settings_status_menu',
+            'creators_menu'
         ]
 
         # Calculating surface size and text coordinates:
@@ -95,8 +98,10 @@ class MenuText:
 
         # Surface scale:
         if self.menu_text_substrate_sprite is not None:
-            menu_text_substrate_standard = self.menu_text_substrate_standard
-            menu_text_substrate_standard = transform.scale(menu_text_substrate_standard, self.menu_text_surface_size)
+            menu_text_substrate_standard: Surface = self.menu_text_substrate_standard
+            menu_text_substrate_standard: Surface = transform.scale(
+                menu_text_substrate_standard, self.menu_text_surface_size
+            )
             self.menu_text_substrate_sprite: Surface = Surface(self.menu_text_surface_size, SRCALPHA)
             self.menu_text_substrate_sprite.blit(menu_text_substrate_standard, (0, 0))
         self.menu_text_surface: Surface = Surface(self.menu_text_surface_size, SRCALPHA)
@@ -155,6 +160,9 @@ class MenuText:
         else:
             for row in rows_list:
                 self.menu_text_surface.blit(row[0], row[1])
+
+    def devnull_text(self):
+        self.menu_text_surface: Surface = Surface((0, 0))
 
 
 def menus_text_generator(language_flag: str, background_surface: Surface) -> dict[str, dict[str]]:

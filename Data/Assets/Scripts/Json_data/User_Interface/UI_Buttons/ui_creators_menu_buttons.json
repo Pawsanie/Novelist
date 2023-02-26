@@ -1,0 +1,9 @@
+{
+  "creators_menu_back": {
+    "type": "creators_menu",
+    "index_number": 5,
+    "sprite_name": "game_menu_buttons",
+    "font": null,
+    "color": "#000000"
+  }
+}

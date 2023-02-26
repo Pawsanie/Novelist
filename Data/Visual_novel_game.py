@@ -1,13 +1,12 @@
 import logging
 from os import path
-import traceback
 
 from pygame import display
 
 from Assets.Scripts.Assets_load import image_load
 from Assets.Scripts.Settings_Keeper import SettingsKeeper
 from Assets.Scripts.Game_Master import GameMaster
-from Assets.Scripts.Logging_Config import logging_config
+from Assets.Scripts.Logging_Config import logging_config, text_for_logging
 """
 Contains app shell code.
 """
@@ -42,7 +41,7 @@ def run():
                                     file_format='png',
                                     asset_type=path_to_icons))
     # Start game:
-    gameplay = GameMaster(start_settings=start_settings)
+    gameplay: GameMaster = GameMaster()
     gameplay()
 
 
@@ -54,10 +53,8 @@ if __name__ == '__main__':
     try:
         run()
     except Exception as error:
-        logging.error(
-            f"{'=' * 30}\n"
-            f"Program launch raise: '{repr(error)}'"
-            f"\n{'-'*30}"
-            f"\n{traceback.format_exc()}"
-            f"\n{'='*30}\n\n"
+        logging.critical(
+            text_for_logging(
+                log_text="The program launch ended with an error!",
+                log_error=error)
         )

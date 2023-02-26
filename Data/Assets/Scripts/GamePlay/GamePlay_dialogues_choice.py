@@ -1,6 +1,4 @@
 from ..Stage_Director import StageDirector
-from ..Scene_Validator import SceneValidator
-from ..User_Interface.Interface_Controller import InterfaceController
 from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Button import Button
 from ..Assets_load import json_load
@@ -14,25 +12,11 @@ class GamePlayDialoguesChoice(BaseMenu):
     Controls reactions to user input commands from mouse or key bord in reading gameplay.
     Generated in GamePlayAdministrator from 'Game_Play_Administrator.py' file.
     """
-    def __init__(self, *, stage_director: StageDirector, interface_controller: InterfaceController,
-                 scene_validator: SceneValidator):
-        """
-        :param stage_director: Stage Director class exemplar.
-                               Responsible for stage production.
-        :type stage_director: StageDirector
-        :param interface_controller: InterfaceController exemplar.
-                                     Responsible for user interface status and buttons.
-        :type interface_controller: InterfaceController
-        :param scene_validator: SceneValidator exemplar.
-                                Responsible for scene order and scene construction.
-        :type scene_validator: SceneValidator
-        """
+    def __init__(self):
         # Arguments processing:
-        super(GamePlayDialoguesChoice, self).__init__(
-            interface_controller=interface_controller,
-            scene_validator=scene_validator)
+        super(GamePlayDialoguesChoice, self).__init__()
         # Stage Director settings:
-        self.stage_director: StageDirector = stage_director
+        self.stage_director: StageDirector = StageDirector()
         # Gameplay choice buttons generate:
         self.dialogues_buttons: dict = {}
         self.dialogues_choice_buttons_generations()

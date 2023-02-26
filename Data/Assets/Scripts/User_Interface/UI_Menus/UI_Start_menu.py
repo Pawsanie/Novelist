@@ -1,6 +1,6 @@
-from .UI_Base_menu import BaseMenu
+from ..UI_Base_menu import BaseMenu
 
-from ..Save_Keeper import SaveKeeper
+from ...Save_Keeper import SaveKeeper
 """
 Contains Start menu code.
 """
@@ -10,21 +10,9 @@ class StartMenu(BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in Start Menu.
     """
-    def __init__(self, *, interface_controller, scene_validator):
-        """
-        :param interface_controller: InterfaceController exemplar.
-                                     Responsible for user interface status and buttons.
-        :type interface_controller: InterfaceController
-        :param scene_validator: SceneValidator exemplar.
-                            Responsible for scene order and scene construction.
-        :type scene_validator: SceneValidator
-        """
-        super(StartMenu, self).__init__(
-            interface_controller=interface_controller,
-            scene_validator=scene_validator)
-        self.save_keeper: SaveKeeper = SaveKeeper(
-            scene_validator=scene_validator
-        )
+    def __init__(self):
+        super(StartMenu, self).__init__()
+        self.save_keeper: SaveKeeper = SaveKeeper()
 
     def start_game(self, scene_name: str):
         self.scene_validator.scene = scene_name
@@ -55,7 +43,8 @@ class StartMenu(BaseMenu):
                 self.interface_controller.start_menu_status = False
                 self.interface_controller.settings_menu_status = True
             if command == 'start_menu_creators':
-                ...
+                self.interface_controller.start_menu_status = False
+                self.interface_controller.creators_menu_status = True
             if command == 'start_menu_exit':
                 self.interface_controller.start_menu_status = False
                 self.interface_controller.exit_menu_status = True

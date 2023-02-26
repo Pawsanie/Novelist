@@ -1,5 +1,5 @@
-from ..Settings_Keeper import SettingsKeeper
-from .UI_Base_menu import BaseMenu
+from Visual_Novel.Data.Assets.Scripts.Settings_Keeper import SettingsKeeper
+from ..UI_Base_menu import BaseMenu
 """
 Contains settings menu code.
 """
@@ -9,21 +9,9 @@ class SettingsMenu(BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in Settings Menu.
     """
-    def __init__(self, *, interface_controller, settings_keeper, scene_validator):
-        """
-        :param interface_controller: InterfaceController exemplar.
-                                     Responsible for user interface status and buttons.
-        :type interface_controller: InterfaceController
-        :param scene_validator: SceneValidator exemplar.
-                            Responsible for scene order and scene construction.
-        :type scene_validator: SceneValidator
-        :param settings_keeper: Settings controller class.
-        :type settings_keeper: SettingsKeeper
-        """
-        super(SettingsMenu, self).__init__(
-            interface_controller=interface_controller,
-            scene_validator=scene_validator)
-        self.settings_keeper: SettingsKeeper = settings_keeper
+    def __init__(self):
+        super(SettingsMenu, self).__init__()
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
 
     def settings_menu_ui_mouse(self, event):
         """

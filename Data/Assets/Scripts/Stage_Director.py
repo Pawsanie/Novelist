@@ -5,6 +5,8 @@ from .Background import backgrounds_generator, Background, background_sprite_dat
 from .User_Interface.UI_Text_Canvas import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
 from .Universal_computing import SingletonPattern
+from .Settings_Keeper import SettingsKeeper
+from .Character import Character
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -17,28 +19,26 @@ class StageDirector(SingletonPattern):
     StageDirector used in "GamePlay_Administrator.py" for gameplay programming.
     Created in GameMaster class in Game_Master.py.
     """
-    def __init__(self, *, display_screen: display, language_flag: str):
-        """
-        Initializes class params and assets loads.
-
-        :param display_screen: Display surface.
-        :type display_screen: pygame.display.Surface
-        :param language_flag: String with language flag for localisation.
-        :type language_flag: str
-        """
+    def __init__(self):
+        # Arguments processing:
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+        display_screen: Surface = self.settings_keeper.get_windows_settings()
+        self.display_screen: display = display_screen
         # Make background surface:
         background_data: tuple = background_sprite_data(display_surface=display_screen)
         self.background_surface: Surface = Surface(background_data[0])
         self.background_coordinates: tuple[int, int] = background_data[1]
+
         """Assets loading:"""
         # Characters load:
-        self.characters_dict: dict = characters_generator(background_surface=self.background_surface)
+        self.characters_dict: dict[str, Character] = characters_generator(background_surface=self.background_surface)
         # Backgrounds load:
-        self.backgrounds_dict: dict = backgrounds_generator(display_surface=display_screen)
+        self.backgrounds_dict: dict[str, Background] = backgrounds_generator(display_surface=display_screen)
         self.location: Background | None = None
+
         """Make UI:"""
         # Set language:
-        self.language_flag: str = language_flag
+        self.language_flag: str = self.settings_keeper.text_language
         # Text canvas:
         self.text_canvas = TextCanvas(background_surface=self.background_surface)
         self.text_canvas_surface: Surface = self.text_canvas.get()[0]
@@ -55,9 +55,6 @@ class StageDirector(SingletonPattern):
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         # Text Choice gameplay:
         # self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
-        # Game UI buttons:
-        """Arguments processing:"""
-        self.display_screen: display = display_screen
 
     def set_scene(self, *, location: str) -> Surface.blit:
         """

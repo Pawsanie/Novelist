@@ -2,11 +2,11 @@ from os import path, walk, makedirs
 import json
 from time import strftime, localtime, strptime
 import logging
-import traceback
 
 from .Universal_computing import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
 from .Scene_Validator import SceneValidator
+from .Logging_Config import text_for_logging
 """
 Contend code for save/load system.
 """
@@ -17,15 +17,10 @@ class SaveKeeper(SingletonPattern):
     Responsible for saving and loading game progress.
     Stores all saves and their data.
     """
-    def __init__(self, *, scene_validator):
-        """
-        :param scene_validator: SceneValidator exemplar.
-                            Responsible for scene order and scene construction.
-        :type scene_validator: SceneValidator
-        """
+    def __init__(self):
         # Program layers settings:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.scene_validator: SceneValidator = scene_validator
+        self.scene_validator: SceneValidator = SceneValidator()
 
         # Path settings:
         script_root_path: str = path.abspath(__file__) \
@@ -92,15 +87,13 @@ class SaveKeeper(SingletonPattern):
                 except Exception as corrupted_data_error:
                     corrupted_data = corrupted_data_error
                 logging.error(
-                        f"{'=' * 30}\n"
+                    text_for_logging(
+                        log_text=
                         f"SaveKeeper Exception in 'continue_game' method:"
-                        f"\n{'-'*30}"
-                        f"\nIssue with: {repr(error)}"
-                        f"\n{traceback.format_exc()}"
-                        f"\n{'-'*30}"
-                        f"\nSaves list: \n{corrupted_data}"
-                        f"\n{'='*30}\n\n"
-                    )
+                        f"\n{'-' * 30}"
+                        f"\nSaves list: \n{corrupted_data}",
+                        log_error=error
+                    ))
                 return False
 
     def saves_read(self):
@@ -140,16 +133,13 @@ class SaveKeeper(SingletonPattern):
                         save_data: str = json.loads(file_data)
                     except Exception as save_data_error:
                         save_data: Exception = save_data_error
-                    logging.error(
-                        f"{'=' * 30}\n"
+                    logging.error(text_for_logging(
+                        log_text=
                         f"SaveKeeper Exception in 'saves_read' method:"
-                        f"\nIssue with: {repr(error)}"
-                        f"\n{'-'*30}"
-                        f"\n{traceback.format_exc()}"
-                        f"\n{'-'*30}"
+                        f"\nIssue with: {repr(error)}"f"\n{'-'*30}"
                         f"\nFile name: {file}"
                         f"\n{'-'*30}"
                         f"\nFile data:"
-                        f"\n{save_data}"
-                        f"\n{'='*30}\n\n"
-                    )
+                        f"\n{save_data}",
+                        log_error=error
+                    ))

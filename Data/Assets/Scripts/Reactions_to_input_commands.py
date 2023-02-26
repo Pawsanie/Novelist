@@ -5,20 +5,23 @@ from .User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Stage_Director import StageDirector
 from .Scene_Validator import SceneValidator
-from .User_Interface.UI_Exit_menu import ExitMenu
-from .User_Interface.UI_Game_menu import GameMenu
-from .User_Interface.UI_Load_menu import LoadMenu
-from .User_Interface.UI_Save_menu import SaveMenu
-from .User_Interface.UI_Settings_menu import SettingsMenu
-from .User_Interface.UI_Settings_Status_menu import SettingsStatusMenu
-from .User_Interface.UI_Start_menu import StartMenu
-from .User_Interface.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
+from .User_Interface.UI_Menus.UI_Exit_menu import ExitMenu
+from .User_Interface.UI_Menus.UI_Game_menu import GameMenu
+from .User_Interface.UI_Menus.UI_Load_menu import LoadMenu
+from .User_Interface.UI_Menus.UI_Save_menu import SaveMenu
+from .User_Interface.UI_Menus.UI_Settings_menu import SettingsMenu
+from .User_Interface.UI_Menus.UI_Settings_Status_menu import SettingsStatusMenu
+from .User_Interface.UI_Menus.UI_Start_menu import StartMenu
+from .User_Interface.UI_Menus.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
+from .User_Interface.UI_Menus.UI_Creators_menu import CreatorsMenu
 from .GamePlay.GamePlay_Administrator import GamePlayAdministrator
+from .Logging_Config import logger
 """
 Contains code for reactions to input commands.
 """
 
 
+@logger
 def main_loop(func):
     """
     Decorator with the main loop of game.
@@ -56,66 +59,25 @@ class InputCommandsReactions:
     Controls reactions to user input commands from mouse or key bord by conveyor
     in 'reactions_to_input_commands' method from 'main_loop'.
     """
-    def __init__(self, *, interface_controller, settings_keeper, stage_director, scene_validator):
-        """
-        :param interface_controller: InterfaceController exemplar.
-                                     Responsible for user interface status and buttons.
-        :type interface_controller: InterfaceController
-        :param scene_validator: SceneValidator exemplar.
-                            Responsible for scene order and scene construction.
-        :type scene_validator: SceneValidator
-        :param settings_keeper: Settings controller class.
-        :type settings_keeper: SettingsKeeper
-        :param stage_director: Stage Director class exemplar.
-                               Responsible for stage production.
-        :type stage_director: StageDirector
-        """
+    def __init__(self):
         # Arguments processing:
-        self.interface_controller: InterfaceController = interface_controller
-        self.settings_keeper: SettingsKeeper = settings_keeper
-        self.stage_director: StageDirector = stage_director
-        self.scene_validator: SceneValidator = scene_validator
+        self.interface_controller: InterfaceController = InterfaceController()
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+        self.stage_director: StageDirector = StageDirector()
+        self.scene_validator: SceneValidator = SceneValidator()
 
         # Settings for UI menus:
-        self.exit_menu: ExitMenu = ExitMenu(
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
-        )
-        self.game_menu: GameMenu = GameMenu(
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
-        )
-        self.load_menu: LoadMenu = LoadMenu(
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
-        )
-        self.save_menu: SaveMenu = SaveMenu(
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
-        )
-        self.settings_menu: SettingsMenu = SettingsMenu(
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator,
-            settings_keeper=self.settings_keeper
-        )
-        self.settings_status_menu: SettingsStatusMenu = SettingsStatusMenu(
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
-        )
-        self.start_menu: StartMenu = StartMenu(
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
-        )
-        self.back_to_start_menu_status_menu: BackToStartMenuStatusMenu = BackToStartMenuStatusMenu(
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
-        )
+        self.exit_menu: ExitMenu = ExitMenu()
+        self.game_menu: GameMenu = GameMenu()
+        self.load_menu: LoadMenu = LoadMenu()
+        self.save_menu: SaveMenu = SaveMenu()
+        self.settings_menu: SettingsMenu = SettingsMenu()
+        self.settings_status_menu: SettingsStatusMenu = SettingsStatusMenu()
+        self.start_menu: StartMenu = StartMenu()
+        self.back_to_start_menu_status_menu: BackToStartMenuStatusMenu = BackToStartMenuStatusMenu()
+        self.creators_menu: CreatorsMenu = CreatorsMenu()
         # Settings for gameplay:
-        self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator(
-            stage_director=self.stage_director,
-            interface_controller=self.interface_controller,
-            scene_validator=self.scene_validator
-        )
+        self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
 
     def __call__(self):
         """
@@ -163,4 +125,8 @@ class InputCommandsReactions:
         # Back to "Start menu" status menu:
         if self.interface_controller.back_to_start_menu_status is True:
             self.back_to_start_menu_status_menu.back_to_start_menu_status_menu_input(event)
+            return
+        # Creators menu:
+        if self.interface_controller.creators_menu_status is True:
+            self.creators_menu.creators_menu_input(event)
             return

@@ -1,6 +1,9 @@
 from pygame import display, Surface
 
 from .Universal_computing import SingletonPattern
+from .Settings_Keeper import SettingsKeeper
+from .Stage_Director import StageDirector
+from .User_Interface.Interface_Controller import InterfaceController
 """
 Contains code for display image render.
 """
@@ -25,18 +28,12 @@ class Render(SingletonPattern):
     """
     Render image on display.
     """
-    def __init__(self, *, screen: Surface, interface_controller, stage_director):
-        """
-        :param screen: Display surface for image render.
-        :type screen: pygame.Surface
-        :param interface_controller: InterfaceController for access to user interface.
-        :type interface_controller: InterfaceController
-        :param stage_director: StageDirector for access to scenes data.
-        :type stage_director: StageDirector
-        """
-        self.screen: Surface = screen
-        self.stage_director = stage_director
-        self.interface_controller = interface_controller
+    def __init__(self):
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+        self.stage_director: StageDirector = StageDirector()
+        self.interface_controller: InterfaceController = InterfaceController()
+
+        self.screen: Surface = self.settings_keeper.get_windows_settings()
 
     def screen_clear(self):
         """
@@ -197,6 +194,10 @@ class Render(SingletonPattern):
     def back_to_start_menu_status_menu(self):
         self.standard_menu_render('back_to_start_menu_status_menu')
 
+    @render
+    def creators_menu(self):
+        self.standard_menu_render('creators_menu')
+
     def image_render(self):
         """
         Display image render.
@@ -230,4 +231,7 @@ class Render(SingletonPattern):
             return
         if self.interface_controller.back_to_start_menu_status is True:
             self.back_to_start_menu_status_menu()
+            return
+        if self.interface_controller.creators_menu_status is True:
+            self.creators_menu()
             return

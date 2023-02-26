@@ -1,6 +1,6 @@
 from pygame import KEYDOWN, K_ESCAPE, K_TAB, K_e
 
-from .UI_Base_menu import BaseMenu
+from ..UI_Base_menu import BaseMenu
 """
 Back to start menu status menu code.
 """
@@ -10,18 +10,8 @@ class BackToStartMenuStatusMenu(BaseMenu):
     """
     Controls reactions to user input commands from mouse or key bord in "Back to 'Start menu' status menu".
     """
-    def __init__(self, *, interface_controller, scene_validator):
-        """
-        :param interface_controller: InterfaceController exemplar.
-                                     Responsible for user interface status and buttons.
-        :type interface_controller: InterfaceController
-        :param scene_validator: SceneValidator exemplar.
-                            Responsible for scene order and scene construction.
-        :type scene_validator: SceneValidator
-        """
-        super(BackToStartMenuStatusMenu, self).__init__(
-            interface_controller=interface_controller,
-            scene_validator=scene_validator)
+    def __init__(self):
+        super(BackToStartMenuStatusMenu, self).__init__()
 
     def back_to_start_menu_status_menu_yes(self):
         """

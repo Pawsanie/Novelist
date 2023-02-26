@@ -10,16 +10,12 @@ class SceneValidator(SingletonPattern):
     """
     Controls in what order the scenes go and their settings.
     """
-    def __init__(self, *, stage_director: StageDirector):
-        """
-        :param stage_director: Import StageDirector.
-        :type stage_director: StageDirector.
-        """
+    def __init__(self):
         # Screenplay loading:
         self.screenplay: dict = json_load(path_list=['Scripts', 'Json_data', 'screenplay'])
         self.choices_data: dict = json_load(path_list=['Scripts', 'Json_data', 'Dialogues', 'choices_data'])
         # Stage Director settings:
-        self.stage_director: StageDirector = stage_director
+        self.stage_director: StageDirector = StageDirector()
         # Scene FLAG:
         self.scene: str = 'START'  # START as default!
         self.scene_flag: str = 'scene_01'  # 'scene_01' as default!

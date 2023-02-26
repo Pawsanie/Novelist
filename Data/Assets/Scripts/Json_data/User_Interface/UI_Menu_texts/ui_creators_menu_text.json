@@ -1,0 +1,11 @@
+{
+  "type": "creators_menu",
+  "text": "creators_menu_text",
+  "coordinates": {
+    "x": 1,
+    "y": 1
+  },
+  "font": null,
+  "color": "#FFFFFF",
+  "substrate": "blank_big"
+}

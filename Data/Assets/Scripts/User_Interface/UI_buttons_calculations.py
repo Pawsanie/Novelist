@@ -95,4 +95,7 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
     if place_flag == 'gameplay_dialogues_choice':
         x_size, y_size = dialogue_button_size(background_size_x, background_size_y)
 
+    if place_flag == 'creators_menu':
+        x_size, y_size = menu_long_button_size(background_size_x, background_size_y)
+
     return x_size, y_size

@@ -3,5 +3,7 @@
 
   "exit_menu_text": "Would you like to exit the game?\nAll unsaved progress will be lost!",
 
-  "settings_status_menu_text": "Would you like to change the game settings?"
+  "settings_status_menu_text": "Would you like to change the game settings?",
+
+  "creators_menu_text": "Character artist - ...\nBackground artist - Alexander Progun\nProgramming - Alexander Progun"
 }

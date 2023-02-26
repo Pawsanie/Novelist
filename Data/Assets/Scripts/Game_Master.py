@@ -7,6 +7,7 @@ from .Scene_Validator import SceneValidator
 from .User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Save_Keeper import SaveKeeper
+from .Logging_Config import logger
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
@@ -18,45 +19,24 @@ class GameMaster:
     Set all settings for Stage Director and game.
     Entry point for gameplay.
     """
-    def __init__(self, *, start_settings):
-        """
-        :param start_settings: SettingsKeeper
-        """
+    def __init__(self):
         # Collect base game settings:
-        self.settings_keeper: SettingsKeeper = start_settings
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.display_screen: Surface = self.settings_keeper.get_windows_settings()
         self.language_flag: str = self.settings_keeper.text_language
 
         # Stage Director settings:
-        self.stage_director: StageDirector = StageDirector(
-            display_screen=self.display_screen,
-            language_flag=self.language_flag
-        )
-        self.scene_validator: SceneValidator = SceneValidator(
-            stage_director=self.stage_director
-        )
+        self.stage_director: StageDirector = StageDirector()
+        # Scene Validator settings:
+        self.scene_validator: SceneValidator = SceneValidator()
         # Interface Controller settings:
-        self.interface_controller: InterfaceController = InterfaceController(
-            background_surface=self.stage_director.background_surface,
-            language_flag=self.language_flag
-        )
+        self.interface_controller: InterfaceController = InterfaceController()
         # Render settings:
-        self.render: Render = Render(
-            screen=self.display_screen,
-            interface_controller=self.interface_controller,
-            stage_director=self.stage_director
-        )
+        self.render: Render = Render()
         # User input commands processing:
-        self.reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions(
-            interface_controller=self.interface_controller,
-            settings_keeper=self.settings_keeper,
-            stage_director=self.stage_director,
-            scene_validator=self.scene_validator
-        )
+        self.reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions()
         # Save and load system:
-        self.save_keeper: SaveKeeper = SaveKeeper(
-            scene_validator=self.scene_validator
-        )
+        self.save_keeper: SaveKeeper = SaveKeeper()
 
     def set_gameplay_type(self):
         """
@@ -76,6 +56,7 @@ class GameMaster:
                 .dialogues_buttons[self.scene_validator.scene]
             return
 
+    @logger
     @main_loop
     def __call__(self):
         """
