@@ -7,7 +7,7 @@ from .Scene_Validator import SceneValidator
 from .User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Save_Keeper import SaveKeeper
-from .Logging_Config import logger
+from .Logging_Config import error_logger
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
@@ -56,7 +56,7 @@ class GameMaster:
                 .dialogues_buttons[self.scene_validator.scene]
             return
 
-    @logger
+    @error_logger
     @main_loop
     def __call__(self):
         """

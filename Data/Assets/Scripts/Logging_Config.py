@@ -50,7 +50,7 @@ def text_for_logging(*, log_text: str, log_error: Exception = None) -> str:
     return result_text
 
 
-def logger(function):
+def error_logger(function):
     """
     Error logger.
     """
