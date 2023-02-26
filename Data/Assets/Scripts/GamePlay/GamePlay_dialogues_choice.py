@@ -15,7 +15,6 @@ class GamePlayDialoguesChoice(BaseMenu):
     def __init__(self):
         # Arguments processing:
         super(GamePlayDialoguesChoice, self).__init__()
-        # Stage Director settings:
         self.stage_director: StageDirector = StageDirector()
         # Gameplay choice buttons generate:
         self.dialogues_buttons: dict = {}

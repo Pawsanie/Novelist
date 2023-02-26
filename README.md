@@ -395,7 +395,15 @@ New menu buttons need to be added in 'UI_buttons_calculations.py **button_size**
 
 You will need to modify the class constructor of '**InterfaceController**' in 'Interface_Controller.py' file.<br>
 Add new menu class like variable to it.<br>
-And add new 'return' to '**get_ui_buttons_dict**' in method of 'InterfaceController' class.
+And add new 'return' to '**get_ui_buttons_dict**' in method of 'InterfaceController' class.<br>
+Note that'**self.menu_name**' must be as background key in '**backgrounds_sprites.json:**' file.<br>
+If the menu will be shown over the gameplay screen 'self.menu_name' variables value must be '**None**'.<br>
+**Example:**
+```text
+        if self.start_menu_status is True:
+            self.menu_name: str = "start_menu"
+            return self.buttons_dict['ui_start_menu_buttons']
+```
 
 You will also need to add your buttons to 'ui_localizations_data.json', and localization.json 'eng.json' as example.<br>
 And create and fill a new 'ui_*_menu_buttons.json' file, for your menu.

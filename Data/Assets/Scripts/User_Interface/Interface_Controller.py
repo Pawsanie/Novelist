@@ -70,6 +70,9 @@ class InterfaceController(SingletonPattern):
         self.gameplay_type_reading: bool = False
         self.gameplay_type_choice: bool = False
 
+        # Tag for menu background render:
+        self.menu_name: str | None = None
+
     def get_ui_buttons_dict(self) -> dict[str, Button]:
         """
         Generate user interface buttons.
@@ -77,27 +80,37 @@ class InterfaceController(SingletonPattern):
         :return: Dict with buttons names strings as values.
         """
         if self.gameplay_interface_status is True:
+            self.menu_name: None = None
             if self.gameplay_type_reading is True:
                 return self.buttons_dict['ui_gameplay_buttons']
             if self.gameplay_type_choice is True:
                 return self.gameplay_choice_buttons
         if self.game_menu_status is True:
+            self.menu_name: None = None
             return self.buttons_dict['ui_game_menu_buttons']
         if self.settings_menu_status is True:
+            self.menu_name: str = "exit_menu"
             return self.buttons_dict['ui_setting_menu_buttons']
         if self.exit_menu_status is True:
+            self.menu_name: str = "settings_menu"
             return self.buttons_dict['ui_exit_menu_buttons']
         if self.load_menu_status is True:
+            self.menu_name: str = "load_menu"
             return self.buttons_dict['ui_load_menu_buttons']
         if self.save_menu_status is True:
+            self.menu_name: str = "save_menu"
             return self.buttons_dict['ui_save_menu_buttons']
         if self.settings_status_menu_status is True:
+            self.menu_name: str = "settings_status_menu"
             return self.buttons_dict['ui_settings_status_buttons']
         if self.start_menu_status is True:
+            self.menu_name: str = "start_menu"
             return self.buttons_dict['ui_start_menu_buttons']
         if self.back_to_start_menu_status is True:
+            self.menu_name: str = "back_to_start_menu_status_menu"
             return self.buttons_dict['ui_back_to_start_menu_status_menu_buttons']
         if self.creators_menu_status is True:
+            self.menu_name: str = "creators_menu"
             return self.buttons_dict['ui_creators_menu_buttons']
 
     def get_menus_text_dict(self) -> dict[str, MenuText]:

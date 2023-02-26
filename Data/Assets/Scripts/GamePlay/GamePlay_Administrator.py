@@ -14,7 +14,6 @@ class GamePlayAdministrator(BaseMenu):
     def __init__(self):
         # Arguments processing:
         super(GamePlayAdministrator, self).__init__()
-        # Stage Director settings:
         self.stage_director: StageDirector = StageDirector()
 
         # Settings for gameplay:

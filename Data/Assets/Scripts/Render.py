@@ -29,6 +29,7 @@ class Render(SingletonPattern):
     Render image on display.
     """
     def __init__(self):
+        # Arguments processing:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.stage_director: StageDirector = StageDirector()
         self.interface_controller: InterfaceController = InterfaceController()
@@ -111,6 +112,7 @@ class Render(SingletonPattern):
         # Render:
         self.screen.blit(background, background_coordinates)
 
+    @render
     def standard_menu_render(self, background_name):
         """
         Standard render pipeline for menus render.
@@ -166,72 +168,23 @@ class Render(SingletonPattern):
         # Game menu ui render:
         self.ui_buttons_render()
 
-    @render
-    def exit_menu(self):
-        self.standard_menu_render('exit_menu')
-
-    @render
-    def settings_menu(self):
-        self.standard_menu_render('settings_menu')
-
-    @render
-    def load_menu(self):
-        self.standard_menu_render('load_menu')
-
-    @render
-    def save_menu(self):
-        self.standard_menu_render('save_menu')
-
-    @render
-    def settings_status_menu(self):
-        self.standard_menu_render('settings_status_menu')
-
-    @render
-    def start_menu(self):
-        self.standard_menu_render('start_menu')
-
-    @render
-    def back_to_start_menu_status_menu(self):
-        self.standard_menu_render('back_to_start_menu_status_menu')
-
-    @render
-    def creators_menu(self):
-        self.standard_menu_render('creators_menu')
-
     def image_render(self):
         """
         Display image render.
         """
+        # GamePlay:
         if self.interface_controller.gameplay_interface_status is True:
             if self.interface_controller.gameplay_type_reading is True:
                 self.gameplay_read_scene()
             if self.interface_controller.gameplay_type_choice is True:
                 self.gameplay_choice_scene()
             return
-        if self.interface_controller.game_menu_status is True:
+        elif self.interface_controller.game_menu_status is True:
             self.game_menu()
             return
-        if self.interface_controller.settings_menu_status is True:
-            self.settings_menu()
-            return
-        if self.interface_controller.exit_menu_status is True:
-            self.exit_menu()
-            return
-        if self.interface_controller.load_menu_status is True:
-            self.load_menu()
-            return
-        if self.interface_controller.save_menu_status is True:
-            self.save_menu()
-            return
-        if self.interface_controller.settings_status_menu_status is True:
-            self.settings_status_menu()
-            return
-        if self.interface_controller.start_menu_status is True:
-            self.start_menu()
-            return
-        if self.interface_controller.back_to_start_menu_status is True:
-            self.back_to_start_menu_status_menu()
-            return
-        if self.interface_controller.creators_menu_status is True:
-            self.creators_menu()
+        # Standard menus:
+        else:
+            self.standard_menu_render(
+                self.interface_controller.menu_name
+            )
             return

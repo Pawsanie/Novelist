@@ -16,7 +16,6 @@ class GamePlayReading(BaseMenu):
     def __init__(self):
         # Arguments processing:
         super(GamePlayReading, self).__init__()
-        # Stage Director settings:
         self.stage_director: StageDirector = StageDirector()
 
     def button_gameplay_ui_status(self, event):
