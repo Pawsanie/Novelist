@@ -15,13 +15,11 @@ from .User_Interface.UI_Menus.UI_Start_menu import StartMenu
 from .User_Interface.UI_Menus.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
 from .User_Interface.UI_Menus.UI_Creators_menu import CreatorsMenu
 from .GamePlay.GamePlay_Administrator import GamePlayAdministrator
-from .Logging_Config import logger
 """
 Contains code for reactions to input commands.
 """
 
 
-@logger
 def main_loop(func):
     """
     Decorator with the main loop of game.

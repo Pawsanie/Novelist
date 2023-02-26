@@ -54,12 +54,13 @@ def logger(function):
     """
     Error logger.
     """
-    try:
-        function()
-    except Exception as error:
-        logging.error(text_for_logging(
-            log_text="Raise Exception:",
-            log_error=error
-        ))
-
+    def wrapper_function(*args, **kwargs):
+        try:
+            function(*args, **kwargs)
+        except Exception as error:
+            logging.error(text_for_logging(
+                log_text="Raise Exception:",
+                log_error=error
+            ))
+        return wrapper_function
     return function
