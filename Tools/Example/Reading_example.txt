@@ -1,0 +1,10 @@
+#####Reading#####
+#language = eng
+
+[scene_01]
+#Name
+Test Chan
+#Speech
+Hello World!
+Hello World!
+Hello World!
