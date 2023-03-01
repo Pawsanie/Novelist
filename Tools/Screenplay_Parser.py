@@ -1,9 +1,8 @@
 import logging
-from os import path, walk, sep
-import json
+from os import path, walk
 from configparser import ConfigParser
 
-from ..Scripts.Logging_Config import text_for_logging, logging_config
+from ..Data.Assets.Scripts.Logging_Config import text_for_logging, logging_config
 """
 Contains code responsible for ScreenplayParser.
 """
