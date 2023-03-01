@@ -1,4 +1,5 @@
-# Visual Novel app code:
+# The Novelist Engine:
+
 This repository contains the source code to create a Visual Novel game based on minimal edits using Python if it needed.<br/>
 And just setting up a few jason files.
 

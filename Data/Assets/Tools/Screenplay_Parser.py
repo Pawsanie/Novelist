@@ -1,5 +1,5 @@
 import logging
-from os import path, walk
+from os import path, walk, sep
 import json
 from configparser import ConfigParser
 
@@ -44,7 +44,12 @@ class ScreenplayParser:
         )
 
         # Data flags:
-        self.headers: str = '#####Screenplay#####'
+        self.screenplay_header: str = '#####Screenplay#####'
+        self.reading_header: str = '#####Reading#####'
+        self.choice_header: str = '#####Choice#####'
+
+        # Result Collection:
+        self.screenplay: dict[str] = {}
 
     def set_parsing_root_path(self, parsing_root_path: str):
         """
@@ -72,7 +77,16 @@ class ScreenplayParser:
             try:
                 with open(file_path, 'r', encoding='utf-8') as file:
                     file_data: list[str] = file.readlines()
-                    if file_data[0].replace('\n', '') != self.headers:
+
+                    if file_data[0].replace('\n', '') == self.screenplay_header:
+                        pass
+                    elif file_data[0].replace('\n', '') == self.reading_header:
+                        self.extract_text_for_reading(file_data)
+                        continue
+                    elif file_data[0].replace('\n', '') == self.choice_header:
+                        self.extract_text_for_choice(file_data)
+                        continue
+                    else:
                         continue
                 self.data_for_parsing.read(file_path, encoding='utf-8')
 
@@ -84,3 +98,23 @@ class ScreenplayParser:
                         f"{file_path}",
                         log_error=error
                     ))
+
+    def extract_text_for_reading(self, file_data):
+        ...
+
+    def extract_text_for_choice(self, file_data):
+        ...
+
+    def extract_screenplay_instructions(self):
+        for scene in self.data_for_parsing:
+            if scene != 'DEFAULT':
+                try:
+                    print(self.data_for_parsing.get(scene, 'text'))
+
+                except Exception as error:
+                    logging.warning(
+                        text_for_logging(
+                            log_text=
+                            "Problems with cfg file data:",
+                            log_error=error
+                        ))
