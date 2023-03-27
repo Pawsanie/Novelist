@@ -25,11 +25,11 @@ class SingletonPattern:
         """
         if cls.__singleton_instance is None:
             try:
-                cls.__singleton_instance = super(SingletonPattern, cls).__new__(cls)
+                cls.__singleton_instance: object = super(SingletonPattern, cls).__new__(cls)
             except TypeError:
-                cls.__singleton_instance = super(SingletonPattern, cls).__new__(cls, *args, **kwargs)
+                cls.__singleton_instance: object = super(SingletonPattern, cls).__new__(cls, *args, **kwargs)
 
-        # Check default '__init__' value... is callable result None?
+        # Check default '__init__' value... is callable result None:
         elif cls.__dict__.get('__init__', None) is not cls.__devnull_init:
             cls.__init__: None = cls.__devnull_init
 
