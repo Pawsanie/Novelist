@@ -58,3 +58,4 @@ if __name__ == '__main__':
                 log_text="The program launch ended with an error!",
                 log_error=error)
         )
+        raise error
