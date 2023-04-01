@@ -1,7 +1,7 @@
 # Pygame Visual Novel:
 
 This repository contains the source code to create a Visual Novel game based on minimal edits using Python if it needed.<br/>
-And just setting up a few jason files.
+And just setting up a few json files.
 
 I was inspired to develop this code by the inability to use [RenPy](https://www.renpy.org/) to create a game in the form in which I want.<br>
 As well as not wanting to learn RenPy scripting language.
