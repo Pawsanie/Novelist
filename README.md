@@ -42,6 +42,9 @@ Also for flipping the screen and drawing the window icon.
 * :bookmark_tabs:[OpenCV internet page](https://opencv.org/)
 
 Used to cut video into frames and determine the number of frames in the video.
+:warning:Currently not implemented.
+But this is one of the possible implementation options.
+As an option, I considered [moviepy](https://github.com/Zulko/moviepy).
 
 ## Installing the Required Packages:
 ```bash
