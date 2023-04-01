@@ -1,4 +1,4 @@
-# The Novelist Engine:
+# Pygame Visual Novel:
 
 This repository contains the source code to create a Visual Novel game based on minimal edits using Python if it needed.<br/>
 And just setting up a few jason files.
@@ -7,6 +7,10 @@ I was inspired to develop this code by the inability to use [RenPy](https://www.
 As well as not wanting to learn RenPy scripting language.
 
 In addition, writing your own game, almost from scratch, is quite interesting.
+
+:warning:The code probably needs some light refactoring.:warning: <br>
+In addition, for my purposes, I decided to replace the [Pygame](https://github.com/pygame/pygame) with [Pyglet](https://github.com/pyglet/pyglet). <br>
+And, I may change the approach to the application architecture by replacing one facade with MVC.
 
 ## Disclaimer:
 :warning:**Using** some or all of the elements of this code, **You** assume **responsibility for any consequences!**<br>
