@@ -41,9 +41,9 @@ Also for flipping the screen and drawing the window icon.
 * :octocat:[OpenCV GitHub](https://github.com/opencv/opencv)
 * :bookmark_tabs:[OpenCV internet page](https://opencv.org/)
 
-Used to cut video into frames and determine the number of frames in the video.
-:warning:Currently not implemented.
-But this is one of the possible implementation options.
+Used to cut video into frames and determine the number of frames in the video.<br>
+:warning:Currently not implemented.<br>
+But this is one of the possible implementation options.<br>
 As an option, I considered [moviepy](https://github.com/Zulko/moviepy).
 
 ## Installing the Required Packages:
