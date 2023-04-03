@@ -11,6 +11,7 @@ In addition, writing your own game, almost from scratch, is quite interesting.
 :warning:The code probably needs some light refactoring.:warning: <br>
 In addition, for my purposes, I decided to replace the [Pygame](https://github.com/pygame/pygame) with [Pyglet](https://github.com/pyglet/pyglet). <br>
 And, I may change the approach to the application architecture by replacing one facade with MVC.<br>
+:warning:Please note that some non-game features are not fully implemented.:warning:
 
 In this regard, I decided to leave the implementation on Pygame as it is. <br>
 So that people who want to get acquainted with Pygame can see how applications are written on classes with a ready-made implementation of working with assets.
@@ -515,6 +516,36 @@ The **StageDirector** builds a scene.<br>
 
 Please note that the name of some classes does not correspond to the files where they are contained.<br>
 But according to the meaning of the names of the given files, it is still clear where they are.
+
+
+# What needs to be completed:
+### Settings Menu:
+The **'SettingsKeeper'** class already exists.<br>
+It must be used for business logic that will work in the menu.<br>
+The **'SettingsMenu'** class and its menu can be used as an external wrapper, or modified.<br>
+I planned to use it as a wrapper and make a separate menu for each type of setting.
+
+### Save-Load system:
+There is a **'SaveKeeper'** class. It is responsible for loading and saving.<br>
+As you may have noticed, there are menus for loading and saving game states.<br>
+Someday I plan to draw a beautiful interface for them.<br>
+And create a business logic that will be responsible for loading and saving.<br>
+Until I did, for your projects you will have to implement this yourself.
+
+# Known Bugs:
+
+* **Incorrect sRGB profile:**
+```text
+libpng warning: iCCP: known incorrect sRGB profile
+```
+Appears due to extra information in the sRGB profile when converting to PNG.<br>
+Because of this, after the program ends, a warning message appears in the terminal.<br>
+Actually this warning is not an error. I'm just too lazy to re-save the sprite blanks correctly...<br>
+Don't be like me and save your sprites correctly!
+
+* **Interface when freely changing the window:**<br>
+If you use the mouse to change the size of the game window to a non-natural one, the menu interface may start to behave strangely.<br>
+I've left the resizable window feature for testing purposes and don't recommend giving it to the user without fixes.
 
 ***
 
