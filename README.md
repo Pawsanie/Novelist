@@ -8,7 +8,7 @@ As well as not wanting to learn RenPy scripting language.
 
 In addition, writing your own game, almost from scratch, is quite interesting.
 
-:warning:The code probably needs some light refactoring and finish the settings menu and save-load system.:warning: <br>
+:warning:The code is not complete and may need some refactoring.:warning: <br>
 In addition, for my purposes, I decided to replace the [Pygame](https://github.com/pygame/pygame) with [Pyglet](https://github.com/pyglet/pyglet). <br>
 And, I may change the approach to the application architecture by replacing one facade with MVC.<br>
 
