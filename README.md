@@ -10,11 +10,11 @@ In addition, writing your own game, almost from scratch, is quite interesting.
 
 :warning:The code probably needs some light refactoring.:warning: <br>
 In addition, for my purposes, I decided to replace the [Pygame](https://github.com/pygame/pygame) with [Pyglet](https://github.com/pyglet/pyglet). <br>
-And, I may change the approach to the application architecture by replacing one facade with MVC.<br>
-:warning:Please note that some non-game features are not fully implemented.:warning:
+And, I may change the approach to the application architecture by replacing one facade with MVC.
 
 In this regard, I decided to leave the implementation on Pygame as it is. <br>
-So that people who want to get acquainted with Pygame can see how applications are written on classes with a ready-made implementation of working with assets.
+So that people who want to get acquainted with Pygame can see how applications are written on classes with a ready-made implementation of working with assets.<br>
+:warning:Please note that some non-game features are not fully implemented.:warning:
 
 ## Disclaimer:
 :warning:**Using** some or all of the elements of this code, **You** assume **responsibility for any consequences!**<br>
