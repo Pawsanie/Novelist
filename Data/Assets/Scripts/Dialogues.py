@@ -59,11 +59,13 @@ class DialoguesWords:
         if text_type == 'speaker':
             self.font_size: int = backgrounds_surface.get_height() // 40
             self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(
-                text_type='name')
+                text_type='name'
+            )
         if text_type == 'words':
             self.font_size: int = backgrounds_surface.get_height() // 50
             self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(
-                text_type='speech')
+                text_type='speech'
+            )
         self.set_font(font_name=self.font_name)
         text_surface: Surface = self.used_font.render(text_string, True, text_color)
 

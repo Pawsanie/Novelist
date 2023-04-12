@@ -41,12 +41,12 @@ def text_for_logging(*, log_text: str, log_error: Exception = None) -> str:
     else:
         log_error: str = ""
     result_text: str = \
-        f"{'=' * 30}"\
+        f"{'=' * 52}"\
         f"{log_error}"\
         f"\n{log_text}"\
-        f"\n{'-' * 30}"\
+        f"\n{'-' * 52}"\
         f"\n{format_exc()}"\
-        f"\n{'=' * 30}\n\n"
+        f"\n{'=' * 52}\n\n"
     return result_text
 
 
