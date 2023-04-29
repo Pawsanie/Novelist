@@ -54,8 +54,8 @@ pip install opencv-python
 ```
 
 ## How to run the application:
-To run the application, you need to run the 'Visual_novel_game.py' script with your shell.
-**Example of shell command:**
+To run the application, you need to run the 'Visual_novel_game.py' script with your shell.<br>
+**Example of shell command:**<br>
 ```shell
 python -B Visual_novel_game.py
 ```
