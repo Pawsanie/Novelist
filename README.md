@@ -53,6 +53,17 @@ pip install pygame
 pip install opencv-python
 ```
 
+## How to run the application:
+To run the application, you need to run the 'Visual_novel_game.py' script with your shell.
+**Example of shell command:**
+```shell
+python -B Visual_novel_game.py
+```
+**File location:**<br>
+**./**:open_file_folder:Data<br>
+   └── :page_facing_up:Visual_novel_game.py
+
+
 ## Settings of scenes:
 
 ### Scene order:
