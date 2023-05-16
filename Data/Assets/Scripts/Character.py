@@ -68,7 +68,11 @@ class Character:
         """
         Reflect character sprite surface.
         """
-        self.surface: Surface = transform.flip(self.surface, flip_x=True, flip_y=False)
+        self.surface: Surface = transform.flip(
+            self.surface,
+            flip_x=True,
+            flip_y=False
+        )
 
     def scale(self, *, background_surface):
         """
@@ -120,12 +124,15 @@ class Character:
         """
         if self.plan == 'background_plan':
             self.coordinates_pixels: list[int, int] = meddle_point_for_character_render(
-                screen_surface=self.background_surface, character_surface=self.surface)
+                screen_surface=self.background_surface, character_surface=self.surface
+            )
         if self.plan == 'first_plan':
             coordinates_pixels: list[int, int] = meddle_point_for_character_render(
-                screen_surface=self.background_surface, character_surface=self.surface)
+                screen_surface=self.background_surface, character_surface=self.surface
+            )
             coordinates_pixels_y: int = \
-                self.background_surface.get_height() - int(self.background_surface.get_height() * 0.9)
+                self.background_surface.get_height() \
+                - int(self.background_surface.get_height() * 0.9)
             self.coordinates_pixels: list[int, int] = [coordinates_pixels[0], coordinates_pixels_y]
         self.position: str = 'middle'
 
@@ -144,7 +151,10 @@ class Character:
         """
         self.move_to_middle()
         coordinates_pixels: list[int, int] = self.coordinates_pixels
-        self.coordinates_pixels: list[int, int] = [int(coordinates_pixels[0] * 1.64), coordinates_pixels[1]]
+        self.coordinates_pixels: list[int, int] = [
+            int(coordinates_pixels[0] * 1.64),
+            coordinates_pixels[1]
+        ]
         self.position = 'right'
 
 
@@ -156,27 +166,35 @@ def characters_generator(*, background_surface: Surface) -> dict[str, Character]
     :return: Dictionary with 'character`s names as a keys and Character`s exemplar as values.
     """
     result: dict = {}
-    characters_list: dict = json_load(['Scripts',
-                                       'Json_data',
-                                       'characters_sprites'])
+    characters_list: dict = json_load([
+        'Scripts',
+        'Json_data',
+        'characters_sprites'
+    ])
     for character_name in characters_list:
         character: dict = characters_list[character_name]
-        sprite: Surface = image_load(art_name=character['sprite'],
-                                     file_format='png',
-                                     asset_type='Characters')
+        sprite: Surface = image_load(
+            art_name=character['sprite'],
+            file_format='png',
+            asset_type='Characters'
+        )
         character_poses: dict = character['poses']
-        character_size_base: tuple[int, int] = (character_poses['1']['x'][1],
-                                                character_poses['1']['y'][1])
+        character_size_base: tuple[int, int] = (
+            character_poses['1']['x'][1],
+            character_poses['1']['y'][1]
+        )
         character_surface: Surface = Surface(character_size_base, SRCALPHA)
         coordinates_pixels: list[int] = meddle_point_for_character_render(
             screen_surface=background_surface,
-            character_surface=character_surface)
+            character_surface=character_surface
+        )
         result.update({str(character_name): Character(
             surface=character_surface,
             character_image=sprite,
             character_size=character_size_base,
             coordinates_pixels=coordinates_pixels,
             character_poses=character_poses,
-            background_surface=background_surface)})
+            background_surface=background_surface
+        )})
 
     return result

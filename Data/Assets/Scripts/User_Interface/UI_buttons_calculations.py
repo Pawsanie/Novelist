@@ -2,6 +2,20 @@ from ..Universal_computing import surface_size
 """
 Contains calculations for user interface buttons.
 """
+# Interface collections:
+yes_no_menus: list = [
+    'save_menu',
+    'load_menu',
+    'exit_menu',
+    'settings_status_menu',
+    'back_to_start_menu_status_menu'
+]
+long_buttons_menus: list = [
+    'game_menu',
+    'settings_menu',
+    'start_menu',
+    'creators_menu'
+]
 
 
 def yes_no_menu_button_size(background_size_x, background_size_y):
@@ -68,34 +82,13 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
         side_of_the_square: int = int(background_size_y / 100 * 4.17)
         x_size, y_size = (side_of_the_square, side_of_the_square)
 
-    if place_flag == 'game_menu':
+    if place_flag in long_buttons_menus:
         x_size, y_size = menu_long_button_size(background_size_x, background_size_y)
 
-    if place_flag == 'settings_menu':
-        x_size, y_size = menu_long_button_size(background_size_x, background_size_y)
-
-    if place_flag == 'start_menu':
-        x_size, y_size = menu_long_button_size(background_size_x, background_size_y)
-
-    if place_flag == 'save_menu':
-        x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
-
-    if place_flag == 'load_menu':
-        x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
-
-    if place_flag == 'exit_menu':
-        x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
-
-    if place_flag == 'settings_status_menu':
-        x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
-
-    if place_flag == 'back_to_start_menu_status_menu':
+    if place_flag in yes_no_menus:
         x_size, y_size = yes_no_menu_button_size(background_size_x, background_size_y)
 
     if place_flag == 'gameplay_dialogues_choice':
         x_size, y_size = dialogue_button_size(background_size_x, background_size_y)
-
-    if place_flag == 'creators_menu':
-        x_size, y_size = menu_long_button_size(background_size_x, background_size_y)
 
     return x_size, y_size

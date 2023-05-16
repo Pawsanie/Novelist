@@ -18,6 +18,23 @@ class Button:
 
     Instances are created from button_generator function by InterfaceController class.
     """
+    # Interface collections:
+    yes_no_menus: list = [
+        'exit_menu',
+        'settings_status_menu',
+        'back_to_start_menu_status_menu'
+    ]
+    long_buttons_menus: list = [
+        'game_menu',
+        'settings_menu',
+        'start_menu',
+        'creators_menu'
+    ]
+    save_load_menus: list = [
+        'save_menu',
+        'load_menu',
+    ]
+
     def __init__(self, *, background_surface: Surface, button_name: str,
                  button_text: str | None, button_image_data: dict[str, int],
                  language_flag: str, button_text_localization_dict: dict[str]):
@@ -227,12 +244,36 @@ class Button:
         if place_flag['type'] == 'gameplay_ui':
             # X:
             button_coordinates_x: int = \
-                (background_surface_size_x_middle - (self.button_size[0]//2)) + \
-                (self.button_size[0] * place_flag['index_number'])
+                (background_surface_size_x_middle - (self.button_size[0]//2)) \
+                + (self.button_size[0] * place_flag['index_number'])
             # Y:
             button_coordinates_y: int = background_surface_size[1] - self.button_size[1]
             # Result:
             self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+            return
+
+        if place_flag['type'] in self.long_buttons_menus:
+            self.menu_start_and_settings_coordinates(
+                background_surface_size=background_surface_size,
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                place_flag=place_flag,
+                multiplier=3
+            )
+            return
+
+        if place_flag['type'] in self.yes_no_menus:
+            self.menu_yes_no_coordinates(
+                background_surface_size=background_surface_size,
+                place_flag=place_flag
+            )
+            return
+
+        if place_flag['type'] in self.save_load_menus:
+            self.menu_save_and_load_coordinates(
+                background_surface_size_y_middle=background_surface_size_y_middle,
+                background_surface_size_x_middle=background_surface_size_x_middle,
+                place_flag=place_flag
+            )
             return
 
         if place_flag['type'] == 'gameplay_dialogues_choice':
@@ -240,71 +281,8 @@ class Button:
                 background_surface_size=background_surface_size,
                 background_surface_size_y_middle=background_surface_size_y_middle,
                 place_flag=place_flag,
-                multiplier=3)
-            return
-
-        if place_flag['type'] == 'game_menu':
-            self.menu_start_and_settings_coordinates(
-                background_surface_size=background_surface_size,
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag,
-                multiplier=3)
-            return
-
-        if place_flag['type'] == 'start_menu':
-            self.menu_start_and_settings_coordinates(
-                background_surface_size=background_surface_size,
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag,
-                multiplier=3)
-            return
-
-        if place_flag['type'] == 'save_menu':
-            self.menu_save_and_load_coordinates(
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                background_surface_size_x_middle=background_surface_size_x_middle,
-                place_flag=place_flag)
-            return
-
-        if place_flag['type'] == 'load_menu':
-            self.menu_save_and_load_coordinates(
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                background_surface_size_x_middle=background_surface_size_x_middle,
-                place_flag=place_flag)
-            return
-
-        if place_flag['type'] == 'exit_menu':
-            self.menu_yes_no_coordinates(
-                background_surface_size=background_surface_size,
-                place_flag=place_flag)
-            return
-
-        if place_flag['type'] == 'settings_menu':
-            self.menu_start_and_settings_coordinates(
-                background_surface_size=background_surface_size,
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag,
-                multiplier=3)
-            return
-
-        if place_flag['type'] == 'settings_status_menu':
-            self.menu_yes_no_coordinates(
-                background_surface_size=background_surface_size,
-                place_flag=place_flag)
-            return
-
-        if place_flag['type'] == 'back_to_start_menu_status_menu':
-            self.menu_yes_no_coordinates(
-                background_surface_size=background_surface_size,
-                place_flag=place_flag)
-            return
-
-        if place_flag['type'] == 'creators_menu':
-            self.menu_start_and_settings_coordinates(
-                background_surface_size=background_surface_size,
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag,
-                multiplier=3)
+                multiplier=3
+            )
             return
 
     def localization_button_text(self, *, language_flag):

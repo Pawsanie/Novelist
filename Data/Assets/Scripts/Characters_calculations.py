@@ -6,7 +6,7 @@ Contains the code for characters computing.
 """
 
 
-def meddle_point_for_character_render(*, screen_surface: Surface, character_surface: Surface) -> list[int]:
+def meddle_point_for_character_render(*, screen_surface: Surface, character_surface: Surface) -> list[int, int]:
     """
     Calculation middle coordinates for character render.
 
@@ -16,8 +16,10 @@ def meddle_point_for_character_render(*, screen_surface: Surface, character_surf
     """
     screen_size: tuple[int, int] = surface_size(screen_surface)
     sprite_size: tuple[int, int] = surface_size(character_surface)
-    result = [(screen_size[0] // 2) - (sprite_size[0] // 2),
-              (screen_size[1] - sprite_size[1])]
+    result: list[int, int] = [
+        (screen_size[0] // 2) - (sprite_size[0] // 2),
+        (screen_size[1] - sprite_size[1])
+    ]
     return result
 
 
