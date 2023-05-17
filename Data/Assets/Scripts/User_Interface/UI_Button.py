@@ -148,7 +148,8 @@ class Button:
         self.button_surface: Surface = transform.flip(
             self.button_surface,
             flip_x=True,
-            flip_y=False)
+            flip_y=False
+        )
 
     def menu_yes_no_coordinates(self, *, background_surface_size, place_flag):
         """

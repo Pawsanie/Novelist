@@ -1,6 +1,7 @@
 from pygame import Surface
 
 from .Universal_computing import surface_size
+from .Background import BackgroundMock
 """
 Contains the code for characters computing.
 """
@@ -23,7 +24,7 @@ def meddle_point_for_character_render(*, screen_surface: Surface, character_surf
     return result
 
 
-def character_sprite_size(*, background_surface: Surface, character_surface: Surface) -> tuple[int, int]:
+def character_sprite_size(character_surface: Surface) -> tuple[int, int]:
     """
     Calculation character surface size.
     Formula: Character_Sprite[x] + Background_and_Character_Sprite[x]_difference percent:
@@ -37,13 +38,13 @@ def character_sprite_size(*, background_surface: Surface, character_surface: Sur
     Formula: Character_Sprite[Y]:
     Character_Sprite[Y] = Background[Y]
 
-    :param background_surface: pygame.Surface of background.
     :param character_surface: pygame.Surface of character.
     :return: Tuple with x and y sizes for character`s images.
              These sizes depends of main frame size.
     """
+    background_surface = BackgroundMock()
     result_size_x, result_size_y = (0, 0)
-    screen_size: tuple[int, int] = surface_size(background_surface)
+    screen_size: tuple[int, int] = surface_size(background_surface.get_data()[0])
     sprite_size: tuple[int, int] = surface_size(character_surface)
 
     if sprite_size[1] != screen_size[1]:
