@@ -1,17 +1,18 @@
 from ..UI_Base_menu import BaseMenu
+from ...Universal_computing import SingletonPattern
 """
 Contains Save menu code.
 """
 
 
-class SaveMenu(BaseMenu):
+class SaveMenu(BaseMenu, SingletonPattern):
     """
     Controls reactions to user input commands from mouse or key bord in Save Menu.
     """
     def __init__(self):
         super(SaveMenu, self).__init__()
 
-    def save_menu_input_mouse(self, event):
+    def input_mouse(self, event):
         """
         Interface interaction in in-game save menu.
         :param event: pygame.event from main_loop.
@@ -25,11 +26,3 @@ class SaveMenu(BaseMenu):
             if command == 'save_menu_back':
                 self.interface_controller.save_menu_status = False
                 self.interface_controller.game_menu_status = True
-
-    def save_menu_input(self, event):
-        """
-        Save menu conveyor:
-        :param event: pygame.event from main_loop.
-        """
-        self.save_menu_input_mouse(event)
-        self.input_wait_ready()

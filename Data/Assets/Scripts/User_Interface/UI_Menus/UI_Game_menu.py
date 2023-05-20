@@ -14,7 +14,7 @@ class GameMenu(SingletonPattern, BaseMenu):
     def __init__(self):
         super(GameMenu, self).__init__()
 
-    def game_menu_input_mouse(self, event):
+    def input_mouse(self, event):
         """
         Interface interaction in in-game menu.
         :param event: pygame.event from main_loop.
@@ -42,7 +42,7 @@ class GameMenu(SingletonPattern, BaseMenu):
                 self.interface_controller.game_menu_status = False
                 self.interface_controller.exit_menu_status = True
 
-    def key_bord_game_menu_key_down(self, event):
+    def key_bord_key_down(self, event):
         """
         Interface interaction in in-game menu.
         :param event: pygame.event from main_loop.
@@ -52,7 +52,7 @@ class GameMenu(SingletonPattern, BaseMenu):
                 self.interface_controller.game_menu_status = False
                 self.interface_controller.gameplay_interface_status = True
 
-    def game_menu_input(self, event):
+    def menu_input(self, event):
         """
         Game menu input conveyor:
         :param event: pygame.event from main_loop.
@@ -67,7 +67,7 @@ class GameMenu(SingletonPattern, BaseMenu):
         self.interface_controller.settings_from_start_menu_flag = False
         self.interface_controller.settings_from_game_menu_flag = True
         # Button game menu ui status:
-        self.game_menu_input_mouse(event)
+        self.input_mouse(event)
         # Button game menu key bord status:
-        self.key_bord_game_menu_key_down(event)
+        self.key_bord_key_down(event)
         self.input_wait_ready()

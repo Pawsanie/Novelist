@@ -1,17 +1,18 @@
 from ..UI_Base_menu import BaseMenu
+from ...Universal_computing import SingletonPattern
 """
 Contains Settings Status menu code.
 """
 
 
-class SettingsStatusMenu(BaseMenu):
+class SettingsStatusMenu(BaseMenu, SingletonPattern):
     """
     Controls reactions to user input commands from mouse or key bord in Settings Status Menu.
     """
     def __init__(self):
         super(SettingsStatusMenu, self).__init__()
 
-    def setting_menu_input_mouse(self, event):
+    def input_mouse(self, event):
         """
         Interface interaction in in-game settings menu.
         :param event: pygame.event from main_loop.
@@ -22,11 +23,3 @@ class SettingsStatusMenu(BaseMenu):
             command = gameplay_ui_buttons[0]
             if command == 'save_menu_save':
                 ...
-
-    def settings_status_menu_input(self, event):
-        """
-        Settings status menu conveyor:
-        :param event: pygame.event from main_loop.
-        """
-        self.setting_menu_input_mouse(event)
-        self.input_wait_ready()

@@ -57,6 +57,54 @@ class InputCommandsReactions:
     Controls reactions to user input commands from mouse or key bord by conveyor
     in 'reactions_to_input_commands' method from 'main_loop'.
     """
+    menus_collection: dict = {
+        'exit_menu': {
+            'object': ExitMenu(),
+            'tag': 'ui_setting_menu_buttons',
+            'text': 'ui_exit_menu_text'
+        },
+        'settings_menu': {
+            'object': SettingsMenu(),
+            'tag': 'ui_exit_menu_buttons',
+            'text': None
+        },
+        'load_menu': {
+            'object': LoadMenu(),
+            'tag': 'ui_load_menu_buttons',
+            'text': None
+        },
+        None: {
+            'object': GameMenu(),
+            'tag': 'ui_game_menu_buttons',
+            'text': None
+        },
+        'save_menu': {
+            'object': SaveMenu(),
+            'tag': 'ui_save_menu_buttons',
+            'text': None
+        },
+        'settings_status_menu': {
+            'object': SettingsStatusMenu(),
+            'tag': 'ui_settings_status_buttons',
+            'text': 'ui_settings_status_text'
+        },
+        'start_menu': {
+            'object': StartMenu(),
+            'tag': 'ui_start_menu_buttons',
+            'text': None
+        },
+        'back_to_start_menu_status_menu': {
+            'object': BackToStartMenuStatusMenu(),
+            'tag': 'ui_back_to_start_menu_status_menu_buttons',
+            'text': 'ui_back_to_start_menu_status_menu_text'
+        },
+        'creators_menu': {
+            'object': CreatorsMenu(),
+            'tag': 'ui_creators_menu_buttons',
+            'text': 'ui_creators_menu_text'
+        }
+    }
+
     def __init__(self):
         # Arguments processing:
         self.interface_controller: InterfaceController = InterfaceController()
@@ -64,18 +112,11 @@ class InputCommandsReactions:
         self.stage_director: StageDirector = StageDirector()
         self.scene_validator: SceneValidator = SceneValidator()
 
-        # Settings for UI menus:
-        self.exit_menu: ExitMenu = ExitMenu()
-        self.game_menu: GameMenu = GameMenu()
-        self.load_menu: LoadMenu = LoadMenu()
-        self.save_menu: SaveMenu = SaveMenu()
-        self.settings_menu: SettingsMenu = SettingsMenu()
-        self.settings_status_menu: SettingsStatusMenu = SettingsStatusMenu()
-        self.start_menu: StartMenu = StartMenu()
-        self.back_to_start_menu_status_menu: BackToStartMenuStatusMenu = BackToStartMenuStatusMenu()
-        self.creators_menu: CreatorsMenu = CreatorsMenu()
         # Settings for gameplay:
         self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
+
+        self.current_menu = StartMenu()
+        self.interface_controller.menus_collection = self.menus_collection  # TODO: crutch?
 
     def __call__(self):
         """
@@ -92,39 +133,7 @@ class InputCommandsReactions:
         if self.interface_controller.gameplay_interface_status is True:
             self.gameplay_administrator.gameplay_input(event)
             return
-        # Game menu:
-        if self.interface_controller.game_menu_status is True:
-            self.game_menu.game_menu_input(event)
-            return
-        # Exit menu:
-        if self.interface_controller.exit_menu_status is True:
-            self.exit_menu.exit_menu_input(event)
-            return
-        # Setting menu:
-        if self.interface_controller.settings_menu_status is True:
-            self.settings_menu.setting_menu_input(event)
-            return
-        # Load menu:
-        if self.interface_controller.load_menu_status is True:
-            self.load_menu.load_menu_input(event)
-            return
-        # Save menu:
-        if self.interface_controller.save_menu_status is True:
-            self.save_menu.save_menu_input(event)
-            return
-        # Settings status menu:
-        if self.interface_controller.settings_status_menu_status is True:
-            self.settings_status_menu.settings_status_menu_input(event)
-            return
-        # Start menu:
-        if self.interface_controller.start_menu_status is True:
-            self.start_menu.start_menu_input(event)
-            return
-        # Back to "Start menu" status menu:
-        if self.interface_controller.back_to_start_menu_status is True:
-            self.back_to_start_menu_status_menu.back_to_start_menu_status_menu_input(event)
-            return
-        # Creators menu:
-        if self.interface_controller.creators_menu_status is True:
-            self.creators_menu.creators_menu_input(event)
+        # Game menus:
+        if self.current_menu.status is True:
+            self.current_menu.menu_input(event)
             return

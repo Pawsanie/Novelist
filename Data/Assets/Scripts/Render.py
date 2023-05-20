@@ -48,7 +48,7 @@ class Render(SingletonPattern):
         """
         # Get data from StageDirector:
         background: Surface = self.stage_director.get_background()[0]
-        text_canvas: tuple[Surface, tuple[int, int]] = self.stage_director.text_canvas.get()  #TODO Remake?
+        text_canvas: tuple[Surface, tuple[int, int]] = self.stage_director.text_canvas.get()  # TODO Remake?
         speaker: tuple[Surface, tuple[int, int]] = self.stage_director.speaker
         speech: tuple[Surface, tuple[int, int]] = self.stage_director.speech
         # Render:

@@ -1,12 +1,13 @@
 from pygame import KEYDOWN, K_ESCAPE, K_TAB, K_e
 
 from ..UI_Base_menu import BaseMenu
+from ...Universal_computing import SingletonPattern
 """
 Back to start menu status menu code.
 """
 
 
-class BackToStartMenuStatusMenu(BaseMenu):
+class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
     """
     Controls reactions to user input commands from mouse or key bord in "Back to 'Start menu' status menu".
     """
@@ -27,7 +28,7 @@ class BackToStartMenuStatusMenu(BaseMenu):
         self.interface_controller.back_to_start_menu_status = False
         self.interface_controller.game_menu_status = True
 
-    def back_to_start_menu_status_menu_input_mouse(self, event):
+    def input_mouse(self, event):
         """
         Interface interaction in in-game back to start menu status menu.
         :param event: pygame.event from main_loop.
@@ -41,7 +42,7 @@ class BackToStartMenuStatusMenu(BaseMenu):
             if command == 'back_to_start_menu_no':
                 self.back_to_start_menu_status_menu_no()
 
-    def key_bord_back_to_start_menu_status_menu_key_down(self, event):
+    def key_bord_key_down(self, event):
         """
         Interface interaction in in-game back to start menu status menu.
         :param event: pygame.event from main_loop.
@@ -51,14 +52,3 @@ class BackToStartMenuStatusMenu(BaseMenu):
                 self.back_to_start_menu_status_menu_no()
             if event.key == K_e:
                 self.back_to_start_menu_status_menu_yes()
-
-    def back_to_start_menu_status_menu_input(self, event):
-        """
-        Back to start menu status menu input conveyor:
-        :param event: pygame.event from main_loop.
-        """
-        # Button game menu ui status:
-        self.back_to_start_menu_status_menu_input_mouse(event)
-        # Button game menu key bord status:
-        self.key_bord_back_to_start_menu_status_menu_key_down(event)
-        self.input_wait_ready()

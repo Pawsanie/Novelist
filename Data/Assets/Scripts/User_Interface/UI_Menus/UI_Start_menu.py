@@ -1,27 +1,31 @@
 from ..UI_Base_menu import BaseMenu
-
 from ...Save_Keeper import SaveKeeper
+from ...Universal_computing import SingletonPattern
+from .UI_Load_menu import LoadMenu
+from .UI_Settings_menu import SettingsMenu
+from .UI_Exit_menu import ExitMenu
 """
 Contains Start menu code.
 """
 
 
-class StartMenu(BaseMenu):
+class StartMenu(BaseMenu, SingletonPattern):
     """
     Controls reactions to user input commands from mouse or key bord in Start Menu.
     """
     def __init__(self):
         super(StartMenu, self).__init__()
         self.save_keeper: SaveKeeper = SaveKeeper()
+        self.status: bool = True
 
     def start_game(self, scene_name: str):
         self.scene_validator.scene = scene_name
         self.scene_validator.scene_flag = scene_name
-        self.interface_controller.start_menu_status = False
+        self.status: bool = False
         self.interface_controller.gameplay_interface_hidden_status = False
         self.interface_controller.gameplay_interface_status = True
 
-    def start_menu_input_mouse(self, event):
+    def input_mouse(self, event):
         """
         Interface interaction in in-game start menu.
         :param event: pygame.event from main_loop.
@@ -37,32 +41,14 @@ class StartMenu(BaseMenu):
                     self.save_keeper.continue_game()
                 )
             if command == 'start_menu_load':
-                self.interface_controller.start_menu_status = False
-                self.interface_controller.load_menu_status = True
+                self.status: bool = False
+                LoadMenu().status = True
             if command == 'start_menu_settings':
-                self.interface_controller.start_menu_status = False
+                self.status: bool = False
                 self.interface_controller.settings_menu_status = True
             if command == 'start_menu_creators':
-                self.interface_controller.start_menu_status = False
-                self.interface_controller.creators_menu_status = True
+                self.status: bool = False
+                SettingsMenu().status = True
             if command == 'start_menu_exit':
-                self.interface_controller.start_menu_status = False
-                self.interface_controller.exit_menu_status = True
-
-    def start_menu_input(self, event):
-        """
-        Start menu conveyor:
-        :param event: pygame.event from main_loop.
-        """
-        # Exit menu "from called" status flag:
-        self.interface_controller.exit_from_start_menu_flag = True
-        self.interface_controller.exit_from_game_menu_flag = False
-        # Load menu "from called" status flag:
-        self.interface_controller.load_from_start_menu_flag = True
-        self.interface_controller.load_from_game_menu_flag = False
-        # Setting menu "from called" status flag:
-        self.interface_controller.settings_from_start_menu_flag = True
-        self.interface_controller.settings_from_game_menu_flag = False
-        # Input:
-        self.start_menu_input_mouse(event)
-        self.input_wait_ready()
+                self.status: bool = False
+                ExitMenu().status = True
