@@ -3,14 +3,14 @@ from ..Universal_computing import surface_size
 Contains calculations for user interface buttons.
 """
 # Interface collections:
-yes_no_menus: list = [
+yes_no_menus: list[str] = [
     'save_menu',
     'load_menu',
     'exit_menu',
     'settings_status_menu',
     'back_to_start_menu_status_menu'
 ]
-long_buttons_menus: list = [
+long_buttons_menus: list[str] = [
     'game_menu',
     'settings_menu',
     'start_menu',

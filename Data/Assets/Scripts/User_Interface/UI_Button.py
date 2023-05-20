@@ -5,6 +5,8 @@ from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP
 from ..Assets_load import image_load, json_load, font_load
 from ..Universal_computing import surface_size
 from .UI_buttons_calculations import button_size
+from ..Background import BackgroundMock
+from ..Settings_Keeper import SettingsKeeper
 font.init()
 """
 Contents code for user interface buttons.
@@ -19,28 +21,25 @@ class Button:
     Instances are created from button_generator function by InterfaceController class.
     """
     # Interface collections:
-    yes_no_menus: list = [
+    yes_no_menus: list[str] = [
         'exit_menu',
         'settings_status_menu',
         'back_to_start_menu_status_menu'
     ]
-    long_buttons_menus: list = [
+    long_buttons_menus: list[str] = [
         'game_menu',
         'settings_menu',
         'start_menu',
         'creators_menu'
     ]
-    save_load_menus: list = [
+    save_load_menus: list[str] = [
         'save_menu',
         'load_menu',
     ]
 
-    def __init__(self, *, background_surface: Surface, button_name: str,
-                 button_text: str | None, button_image_data: dict[str, int],
-                 language_flag: str, button_text_localization_dict: dict[str]):
+    def __init__(self, *, button_name: str, button_text: str | None, button_image_data: dict[str, int],
+                 button_text_localization_dict: dict[str]):
         """
-        :param background_surface: pygame.Surface of background.
-        :type background_surface: Surface
         :param button_name: String with button image file name.
         :type button_name: str
         :param button_text: String with text of button.
@@ -48,17 +47,16 @@ class Button:
         :param button_image_data: Nested dictionary with button name as key and dictionary with button type,
                                   index order position and sprite name as values.
         :type button_image_data: dict[str, dict[str, int]]
-        :param language_flag: String with language flag.
-        :type language_flag: str
         :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
         :type button_text_localization_dict: dict[str]
         """
-        self.background_surface: Surface = background_surface
+        self.background_surface: BackgroundMock = BackgroundMock()
         self.button_name: str = button_name
         self.button_text: str | None = button_text
-        self.language_flag: str = language_flag
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+        self.language_flag: str = self.settings_keeper.text_language
         self.button_text_localization_dict: dict[str] = button_text_localization_dict
-        self.localization_button_text(language_flag=self.language_flag)
+        self.localization_button_text()
         self.button_image_data: dict[str, int] = button_image_data
 
         # Generate button image:
@@ -71,12 +69,13 @@ class Button:
         # Generate button surface:
         self.button_size: tuple[int, int] = button_size(
             place_flag=button_image_data['type'],
-            background_surface=self.background_surface)
+            background_surface=self.background_surface.get_data()[0]
+        )
         self.button_surface: Surface = Surface(self.button_size, SRCALPHA)
 
         # Generate button coordinates:
         self.button_coordinates: tuple[int, int] = (0, 0)
-        self.coordinates(background_surface=self.background_surface)
+        self.coordinates()
 
         # Button image render:
         self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
@@ -99,15 +98,12 @@ class Button:
         """
         return self.button_surface, self.button_coordinates
 
-    def scale(self, *, background_surface):
+    def scale(self):
         """
         Scale button surface, with background context.
-
-        :param background_surface: pygame.Surface of background.
-        :type background_surface: Surface.
         """
         # Arg parse:
-        self.background_surface: Surface = background_surface
+        background_surface: Surface = self.background_surface.get_data()[0]
 
         # Devnull button_surface for new render:
         self.button_surface = Surface((0, 0), SRCALPHA)
@@ -116,12 +112,13 @@ class Button:
         self.button_sprite: Surface = self.button_sprite_standard
         self.button_size: tuple[int, int] = button_size(
             place_flag=self.button_image_data['type'],
-            background_surface=self.background_surface)
+            background_surface=background_surface
+        )
         self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
         self.button_surface: Surface = transform.scale(self.button_surface, self.button_size)
 
         # Scale coordinates:
-        self.coordinates(background_surface=self.background_surface)
+        self.coordinates()
 
         # Button text scale and render:
         if self.button_text is not None:
@@ -229,16 +226,13 @@ class Button:
                                          )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def coordinates(self, *, background_surface: Surface):
+    def coordinates(self):
         """
         Generate coordinates.
-
-        :param background_surface: pygame.Surface of background.
-        :type background_surface: Surface.
         """
-        self.background_surface: Surface = background_surface
+        background_surface: Surface = self.background_surface.get_data()[0]
         place_flag: dict[str, int] = self.button_image_data
-        background_surface_size: list[int, int] = surface_size(interested_surface=self.background_surface)
+        background_surface_size: list[int, int] = surface_size(interested_surface=background_surface)
         background_surface_size_x_middle: int = background_surface_size[0]//2
         background_surface_size_y_middle: int = background_surface_size[1]//2
 
@@ -286,15 +280,13 @@ class Button:
             )
             return
 
-    def localization_button_text(self, *, language_flag):
+    def localization_button_text(self):
         """
         Localization text of button if it's necessary.
 
-        :param language_flag: String with language flag.
-        :type language_flag: str
         """
         if self.button_text is not None:
-            self.language_flag: str = language_flag
+            self.language_flag: str = self.settings_keeper.text_language
             self.button_text: str = self.button_text_localization_dict[self.language_flag]
 
     def button_text_render(self):
@@ -302,8 +294,8 @@ class Button:
         Generate text on button if it's necessary.
         """
         # Localization button text:
-        self.localization_button_text(language_flag=self.language_flag)
-        self.font_size: int = self.background_surface.get_height() // 50
+        self.localization_button_text()
+        self.font_size: int = self.background_surface.get_data()[0].get_height() // 50
 
         # Font reload for size scale:
         if self.font_name is None:
@@ -362,17 +354,14 @@ class Button:
                 return True
 
 
-def button_generator(language_flag: str, background_surface: Surface) -> dict[str, dict[str, Button]]:
+def button_generator() -> dict[str, dict[str, Button]]:
     """
     Generate dict with buttons for user interface.
     Used by InterfaceController.
 
-    :param language_flag: String with language flag.
-    :type language_flag: str
-    :param background_surface: Surface of background.
-    :type background_surface: pygame.Surface
     :return: A nested dictionary of buttons group and an instance of the Button class.
     """
+    language_flag: str = SettingsKeeper().text_language
     result: dict = {}
 
     # localizations instructions from 'ui_buttons_localizations_data.json': UI files and languages for UI.
@@ -419,11 +408,9 @@ def button_generator(language_flag: str, background_surface: Surface) -> dict[st
             # Generate button:
             ui_buttons.update(
                 {key: Button(
-                    background_surface=background_surface,
                     button_name=key,
                     button_text=button_text,
                     button_image_data=ui_buttons_json[key],
-                    language_flag=language_flag,
                     button_text_localization_dict=button_text_localization
                 )})
 

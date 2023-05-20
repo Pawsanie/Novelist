@@ -1,5 +1,3 @@
-from pygame import Surface
-
 from ..User_Interface.UI_Button import button_generator
 from ..Universal_computing import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
@@ -17,24 +15,27 @@ class InterfaceController(SingletonPattern):
     InterfaceController used in "GamePlay_Administrator.py" for gameplay programming.
     Created in GameMaster class in Game_Master.py.
     """
+    menu_settings: dict[str] = {
+        'exit_menu': 'ui_setting_menu_buttons',
+        'settings_menu': 'ui_exit_menu_buttons',
+        'load_menu': 'ui_load_menu_buttons',
+        'save_menu': 'ui_save_menu_buttons',
+        'settings_status_menu': 'ui_settings_status_buttons',
+        'start_menu': 'ui_start_menu_buttons',
+        'back_to_start_menu_status_menu': 'ui_back_to_start_menu_status_menu_buttons',
+        'creators_menu': 'ui_creators_menu_buttons'
+    }
+
     def __init__(self):
         # Arguments processing:
         self.stage_director: StageDirector = StageDirector()
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.background_surface: Surface = self.stage_director.background_surface
-        self.language_flag: str = self.settings_keeper.text_language
 
         # Generate buttons:
-        self.buttons_dict: dict = button_generator(
-            language_flag=self.language_flag,
-            background_surface=self.background_surface
-        )
+        self.buttons_dict: dict = button_generator()
         self.gameplay_choice_buttons: dict = {}
         # Generate menus text:
-        self.menus_text_dict: dict = menus_text_generator(
-            language_flag=self.language_flag,
-            background_surface=self.background_surface
-        )
+        self.menus_text_dict: dict = menus_text_generator()
 
         # In game user interface:
         # "True/False" and "False" as default.
@@ -88,6 +89,7 @@ class InterfaceController(SingletonPattern):
         if self.game_menu_status is True:
             self.menu_name: None = None
             return self.buttons_dict['ui_game_menu_buttons']
+
         if self.settings_menu_status is True:
             self.menu_name: str = "exit_menu"
             return self.buttons_dict['ui_setting_menu_buttons']
@@ -128,19 +130,11 @@ class InterfaceController(SingletonPattern):
         if self.creators_menu_status is True:
             return self.menus_text_dict['ui_creators_menu_text']
 
-    def scale(self, *, language_flag: None or str = None, background_surface):
-        """
-        :param background_surface: pygame.Surface of background.
-        :type background_surface: Surface
-        :param language_flag: str with new 'language_flag'.
-        :type language_flag: str
-        """
-        if language_flag is not None:
-            self.language_flag: str = language_flag
+    def scale(self):
         ui_buttons_dict: dict[str, Button] = self.get_ui_buttons_dict()
         for key in ui_buttons_dict:
             button: Button = ui_buttons_dict[key]
-            button.scale(background_surface=background_surface)
+            button.scale()
 
     def button_clicked_status(self, event) -> tuple[str | None, bool]:
         """

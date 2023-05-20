@@ -30,7 +30,7 @@ class GamePlayReading(BaseMenu):
             if event.type != MOUSEBUTTONDOWN:
                 if event.type == MOUSEBUTTONUP:
                     gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
-                    command = gameplay_ui_buttons[0]
+                    command: str = gameplay_ui_buttons[0]
                     # Clicking a virtual button with a mouse:
                     if gameplay_ui_buttons[1] is True:
                         if command == 'past_scene':

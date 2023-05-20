@@ -57,11 +57,9 @@ class GamePlayDialoguesChoice(BaseMenu):
                     # Generate button:
                     dialogues_buttons.update(
                         {choice: Button(
-                            background_surface=self.stage_director.background_surface,
                             button_name=choice_buttons_text[scene],
                             button_text=choice_buttons_text[scene][choice],
                             button_image_data=image_data_dict,
-                            language_flag=self.stage_director.language_flag,
                             button_text_localization_dict=buttons_text_localization
                         )})
                     self.dialogues_buttons.setdefault(scene, dialogues_buttons)
