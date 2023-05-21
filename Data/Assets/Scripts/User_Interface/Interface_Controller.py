@@ -40,6 +40,9 @@ class InterfaceController(SingletonPattern):
         # Menu interface:
         self.menus_collection: dict | None = None
         self.game_menu_status: bool = False
+        # In game or start menu flag:
+        # "True/False" and "True" as default.
+        self.start_menu_flag: bool = True
 
     def get_ui_buttons_dict(self) -> dict[str, Button]:
         """

@@ -18,11 +18,13 @@ class ExitMenu(BaseMenu, SingletonPattern):
         """
         Back from exit menu.
         """
-        self.interface_controller.exit_menu_status = False
-        if self.interface_controller.exit_from_start_menu_flag is True:
-            self.interface_controller.start_menu_status = True
-        if self.interface_controller.exit_from_game_menu_flag is True:
-            self.interface_controller.game_menu_status = True
+        self.status: bool = False
+        if self.interface_controller.start_menu_flag is True:
+            from .UI_Start_menu import StartMenu
+            StartMenu().status = True
+        if self.interface_controller.start_menu_flag is False:
+            from UI_Game_menu import GameMenu
+            GameMenu().status = True
 
     def input_mouse(self, event):
         """

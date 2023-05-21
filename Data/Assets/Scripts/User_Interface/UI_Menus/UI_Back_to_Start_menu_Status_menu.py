@@ -18,15 +18,17 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
         """
         Switch to start menu.
         """
-        self.interface_controller.back_to_start_menu_status = False
-        self.interface_controller.start_menu_status = True
+        self.status: bool = False
+        from .UI_Start_menu import StartMenu
+        StartMenu().status = True
 
     def back_to_start_menu_status_menu_no(self):
         """
         Back from back to start menu status menu.
         """
-        self.interface_controller.back_to_start_menu_status = False
-        self.interface_controller.game_menu_status = True
+        self.status: bool = False
+        from UI_Game_menu import GameMenu
+        GameMenu().status = True
 
     def input_mouse(self, event):
         """

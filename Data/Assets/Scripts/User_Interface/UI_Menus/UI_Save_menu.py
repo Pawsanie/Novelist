@@ -24,5 +24,6 @@ class SaveMenu(BaseMenu, SingletonPattern):
             if command == 'save_menu_save':
                 ...
             if command == 'save_menu_back':
-                self.interface_controller.save_menu_status = False
-                self.interface_controller.game_menu_status = True
+                self.status: bool = False
+                from .UI_Game_menu import GameMenu
+                GameMenu().status = True

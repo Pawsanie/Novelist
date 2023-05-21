@@ -1,9 +1,6 @@
 from ..UI_Base_menu import BaseMenu
 from ...Save_Keeper import SaveKeeper
 from ...Universal_computing import SingletonPattern
-from .UI_Load_menu import LoadMenu
-from .UI_Settings_menu import SettingsMenu
-from .UI_Exit_menu import ExitMenu
 """
 Contains Start menu code.
 """
@@ -22,8 +19,10 @@ class StartMenu(BaseMenu, SingletonPattern):
         self.scene_validator.scene = scene_name
         self.scene_validator.scene_flag = scene_name
         self.status: bool = False
+
         self.interface_controller.gameplay_interface_hidden_status = False
         self.interface_controller.gameplay_interface_status = True
+        self.interface_controller.start_menu_flag = False
 
     def input_mouse(self, event):
         """
@@ -41,14 +40,18 @@ class StartMenu(BaseMenu, SingletonPattern):
                     self.save_keeper.continue_game()
                 )
             if command == 'start_menu_load':
+                from .UI_Load_menu import LoadMenu
                 self.status: bool = False
                 LoadMenu().status = True
             if command == 'start_menu_settings':
-                self.status: bool = False
-                self.interface_controller.settings_menu_status = True
-            if command == 'start_menu_creators':
+                from .UI_Settings_menu import SettingsMenu
                 self.status: bool = False
                 SettingsMenu().status = True
+            if command == 'start_menu_creators':
+                from .UI_Creators_menu import CreatorsMenu
+                self.status: bool = False
+                CreatorsMenu().status = True
             if command == 'start_menu_exit':
+                from .UI_Exit_menu import ExitMenu
                 self.status: bool = False
                 ExitMenu().status = True

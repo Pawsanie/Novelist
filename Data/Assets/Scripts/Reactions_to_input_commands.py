@@ -60,12 +60,12 @@ class InputCommandsReactions:
     menus_collection: dict = {
         'exit_menu': {
             'object': ExitMenu(),
-            'tag': 'ui_setting_menu_buttons',
+            'tag': 'ui_exit_menu_buttons',
             'text': 'ui_exit_menu_text'
         },
         'settings_menu': {
             'object': SettingsMenu(),
-            'tag': 'ui_exit_menu_buttons',
+            'tag': 'ui_settings_menu_buttons',
             'text': None
         },
         'load_menu': {

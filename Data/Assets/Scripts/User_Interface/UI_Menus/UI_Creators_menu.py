@@ -2,7 +2,6 @@ from pygame import K_e, K_TAB, KEYDOWN, K_ESCAPE
 
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing import SingletonPattern
-from .UI_Start_menu import StartMenu
 """
 Contains creators menu code.
 """
@@ -19,7 +18,9 @@ class CreatorsMenu(BaseMenu, SingletonPattern):
         """
         Back to start menu.
         """
-        self.handle = lambda: StartMenu()
+        from .UI_Start_menu import StartMenu
+        self.status: bool = False
+        StartMenu().status = True
 
     def key_bord_key_down(self, event):
         """

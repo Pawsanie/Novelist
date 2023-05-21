@@ -30,8 +30,10 @@ class SettingsMenu(BaseMenu, SingletonPattern):
             if command == 'settings_menu_localization':
                 ...
             if command == 'settings_menu_back':
-                self.interface_controller.settings_menu_status = False
-                if self.interface_controller.settings_from_start_menu_flag is True:
-                    self.interface_controller.start_menu_status = True
-                if self.interface_controller.settings_from_game_menu_flag is True:
-                    self.interface_controller.game_menu_status = True
+                self.status: bool = False
+                if self.interface_controller.start_menu_flag is True:
+                    from .UI_Start_menu import StartMenu
+                    StartMenu().status = True
+                if self.interface_controller.start_menu_flag is False:
+                    from .UI_Game_menu import GameMenu
+                    GameMenu().status = True
