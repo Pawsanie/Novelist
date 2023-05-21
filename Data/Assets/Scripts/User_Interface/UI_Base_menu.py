@@ -51,4 +51,5 @@ class BaseMenu:
         self.input_mouse(event)
         # Button game menu key bord status:
         self.key_bord_key_down(event)
+        # Redraw screen image:
         self.input_wait_ready()

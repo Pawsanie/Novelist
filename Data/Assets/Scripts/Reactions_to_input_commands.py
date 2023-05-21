@@ -28,7 +28,7 @@ def main_loop(func):
         self = args[0]  # class method`s 'self.' for in class decorator.
         program_running: bool = True
         main_cycle_fps_clock = time.Clock()
-        main_cycle_fps: int = 30
+        main_cycle_fps: int = 60
         while program_running:
             for event in pygame_events.get():
                 # Quit by exit_icon.
@@ -114,8 +114,7 @@ class InputCommandsReactions:
 
         # Settings for gameplay:
         self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
-
-        self.current_menu = StartMenu()
+        # Itself data mock:
         self.interface_controller.menus_collection = self.menus_collection  # TODO: crutch?
 
     def __call__(self):
@@ -134,6 +133,8 @@ class InputCommandsReactions:
             self.gameplay_administrator.gameplay_input(event)
             return
         # Game menus:
-        if self.current_menu.status is True:
-            self.current_menu.menu_input(event)
-            return
+        for key in self.menus_collection:
+            menu = self.menus_collection[key]['object']
+            if menu.status is True:
+                menu.menu_input(event)
+                return
