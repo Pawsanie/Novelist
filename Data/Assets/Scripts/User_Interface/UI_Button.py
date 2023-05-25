@@ -37,6 +37,9 @@ class Button:
         'load_menu',
     ]
 
+    # Tuple with RBG for button select render:
+    button_selected_color: tuple[int] = (100, 0, 0)
+
     def __init__(self, *, button_name: str, button_text: str | None, button_image_data: dict[str, int],
                  button_text_localization_dict: dict[str]):
         """
@@ -50,14 +53,14 @@ class Button:
         :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
         :type button_text_localization_dict: dict[str]
         """
-        self.background_surface: BackgroundMock = BackgroundMock()
+        self.background: BackgroundMock = BackgroundMock()
         self.button_name: str = button_name
         self.button_text: str | None = button_text
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.language_flag: str = self.settings_keeper.text_language
         self.button_text_localization_dict: dict[str] = button_text_localization_dict
         self.localization_button_text()
-        self.button_image_data: dict[str, int] = button_image_data
+        self.button_image_data: dict[str | int] = button_image_data
 
         # Generate button image:
         self.button_sprite_standard: Surface = image_load(
@@ -69,13 +72,12 @@ class Button:
         # Generate button surface:
         self.button_size: tuple[int, int] = button_size(
             place_flag=button_image_data['type'],
-            background_surface=self.background_surface.get_data()[0]
+            background_surface=self.background.get_data()[0]
         )
         self.button_surface: Surface = Surface(self.button_size, SRCALPHA)
 
         # Generate button coordinates:
         self.button_coordinates: tuple[int, int] = (0, 0)
-        self.coordinates()
 
         # Button image render:
         self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
@@ -103,7 +105,7 @@ class Button:
         Scale button surface, with background context.
         """
         # Arg parse:
-        background_surface: Surface = self.background_surface.get_data()[0]
+        background_surface: Surface = self.background.get_data()[0]
 
         # Devnull button_surface for new render:
         self.button_surface = Surface((0, 0), SRCALPHA)
@@ -131,7 +133,7 @@ class Button:
         else:
             # Mask settings:
             screen_mask: Surface = Surface([self.button_surface.get_width(), self.button_surface.get_height()])
-            screen_mask.fill((100, 0, 0))
+            screen_mask.fill(self.button_selected_color)
             screen_mask.set_alpha(150)
             # Button render:
             self.button_surface.blit(self.button_sprite, (0, 0))
@@ -148,136 +150,166 @@ class Button:
             flip_y=False
         )
 
-    def menu_yes_no_coordinates(self, *, background_surface_size, place_flag):
+    def menu_yes_no_coordinates(self):
         """
         Coordinates for exit menu and settings status menu buttons.
         """
+        place_flag: int = self.button_image_data['index_number']
+        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
+        background_y = self.background_surface_size()[1]
+
         # X:
         button_coordinates_x: int = int(
-            (background_surface_size[0] // 2)
+            button_middle_x
             - (self.button_size[0] // 2)
-            + (self.button_size[0] * place_flag['index_number'])
+            + (self.button_size[0] * place_flag)
         )
         # Y:
         button_coordinates_y: int = (
-                (background_surface_size[1] // 2)
-                + (background_surface_size[1] // 4)
+                button_middle_y
+                + (background_y // 4)
         )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def menu_start_and_settings_coordinates(self, *, background_surface_size,
-                                            background_surface_size_y_middle, place_flag, multiplier):
+    def menu_long_buttons_coordinates(self, *, multiplier):
         """
         Coordinates for start menu and settings menu buttons.
         """
+        place_flag: int = self.button_image_data['index_number']
+        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
+
         # X:
         button_coordinates_x: int = (
-                (background_surface_size[0] // 2)
-                - (self.button_size[0] // 2))
-        # Y:
-        button_coordinates_y: int = (
-            (background_surface_size_y_middle - (self.button_size[1] // 2))
-            + (self.button_size[1] * place_flag['index_number'])
-        )
-        if multiplier != 0:
-            button_coordinates_y: int = (
-                button_coordinates_y
-                - (background_surface_size_y_middle // multiplier)
-                                         )
-        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
-
-    def menu_save_and_load_coordinates(self, *, background_surface_size_y_middle,
-                                       background_surface_size_x_middle, place_flag):
-        """
-        Coordinates for save menu and load menu buttons.
-        """
-        # X:
-        button_coordinates_x: int = int(
-                background_surface_size_x_middle
-                + (self.button_size[0] * place_flag['index_number'])
-                + (background_surface_size_x_middle // 3)
-        )
-        # Y:
-        button_coordinates_y: int = (
-                background_surface_size_y_middle
-                + ((background_surface_size_y_middle // 3) * 2)
-        )
-        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
-
-    def gameplay_dialogues_choice_coordinates(self, *, background_surface_size,
-                                              background_surface_size_y_middle, place_flag, multiplier):
-        """
-        Coordinates for gameplay dialogues choice buttons.
-        """
-        # X:
-        button_coordinates_x: int = (
-                (background_surface_size[0] // 2)
+                button_middle_x
                 - (self.button_size[0] // 2)
         )
         # Y:
         button_coordinates_y: int = (
-            (background_surface_size_y_middle - (self.button_size[1] // 2))
-            + ((self.button_size[1] * 2) * place_flag['index_number'])
+                button_middle_y
+                - (self.button_size[1] // 2)
+                + (self.button_size[1] * place_flag)
         )
         if multiplier != 0:
+            button_size_y: int = self.button_surface.get_height()
             button_coordinates_y: int = (
                 button_coordinates_y
-                - (background_surface_size_y_middle // multiplier)
+                - (button_size_y * multiplier)
                                          )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
+    def menu_save_and_load_coordinates(self):
+        """
+        Coordinates for save menu and load menu buttons.
+        """
+        place_flag: int = self.button_image_data['index_number']
+        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
+        background_x, background_y = self.background_surface_size()
+
+        # X:
+        button_coordinates_x: int = int(
+                button_middle_x
+                + (self.button_size[0] * place_flag)
+                + (background_x // 4)
+        )
+        # Y:
+        button_coordinates_y: int = (
+                button_middle_y
+                + (background_y // 4)
+        )
+        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
+    def gameplay_dialogues_choice_coordinates(self, *, multiplier):
+        """
+        Coordinates for gameplay dialogues choice buttons.
+        """
+        place_flag: int = self.button_image_data['index_number']
+        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
+
+        # X:
+        button_coordinates_x: int = (
+                button_middle_x
+                - (self.button_size[0] // 2)
+        )
+        # Y:
+        button_coordinates_y: int = (
+                button_middle_y
+                - (self.button_size[1] // 2)
+                + ((self.button_size[1] * 2) * place_flag)
+        )
+        if multiplier != 0:
+            button_size_y: int = self.button_surface.get_height()
+            button_coordinates_y: int = (
+                    button_coordinates_y
+                    - (button_size_y * multiplier)
+            )
+        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
+    def gameplay_reading_coordinates(self):
+        place_flag: int = self.button_image_data['index_number']
+        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
+        background_y = self.background_surface_size()[1]
+
+        # X:
+        button_coordinates_x: int = (
+                button_middle_x
+                - (self.button_size[0] // 2)
+                + (self.button_size[0] * place_flag)
+                )
+        # Y:
+        button_coordinates_y: int = background_y - self.button_size[1]
+        # Result:
+        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
+    def button_middle_point_coordinates(self) -> tuple[int, int]:
+        """
+        Calculate button middle points coordinates.
+        """
+        screen_x = self.settings_keeper.screen.get_width()
+        screen_y = self.settings_keeper.screen.get_height()
+
+        button_middle_x: int = screen_x // 2
+        button_middle_y: int = screen_y // 2
+
+        return button_middle_x, button_middle_y
+
+    def background_surface_size(self) -> list[int, int]:
+        """
+        Calculate background surface size.
+        """
+        background_data = self.background.get_data()
+        background_surface: Surface = background_data[0]
+
+        background_surface_size: list[int, int] = surface_size(interested_surface=background_surface)
+        return background_surface_size
 
     def coordinates(self):
         """
         Generate coordinates.
         """
-        background_surface: Surface = self.background_surface.get_data()[0]
-        place_flag: dict[str, int] = self.button_image_data
-        background_surface_size: list[int, int] = surface_size(interested_surface=background_surface)
-        background_surface_size_x_middle: int = background_surface_size[0]//2
-        background_surface_size_y_middle: int = background_surface_size[1]//2
+        menu_type: str = self.button_image_data['type']
 
-        if place_flag['type'] == 'gameplay_ui':
-            # X:
-            button_coordinates_x: int = \
-                (background_surface_size_x_middle - (self.button_size[0]//2)) \
-                + (self.button_size[0] * place_flag['index_number'])
-            # Y:
-            button_coordinates_y: int = background_surface_size[1] - self.button_size[1]
-            # Result:
-            self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+        if menu_type == 'gameplay_ui':
+            self.gameplay_reading_coordinates()
             return
 
-        if place_flag['type'] in self.long_buttons_menus:
-            self.menu_start_and_settings_coordinates(
-                background_surface_size=background_surface_size,
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag,
-                multiplier=3
-            )
-            return
-
-        if place_flag['type'] in self.yes_no_menus:
-            self.menu_yes_no_coordinates(
-                background_surface_size=background_surface_size,
-                place_flag=place_flag
-            )
-            return
-
-        if place_flag['type'] in self.save_load_menus:
-            self.menu_save_and_load_coordinates(
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                background_surface_size_x_middle=background_surface_size_x_middle,
-                place_flag=place_flag
-            )
-            return
-
-        if place_flag['type'] == 'gameplay_dialogues_choice':
+        if menu_type == 'gameplay_dialogues_choice':
             self.gameplay_dialogues_choice_coordinates(
-                background_surface_size=background_surface_size,
-                background_surface_size_y_middle=background_surface_size_y_middle,
-                place_flag=place_flag,
                 multiplier=3
             )
+            return
+
+        if menu_type in self.long_buttons_menus:
+            self.menu_long_buttons_coordinates(
+                multiplier=3
+            )
+            return
+
+        if menu_type in self.yes_no_menus:
+            self.menu_yes_no_coordinates()
+            return
+
+        if menu_type in self.save_load_menus:
+            self.menu_save_and_load_coordinates()
             return
 
     def localization_button_text(self):
@@ -295,7 +327,7 @@ class Button:
         """
         # Localization button text:
         self.localization_button_text()
-        self.font_size: int = self.background_surface.get_data()[0].get_height() // 50
+        self.font_size: int = self.background.get_data()[0].get_height() // 50
 
         # Font reload for size scale:
         if self.font_name is None:
@@ -323,6 +355,25 @@ class Button:
         # Button processing:
         button_x_size, button_y_size = surface_size(self.button_surface)
         button_coordinates_x, button_coordinates_y = self.button_coordinates
+
+        # TODO: Analyze the strange behavior of the search for a Y points and remove the crutch...
+        crutch_menus_list: list[str] = [
+            'gameplay_ui',
+            'gameplay_dialogues_choice'
+        ]
+        if self.button_image_data['type'] in crutch_menus_list:
+            cursor_position_y: int = int(
+                cursor_position[1]
+                - self.background.background_coordinates[1]
+            )
+            if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size and \
+                    button_coordinates_y < cursor_position_y < button_coordinates_y + button_y_size:
+                return True
+            # Default Button Rendering:
+            else:
+                return False
+        # TODO: End of crutch.
+
         # Drawing a button while hovering over:
         if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size and \
                 button_coordinates_y < cursor_position[1] < button_coordinates_y + button_y_size:

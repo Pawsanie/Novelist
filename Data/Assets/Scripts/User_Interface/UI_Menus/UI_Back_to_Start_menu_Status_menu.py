@@ -20,6 +20,7 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
         """
         self.status: bool = False
         from .UI_Start_menu import StartMenu
+        self.interface_controller.start_menu_flag = True
         StartMenu().status = True
 
     def back_to_start_menu_status_menu_no(self):

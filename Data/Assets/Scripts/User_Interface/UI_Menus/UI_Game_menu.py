@@ -40,8 +40,8 @@ class GameMenu(SingletonPattern, BaseMenu):
                 SettingsMenu().status = True
             if command == 'game_menu_start_menu':
                 self.status: bool = False
-                from .UI_Start_menu import StartMenu
-                StartMenu().status = True
+                from .UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
+                BackToStartMenuStatusMenu().status = True
             if command == 'game_menu_exit':
                 self.status: bool = False
                 from .UI_Exit_menu import ExitMenu

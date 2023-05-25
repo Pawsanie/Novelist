@@ -63,8 +63,12 @@ class StageDirector(SingletonPattern):
         :param location: String with background location name.
         :return: Background for scene render.
         """
-        scene: Background = self.backgrounds_dict.get(location)
-        self.location: Background = scene
+        if location is not None:  # In game menu.
+            scene: Background = self.backgrounds_dict.get(location)
+            self.location: Background = scene
+        else:
+            scene = self.location
+
         scene.scale()
         scene_image: Surface = scene.scene_image
         # Update background surface:

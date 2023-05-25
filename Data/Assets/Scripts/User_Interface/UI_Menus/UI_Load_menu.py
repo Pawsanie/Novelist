@@ -29,6 +29,6 @@ class LoadMenu(BaseMenu, SingletonPattern):
                     from .UI_Start_menu import StartMenu
                     StartMenu().status = True
                 if self.interface_controller.start_menu_flag is False:
-                    from UI_Game_menu import GameMenu
+                    from .UI_Game_menu import GameMenu
                     GameMenu().status = True
 

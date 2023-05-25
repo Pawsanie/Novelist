@@ -18,6 +18,14 @@ class GamePlayReading(BaseMenu):
         super(GamePlayReading, self).__init__()
         self.stage_director: StageDirector = StageDirector()
 
+    def go_to_game_menu(self):
+        """
+        Switch to game menu.
+        """
+        self.interface_controller.gameplay_interface_status = False
+        from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
+        GameMenu().status = True
+
     def button_gameplay_ui_status(self, event):
         """
         Processing the gameplay interface.
@@ -41,8 +49,7 @@ class GamePlayReading(BaseMenu):
                         if command == 'hide_interface':
                             self.interface_controller.gameplay_interface_hidden_status = True
                         if command == 'game_menu':
-                            self.interface_controller.game_menu_status = True
-                            self.interface_controller.gameplay_interface_status = False
+                            self.go_to_game_menu()
                         if command == 'next_scene':
                             if self.scene_validator.next_scene != 'FINISH':
                                 self.scene_validator.scene_flag = self.scene_validator.next_scene
@@ -87,8 +94,7 @@ class GamePlayReading(BaseMenu):
                         self.scene_validator.scene_flag = self.scene_validator.next_scene
             if self.interface_controller.game_menu_status is False:
                 if event.key == K_ESCAPE:
-                    self.interface_controller.game_menu_status = True
-                    self.interface_controller.gameplay_interface_status = False
+                    self.go_to_game_menu()
 
     def gameplay_input(self, event):
         """
