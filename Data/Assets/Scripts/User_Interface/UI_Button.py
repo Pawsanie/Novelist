@@ -190,11 +190,10 @@ class Button:
                 + (self.button_size[1] * place_flag)
         )
         if multiplier != 0:
-            button_size_y: int = self.button_surface.get_height()
             button_coordinates_y: int = (
                 button_coordinates_y
-                - (button_size_y * multiplier)
-                                         )
+                - (self.button_size[1] * multiplier)
+                )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def menu_save_and_load_coordinates(self):
@@ -225,6 +224,7 @@ class Button:
         place_flag: int = self.button_image_data['index_number']
         button_middle_x, button_middle_y = self.button_middle_point_coordinates()
 
+        # button_middle_y: int = self.settings_keeper.screen.get_height() // 2
         # X:
         button_coordinates_x: int = (
                 button_middle_x
@@ -237,10 +237,9 @@ class Button:
                 + ((self.button_size[1] * 2) * place_flag)
         )
         if multiplier != 0:
-            button_size_y: int = self.button_surface.get_height()
             button_coordinates_y: int = (
                     button_coordinates_y
-                    - (button_size_y * multiplier)
+                    - (self.button_size[1] * multiplier)
             )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 

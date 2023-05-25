@@ -48,6 +48,8 @@ class SceneValidator(SingletonPattern):
             self.next_scene: str = scene['next_scene']
             self.past_scene: str = scene['past_scene']
             self.scene_gameplay_type: str = scene['gameplay_type']
+            self.stage_director.scene_name = self.scene  # TODO: Remove when refactoring rendering.
+            # TODO: Uses in the gameplay of choice ^.
 
             # Scene text settings!:
             if self.scene_gameplay_type is not False:

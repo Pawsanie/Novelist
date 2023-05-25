@@ -54,6 +54,7 @@ class StageDirector(SingletonPattern):
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         # Text Choice gameplay:
+        self.scene_name: str = ''
         # self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
 
     def set_scene(self, *, location: str) -> Surface.blit:
