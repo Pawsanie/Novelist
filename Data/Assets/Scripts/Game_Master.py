@@ -70,9 +70,6 @@ class GameMaster:
         # Chose gameplay settings:
         self.set_gameplay_type()
         # Build interface:
-        self.interface_controller.scale(
-            language_flag=self.language_flag,
-            background_surface=self.stage_director.background_surface
-        )
+        self.interface_controller.scale()
         # Image render:
         self.render.image_render()

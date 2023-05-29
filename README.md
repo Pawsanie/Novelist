@@ -409,24 +409,57 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
                                        └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
 **Buttons for new menu:**
-New menu need to be added in '**coordinates**' method of '**Button**' class in 'UI_Button.py' file.<br>
+If your menu will use **standard coordinates**, <br>
+then it must be added to the appropriate collection at the beginning of the 'Button' class.<br>
+**Example:**
+```python
+# Interface collections:
+yes_no_menus: list[str] = [
+    'exit_menu',
+    'settings_status_menu',
+    'back_to_start_menu_status_menu'
+]
+long_buttons_menus: list[str] = [
+    'game_menu',
+    'settings_menu',
+    'start_menu',
+    'creators_menu'
+]
+save_load_menus: list[str] = [
+    'save_menu',
+    'load_menu',
+]
+```
+In **this case**, all settings will be applied **automatically**.
+
+If your menu will have a different way of calculating button positions, then
+new menu need to be added in '**coordinates**' method of '**Button**' class in 'UI_Button.py' file.<br>
 Also you need to **write a new method** finding button coordinates.<br>
 'menu_yes_no_coordinates' method as example of **horizontal** menu.<br>
 And 'menu_start_and_settings_coordinates' as example of **vertical** menu.
 
 New menu buttons need to be added in 'UI_buttons_calculations.py **button_size** function.'
 
-You will need to modify the class constructor of '**InterfaceController**' in 'Interface_Controller.py' file.<br>
-Add new menu class like variable to it.<br>
-And add new 'return' to '**get_ui_buttons_dict**' in method of 'InterfaceController' class.<br>
-Note that'**self.menu_name**' must be as background key in '**backgrounds_sprites.json:**' file.<br>
-If the menu will be shown over the gameplay screen 'self.menu_name' variables value must be '**None**'.<br>
+You will need to modify the menus_collection dictionary of '**InputCommandsReactions**' in 'Reactions_to_input_commands.py' file.<br>
+Add a new item with menu settings to the dictionary.<br>
 **Example:**
-```text
-        if self.start_menu_status is True:
-            self.menu_name: str = "start_menu"
-            return self.buttons_dict['ui_start_menu_buttons']
+```python
+menus_collection: dict = {
+'exit_menu': {
+    'object': ExitMenu(),
+    'menu_file': 'ui_exit_menu_buttons',
+    'text_file': 'ui_exit_menu_text'
+},
+'settings_menu': {
+    'object': SettingsMenu(),
+    'menu_file': 'ui_settings_menu_buttons',
+    'text_file': None
+}}
 ```
+As a key for your menu collection element will act **"type"** key in your menus json file.<br>
+Please note that **None** key is reserved for reading gameplay UI.<br>
+In a nested dictionary, the **'object'** key value is your menu object.
+If your menu does not have static text, set the value of the '**text_file**' key to 'None'.
 
 You will also need to add your buttons to 'ui_localizations_data.json', and localization.json 'eng.json' as example.<br>
 And create and fill a new 'ui_*_menu_buttons.json' file, for your menu.
@@ -439,7 +472,19 @@ If you need to add static text, with or without a background, to your new menu t
 In addition, you will need to create a new ui_*_menu_text.json for the new menu and fill it with correct data.
 
 You will also need to add a new menu to 'UI_Menu_Text.py' **MenuText** class '**scale**' method`s list.<br>
-And add new 'return' to '**get_menus_text_dict**' in method of '**InterfaceController**' class.
+Or you can use the standard coordinates by adding a list for such text at the beginning of the MenuText class.<br>
+**Example:**
+```python
+# Set menu lists:
+yes_no_menu_text_list: list[str] = [
+    'back_to_start_menu_status_menu',
+    'exit_menu',
+    'settings_status_menu',
+]
+back_menu_text_list: list[str] = [
+    'creators_menu'
+]
+```
 
 ## The name and icon of the game window:
 In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>
@@ -553,10 +598,6 @@ Appears due to extra information in the sRGB profile when converting to PNG.<br>
 Because of this, after the program ends, a warning message appears in the terminal.<br>
 Actually this warning is not an error. I'm just too lazy to re-save the sprite blanks correctly...<br>
 Don't be like me and save your sprites correctly!
-
-* **Interface when freely changing the window:**<br>
-If you use the mouse to change the size of the game window to a non-natural one, the menu interface may start to behave strangely.<br>
-I've left the resizable window feature for testing purposes and don't recommend giving it to the user without fixes.
 
 ***
 

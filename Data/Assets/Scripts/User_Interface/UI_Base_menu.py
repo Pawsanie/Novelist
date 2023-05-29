@@ -14,9 +14,42 @@ class BaseMenu:
         self.scene_validator: SceneValidator = SceneValidator()
         # User Interface controller settings:
         self.interface_controller: InterfaceController = InterfaceController()
+        self.status: bool = False
 
     def input_wait_ready(self):
         """
         Stop loop after user command and redraw image.
         """
         self.scene_validator.scene = 'redraw'
+
+    def input_mouse(self, event):
+        """
+        Interface interaction in MasterClass menu.
+        :param event: pygame.event from main_loop.
+        """
+        pass
+
+    def key_bord_key_down(self, event):
+        """
+        Interface interaction in MasterClass menu.
+        :param event: pygame.event from main_loop.
+        """
+        pass
+
+    def handle(self):
+        """
+        Part of StateMachine pattern.
+        """
+        pass
+
+    def menu_input(self, event):
+        """
+        Menu conveyor.
+        :param event: pygame.event from main_loop.
+        """
+        # Button game menu ui status:
+        self.input_mouse(event)
+        # Button game menu key bord status:
+        self.key_bord_key_down(event)
+        # Redraw screen image:
+        self.input_wait_ready()

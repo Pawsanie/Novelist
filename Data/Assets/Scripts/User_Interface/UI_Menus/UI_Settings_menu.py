@@ -1,11 +1,12 @@
 from ...Settings_Keeper import SettingsKeeper
 from ..UI_Base_menu import BaseMenu
+from ...Universal_computing import SingletonPattern
 """
 Contains settings menu code.
 """
 
 
-class SettingsMenu(BaseMenu):
+class SettingsMenu(BaseMenu, SingletonPattern):
     """
     Controls reactions to user input commands from mouse or key bord in Settings Menu.
     """
@@ -13,7 +14,7 @@ class SettingsMenu(BaseMenu):
         super(SettingsMenu, self).__init__()
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
 
-    def settings_menu_ui_mouse(self, event):
+    def input_mouse(self, event):
         """
         Interface interaction in in-game setting menu.
         :param event: pygame.event from main_loop.
@@ -29,16 +30,10 @@ class SettingsMenu(BaseMenu):
             if command == 'settings_menu_localization':
                 ...
             if command == 'settings_menu_back':
-                self.interface_controller.settings_menu_status = False
-                if self.interface_controller.settings_from_start_menu_flag is True:
-                    self.interface_controller.start_menu_status = True
-                if self.interface_controller.settings_from_game_menu_flag is True:
-                    self.interface_controller.game_menu_status = True
-
-    def setting_menu_input(self, event):
-        """
-        Setting menu conveyor:
-        :param event: pygame.event from main_loop.
-        """
-        self.settings_menu_ui_mouse(event)
-        self.input_wait_ready()
+                self.status: bool = False
+                if self.interface_controller.start_menu_flag is True:
+                    from .UI_Start_menu import StartMenu
+                    StartMenu().status = True
+                if self.interface_controller.start_menu_flag is False:
+                    from .UI_Game_menu import GameMenu
+                    GameMenu().status = True

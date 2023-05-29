@@ -48,7 +48,7 @@ class Render(SingletonPattern):
         """
         # Get data from StageDirector:
         background: Surface = self.stage_director.get_background()[0]
-        text_canvas: tuple[Surface, tuple[int, int]] = self.stage_director.text_canvas.get()  # Remake?
+        text_canvas: tuple[Surface, tuple[int, int]] = self.stage_director.text_canvas.get()  # TODO Remake?
         speaker: tuple[Surface, tuple[int, int]] = self.stage_director.speaker
         speech: tuple[Surface, tuple[int, int]] = self.stage_director.speech
         # Render:
@@ -83,9 +83,8 @@ class Render(SingletonPattern):
         """
         menus_text_dict: dict = self.interface_controller.get_menus_text_dict()
         if menus_text_dict is not None:
-            background: Surface = self.stage_director.get_background()[0]
             for text in menus_text_dict.values():
-                text.scale(background_surface=background)
+                text.scale()
                 self.screen.blit(
                     text.get_text()[0], text.get_text()[1]
                 )

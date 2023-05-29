@@ -2,6 +2,7 @@ from pygame import transform, Surface, SRCALPHA
 
 from .Characters_calculations import character_sprite_size, meddle_point_for_character_render
 from .Assets_load import image_load, json_load
+from .Background import BackgroundMock
 """
 Contains code responsible for rendering character.
 """
@@ -12,8 +13,7 @@ class Character:
     Super class for characters.
     Control characters by a lot of methods.
     """
-    def __init__(self, *, surface: Surface, character_image: Surface, character_size: tuple,
-                 coordinates_pixels: list[int], character_poses: dict, background_surface: Surface):
+    def __init__(self, *, surface: Surface, character_image: Surface, character_size: tuple, character_poses: dict):
         """
         :param surface: Character surface object for render.
         :type surface: pygame.Surface
@@ -21,18 +21,14 @@ class Character:
         :type character_image: pygame.Surface
         :param character_size: Base character size.
         :type character_size: tuple[int, int]
-        :param coordinates_pixels: Base coordinates for character render.
-        :type coordinates_pixels: list[int, int]
         :param character_poses: All poses coordinates for sprite animation.
         :type character_poses: dict[dict[str, int]]
-        :param background_surface: Surface with background.
-        :type background_surface: pygame.Surface
         """
         self.surface: Surface = surface
         self.character_image: Surface = character_image
-        self.coordinates_pixels: list[int, int] = coordinates_pixels
+        self.coordinates_pixels: list[int, int] = [0, 0]
         self.character_poses: dict = character_poses
-        self.background_surface: Surface = background_surface
+        self.background: BackgroundMock = BackgroundMock()
         self.character_size: tuple[int, int] = character_size
         self.position: str = 'middle'  # [middle/right/left/custom] as 'middle' as default
         self.plan: str = 'first_plan'  # [first_plan/background_plan] as 'first_plan' as default
@@ -74,17 +70,13 @@ class Character:
             flip_y=False
         )
 
-    def scale(self, *, background_surface):
+    def scale(self):
         """
         Scale characters surface, with background context.
-
-        :param background_surface: pygame.Surface of background.
-        :type background_surface: Surface.
         """
-        self.background_surface = background_surface
         self.character_size: tuple[int, int] = character_sprite_size(
-            background_surface=self.background_surface,
-            character_surface=self.surface)
+            character_surface=self.surface
+        )
         # Size scale:
         if self.plan == 'background_plan':
             size: tuple[int, int] = self.character_size
@@ -122,17 +114,18 @@ class Character:
         """
         Move character to middle of scene.
         """
+        background_surface = self.background.get_data()[0]
         if self.plan == 'background_plan':
             self.coordinates_pixels: list[int, int] = meddle_point_for_character_render(
-                screen_surface=self.background_surface, character_surface=self.surface
+                screen_surface=background_surface, character_surface=self.surface
             )
         if self.plan == 'first_plan':
             coordinates_pixels: list[int, int] = meddle_point_for_character_render(
-                screen_surface=self.background_surface, character_surface=self.surface
+                screen_surface=background_surface, character_surface=self.surface
             )
             coordinates_pixels_y: int = \
-                self.background_surface.get_height() \
-                - int(self.background_surface.get_height() * 0.9)
+                background_surface.get_height() \
+                - int(background_surface.get_height() * 0.9)
             self.coordinates_pixels: list[int, int] = [coordinates_pixels[0], coordinates_pixels_y]
         self.position: str = 'middle'
 
@@ -158,11 +151,10 @@ class Character:
         self.position = 'right'
 
 
-def characters_generator(*, background_surface: Surface) -> dict[str, Character]:
+def characters_generator() -> dict[str, Character]:
     """
     Load data about characters and their sprites from json and make dict with Character class exemplars.
 
-    :param background_surface: Background Surface.
     :return: Dictionary with 'character`s names as a keys and Character`s exemplar as values.
     """
     result: dict = {}
@@ -184,17 +176,11 @@ def characters_generator(*, background_surface: Surface) -> dict[str, Character]
             character_poses['1']['y'][1]
         )
         character_surface: Surface = Surface(character_size_base, SRCALPHA)
-        coordinates_pixels: list[int] = meddle_point_for_character_render(
-            screen_surface=background_surface,
-            character_surface=character_surface
-        )
         result.update({str(character_name): Character(
             surface=character_surface,
             character_image=sprite,
             character_size=character_size_base,
-            coordinates_pixels=coordinates_pixels,
-            character_poses=character_poses,
-            background_surface=background_surface
+            character_poses=character_poses
         )})
 
     return result

@@ -52,16 +52,16 @@ class GamePlayDialoguesChoice(BaseMenu):
                             {language: all_buttons_text_localizations_dict[language][scene][choice]}
                         )
                     # Generate sprite data for button:
-                    image_data_dict: dict = json_load(['Scripts', 'Json_data', 'Dialogues', 'dialogues_choice_buttons'])
+                    image_data_dict: dict = json_load(
+                        ['Scripts', 'Json_data', 'Dialogues', 'dialogues_choice_buttons']
+                    )
                     image_data_dict.update({"index_number": index})
                     # Generate button:
                     dialogues_buttons.update(
                         {choice: Button(
-                            background_surface=self.stage_director.background_surface,
-                            button_name=choice_buttons_text[scene],
+                            button_name=choice,
                             button_text=choice_buttons_text[scene][choice],
                             button_image_data=image_data_dict,
-                            language_flag=self.stage_director.language_flag,
                             button_text_localization_dict=buttons_text_localization
                         )})
                     self.dialogues_buttons.setdefault(scene, dialogues_buttons)
@@ -72,7 +72,8 @@ class GamePlayDialoguesChoice(BaseMenu):
         :param event: pygame.event from main_loop.
         """
         # Rules of choice for scene:
-        choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
+        choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.stage_director.scene_name]
+        # TODO: change 'self.stage_director.scene_name' with render refactoring.
 
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:

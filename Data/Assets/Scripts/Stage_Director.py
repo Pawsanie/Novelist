@@ -1,7 +1,7 @@
 from pygame import display, Surface
 
 from .Character import characters_generator
-from .Background import backgrounds_generator, Background, background_sprite_data
+from .Background import backgrounds_generator, Background, BackgroundMock
 from .User_Interface.UI_Text_Canvas import TextCanvas
 from .Dialogues import generate_dialogues, DialoguesWords
 from .Universal_computing import SingletonPattern
@@ -22,30 +22,30 @@ class StageDirector(SingletonPattern):
     def __init__(self):
         # Arguments processing:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        display_screen: Surface = self.settings_keeper.get_windows_settings()
-        self.display_screen: display = display_screen
+        self.display_screen: display = self.settings_keeper.get_windows_settings()
         # Make background surface:
-        background_data: tuple = background_sprite_data(display_surface=display_screen)
-        self.background_surface: Surface = Surface(background_data[0])
-        self.background_coordinates: tuple[int, int] = background_data[1]
+        self.background_mock: BackgroundMock = BackgroundMock()
+        self.background_surface: Surface = self.background_mock.get_data()[0]
+        self.background_coordinates: tuple[int, int] = self.background_mock.get_data()[1]
 
         """Assets loading:"""
         # Characters load:
-        self.characters_dict: dict[str, Character] = characters_generator(background_surface=self.background_surface)
+        self.characters_dict: dict[str, Character] = characters_generator()
         # Backgrounds load:
-        self.backgrounds_dict: dict[str, Background] = backgrounds_generator(display_surface=display_screen)
+        self.backgrounds_dict: dict[str, Background] = backgrounds_generator()
         self.location: Background | None = None
 
         """Make UI:"""
         # Set language:
         self.language_flag: str = self.settings_keeper.text_language
         # Text canvas:
-        self.text_canvas = TextCanvas(background_surface=self.background_surface)
+        self.text_canvas = TextCanvas()
         self.text_canvas_surface: Surface = self.text_canvas.get()[0]
         # Text generation:
         self.text_controller = DialoguesWords(
             font_name=None,
-            text_canvas=self.text_canvas_surface)
+            text_canvas=self.text_canvas_surface
+        )
         self.text_dict_all: dict[str] = generate_dialogues()
         # Text Reading gameplay:
         self.text_dict_reading: dict[str] = self.text_dict_all['Reading']
@@ -54,6 +54,7 @@ class StageDirector(SingletonPattern):
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         # Text Choice gameplay:
+        self.scene_name: str = ''
         # self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
 
     def set_scene(self, *, location: str) -> Surface.blit:
@@ -63,11 +64,17 @@ class StageDirector(SingletonPattern):
         :param location: String with background location name.
         :return: Background for scene render.
         """
-        scene: Background = self.backgrounds_dict.get(location)
-        self.location: Background = scene
+        if location is not None:  # In game menu.
+            scene: Background = self.backgrounds_dict.get(location)
+            self.location: Background = scene
+        else:
+            scene = self.location
+
         scene.scale()
         scene_image: Surface = scene.scene_image
         # Update background surface:
+        self.background_mock.set_new_image(new_image=scene_image)
+        self.background_surface: Surface = self.background_mock.get_data()[0]
         self.background_surface.blit(scene_image, (0, 0))
         return self.display_screen.blit(self.background_surface, self.background_coordinates)
 
@@ -84,16 +91,17 @@ class StageDirector(SingletonPattern):
         """
         # Scale:
         self.location.scale()
-        self.text_canvas.scale(background_surface=self.background_surface)
+        self.text_canvas.scale()
         for character in self.characters_dict.values():
-            character.scale(background_surface=self.background_surface)
+            character.scale()
 
     def vanishing_scene(self):
         """
         Delete all characters and background from scene.
         """
-        background_data: tuple = background_sprite_data(display_surface=self.display_screen)
-        self.background_surface: Surface = Surface(background_data[0])
+        background_data: tuple = self.background_mock.get_data()
+        self.background_surface: Surface = background_data[0]
+        self.background_surface.fill((0, 0, 0))
         self.background_coordinates: tuple[int, int] = background_data[1]
         for character in self.characters_dict.values():
             character.kill()
@@ -117,14 +125,14 @@ class StageDirector(SingletonPattern):
             self.text_controller.make_words(
                 text_string=self.text_string_reading,
                 text_color=text_color,
-                text_type='words',
-                backgrounds_surface=self.background_surface)
+                text_type='words'
+            )
         self.speaker: tuple[Surface, tuple[int, int]] = \
             self.text_controller.make_words(
                 text_string=self.text_speaker_reading,
                 text_color=speaker_color,
-                text_type='speaker',
-                backgrounds_surface=self.background_surface)
+                text_type='speaker'
+            )
 
     def get_speech(self) -> tuple[Surface, tuple[int, int]]:
         """

@@ -2,6 +2,7 @@ from pygame import font, Surface
 
 from .Assets_load import json_load, font_load
 from .Universal_computing import surface_size
+from .Background import BackgroundMock
 font.init()
 """
 Contains the code for text of dialogues.
@@ -19,6 +20,7 @@ class DialoguesWords:
         :param font_name: String with font file name.
         :type font_name: str | None
         """
+        self.background_surface: BackgroundMock = BackgroundMock()
         self.font_size: int = 0
         self.font_name: str = font_name
         self.text_canvas: Surface = text_canvas
@@ -41,8 +43,7 @@ class DialoguesWords:
                 font_name=font_name,
                 font_size=self.font_size)
 
-    def make_words(self, *, text_string: str, text_color: str, text_type: str,
-                   backgrounds_surface: Surface) -> tuple[Surface, tuple[int, int]]:
+    def make_words(self, *, text_string: str, text_color: str, text_type: str) -> tuple[Surface, tuple[int, int]]:
         """
         Make text for text canvas surface.
 
@@ -52,10 +53,9 @@ class DialoguesWords:
         :type text_color: str
         :param text_type: String 'speaker' or 'words'
         :type text_type: str
-        :param backgrounds_surface: Background pygame.Surface
-        :type backgrounds_surface: Surface
         :return: tuple[pygame.Rect, tuple[int, int]]
         """
+        backgrounds_surface: Surface = self.background_surface.get_data()[0]
         if text_type == 'speaker':
             self.font_size: int = backgrounds_surface.get_height() // 40
             self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(

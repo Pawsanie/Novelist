@@ -28,7 +28,7 @@ def main_loop(func):
         self = args[0]  # class method`s 'self.' for in class decorator.
         program_running: bool = True
         main_cycle_fps_clock = time.Clock()
-        main_cycle_fps: int = 30
+        main_cycle_fps: int = 60
         while program_running:
             for event in pygame_events.get():
                 # Quit by exit_icon.
@@ -57,6 +57,54 @@ class InputCommandsReactions:
     Controls reactions to user input commands from mouse or key bord by conveyor
     in 'reactions_to_input_commands' method from 'main_loop'.
     """
+    menus_collection: dict = {
+        'exit_menu': {
+            'object': ExitMenu(),
+            'menu_file': 'ui_exit_menu_buttons',
+            'text_file': 'ui_exit_menu_text'
+        },
+        'settings_menu': {
+            'object': SettingsMenu(),
+            'menu_file': 'ui_settings_menu_buttons',
+            'text_file': None
+        },
+        'load_menu': {
+            'object': LoadMenu(),
+            'menu_file': 'ui_load_menu_buttons',
+            'text_file': None
+        },
+        None: {
+            'object': GameMenu(),
+            'menu_file': 'ui_game_menu_buttons',
+            'text_file': None
+        },
+        'save_menu': {
+            'object': SaveMenu(),
+            'menu_file': 'ui_save_menu_buttons',
+            'text_file': None
+        },
+        'settings_status_menu': {
+            'object': SettingsStatusMenu(),
+            'menu_file': 'ui_settings_status_buttons',
+            'text_file': 'ui_settings_status_text'
+        },
+        'start_menu': {
+            'object': StartMenu(),
+            'menu_file': 'ui_start_menu_buttons',
+            'text_file': None
+        },
+        'back_to_start_menu_status_menu': {
+            'object': BackToStartMenuStatusMenu(),
+            'menu_file': 'ui_back_to_start_menu_status_menu_buttons',
+            'text_file': 'ui_back_to_start_menu_status_menu_text'
+        },
+        'creators_menu': {
+            'object': CreatorsMenu(),
+            'menu_file': 'ui_creators_menu_buttons',
+            'text_file': 'ui_creators_menu_text'
+        }
+    }
+
     def __init__(self):
         # Arguments processing:
         self.interface_controller: InterfaceController = InterfaceController()
@@ -64,18 +112,10 @@ class InputCommandsReactions:
         self.stage_director: StageDirector = StageDirector()
         self.scene_validator: SceneValidator = SceneValidator()
 
-        # Settings for UI menus:
-        self.exit_menu: ExitMenu = ExitMenu()
-        self.game_menu: GameMenu = GameMenu()
-        self.load_menu: LoadMenu = LoadMenu()
-        self.save_menu: SaveMenu = SaveMenu()
-        self.settings_menu: SettingsMenu = SettingsMenu()
-        self.settings_status_menu: SettingsStatusMenu = SettingsStatusMenu()
-        self.start_menu: StartMenu = StartMenu()
-        self.back_to_start_menu_status_menu: BackToStartMenuStatusMenu = BackToStartMenuStatusMenu()
-        self.creators_menu: CreatorsMenu = CreatorsMenu()
         # Settings for gameplay:
         self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
+        # Itself data mock:
+        self.interface_controller.menus_collection = self.menus_collection  # TODO: crutch?
 
     def __call__(self):
         """
@@ -92,39 +132,9 @@ class InputCommandsReactions:
         if self.interface_controller.gameplay_interface_status is True:
             self.gameplay_administrator.gameplay_input(event)
             return
-        # Game menu:
-        if self.interface_controller.game_menu_status is True:
-            self.game_menu.game_menu_input(event)
-            return
-        # Exit menu:
-        if self.interface_controller.exit_menu_status is True:
-            self.exit_menu.exit_menu_input(event)
-            return
-        # Setting menu:
-        if self.interface_controller.settings_menu_status is True:
-            self.settings_menu.setting_menu_input(event)
-            return
-        # Load menu:
-        if self.interface_controller.load_menu_status is True:
-            self.load_menu.load_menu_input(event)
-            return
-        # Save menu:
-        if self.interface_controller.save_menu_status is True:
-            self.save_menu.save_menu_input(event)
-            return
-        # Settings status menu:
-        if self.interface_controller.settings_status_menu_status is True:
-            self.settings_status_menu.settings_status_menu_input(event)
-            return
-        # Start menu:
-        if self.interface_controller.start_menu_status is True:
-            self.start_menu.start_menu_input(event)
-            return
-        # Back to "Start menu" status menu:
-        if self.interface_controller.back_to_start_menu_status is True:
-            self.back_to_start_menu_status_menu.back_to_start_menu_status_menu_input(event)
-            return
-        # Creators menu:
-        if self.interface_controller.creators_menu_status is True:
-            self.creators_menu.creators_menu_input(event)
-            return
+        # Game menus:
+        for key in self.menus_collection:
+            menu = self.menus_collection[key]['object']
+            if menu.status is True:
+                menu.menu_input(event)
+                return
