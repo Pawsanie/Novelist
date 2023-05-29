@@ -52,12 +52,14 @@ class GamePlayDialoguesChoice(BaseMenu):
                             {language: all_buttons_text_localizations_dict[language][scene][choice]}
                         )
                     # Generate sprite data for button:
-                    image_data_dict: dict = json_load(['Scripts', 'Json_data', 'Dialogues', 'dialogues_choice_buttons'])
+                    image_data_dict: dict = json_load(
+                        ['Scripts', 'Json_data', 'Dialogues', 'dialogues_choice_buttons']
+                    )
                     image_data_dict.update({"index_number": index})
                     # Generate button:
                     dialogues_buttons.update(
                         {choice: Button(
-                            button_name=choice_buttons_text[scene],
+                            button_name=choice,
                             button_text=choice_buttons_text[scene][choice],
                             button_image_data=image_data_dict,
                             button_text_localization_dict=buttons_text_localization

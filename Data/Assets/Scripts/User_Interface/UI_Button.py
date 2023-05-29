@@ -171,7 +171,7 @@ class Button:
         )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def menu_long_buttons_coordinates(self, *, multiplier):
+    def menu_long_buttons_coordinates(self, *, multiplier: int = 3):
         """
         Coordinates for start menu and settings menu buttons.
         """
@@ -217,22 +217,20 @@ class Button:
         )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def gameplay_dialogues_choice_coordinates(self, *, multiplier):
+    def gameplay_dialogues_choice_coordinates(self, *, multiplier: int = 2):
         """
         Coordinates for gameplay dialogues choice buttons.
         """
         place_flag: int = self.button_image_data['index_number']
-        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
 
-        # button_middle_y: int = self.settings_keeper.screen.get_height() // 2
         # X:
         button_coordinates_x: int = (
-                button_middle_x
+                self.button_middle_point_coordinates()[0]
                 - (self.button_size[0] // 2)
         )
         # Y:
         button_coordinates_y: int = (
-                button_middle_y
+                (self.background_surface_size()[1] // 2)
                 - (self.button_size[1] // 2)
                 + ((self.button_size[1] * 2) * place_flag)
         )
@@ -244,6 +242,9 @@ class Button:
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def gameplay_reading_coordinates(self):
+        """
+        Coordinates for reading gameplay buttons.
+        """
         place_flag: int = self.button_image_data['index_number']
         button_middle_x, button_middle_y = self.button_middle_point_coordinates()
         background_y = self.background_surface_size()[1]
@@ -292,15 +293,11 @@ class Button:
             return
 
         if menu_type == 'gameplay_dialogues_choice':
-            self.gameplay_dialogues_choice_coordinates(
-                multiplier=3
-            )
+            self.gameplay_dialogues_choice_coordinates()
             return
 
         if menu_type in self.long_buttons_menus:
-            self.menu_long_buttons_coordinates(
-                multiplier=3
-            )
+            self.menu_long_buttons_coordinates()
             return
 
         if menu_type in self.yes_no_menus:
@@ -360,22 +357,17 @@ class Button:
             'gameplay_ui',
             'gameplay_dialogues_choice'
         ]
+        cursor_position_y: int = cursor_position[1]
         if self.button_image_data['type'] in crutch_menus_list:
             cursor_position_y: int = int(
                 cursor_position[1]
                 - self.background.background_coordinates[1]
             )
-            if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size and \
-                    button_coordinates_y < cursor_position_y < button_coordinates_y + button_y_size:
-                return True
-            # Default Button Rendering:
-            else:
-                return False
         # TODO: End of crutch.
 
         # Drawing a button while hovering over:
         if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size and \
-                button_coordinates_y < cursor_position[1] < button_coordinates_y + button_y_size:
+                button_coordinates_y < cursor_position_y < button_coordinates_y + button_y_size:
             return True
         # Default Button Rendering:
         else:
