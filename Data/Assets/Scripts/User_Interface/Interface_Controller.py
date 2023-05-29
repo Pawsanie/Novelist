@@ -62,7 +62,7 @@ class InterfaceController(SingletonPattern):
             menu: dict = self.menus_collection[menu_key]
             if menu['object'].status is True:
                 self.menu_name: str | None = menu_key
-                return self.buttons_dict[menu['tag']]
+                return self.buttons_dict[menu['menu_file']]
 
     def get_menus_text_dict(self) -> dict[str, MenuText]:
         """
@@ -73,8 +73,8 @@ class InterfaceController(SingletonPattern):
         for menu_key in self.menus_collection:
             menu: dict = self.menus_collection[menu_key]
             if menu['object'].status is True:
-                if menu['text'] is not None:
-                    return self.menus_text_dict[menu['text']]
+                if menu['text_file'] is not None:
+                    return self.menus_text_dict[menu['text_file']]
 
     def scale(self):
         """

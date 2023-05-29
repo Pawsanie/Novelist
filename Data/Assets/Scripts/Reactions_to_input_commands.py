@@ -60,48 +60,48 @@ class InputCommandsReactions:
     menus_collection: dict = {
         'exit_menu': {
             'object': ExitMenu(),
-            'tag': 'ui_exit_menu_buttons',
-            'text': 'ui_exit_menu_text'
+            'menu_file': 'ui_exit_menu_buttons',
+            'text_file': 'ui_exit_menu_text'
         },
         'settings_menu': {
             'object': SettingsMenu(),
-            'tag': 'ui_settings_menu_buttons',
-            'text': None
+            'menu_file': 'ui_settings_menu_buttons',
+            'text_file': None
         },
         'load_menu': {
             'object': LoadMenu(),
-            'tag': 'ui_load_menu_buttons',
-            'text': None
+            'menu_file': 'ui_load_menu_buttons',
+            'text_file': None
         },
         None: {
             'object': GameMenu(),
-            'tag': 'ui_game_menu_buttons',
-            'text': None
+            'menu_file': 'ui_game_menu_buttons',
+            'text_file': None
         },
         'save_menu': {
             'object': SaveMenu(),
-            'tag': 'ui_save_menu_buttons',
-            'text': None
+            'menu_file': 'ui_save_menu_buttons',
+            'text_file': None
         },
         'settings_status_menu': {
             'object': SettingsStatusMenu(),
-            'tag': 'ui_settings_status_buttons',
-            'text': 'ui_settings_status_text'
+            'menu_file': 'ui_settings_status_buttons',
+            'text_file': 'ui_settings_status_text'
         },
         'start_menu': {
             'object': StartMenu(),
-            'tag': 'ui_start_menu_buttons',
-            'text': None
+            'menu_file': 'ui_start_menu_buttons',
+            'text_file': None
         },
         'back_to_start_menu_status_menu': {
             'object': BackToStartMenuStatusMenu(),
-            'tag': 'ui_back_to_start_menu_status_menu_buttons',
-            'text': 'ui_back_to_start_menu_status_menu_text'
+            'menu_file': 'ui_back_to_start_menu_status_menu_buttons',
+            'text_file': 'ui_back_to_start_menu_status_menu_text'
         },
         'creators_menu': {
             'object': CreatorsMenu(),
-            'tag': 'ui_creators_menu_buttons',
-            'text': 'ui_creators_menu_text'
+            'menu_file': 'ui_creators_menu_buttons',
+            'text_file': 'ui_creators_menu_text'
         }
     }
 
