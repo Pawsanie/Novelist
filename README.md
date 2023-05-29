@@ -554,10 +554,6 @@ Because of this, after the program ends, a warning message appears in the termin
 Actually this warning is not an error. I'm just too lazy to re-save the sprite blanks correctly...<br>
 Don't be like me and save your sprites correctly!
 
-* **Interface when freely changing the window:**<br>
-If you use the mouse to change the size of the game window to a non-natural one, the menu interface may start to behave strangely.<br>
-I've left the resizable window feature for testing purposes and don't recommend giving it to the user without fixes.
-
 ***
 
 **Thank you** for your interest in my work.<br><br>
