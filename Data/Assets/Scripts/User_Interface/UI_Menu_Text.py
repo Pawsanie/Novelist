@@ -17,6 +17,16 @@ class MenuText:
 
     Instances are created from menus_text_generator function by InterfaceController class.
     """
+    # Set menu lists:
+    yes_no_menu_text_list: list[str] = [
+        'back_to_start_menu_status_menu',
+        'exit_menu',
+        'settings_status_menu',
+    ]
+    back_menu_text_list: list[str] = [
+        'creators_menu'
+    ]
+
     def __init__(self, *, menu_name: str, menu_text: str, menu_text_localization_dict: dict[str],
                  menu_text_font: str or None, menu_text_color: str, menu_text_coordinates: dict[str, int],
                  menu_text_substrate: str or None):
@@ -68,32 +78,45 @@ class MenuText:
         self.menu_text_coordinates: tuple[int, int] = (0, 0)
         self.menu_text_surface_size: tuple[int, int] = (0, 0)
 
+    def middle_text_menu_coordinates(self):
+        """
+        Set X coordinates for middle screen menu text.
+        """
+        background_surface = self.background.get_data()[0]
+        self.menu_text_surface_size: tuple[int, int] = (
+            (background_surface.get_width() // 3),
+            (background_surface.get_height() // 3)
+        )
+
+    def yes_no_menu_text_coordinates(self):
+        """
+        Set yes/no menu text coordinates.
+        """
+        self.middle_text_menu_coordinates()
+        self.menu_text_coordinates: tuple[int, int] = (
+            (self.settings_keeper.screen.get_width() // 2) - (self.menu_text_surface_size[0] // 2),
+            (self.settings_keeper.screen.get_height() // 2) - (self.menu_text_surface_size[1] // 2)
+        )
+
+    def back_menu_text_coordinates(self):
+        """
+        Set menu text coordinates for menus with back button.
+        """
+        self.middle_text_menu_coordinates()
+        self.menu_text_coordinates: tuple[int, int] = (
+            (self.settings_keeper.screen.get_width() // 2) - (self.menu_text_surface_size[0] // 2),
+            (self.settings_keeper.screen.get_height() // 2) - self.menu_text_surface_size[1]
+        )
+
     def scale(self):
         """
         Scale menu text for render.
         """
-        # Devnull interesting data:
-        background_surface = self.background.get_data()[0]
-        self.menu_text_surface_size: tuple[int, int] = (0, 0)
-        self.menu_text_coordinates: tuple[int, int] = (0, 0)
-        # Set menu lists:
-        yes_no_menu_text_list: list = [
-            'back_to_start_menu_status_menu',
-            'exit_menu',
-            'settings_status_menu',
-            'creators_menu'
-        ]
-
         # Calculating surface size and text coordinates:
-        if self.menu_name in yes_no_menu_text_list:
-            self.menu_text_surface_size: tuple[int, int] = (
-                (background_surface.get_width() // 3),
-                (background_surface.get_height() // 3)
-            )
-            self.menu_text_coordinates: tuple[int, int] = (
-                (background_surface.get_width() // 2) - (self.menu_text_surface_size[0] // 2),
-                (background_surface.get_height() // 2) - (self.menu_text_surface_size[1] // 2)
-            )
+        if self.menu_name in self.yes_no_menu_text_list:
+            self.yes_no_menu_text_coordinates()
+        if self.menu_name in self.back_menu_text_list:
+            self.back_menu_text_coordinates()
 
         # Surface scale:
         if self.menu_text_substrate_sprite is not None:
