@@ -18,7 +18,7 @@ class GamePlayAdministrator(BaseMenu):
 
         # Settings for gameplay:
         self.gameplay_reading: GamePlayReading = GamePlayReading()
-        self.gameplay_dialogues_choice = GamePlayDialoguesChoice()
+        self.gameplay_dialogues_choice: GamePlayDialoguesChoice = GamePlayDialoguesChoice()
 
     def gameplay_input(self, event):
         """

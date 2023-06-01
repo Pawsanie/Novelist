@@ -2,7 +2,7 @@ from pygame import Surface
 
 from .Reactions_to_input_commands import main_loop, InputCommandsReactions
 from .Stage_Director import StageDirector
-from .Render import Render
+from .Render.Render import Render
 from .Scene_Validator import SceneValidator
 from .User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper

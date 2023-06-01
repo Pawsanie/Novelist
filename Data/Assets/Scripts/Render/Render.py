@@ -1,9 +1,9 @@
 from pygame import display, Surface
 
-from .Universal_computing import SingletonPattern
-from .Settings_Keeper import SettingsKeeper
-from .Stage_Director import StageDirector
-from .User_Interface.Interface_Controller import InterfaceController
+from ..Universal_computing import SingletonPattern
+from ..Settings_Keeper import SettingsKeeper
+from ..Stage_Director import StageDirector
+from ..User_Interface.Interface_Controller import InterfaceController
 """
 Contains code for display image render.
 """
@@ -98,8 +98,10 @@ class Render(SingletonPattern):
         characters_dict = self.stage_director.characters_dict
         # Render:
         for character in characters_dict.values():
-            background.blit(character.surface,
-                            character.coordinates_pixels)
+            background.blit(
+                character.surface,
+                character.coordinates_pixels
+            )
 
     def background_render(self):
         """
