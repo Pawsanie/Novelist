@@ -4,6 +4,7 @@ from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 from ..User_Interface.UI_Button import Button
 from ..Application_layer.Stage_Director import StageDirector
 from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..Render.Sprite import Sprite
 """
 Contents code for user interface controller.
 """
@@ -80,10 +81,19 @@ class InterfaceController(SingletonPattern):
         """
         Scale interface buttons.
         """
+        # UI Buttons scale:
         ui_buttons_dict: dict[str, Button] = self.get_ui_buttons_dict()
-        for key in ui_buttons_dict:
-            button: Button = ui_buttons_dict[key]
-            button.scale()
+        if ui_buttons_dict is not None:
+            for key in ui_buttons_dict:
+                button: Button = ui_buttons_dict[key]
+                button.scale()
+
+        # UI Text scale:
+        text_dict: dict[str, MenuText] = self.get_menus_text_dict()
+        if text_dict is not None:
+            for key in text_dict:
+                text: MenuText = text_dict[key]
+                text.scale()
 
     def button_clicked_status(self, event) -> tuple[str | None, bool]:
         """
@@ -131,19 +141,36 @@ class InterfaceController(SingletonPattern):
     def generate_menus_batch(self):
         """
         Generate UI_batch for display image render.
+
+        :return: Batch
         """
         from ..Render.Batch import Batch
-        from ..Render.Sprite import Sprite
-
         result: Batch = Batch()
+
+        # Generate buttons:
         menus_dict: dict[str, Button] = self.get_ui_buttons_dict()
-        for button_name in menus_dict:
-            button: Button = menus_dict[button_name]
-            result.append(
-                Sprite(
-                    image=button.button_sprite,
-                    layer=3,
-                    coordinates=button.button_coordinates
+        if menus_dict is not None:
+            for button_name in menus_dict:
+                button: Button = menus_dict[button_name]
+                result.append(
+                    Sprite(
+                        image=button.button_sprite,
+                        layer=3,
+                        coordinates=button.button_coordinates
+                    )
                 )
-            )
+
+        # Generate text:
+        text_dict: dict[str, MenuText] = self.get_menus_text_dict()
+        if text_dict is not None:
+            for text_name in text_dict:
+                text_surface, text_coordinates = text_dict[text_name].get_text()
+                result.append(
+                    Sprite(
+                        image=text_surface,
+                        layer=3,
+                        coordinates=text_coordinates
+                    )
+                )
+
         return result
