@@ -1,8 +1,8 @@
 from pygame import Surface, SRCALPHA, transform
 
-from ..Assets_load import image_load
+from ..Application_layer.Assets_load import image_load
 from ..Universal_computing import surface_size
-from ..Background import BackgroundMock
+from ..Game_objects.Background import BackgroundMock
 """
 Contents code for user interface text canvas.
 """

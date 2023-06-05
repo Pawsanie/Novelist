@@ -1,20 +1,20 @@
 from pygame import time, QUIT, quit, VIDEORESIZE
 from pygame import event as pygame_events
 
-from .User_Interface.Interface_Controller import InterfaceController
+from ..User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Stage_Director import StageDirector
 from .Scene_Validator import SceneValidator
-from .User_Interface.UI_Menus.UI_Exit_menu import ExitMenu
-from .User_Interface.UI_Menus.UI_Game_menu import GameMenu
-from .User_Interface.UI_Menus.UI_Load_menu import LoadMenu
-from .User_Interface.UI_Menus.UI_Save_menu import SaveMenu
-from .User_Interface.UI_Menus.UI_Settings_menu import SettingsMenu
-from .User_Interface.UI_Menus.UI_Settings_Status_menu import SettingsStatusMenu
-from .User_Interface.UI_Menus.UI_Start_menu import StartMenu
-from .User_Interface.UI_Menus.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
-from .User_Interface.UI_Menus.UI_Creators_menu import CreatorsMenu
-from .GamePlay.GamePlay_Administrator import GamePlayAdministrator
+from ..User_Interface.UI_Menus.UI_Exit_menu import ExitMenu
+from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
+from ..User_Interface.UI_Menus.UI_Load_menu import LoadMenu
+from ..User_Interface.UI_Menus.UI_Save_menu import SaveMenu
+from ..User_Interface.UI_Menus.UI_Settings_menu import SettingsMenu
+from ..User_Interface.UI_Menus.UI_Settings_Status_menu import SettingsStatusMenu
+from ..User_Interface.UI_Menus.UI_Start_menu import StartMenu
+from ..User_Interface.UI_Menus.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
+from ..User_Interface.UI_Menus.UI_Creators_menu import CreatorsMenu
+from ..GamePlay.GamePlay_Administrator import GamePlayAdministrator
 """
 Contains code for reactions to input commands.
 """

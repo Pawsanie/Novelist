@@ -2,11 +2,11 @@ from os import path
 
 from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP
 
-from ..Assets_load import image_load, json_load, font_load
+from ..Application_layer.Assets_load import image_load, json_load, font_load
 from ..Universal_computing import surface_size
 from .UI_buttons_calculations import button_size
-from ..Background import BackgroundMock
-from ..Settings_Keeper import SettingsKeeper
+from ..Game_objects.Background import BackgroundMock
+from ..Application_layer.Settings_Keeper import SettingsKeeper
 font.init()
 """
 Contents code for user interface buttons.

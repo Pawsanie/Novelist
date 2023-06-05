@@ -1,4 +1,4 @@
-from ..Stage_Director import StageDirector
+from ..Application_layer.Stage_Director import StageDirector
 from .GamePlay_Reading import GamePlayReading
 from ..User_Interface.UI_Base_menu import BaseMenu
 from .GamePlay_dialogues_choice import GamePlayDialoguesChoice

@@ -2,8 +2,8 @@ from ..User_Interface.UI_Button import button_generator
 from ..Universal_computing import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 from ..User_Interface.UI_Button import Button
-from ..Stage_Director import StageDirector
-from ..Settings_Keeper import SettingsKeeper
+from ..Application_layer.Stage_Director import StageDirector
+from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contents code for user interface controller.
 """
@@ -127,3 +127,23 @@ class InterfaceController(SingletonPattern):
                 return True
             else:
                 return False
+
+    def generate_menus_batch(self):
+        """
+        Generate UI_batch for display image render.
+        """
+        from ..Render.Batch import Batch
+        from ..Render.Sprite import Sprite
+
+        result: Batch = Batch()
+        menus_dict: dict[str, Button] = self.get_ui_buttons_dict()
+        for button_name in menus_dict:
+            button: Button = menus_dict[button_name]
+            result.append(
+                Sprite(
+                    image=button.button_sprite,
+                    layer=3,
+                    coordinates=button.button_coordinates
+                )
+            )
+        return result

@@ -1,7 +1,7 @@
 from pygame import transform, Surface, SRCALPHA
 
 from .Characters_calculations import character_sprite_size, meddle_point_for_character_render
-from .Assets_load import image_load, json_load
+from ..Application_layer.Assets_load import image_load, json_load
 from .Background import BackgroundMock
 """
 Contains code responsible for rendering character.

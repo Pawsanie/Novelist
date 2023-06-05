@@ -4,7 +4,7 @@ from tkinter import Tk
 
 from pygame import Surface, display, FULLSCREEN, RESIZABLE
 
-from .Universal_computing import SingletonPattern
+from ..Universal_computing import SingletonPattern
 """
 Contains the code responsible for the game settings.
 """
@@ -29,8 +29,10 @@ class SettingsKeeper(SingletonPattern):
     def __init__(self):
         # Path settings:
         script_root_path: str = path.abspath(__file__)\
-            .replace(path.join(*['Scripts', 'Settings_Keeper.py']), '')
+            .replace(path.join(*['Scripts', 'Application_layer', 'Settings_Keeper.py']
+                               ), '')
         self.user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
+
         # Read settings configuration file:
         with open(self.user_settings_path, 'r', encoding='utf-8') as game_settings:
             for row in game_settings:
@@ -51,10 +53,11 @@ class SettingsKeeper(SingletonPattern):
                     self.text_language: str = setting_type[1]
                 if setting_type[0] == 'voice_acting_language':
                     self.voice_acting_language: str = setting_type[1]
+
         # Get system type:
         self.system_type: str = system_type()
         # Display settings:
-        self.screen = self.set_windows_settings()
+        self.screen: Surface = self.set_windows_settings()
 
     def get_windows_settings(self) -> Surface:
         """
@@ -82,7 +85,7 @@ class SettingsKeeper(SingletonPattern):
         """
         Update game settings.
         """
-        self.screen = self.set_windows_settings()
+        self.screen: Surface = self.set_windows_settings()
         self.save_settings()
 
     def save_settings(self):

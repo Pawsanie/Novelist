@@ -1,12 +1,12 @@
 from pygame import display, Surface
 
-from .Character import characters_generator
-from .Background import backgrounds_generator, Background, BackgroundMock
-from .User_Interface.UI_Text_Canvas import TextCanvas
-from .Dialogues import generate_dialogues, DialoguesWords
-from .Universal_computing import SingletonPattern
+from ..Game_objects.Character import characters_generator
+from ..Game_objects.Background import backgrounds_generator, Background, BackgroundMock
+from ..User_Interface.UI_Text_Canvas import TextCanvas
+from ..Game_objects.Dialogues import generate_dialogues, DialoguesWords
+from ..Universal_computing import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
-from .Character import Character
+from ..Game_objects.Character import Character
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -39,7 +39,7 @@ class StageDirector(SingletonPattern):
         # Set language:
         self.language_flag: str = self.settings_keeper.text_language
         # Text canvas:
-        self.text_canvas = TextCanvas()
+        self.text_canvas: TextCanvas = TextCanvas()
         self.text_canvas_surface: Surface = self.text_canvas.get()[0]
         # Text generation:
         self.text_controller = DialoguesWords(

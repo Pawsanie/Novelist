@@ -1,6 +1,6 @@
-from pygame import Surface
-
-from ..Settings_Keeper import SettingsKeeper
+from .Render import Render
+from .Layer import Layer
+from .Sprite import Sprite
 """
 Contains code for batch rendering.
 """
@@ -12,14 +12,15 @@ class Batch:
     """
     def __init__(self):
         self.sprite_collection: list = []
-        self.sprite_to_render: dict = {}
-        self.screen: Surface = SettingsKeeper().screen
+        self.sprite_to_render: dict = Render().layers_collection
+        self.active: bool = True
 
-    def append(self, sprite: Surface):
+    def append(self, sprite: Sprite):
         """
         Add new sprite in batch.
         """
-        self.sprite_collection.append(sprite)
+        if sprite not in self.sprite_collection:
+            self.sprite_collection.append(sprite)
 
     def initialization(self):
         """
@@ -30,33 +31,18 @@ class Batch:
                 sprite_layer: int = sprite.layer
 
                 if sprite_layer not in self.sprite_to_render:
+                    layer_object: Layer = Layer(sprite_layer)
+                    layer_object.append(sprite)
                     self.sprite_to_render.update(
-                        {sprite_layer: [sprite]}
+                        {sprite_layer: layer_object}
                     )
 
                 else:
-                    self.sprite_to_render[sprite_layer].append(sprite)
+                    if sprite not in self.sprite_to_render[sprite_layer].sprite_collection:
+                        self.sprite_to_render[sprite_layer].append(sprite)
 
+    def clear(self):
+        """
+        Clear batch.
+        """
         self.sprite_collection.clear()
-
-    def draw(self):
-        """
-        Draw all layers in batch.
-        """
-        self.initialization()
-        if len(self.sprite_to_render) > 0:
-            sorted_layers: list = sorted(
-                self.sprite_to_render.items()
-            )
-            self.sprite_to_render: dict = {
-                key: value for key, value in sorted_layers
-            }
-
-            for layer in self.sprite_to_render:
-                for sprite in self.sprite_to_render[layer]:
-                    self.screen.blit(
-                        source=sprite,
-                        dest=sprite.coordinates
-                    )
-
-        self.sprite_to_render.clear()

@@ -3,9 +3,9 @@ from os import path
 
 from pygame import display
 
-from Assets.Scripts.Assets_load import image_load
-from Assets.Scripts.Settings_Keeper import SettingsKeeper
-from Assets.Scripts.Game_Master import GameMaster
+from Assets.Scripts.Application_layer.Assets_load import image_load
+from Assets.Scripts.Application_layer.Settings_Keeper import SettingsKeeper
+from Assets.Scripts.Application_layer.Game_Master import GameMaster
 from Assets.Scripts.Logging_Config import logging_config, text_for_logging
 """
 Contains app shell code.

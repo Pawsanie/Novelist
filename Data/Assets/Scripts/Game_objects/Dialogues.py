@@ -1,7 +1,7 @@
 from pygame import font, Surface
 
-from .Assets_load import json_load, font_load
-from .Universal_computing import surface_size
+from ..Application_layer.Assets_load import json_load, font_load
+from ..Universal_computing import surface_size
 from .Background import BackgroundMock
 font.init()
 """
