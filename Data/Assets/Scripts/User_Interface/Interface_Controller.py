@@ -168,7 +168,7 @@ class InterfaceController(SingletonPattern):
                 result.append(
                     Sprite(
                         image=text_surface,
-                        layer=3,
+                        layer=6,
                         coordinates=text_coordinates
                     )
                 )

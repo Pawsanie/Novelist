@@ -27,13 +27,15 @@ class Character:
         self.surface: Surface = surface
         self.character_image: Surface = character_image
         self.coordinates_pixels: list[int, int] = [0, 0]
+
         self.character_poses: dict = character_poses
         self.background: BackgroundMock = BackgroundMock()
         self.character_size: tuple[int, int] = character_size
         self.position: str = 'middle'  # [middle/right/left/custom] as 'middle' as default
         self.plan: str = 'first_plan'  # [first_plan/background_plan] as 'first_plan' as default
         self.pose_number: str = '1'  # 1 as default
-        self.surface.blit(character_image, (0, 0))
+
+        self.hidden: bool = True
 
     def move_custom(self, *, coordinates: list[int, int]):
         """
@@ -100,7 +102,7 @@ class Character:
         """
         Remove the character from the stage.
         """
-        self.surface: Surface = Surface((0, 0), SRCALPHA)
+        self.hidden: bool = True
 
     def set_plan(self, *, plan: str):
         """

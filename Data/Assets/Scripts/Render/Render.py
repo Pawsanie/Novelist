@@ -49,6 +49,21 @@ class Render(SingletonPattern):
         if self.reset is True:
             self.render_devnull()
 
+            # Generate background:
+            self.batch_collection.append(
+                self.stage_director.generate_background_batch()
+            )
+
+            if self.interface_controller.start_menu_flag is False:
+                # Generate characters:
+                self.batch_collection.append(
+                    self.stage_director.generate_characters_batch()
+                )
+                # Generate speech:
+                self.batch_collection.append(
+                    self.stage_director.generate_speech()
+                )
+
             # Generate UI:
             self.batch_collection.append(
                 self.interface_controller.generate_menus_batch()

@@ -22,8 +22,6 @@ class TextCanvas:
         self.text_canvas_surface: Surface = Surface((0, 0))
         self.text_canvas_coordinates: tuple[int, int] = (0, 0)
         self.text_canvas_status: bool = True
-        # Calculate:
-        self.scale()
 
     def get(self):
         """
@@ -36,7 +34,9 @@ class TextCanvas:
 
     def scale(self):
         self.text_canvas_generator()
-        canvas_sprite: Surface = transform.scale(self.canvas_sprite, surface_size(self.text_canvas_surface))
+        canvas_sprite: Surface = transform.scale(
+            self.canvas_sprite, surface_size(self.text_canvas_surface)
+        )
         self.text_canvas_surface.blit(canvas_sprite, (0, 0))
 
     def text_canvas_generator(self):

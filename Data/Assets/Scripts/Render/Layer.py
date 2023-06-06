@@ -1,4 +1,4 @@
-from pygame import Surface
+from pygame import Surface, SRCALPHA
 
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..Render.Sprite import Sprite
@@ -22,7 +22,8 @@ class Layer:
         Render sprites in layer canvas.
         """
         self.layer_canvas: Surface = Surface(
-            (self.screen.get_width(), self.screen.get_height())
+            (self.screen.get_width(), self.screen.get_height()),
+            SRCALPHA
         )
 
         for sprite in self.sprite_collection:
