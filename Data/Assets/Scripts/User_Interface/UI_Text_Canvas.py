@@ -3,6 +3,7 @@ from pygame import Surface, SRCALPHA, transform
 from ..Application_layer.Assets_load import image_load
 from ..Universal_computing import surface_size
 from ..Game_objects.Background import BackgroundMock
+from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contents code for user interface text canvas.
 """
@@ -19,6 +20,7 @@ class TextCanvas:
             asset_type='User_Interface'
         )
         self.background_surface: BackgroundMock = BackgroundMock()
+        self.screen: Surface = SettingsKeeper().screen
         self.text_canvas_surface: Surface = Surface((0, 0))
         self.text_canvas_coordinates: tuple[int, int] = (0, 0)
         self.text_canvas_status: bool = True

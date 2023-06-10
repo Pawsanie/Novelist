@@ -46,12 +46,16 @@ class SceneValidator(SingletonPattern):
                     .set_pose(pose_number=character['character_pose'])
                 self.stage_director.set_actor(character=name)\
                     .set_plan(plan=character['character_plan'])
+
                 if character['character_start_position'] == 'middle':
-                    self.stage_director.set_actor(character=name).move_to_middle()
+                    self.stage_director.set_actor(character=name)\
+                        .move_to_middle()
                 if character['character_start_position'] == 'right':
-                    self.stage_director.set_actor(character=name).move_to_right()
+                    self.stage_director.set_actor(character=name)\
+                        .move_to_right()
                 if character['character_start_position'] == 'left':
-                    self.stage_director.set_actor(character=name).move_to_left()
+                    self.stage_director.set_actor(character=name)\
+                        .move_to_left()
 
             # Scene FLAG settings!:
             self.scene: str = self.scene_flag

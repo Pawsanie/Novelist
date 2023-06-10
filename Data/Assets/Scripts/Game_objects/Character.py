@@ -1,8 +1,9 @@
-from pygame import transform, Surface, SRCALPHA
+from pygame import transform, Surface, SRCALPHA, Rect
 
-from .Characters_calculations import character_sprite_size, meddle_point_for_character_render
+from .Characters_calculations import character_sprite_size
 from ..Application_layer.Assets_load import image_load, json_load
 from .Background import BackgroundMock
+from ..Universal_computing import surface_size
 """
 Contains code responsible for rendering character.
 """
@@ -31,9 +32,12 @@ class Character:
         self.character_poses: dict = character_poses
         self.background: BackgroundMock = BackgroundMock()
         self.character_size: tuple[int, int] = character_size
-        self.position: str = 'middle'  # [middle/right/left/custom] as 'middle' as default
-        self.plan: str = 'first_plan'  # [first_plan/background_plan] as 'first_plan' as default
-        self.pose_number: str = '1'  # 1 as default
+        # [middle/right/left/custom] as 'middle' as default
+        self.position: str = 'middle'
+        # [first_plan/background_plan] as 'first_plan' as default
+        self.plan: str = 'first_plan'
+        # 1 as default
+        self.pose_number: str = '1'
 
         self.hidden: bool = True
 
@@ -82,7 +86,10 @@ class Character:
         # Size scale:
         if self.plan == 'background_plan':
             size: tuple[int, int] = self.character_size
-            self.character_size = (int(size[0] * 0.8), int(size[1] * 0.8))
+            self.character_size: tuple[int, int] = (
+                int(size[0] * 0.8),
+                int(size[1] * 0.8)
+            )
             self.surface: Surface = transform.scale(self.surface, self.character_size)
             self.surface.blit(self.character_image, self.character_size)
         if self.plan == 'first_plan':
@@ -112,23 +119,54 @@ class Character:
         self.plan: str = plan
         self.set_pose(pose_number=self.pose_number)
 
+    def meddle_point_for_character_render(self, *, screen_surface: Surface,
+                                          character_surface: Surface) -> list[int, int]:
+        """
+        Calculation middle coordinates for character render.
+
+        :param screen_surface: pygame.Surface of background.
+        :param character_surface: pygame.Surface of character.
+        :return: List with coordinates of meddle point for character render.
+        """
+        screen_size: tuple[int, int] = surface_size(screen_surface)
+        sprite_size: tuple[int, int] = surface_size(character_surface)
+        background_y_coordinate: int = self.background.background_coordinates[1]
+        result: list[int, int] = [
+            (screen_size[0] // 2)
+            - (sprite_size[0] // 2),
+
+            (screen_size[1] - sprite_size[1])
+            + background_y_coordinate
+        ]
+
+        return result
+
     def move_to_middle(self):
         """
         Move character to middle of scene.
         """
-        background_surface = self.background.get_data()[0]
+        background_surface: Surface = self.background.get_data()[0]
+
         if self.plan == 'background_plan':
-            self.coordinates_pixels: list[int, int] = meddle_point_for_character_render(
-                screen_surface=background_surface, character_surface=self.surface
+            self.coordinates_pixels: list[int, int] = self.meddle_point_for_character_render(
+                screen_surface=background_surface,
+                character_surface=self.surface
             )
+
         if self.plan == 'first_plan':
-            coordinates_pixels: list[int, int] = meddle_point_for_character_render(
-                screen_surface=background_surface, character_surface=self.surface
+            coordinates_pixels: list[int, int] = self.meddle_point_for_character_render(
+                screen_surface=background_surface,
+                character_surface=self.surface
             )
-            coordinates_pixels_y: int = \
+            coordinates_difference: int = \
                 background_surface.get_height() \
                 - int(background_surface.get_height() * 0.9)
+
+            coordinates_pixels_y: int = \
+                coordinates_pixels[1] \
+                + coordinates_difference
             self.coordinates_pixels: list[int, int] = [coordinates_pixels[0], coordinates_pixels_y]
+
         self.position: str = 'middle'
 
     def move_to_left(self):
@@ -138,7 +176,7 @@ class Character:
         self.move_to_middle()
         coordinates_pixels: list[int, int] = self.coordinates_pixels
         self.coordinates_pixels: list[int, int] = [coordinates_pixels[0] // 3, coordinates_pixels[1]]
-        self.position = 'left'
+        self.position: str = 'left'
 
     def move_to_right(self):
         """
@@ -150,7 +188,7 @@ class Character:
             int(coordinates_pixels[0] * 1.64),
             coordinates_pixels[1]
         ]
-        self.position = 'right'
+        self.position: str = 'right'
 
 
 def characters_generator() -> dict[str, Character]:
