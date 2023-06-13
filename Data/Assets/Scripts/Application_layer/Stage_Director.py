@@ -1,12 +1,13 @@
 from pygame import display, Surface
 
-from .Character import characters_generator
-from .Background import backgrounds_generator, Background, BackgroundMock
-from .User_Interface.UI_Text_Canvas import TextCanvas
-from .Dialogues import generate_dialogues, DialoguesWords
-from .Universal_computing import SingletonPattern
+from ..Game_objects.Character import characters_generator
+from ..Game_objects.Background import backgrounds_generator, Background, BackgroundMock
+from ..User_Interface.UI_Text_Canvas import TextCanvas
+from ..Game_objects.Dialogues import generate_dialogues, DialoguesWords
+from ..Universal_computing import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
-from .Character import Character
+from ..Game_objects.Character import Character
+from ..Render.Sprite import Sprite
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -39,13 +40,10 @@ class StageDirector(SingletonPattern):
         # Set language:
         self.language_flag: str = self.settings_keeper.text_language
         # Text canvas:
-        self.text_canvas = TextCanvas()
-        self.text_canvas_surface: Surface = self.text_canvas.get()[0]
+        self.text_canvas: TextCanvas = TextCanvas()
+        self.text_canvas_surface: Surface = self.text_canvas.text_canvas_surface
         # Text generation:
-        self.text_controller = DialoguesWords(
-            font_name=None,
-            text_canvas=self.text_canvas_surface
-        )
+        self.text_controller = DialoguesWords()
         self.text_dict_all: dict[str] = generate_dialogues()
         # Text Reading gameplay:
         self.text_dict_reading: dict[str] = self.text_dict_all['Reading']
@@ -83,6 +81,7 @@ class StageDirector(SingletonPattern):
         :param character: String with character name.
         :return: pygame.Surface of character.
         """
+        self.characters_dict.get(character).hidden = False
         return self.characters_dict.get(character)
 
     def scale(self):
@@ -105,8 +104,9 @@ class StageDirector(SingletonPattern):
         self.background_coordinates: tuple[int, int] = background_data[1]
         for character in self.characters_dict.values():
             character.kill()
-        self.text_string_reading: str = ''
-        self.text_speaker_reading: str = ''
+
+        self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
 
     def set_reading_words(self, *, script: dict):
         """
@@ -134,26 +134,80 @@ class StageDirector(SingletonPattern):
                 text_type='speaker'
             )
 
-    def get_speech(self) -> tuple[Surface, tuple[int, int]]:
+    def generate_characters_batch(self):
         """
-        Get character speech text and coordinates in tuple[int, int].
+        Generate batch with characters sprites for display image render.
 
-        :return: tuple[Surface, tuple[int, int]]
+        :return: Batch
         """
-        return self.speech
+        from ..Render.Batch import Batch
+        result: Batch = Batch()
 
-    def get_speaker(self) -> tuple[Surface, tuple[int, int]]:
-        """
-        Get character speaker name text and coordinates in tuple[int, int].
+        for character in self.characters_dict.values():
+            if character.hidden is False:
+                character_coordinates: tuple[int, int] = (
+                    character.coordinates_pixels[0],
+                    character.coordinates_pixels[1]
+                )
+                result.append(
+                    Sprite(
+                        image=character.surface,
+                        layer=2,
+                        coordinates=character_coordinates,
+                    )
+                )
 
-        :return: tuple[Surface, tuple[int, int]]
-        """
-        return self.speaker
+        return result
 
-    def get_background(self) -> tuple[Surface, tuple[int, int]]:
+    def generate_background_batch(self):
         """
-        Get tuple with background surface and background coordinates in tuple[int, int].
+        Generate batch with background sprite for display image render.
 
-        :return: tuple[Surface, tuple[int, int]]
+        :return: Batch
         """
-        return self.background_surface, self.background_coordinates
+        from ..Render.Batch import Batch
+        result: Batch = Batch()
+        result.append(
+            Sprite(
+                image=self.background_surface,
+                layer=1,
+                coordinates=self.background_coordinates,
+            )
+        )
+        return result
+
+    def generate_speech(self):
+        """
+        Generate batch with speech text sprites for display image render.
+
+        :return: Batch
+        """
+        from ..Render.Batch import Batch
+        result: Batch = Batch()
+
+        # Text canvas:
+        if self.text_canvas.text_canvas_status is True:
+            result.append(
+                Sprite(
+                    image=self.text_canvas.text_canvas_surface,
+                    layer=3,
+                    coordinates=self.text_canvas.text_canvas_coordinates,
+                )
+            )
+        # Speech:
+        result.append(
+            Sprite(
+                image=self.speech[0],
+                layer=4,
+                coordinates=self.speech[1],
+            )
+        )
+        # Speaker:
+        result.append(
+            Sprite(
+                image=self.speaker[0],
+                layer=4,
+                coordinates=self.speaker[1],
+            )
+        )
+        return result

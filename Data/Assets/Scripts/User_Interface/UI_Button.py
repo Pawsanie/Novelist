@@ -2,11 +2,11 @@ from os import path
 
 from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP
 
-from ..Assets_load import image_load, json_load, font_load
+from ..Application_layer.Assets_load import image_load, json_load, font_load
 from ..Universal_computing import surface_size
 from .UI_buttons_calculations import button_size
-from ..Background import BackgroundMock
-from ..Settings_Keeper import SettingsKeeper
+from ..Game_objects.Background import BackgroundMock
+from ..Application_layer.Settings_Keeper import SettingsKeeper
 font.init()
 """
 Contents code for user interface buttons.
@@ -222,15 +222,16 @@ class Button:
         Coordinates for gameplay dialogues choice buttons.
         """
         place_flag: int = self.button_image_data['index_number']
+        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
 
         # X:
         button_coordinates_x: int = (
-                self.button_middle_point_coordinates()[0]
+                button_middle_x
                 - (self.button_size[0] // 2)
         )
         # Y:
         button_coordinates_y: int = (
-                (self.background_surface_size()[1] // 2)
+                button_middle_y
                 - (self.button_size[1] // 2)
                 + ((self.button_size[1] * 2) * place_flag)
         )
@@ -256,7 +257,11 @@ class Button:
                 + (self.button_size[0] * place_flag)
                 )
         # Y:
-        button_coordinates_y: int = background_y - self.button_size[1]
+        button_coordinates_y: int = (
+                button_middle_y
+                + (background_y // 2)
+                - self.button_size[1]
+        )
         # Result:
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
@@ -352,22 +357,9 @@ class Button:
         button_x_size, button_y_size = surface_size(self.button_surface)
         button_coordinates_x, button_coordinates_y = self.button_coordinates
 
-        # TODO: Analyze the strange behavior of the search for a Y points and remove the crutch...
-        crutch_menus_list: list[str] = [
-            'gameplay_ui',
-            'gameplay_dialogues_choice'
-        ]
-        cursor_position_y: int = cursor_position[1]
-        if self.button_image_data['type'] in crutch_menus_list:
-            cursor_position_y: int = int(
-                cursor_position[1]
-                - self.background.background_coordinates[1]
-            )
-        # TODO: End of crutch.
-
         # Drawing a button while hovering over:
         if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size and \
-                button_coordinates_y < cursor_position_y < button_coordinates_y + button_y_size:
+                button_coordinates_y < cursor_position[1] < button_coordinates_y + button_y_size:
             return True
         # Default Button Rendering:
         else:

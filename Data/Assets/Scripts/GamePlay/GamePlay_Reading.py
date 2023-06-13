@@ -1,7 +1,7 @@
 from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse, MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from pygame import event as pygame_events
 
-from ..Stage_Director import StageDirector
+from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
 """
 Contains gameplay reading code.

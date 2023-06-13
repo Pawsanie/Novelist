@@ -2,9 +2,9 @@ from os import path
 
 from pygame import Surface, font, SRCALPHA, transform
 
-from ..Assets_load import json_load, font_load, image_load
-from ..Settings_Keeper import SettingsKeeper
-from ..Background import BackgroundMock
+from ..Application_layer.Assets_load import json_load, font_load, image_load
+from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..Game_objects.Background import BackgroundMock
 font.init()
 """
 Contents code for menus text keeper.

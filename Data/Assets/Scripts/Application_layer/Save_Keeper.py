@@ -3,10 +3,10 @@ import json
 from time import strftime, localtime, strptime
 import logging
 
-from .Universal_computing import SingletonPattern
+from ..Universal_computing import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
 from .Scene_Validator import SceneValidator
-from .Logging_Config import text_for_logging
+from ..Logging_Config import text_for_logging
 """
 Contend code for save/load system.
 """

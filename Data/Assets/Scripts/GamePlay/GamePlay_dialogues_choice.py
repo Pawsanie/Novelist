@@ -1,7 +1,7 @@
-from ..Stage_Director import StageDirector
+from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Button import Button
-from ..Assets_load import json_load
+from ..Application_layer.Assets_load import json_load
 """
 Contains gameplay reading code.
 """

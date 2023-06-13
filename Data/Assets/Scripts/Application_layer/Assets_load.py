@@ -12,7 +12,8 @@ def asset_root_path() -> str:
     Generate root path for assets loading.
     """
     # ./Assets/. root path:
-    root_path: str = f"{path.abspath(__file__).replace(path.join(*['Scripts', 'Assets_load.py']), '')}"
+    replace_path_list: list[str] = ['Scripts', 'Application_layer', 'Assets_load.py']
+    root_path: str = f"{path.abspath(__file__).replace(path.join(*replace_path_list), '')}"
     return root_path
 
 
