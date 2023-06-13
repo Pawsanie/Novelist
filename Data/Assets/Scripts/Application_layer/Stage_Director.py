@@ -43,10 +43,7 @@ class StageDirector(SingletonPattern):
         self.text_canvas: TextCanvas = TextCanvas()
         self.text_canvas_surface: Surface = self.text_canvas.text_canvas_surface
         # Text generation:
-        self.text_controller = DialoguesWords(
-            font_name=None,
-            text_canvas=self.text_canvas_surface
-        )
+        self.text_controller = DialoguesWords()
         self.text_dict_all: dict[str] = generate_dialogues()
         # Text Reading gameplay:
         self.text_dict_reading: dict[str] = self.text_dict_all['Reading']
@@ -107,8 +104,9 @@ class StageDirector(SingletonPattern):
         self.background_coordinates: tuple[int, int] = background_data[1]
         for character in self.characters_dict.values():
             character.kill()
-        self.text_string_reading: str = ''
-        self.text_speaker_reading: str = ''
+
+        self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
 
     def set_reading_words(self, *, script: dict):
         """
@@ -188,13 +186,14 @@ class StageDirector(SingletonPattern):
         result: Batch = Batch()
 
         # Text canvas:
-        result.append(
-            Sprite(
-                image=self.text_canvas.text_canvas_surface,
-                layer=3,
-                coordinates=self.text_canvas.text_canvas_coordinates,
+        if self.text_canvas.text_canvas_status is True:
+            result.append(
+                Sprite(
+                    image=self.text_canvas.text_canvas_surface,
+                    layer=3,
+                    coordinates=self.text_canvas.text_canvas_coordinates,
+                )
             )
-        )
         # Speech:
         result.append(
             Sprite(

@@ -3,6 +3,8 @@ from pygame import font, Surface
 from ..Application_layer.Assets_load import json_load, font_load
 from ..Universal_computing import surface_size
 from .Background import BackgroundMock
+from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..User_Interface.UI_Text_Canvas import TextCanvas
 font.init()
 """
 Contains the code for text of dialogues.
@@ -15,15 +17,16 @@ class DialoguesWords:
     Load font asset and generate text coordinates.
     """
 
-    def __init__(self, *, font_name: str | None, text_canvas: Surface):
+    def __init__(self, *, font_name: str | None = None):
         """
         :param font_name: String with font file name.
         :type font_name: str | None
         """
         self.background_surface: BackgroundMock = BackgroundMock()
+        self.screen: Surface = SettingsKeeper().screen
         self.font_size: int = 0
         self.font_name: str = font_name
-        self.text_canvas: Surface = text_canvas
+        self.text_canvas: TextCanvas = TextCanvas()
         self.used_font: font.Font | None = None
         self.set_font(font_name=font_name)
         self.font_coordinates: tuple[int, int] = (0, 0)
@@ -80,16 +83,26 @@ class DialoguesWords:
         :param text_type: String: 'speech' or 'name'!
         :return: Tuple with x and y int coordinates for speech text render.
         """
-        text_canvas_surface_size: tuple[int, int] = surface_size(self.text_canvas)
+        text_canvas_surface_size: tuple[int, int] = surface_size(
+            self.text_canvas.text_canvas_surface
+        )
         text_canvas_size_x, text_canvas_size_y = text_canvas_surface_size
-        x_result: int = (text_canvas_size_x // 100) * 15
+
+        text_canvas_y: int = self.text_canvas.text_canvas_coordinates[1]
+
+        x_result: int = (text_canvas_size_x // 100) * 30
         if text_type == 'speech':
-            # x_result: int = (text_canvas_size_x // 100) * 15
-            y_result: int = (self.font_size * 2) + ((text_canvas_size_y // 100) * 5)
+            y_result: int = (
+                    text_canvas_y
+                    + (self.font_size * 2)
+                    + ((text_canvas_size_y // 100) * 5)
+            )
             return x_result, y_result
         if text_type == 'name':
-            # x_result: int = (text_canvas_size_x // 100) * 30
-            y_result: int = (text_canvas_size_y // 100) * 5
+            y_result: int = (
+                    text_canvas_y
+                    + ((text_canvas_size_y // 100) * 5)
+            )
             return x_result, y_result
 
 
