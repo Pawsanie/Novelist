@@ -560,7 +560,7 @@ The **StageDirector** builds a scene.<br>
                      │        ├── :page_facing_up:Reactions_to_input_commands.py<br>
                      │        ├── :page_facing_up:Scene_Validator.py<br>
                      │        ├── :page_facing_up:Settings_Keeper.py<br>
-                     │        └── :page_facing_up:Stage_Director.py
+                     │        └── :page_facing_up:Stage_Director.py<br>
                      ├── :file_folder:Game_objects<br>
                      │        ├── :page_facing_up:Background.py<br>
                      │        ├── :page_facing_up:Character.py<br>
