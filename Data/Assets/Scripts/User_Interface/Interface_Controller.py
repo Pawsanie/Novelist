@@ -154,7 +154,7 @@ class InterfaceController(SingletonPattern):
                 button: Button = menus_dict[button_name]
                 result.append(
                     Sprite(
-                        image=button.button_sprite,
+                        image=button.button_surface,
                         layer=3,
                         coordinates=button.button_coordinates
                     )
