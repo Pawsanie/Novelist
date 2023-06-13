@@ -1,4 +1,4 @@
-from pygame import transform, Surface, SRCALPHA, Rect
+from pygame import transform, Surface, SRCALPHA
 
 from .Characters_calculations import character_sprite_size
 from ..Application_layer.Assets_load import image_load, json_load

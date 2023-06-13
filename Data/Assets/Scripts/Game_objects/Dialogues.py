@@ -37,11 +37,13 @@ class DialoguesWords:
         if self.font_name is None:
             self.used_font = font.Font(
                 font.get_default_font(),
-                self.font_size)
+                self.font_size
+            )
         else:
             self.used_font: font.Font = font_load(
                 font_name=font_name,
-                font_size=self.font_size)
+                font_size=self.font_size
+            )
 
     def make_words(self, *, text_string: str, text_color: str, text_type: str) -> tuple[Surface, tuple[int, int]]:
         """
