@@ -15,6 +15,7 @@ from ..User_Interface.UI_Menus.UI_Start_menu import StartMenu
 from ..User_Interface.UI_Menus.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
 from ..User_Interface.UI_Menus.UI_Creators_menu import CreatorsMenu
 from ..GamePlay.GamePlay_Administrator import GamePlayAdministrator
+from ..User_Interface.UI_Text_Canvas import TextCanvas
 """
 Contains code for reactions to input commands.
 """
@@ -26,9 +27,11 @@ def main_loop(func):
     """
     def coroutine(*args, **kwargs):
         self = args[0]  # class method`s 'self.' for in class decorator.
+
         program_running: bool = True
         main_cycle_fps_clock = time.Clock()
-        main_cycle_fps: int = 60
+        main_cycle_fps: int = SettingsKeeper().frames_per_second
+
         while program_running:
             for event in pygame_events.get():
                 # Quit by exit_icon.
@@ -36,19 +39,25 @@ def main_loop(func):
                     quit()
                     program_running: bool = False
                     exit(0)
+
                 # Set scene:
                 if self.scene_validator.scene_flag != self.scene_validator.scene:
                     func(*args, **kwargs)
+
                 # Window resize:
                 if event.type == VIDEORESIZE:
                     self.scene_validator.scene = 'redraw'
+
                 # User commands:
                 self.reactions_to_input_commands.reactions_to_input_commands(event)
+
             # Set scene without events:
             if self.scene_validator.scene_flag != self.scene_validator.scene:
                 func(*args, **kwargs)
+
             pygame_events.clear()
             main_cycle_fps_clock.tick(main_cycle_fps)
+
     return coroutine
 
 
@@ -111,6 +120,7 @@ class InputCommandsReactions:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.stage_director: StageDirector = StageDirector()
         self.scene_validator: SceneValidator = SceneValidator()
+        self.text_canvas: TextCanvas = TextCanvas()
 
         # Settings for gameplay:
         self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
@@ -136,5 +146,6 @@ class InputCommandsReactions:
         for key in self.menus_collection:
             menu = self.menus_collection[key]['object']
             if menu.status is True:
+                self.text_canvas.text_canvas_status = False
                 menu.menu_input(event)
                 return

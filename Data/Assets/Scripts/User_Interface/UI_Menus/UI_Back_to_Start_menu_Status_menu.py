@@ -28,7 +28,7 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
         Back from back to start menu status menu.
         """
         self.status: bool = False
-        from UI_Game_menu import GameMenu
+        from .UI_Game_menu import GameMenu
         GameMenu().status = True
 
     def input_mouse(self, event):
@@ -40,8 +40,10 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
+
             if command == 'back_to_start_menu_yes':
                 self.back_to_start_menu_status_menu_yes()
+
             if command == 'back_to_start_menu_no':
                 self.back_to_start_menu_status_menu_no()
 

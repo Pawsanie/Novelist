@@ -22,6 +22,8 @@ class Sprite:
         self.layer: int = layer
         self.coordinates: tuple[int, int] = coordinates
 
+        self.sprite_sheet = ...
+
     def blit(self, any_surface: Surface):
         """
         Draw sprite on surface.
