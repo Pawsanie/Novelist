@@ -1,5 +1,3 @@
-from pygame import Surface
-
 from .Reactions_to_input_commands import main_loop, InputCommandsReactions
 from .Stage_Director import StageDirector
 from ..Render.Render import Render
@@ -20,11 +18,8 @@ class GameMaster:
     Entry point for gameplay.
     """
     def __init__(self):
-        # Collect base game settings:  # TODO: remove?
+        # Collect base game settings:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.display_screen: Surface = self.settings_keeper.get_windows_settings()
-        self.language_flag: str = self.settings_keeper.text_language
-
         # Stage Director settings:
         self.stage_director: StageDirector = StageDirector()
         # Scene Validator settings:
@@ -35,8 +30,7 @@ class GameMaster:
         self.render: Render = Render()
         # User input commands processing:
         self.reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions()
-
-        # Save and load system:  # TODO: remove?
+        # Save and load system:
         self.save_keeper: SaveKeeper = SaveKeeper()
 
     def set_gameplay_type(self):  # TODO: DEVNULL

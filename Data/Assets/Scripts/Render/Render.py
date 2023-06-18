@@ -49,25 +49,28 @@ class Render(SingletonPattern):
         if self.reset is True:
             self.render_devnull()
 
-            # Generate background:
+        # Generate background:
             self.batch_collection.append(
                 self.stage_director.generate_background_batch()
             )
 
+        # Generate characters:
             if self.interface_controller.start_menu_flag is False:
-                # Generate characters:
                 self.batch_collection.append(
                     self.stage_director.generate_characters_batch()
                 )
-                # Generate speech:
-                self.batch_collection.append(
-                    self.stage_director.generate_speech()
-                )
+        # Generate speech:
+                if self.interface_controller.gameplay_interface_hidden_status is False \
+                        and self.interface_controller.gameplay_interface_status is True:
+                    self.batch_collection.append(
+                        self.stage_director.generate_speech()
+                    )
 
-            # Generate UI:
-            self.batch_collection.append(
-                self.interface_controller.generate_menus_batch()
-            )
+        # Generate UI:
+            if self.interface_controller.gameplay_interface_hidden_status is False:
+                self.batch_collection.append(
+                    self.interface_controller.generate_menus_batch()
+                )
 
     def layers_initialization(self):
         """
