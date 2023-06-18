@@ -27,19 +27,25 @@ def run():
     display.set_caption(app_name)
     # Window settings:
     if type_of_system == 'Windows':
-        display.set_icon(image_load(art_name='win_icon',
-                                    file_format='png',
-                                    asset_type=path_to_icons))
+        display.set_icon(image_load(
+            art_name='win_icon',
+            file_format='png',
+            asset_type=path_to_icons)
+        )
     # Mac settings:
     if type_of_system == 'Mac_OS':
-        display.set_icon(image_load(art_name='mac_icon',
-                                    file_format='png',
-                                    asset_type=path_to_icons))
+        display.set_icon(image_load(
+            art_name='mac_icon',
+            file_format='png',
+            asset_type=path_to_icons)
+        )
     # Unix settings:
     if type_of_system == 'linux':
-        display.set_icon(image_load(art_name='nix_icon',
-                                    file_format='png',
-                                    asset_type=path_to_icons))
+        display.set_icon(image_load(
+            art_name='nix_icon',
+            file_format='png',
+            asset_type=path_to_icons)
+        )
     # Start game:
     gameplay: GameMaster = GameMaster()
     gameplay()
@@ -56,6 +62,7 @@ if __name__ == '__main__':
         logging.critical(
             text_for_logging(
                 log_text="The program launch ended with an error!",
-                log_error=error)
+                log_error=error
+            )
         )
         raise error
