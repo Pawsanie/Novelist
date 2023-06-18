@@ -15,7 +15,6 @@ from ..User_Interface.UI_Menus.UI_Start_menu import StartMenu
 from ..User_Interface.UI_Menus.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
 from ..User_Interface.UI_Menus.UI_Creators_menu import CreatorsMenu
 from ..GamePlay.GamePlay_Administrator import GamePlayAdministrator
-from ..User_Interface.UI_Text_Canvas import TextCanvas
 """
 Contains code for reactions to input commands.
 """
@@ -120,7 +119,6 @@ class InputCommandsReactions:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.stage_director: StageDirector = StageDirector()
         self.scene_validator: SceneValidator = SceneValidator()
-        self.text_canvas: TextCanvas = TextCanvas()
 
         # Settings for gameplay:
         self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
@@ -146,6 +144,5 @@ class InputCommandsReactions:
         for key in self.menus_collection:
             menu = self.menus_collection[key]['object']
             if menu.status is True:
-                self.text_canvas.text_canvas_status = False
                 menu.menu_input(event)
                 return

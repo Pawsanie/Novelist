@@ -97,6 +97,7 @@ class GamePlayDialoguesChoice(BaseMenu):
         :param event: pygame.event from main_loop.
         """
         # Button gameplay ui status:
+        # self.interface_controller.gameplay_choice_buttons = self.dialogues_buttons[self.scene_validator.scene]
         self.button_gameplay_ui_status(event)
         # Button gameplay key bord status:
         self.key_bord_gameplay_key_down(event)

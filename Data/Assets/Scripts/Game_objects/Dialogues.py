@@ -5,13 +5,14 @@ from ..Universal_computing import surface_size
 from .Background import BackgroundMock
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..User_Interface.UI_Text_Canvas import TextCanvas
+from ..Universal_computing import SingletonPattern
 font.init()
 """
 Contains the code for text of dialogues.
 """
 
 
-class DialoguesWords:
+class DialoguesWords(SingletonPattern):
     """
     Control dialog scenes text and control font size.
     Load font asset and generate text coordinates.
@@ -30,6 +31,7 @@ class DialoguesWords:
         self.used_font: font.Font | None = None
         self.set_font(font_name=font_name)
         self.font_coordinates: tuple[int, int] = (0, 0)
+        self.status: bool = True
 
     def set_font(self, *, font_name: str | None):
         """

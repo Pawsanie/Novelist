@@ -105,8 +105,8 @@ class StageDirector(SingletonPattern):
         for character in self.characters_dict.values():
             character.kill()
 
-        self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
-        self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        self.text_canvas.status = False
+        self.text_controller.status = False
 
     def set_reading_words(self, *, script: dict):
         """
@@ -119,8 +119,12 @@ class StageDirector(SingletonPattern):
         speaker_color: str = script['who']['color']
         text: str = script['what']['text']
         text_color: str = script['what']['color']
+
         self.text_string_reading: str = text
         self.text_speaker_reading: str = speaker
+        self.text_canvas.status = True
+        self.text_controller.status = True
+
         self.speech: tuple[Surface, tuple[int, int]] = \
             self.text_controller.make_words(
                 text_string=self.text_string_reading,
@@ -186,7 +190,7 @@ class StageDirector(SingletonPattern):
         result: Batch = Batch()
 
         # Text canvas:
-        if self.text_canvas.text_canvas_status is True:
+        if self.text_canvas.status is True:
             result.append(
                 Sprite(
                     image=self.text_canvas.text_canvas_surface,
@@ -194,20 +198,21 @@ class StageDirector(SingletonPattern):
                     coordinates=self.text_canvas.text_canvas_coordinates,
                 )
             )
-        # Speech:
-        result.append(
-            Sprite(
-                image=self.speech[0],
-                layer=4,
-                coordinates=self.speech[1],
+        if self.text_controller.status is True:
+            # Speech:
+            result.append(
+                Sprite(
+                    image=self.speech[0],
+                    layer=4,
+                    coordinates=self.speech[1],
+                )
             )
-        )
-        # Speaker:
-        result.append(
-            Sprite(
-                image=self.speaker[0],
-                layer=4,
-                coordinates=self.speaker[1],
+            # Speaker:
+            result.append(
+                Sprite(
+                    image=self.speaker[0],
+                    layer=4,
+                    coordinates=self.speaker[1],
+                )
             )
-        )
         return result

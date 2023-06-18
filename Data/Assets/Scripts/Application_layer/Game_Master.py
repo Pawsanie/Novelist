@@ -53,7 +53,7 @@ class GameMaster:
             # Push dialogue buttons to 'InterfaceController':
             self.interface_controller.gameplay_choice_buttons = \
                 self.reactions_to_input_commands.gameplay_administrator\
-                .gameplay_dialogues_choice\
+                .gameplay_collections['choice']\
                 .dialogues_buttons[self.scene_validator.scene]
             return
 
