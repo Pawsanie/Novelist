@@ -74,7 +74,6 @@ class StageDirector(SingletonPattern):
         self.background_mock.set_new_image(new_image=scene_image)
         self.background_surface: Surface = self.background_mock.get_data()[0]
         self.background_surface.blit(scene_image, (0, 0))
-        return self.display_screen.blit(self.background_surface, self.background_coordinates)
 
     def set_actor(self, *, character: str) -> Surface.blit:
         """

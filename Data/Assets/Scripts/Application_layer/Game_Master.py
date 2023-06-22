@@ -51,6 +51,19 @@ class GameMaster:
                 .dialogues_buttons[self.scene_validator.scene]
             return
 
+    def set_scene(self):
+        """
+        Sets the scene for the frame, depending on its type.
+        """
+        menu_name: str | None = self.interface_controller.menu_name
+        if menu_name is not None:
+            self.stage_director.vanishing_scene()
+            self.stage_director.set_scene(
+                location=menu_name
+            )
+        else:
+            self.scene_validator()
+
     @error_logger
     @main_loop
     def __call__(self):
@@ -60,7 +73,7 @@ class GameMaster:
         # User input commands processing:
         self.reactions_to_input_commands()
         # Build scene:
-        self.scene_validator()
+        self.set_scene()
         self.stage_director.scale()
         # Chose gameplay settings:
         self.set_gameplay_type()
