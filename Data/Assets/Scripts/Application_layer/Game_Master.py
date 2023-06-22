@@ -51,7 +51,7 @@ class GameMaster:
                 .dialogues_buttons[self.scene_validator.scene]
             return
 
-    def set_scene(self):
+    def set_scene(self):  # TODO: Swap to StateMachine pattern.
         """
         Sets the scene for the frame, depending on its type.
         """
