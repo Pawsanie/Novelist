@@ -41,7 +41,6 @@ class StageDirector(SingletonPattern):
         self.language_flag: str = self.settings_keeper.text_language
         # Text canvas:
         self.text_canvas: TextCanvas = TextCanvas()
-        self.text_canvas_surface: Surface = self.text_canvas.text_canvas_surface
         # Text generation:
         self.text_controller = DialoguesWords()
         self.text_dict_all: dict[str] = generate_dialogues()

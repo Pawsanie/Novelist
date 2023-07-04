@@ -8,7 +8,7 @@ Contains code responsible for rendering scenes.
 """
 
 
-class Background(SingletonPattern):
+class Background:
     """
     Load scene image by name and update the scene.
     Can scale scene size to display size.
@@ -76,7 +76,7 @@ def backgrounds_generator() -> dict[str, Background]:
     return result
 
 
-class BackgroundMock(Background):
+class BackgroundMock(Background, SingletonPattern):
     """
     Blank for images surface scale.
     """
