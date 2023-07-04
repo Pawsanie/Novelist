@@ -1,7 +1,7 @@
 from pygame import quit, KEYDOWN, K_ESCAPE, K_TAB, K_e
 
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing import SingletonPattern
+from ...Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains exit menu code.
 """

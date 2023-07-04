@@ -1,6 +1,6 @@
 from pygame import display, Surface
 
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.Interface_Controller import InterfaceController

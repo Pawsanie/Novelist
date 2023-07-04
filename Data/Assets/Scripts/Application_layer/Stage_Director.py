@@ -4,7 +4,7 @@ from ..Game_objects.Character import characters_generator
 from ..Game_objects.Background import backgrounds_generator, Background, BackgroundMock
 from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Game_objects.Dialogues import generate_dialogues, DialoguesWords
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
 from ..Game_objects.Character import Character
 from ..Render.Sprite import Sprite

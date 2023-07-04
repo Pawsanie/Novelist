@@ -1,4 +1,4 @@
-from ..Universal_computing import surface_size
+from ..Universal_computing.Surface_size import surface_size
 """
 Contains calculations for user interface buttons.
 """

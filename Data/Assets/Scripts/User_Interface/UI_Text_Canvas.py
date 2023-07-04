@@ -1,10 +1,10 @@
 from pygame import Surface, SRCALPHA, transform
 
 from ..Application_layer.Assets_load import image_load
-from ..Universal_computing import surface_size
+from ..Universal_computing.Surface_size import surface_size
 from ..Game_objects.Background import BackgroundMock
 from ..Application_layer.Settings_Keeper import SettingsKeeper
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contents code for user interface text canvas.
 """

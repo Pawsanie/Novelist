@@ -1,6 +1,6 @@
 from pygame import Surface
 
-from ..Universal_computing import surface_size
+from ..Universal_computing.Surface_size import surface_size
 from .Background import BackgroundMock
 """
 Contains the code for characters computing.

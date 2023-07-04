@@ -1,6 +1,6 @@
 from .Stage_Director import StageDirector
 from .Assets_load import json_load
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains SceneValidator code.
 """

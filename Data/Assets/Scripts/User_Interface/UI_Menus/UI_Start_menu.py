@@ -1,6 +1,6 @@
 from ..UI_Base_menu import BaseMenu
 from ...Application_layer.Save_Keeper import SaveKeeper
-from ...Universal_computing import SingletonPattern
+from ...Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains Start menu code.
 """

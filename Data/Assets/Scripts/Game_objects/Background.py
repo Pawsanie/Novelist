@@ -1,7 +1,7 @@
 from pygame import transform, Surface
 
 from ..Application_layer.Assets_load import image_load, json_load
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contains code responsible for rendering scenes.

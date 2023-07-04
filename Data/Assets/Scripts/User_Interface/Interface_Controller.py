@@ -1,5 +1,5 @@
 from ..User_Interface.UI_Button import button_generator
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 from ..User_Interface.UI_Button import Button
 from ..Application_layer.Stage_Director import StageDirector

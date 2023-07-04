@@ -3,7 +3,7 @@ from pygame import transform, Surface, SRCALPHA
 from .Characters_calculations import character_sprite_size
 from ..Application_layer.Assets_load import image_load, json_load
 from .Background import BackgroundMock
-from ..Universal_computing import surface_size
+from ..Universal_computing.Surface_size import surface_size
 """
 Contains code responsible for rendering character.
 """

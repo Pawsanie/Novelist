@@ -1,5 +1,5 @@
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing import SingletonPattern
+from ...Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains Load menu code.
 """

@@ -4,7 +4,7 @@ from tkinter import Tk
 
 from pygame import Surface, display, FULLSCREEN, RESIZABLE
 
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains the code responsible for the game settings.
 """

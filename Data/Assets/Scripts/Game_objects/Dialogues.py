@@ -1,11 +1,11 @@
 from pygame import font, Surface
 
 from ..Application_layer.Assets_load import json_load, font_load
-from ..Universal_computing import surface_size
+from ..Universal_computing.Surface_size import surface_size
 from .Background import BackgroundMock
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..User_Interface.UI_Text_Canvas import TextCanvas
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 font.init()
 """
 Contains the code for text of dialogues.
