@@ -121,6 +121,8 @@ class StageDirector(SingletonPattern):
 
         self.text_string_reading: str = text
         self.text_speaker_reading: str = speaker
+
+        # TODO: Refactor?:
         self.text_canvas.status = True
         self.text_controller.status = True
 
