@@ -50,6 +50,7 @@ class StageDirector(SingletonPattern):
         self.text_speaker_reading: str = ''  # Blank as default.
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        self.text_dict_reading_cash: dict[str] = {}
         # Text Choice gameplay:
         self.scene_name: str = ''
         # self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
@@ -92,6 +93,9 @@ class StageDirector(SingletonPattern):
         for character in self.characters_dict.values():
             character.scale()
 
+        if self.text_controller.status is True:
+            self.set_reading_words(script=self.text_dict_reading_cash)
+
     def vanishing_scene(self):
         """
         Delete all characters and background from scene.
@@ -120,6 +124,8 @@ class StageDirector(SingletonPattern):
 
         self.text_string_reading: str = text
         self.text_speaker_reading: str = speaker
+
+        self.text_dict_reading_cash: dict[str] = script
 
         # TODO: Refactor?:
         self.text_canvas.status = True

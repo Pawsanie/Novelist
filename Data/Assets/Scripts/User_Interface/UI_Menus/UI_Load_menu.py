@@ -1,5 +1,6 @@
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
+from ...Application_layer.Save_Keeper import SaveKeeper
 """
 Contains Load menu code.
 """
@@ -11,6 +12,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
     """
     def __init__(self):
         super(LoadMenu, self).__init__()
+        self.save_keeper: SaveKeeper = SaveKeeper()
 
     def input_mouse(self, event):
         """

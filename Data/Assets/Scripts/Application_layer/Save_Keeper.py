@@ -77,7 +77,6 @@ class SaveKeeper(SingletonPattern):
             last_save: list[str] = sorted(self.saves_dict.keys(), reverse=True)
 
             try:
-
                 return self.saves_dict[last_save[0]]["save_data"]["scene"]
 
             # Logging errors:
@@ -91,7 +90,7 @@ class SaveKeeper(SingletonPattern):
                         log_text=
                         f"SaveKeeper Exception in 'continue_game' method:"
                         f"\n{'-' * 30}"
-                        f"\nSaves list: \n{corrupted_data}",
+                        f"\nSaves list: \n{corrupted_data}\n\n",
                         log_error=error
                     ))
                 return False

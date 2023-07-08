@@ -16,7 +16,12 @@ class StartMenu(BaseMenu, SingletonPattern):
         self.status: bool = True
 
     def start_game(self, scene_name: str):
-        self.scene_validator.scene = scene_name
+        """
+        Switch flags for correct game start.
+        Start game from correct scene.
+        :param scene_name: The name of the scene to start the game from.
+        """
+        self.scene_validator.scene = 'redraw'
         self.scene_validator.scene_flag = scene_name
         self.status: bool = False
 

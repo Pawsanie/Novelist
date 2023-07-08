@@ -1,6 +1,5 @@
 from .Interface_Controller import InterfaceController
 from ..Application_layer.Scene_Validator import SceneValidator
-from ..User_Interface.UI_Text_Canvas import TextCanvas
 """
 Contains code for User Interface Master Class.
 """
@@ -16,8 +15,6 @@ class BaseMenu:
         # User Interface controller settings:
         self.interface_controller: InterfaceController = InterfaceController()
         self.status: bool = False
-        # Text Canvas:
-        self.text_canvas: TextCanvas = TextCanvas()
 
     def input_wait_ready(self):
         """
