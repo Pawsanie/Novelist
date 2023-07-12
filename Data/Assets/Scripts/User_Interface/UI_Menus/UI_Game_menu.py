@@ -2,6 +2,7 @@ from pygame import KEYDOWN, K_ESCAPE
 
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
+from ...Application_layer.Save_Keeper import SaveKeeper
 """
 Contains game menu code.
 """
@@ -13,6 +14,7 @@ class GameMenu(SingletonPattern, BaseMenu):
     """
     def __init__(self):
         super(GameMenu, self).__init__()
+        self.save_keeper: SaveKeeper = SaveKeeper()
 
     def input_mouse(self, event):
         """
@@ -32,11 +34,13 @@ class GameMenu(SingletonPattern, BaseMenu):
                 self.status: bool = False
                 from .UI_Save_menu import SaveMenu
                 SaveMenu().status = True
+                self.save_keeper.generate_save_slots_buttons()
 
             if command == 'game_menu_load':
                 self.status: bool = False
                 from .UI_Load_menu import LoadMenu
                 LoadMenu().status = True
+                self.save_keeper.generate_save_slots_buttons()
 
             if command == 'game_menu_settings':
                 self.status: bool = False

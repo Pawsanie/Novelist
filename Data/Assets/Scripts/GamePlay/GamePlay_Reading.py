@@ -58,7 +58,7 @@ class GamePlayReading(BaseMenu):
                             if self.scene_validator.next_scene != 'FINISH':
                                 self.scene_validator.scene_flag = self.scene_validator.next_scene
                             else:
-                                ...
+                                ...  # TODO: Make FINISH credits path.
 
                         if command == 'fast_forward':
                             if button_clicked[0] is not False:

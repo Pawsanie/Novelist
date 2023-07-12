@@ -4,9 +4,11 @@ from time import strftime, localtime, strptime
 import logging
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Scene_Validator import SceneValidator
 from ..Logging_Config import text_for_logging
+from ..User_Interface.UI_Button import Button
 """
 Contend code for save/load system.
 """
@@ -21,6 +23,7 @@ class SaveKeeper(SingletonPattern):
         # Program layers settings:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.scene_validator: SceneValidator = SceneValidator()
+        self.interface_controller: InterfaceController = InterfaceController()
 
         # Path settings:
         script_root_path: str = path.abspath(__file__) \
@@ -31,8 +34,77 @@ class SaveKeeper(SingletonPattern):
 
         # Saves collection:
         self.saves_dict: dict | None = {}
+        self.save_buttons_collection: dict | None = None
 
-    def save(self, *, auto_save: bool):
+        # Save/Load buttons reference:
+        self.save_buttons_reference: dict = self.interface_controller.buttons_dict['ui_save_menu_buttons']
+        self.load_buttons_reference: dict = self.interface_controller.buttons_dict['ui_load_menu_buttons']
+
+        self.reread: bool = True
+
+    def update_ui_buttons(self, menu_data: dict):
+        """
+        Update menu`s buttons dict in 'InterfaceController.buttons_dict'.
+        """
+        if menu_data["menu_object"].status is True:
+            menu_data["menu_buttons"] = menu_data["menu`s_buttons_reference"]
+
+            save_cell_buttons: dict = self.get_cell_buttons()
+            for key, value in save_cell_buttons.items():
+                menu_data["menu_buttons"].setdefault(key, value)
+
+    def get_cell_buttons(self) -> dict[Button]:
+        """
+        Generate cell buttons for Save/Load UI.
+        :return: dict[Button]
+        """
+        # Button(
+        #     button_name=...,
+        #     button_text=...,
+        #     button_image_data=...,
+        #     button_text_localization_dict=...
+        # )
+
+        if self.reread is True:
+            self.saves_read()
+
+        if self.saves_dict is None:
+            return {}
+        else:
+            ...
+            return {}
+
+    def generate_save_slots_buttons(self):
+        """
+        Add save cell buttons for Save/Load UI.
+        """
+        from ..User_Interface.UI_Menus.UI_Save_menu import SaveMenu
+        from ..User_Interface.UI_Menus.UI_Load_menu import LoadMenu
+
+        # UI collection:
+        ui_collection: dict = {
+            "save": {
+                "menu_object": SaveMenu(),
+                "menu_buttons": self.interface_controller.buttons_dict['ui_save_menu_buttons'],
+                "menu`s_buttons_reference": self.save_buttons_reference
+            },
+            "load": {
+                "menu_object": LoadMenu(),
+                "menu_buttons": self.interface_controller.buttons_dict['ui_load_menu_buttons'],
+                "menu`s_buttons_reference": self.load_buttons_reference
+            }
+        }
+
+        for menu_data in ui_collection:
+            self.update_ui_buttons(ui_collection[menu_data])
+
+    def get_save_buttons_collection(self) -> dict | None:
+        """
+        Get saves collection.
+        """
+        return self.save_buttons_collection
+
+    def save(self, *, auto_save: bool = True, save_cell: int = 1):
         """
         Save game progress.
         """
@@ -49,16 +121,17 @@ class SaveKeeper(SingletonPattern):
             makedirs(self.save_folder_path)
         with open(save_path, 'w', encoding='utf-8') as file:
             file.write(
-               self.get_game_progress_data_for_save()
+               self.get_game_progress_data_for_save(save_cell)
             )
 
-    def get_game_progress_data_for_save(self) -> str:
+    def get_game_progress_data_for_save(self, save_cell: int) -> str:
         """
         Get progress data for save it like json in file.
         """
         data_to_save: dict[str] = {
             "scene": self.scene_validator.scene,
-            "date": strftime("%Y:%m:%d:%H:%M:%S", localtime())
+            "date": strftime("%Y:%m:%d:%H:%M:%S", localtime()),
+            "save_cell": save_cell
         }
         return json.dumps(data_to_save, indent=4)
 
@@ -90,7 +163,7 @@ class SaveKeeper(SingletonPattern):
                         log_text=
                         f"SaveKeeper Exception in 'continue_game' method:"
                         f"\n{'-' * 30}"
-                        f"\nSaves list: \n{corrupted_data}\n\n",
+                        f"\nSaves list: \n{corrupted_data}",
                         log_error=error
                     ))
                 return False
@@ -135,10 +208,13 @@ class SaveKeeper(SingletonPattern):
                     logging.error(text_for_logging(
                         log_text=
                         f"SaveKeeper Exception in 'saves_read' method:"
-                        f"\nIssue with: {repr(error)}"f"\n{'-'*30}"
+                        f"\nIssue with: {repr(error)}"
+                        f"\n{'-'*30}"
                         f"\nFile name: {file}"
                         f"\n{'-'*30}"
                         f"\nFile data:"
                         f"\n{save_data}",
                         log_error=error
                     ))
+
+        self.reread: bool = False

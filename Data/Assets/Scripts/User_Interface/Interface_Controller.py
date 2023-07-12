@@ -58,6 +58,7 @@ class InterfaceController(SingletonPattern):
                 return self.buttons_dict['ui_gameplay_buttons']
             if self.gameplay_type_choice is True:
                 return self.gameplay_choice_buttons
+            
         # Menu interface:
         for menu_key in self.menus_collection:
             menu: dict = self.menus_collection[menu_key]

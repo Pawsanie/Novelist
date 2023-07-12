@@ -22,7 +22,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
         gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
-            command = gameplay_ui_buttons[0]
+            command: str = gameplay_ui_buttons[0]
             if command == 'load_menu_load':
                 ...
             if command == 'load_menu_back':

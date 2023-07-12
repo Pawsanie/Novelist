@@ -48,6 +48,7 @@ class StartMenu(BaseMenu, SingletonPattern):
                 from .UI_Load_menu import LoadMenu
                 self.status: bool = False
                 LoadMenu().status = True
+                self.save_keeper.generate_save_slots_buttons()
             if command == 'start_menu_settings':
                 from .UI_Settings_menu import SettingsMenu
                 self.status: bool = False

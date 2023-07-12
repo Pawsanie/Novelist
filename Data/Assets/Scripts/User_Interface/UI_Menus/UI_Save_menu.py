@@ -13,16 +13,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
     def __init__(self):
         super(SaveMenu, self).__init__()
         self.save_keeper: SaveKeeper = SaveKeeper()
-        self.save_collection: dict | None = self.get_save_collection()
-
-        self.selected_save_cell: str | None = None
-
-    def get_save_collection(self) -> dict | None:
-        """
-        Get saves collection.
-        """
-        self.save_keeper.saves_read()
-        return self.save_keeper.saves_dict
+        self.selected_save_cell: int | None = None
 
     def input_mouse(self, event):
         """
@@ -32,11 +23,16 @@ class SaveMenu(BaseMenu, SingletonPattern):
         gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
-            command = gameplay_ui_buttons[0]
+            command: str = gameplay_ui_buttons[0]
 
             if command == 'save_menu_save':
                 if self.selected_save_cell is not None:
-                    self.save_keeper.save(auto_save=False)
+                    self.save_keeper.save(
+                        auto_save=False,
+                        save_cell=self.selected_save_cell
+                    )
+                    self.selected_save_cell: None = None
+                self.save_keeper.reread = True
 
             if command == 'save_menu_back':
                 self.status: bool = False
