@@ -85,6 +85,7 @@ class SceneValidator(SingletonPattern):
                         self.stage_director.language_flag
                     )[self.scene]
                 )
+                self.autosave()
             if self.scene_gameplay_type == 'choice':
                 self.stage_director.text_canvas.text_canvas_status = False
         else:
@@ -93,3 +94,11 @@ class SceneValidator(SingletonPattern):
         # Special effects!:
         if scene['special_effects'] is not False:
             ...
+
+    @staticmethod
+    def autosave():
+        """
+        If current scene type is reading autosave it.
+        """
+        from .Save_Keeper import SaveKeeper
+        SaveKeeper().save(auto_save=True)
