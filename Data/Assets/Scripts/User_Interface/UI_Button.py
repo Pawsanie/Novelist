@@ -5,7 +5,7 @@ from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP
 from ..Application_layer.Assets_load import image_load, json_load, font_load
 from ..Universal_computing.Surface_size import surface_size
 from .UI_buttons_calculations import button_size
-from ..Game_objects.Background import BackgroundMock
+from ..Game_objects.Background import BackgroundProxy
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 font.init()
 """
@@ -36,6 +36,9 @@ class Button:
         'save_menu',
         'load_menu',
     ]
+    save_and_load_cell: list[str] = [
+        'save_and_load_cell'
+    ]
 
     # Tuple with RBG for button select render:
     button_selected_color: tuple[int] = (100, 0, 0)
@@ -53,7 +56,7 @@ class Button:
         :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
         :type button_text_localization_dict: dict[str]
         """
-        self.background: BackgroundMock = BackgroundMock()
+        self.background: BackgroundProxy = BackgroundProxy()
         self.button_name: str = button_name
         self.button_text: str | None = button_text
         self.settings_keeper: SettingsKeeper = SettingsKeeper()

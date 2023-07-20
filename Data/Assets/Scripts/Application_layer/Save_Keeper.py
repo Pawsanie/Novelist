@@ -28,7 +28,7 @@ class SaveKeeper(SingletonPattern):
         # Path settings:
         script_root_path: str = path.abspath(__file__) \
             .replace(path.join(
-                *['Assets', 'Scripts', 'Save_Keeper.py']
+                *['Assets', 'Scripts', 'Application_layer', 'Save_Keeper.py']
             ), '')
         self.save_folder_path: str = path.join(*[script_root_path, 'Saves'])
 

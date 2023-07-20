@@ -2,7 +2,7 @@ from pygame import transform, Surface, SRCALPHA
 
 from .Characters_calculations import character_sprite_size
 from ..Application_layer.Assets_load import image_load, json_load
-from .Background import BackgroundMock
+from .Background import BackgroundProxy
 from ..Universal_computing.Surface_size import surface_size
 """
 Contains code responsible for rendering character.
@@ -31,7 +31,7 @@ class Character:
         self.coordinates_pixels: list[int, int] = [0, 0]
 
         self.character_poses: dict = character_poses
-        self.background: BackgroundMock = BackgroundMock()
+        self.background: BackgroundProxy = BackgroundProxy()
         self.character_size: tuple[int, int] = character_size
         # [middle/right/left/custom] as 'middle' as default
         self.position: str = 'middle'

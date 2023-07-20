@@ -1,7 +1,7 @@
 from pygame import display, Surface
 
 from ..Game_objects.Character import characters_generator
-from ..Game_objects.Background import backgrounds_generator, Background, BackgroundMock
+from ..Game_objects.Background import backgrounds_generator, Background, BackgroundProxy
 from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Game_objects.Dialogues import generate_dialogues, DialoguesWords
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
@@ -25,7 +25,7 @@ class StageDirector(SingletonPattern):
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.display_screen: display = self.settings_keeper.get_windows_settings()
         # Make background surface:
-        self.background_mock: BackgroundMock = BackgroundMock()
+        self.background_mock: BackgroundProxy = BackgroundProxy()
         self.background_surface: Surface = self.background_mock.get_data()[0]
         self.background_coordinates: tuple[int, int] = self.background_mock.get_data()[1]
 

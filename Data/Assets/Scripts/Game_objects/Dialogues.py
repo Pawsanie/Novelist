@@ -2,7 +2,7 @@ from pygame import font, Surface
 
 from ..Application_layer.Assets_load import json_load, font_load
 from ..Universal_computing.Surface_size import surface_size
-from .Background import BackgroundMock
+from .Background import BackgroundProxy
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
@@ -23,7 +23,7 @@ class DialoguesWords(SingletonPattern):
         :param font_name: String with font file name.
         :type font_name: str | None
         """
-        self.background_surface: BackgroundMock = BackgroundMock()
+        self.background_surface: BackgroundProxy = BackgroundProxy()
         self.screen: Surface = SettingsKeeper().screen
         self.font_size: int = 0
         self.font_name: str = font_name

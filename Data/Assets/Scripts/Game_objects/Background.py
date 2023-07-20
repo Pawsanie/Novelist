@@ -76,8 +76,9 @@ def backgrounds_generator() -> dict[str, Background]:
     return result
 
 
-class BackgroundMock(Background, SingletonPattern):
+class BackgroundProxy(Background, SingletonPattern):
     """
+    Proxy Pattern object:
     Blank for images surface scale.
     """
     def __init__(self):

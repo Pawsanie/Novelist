@@ -4,7 +4,7 @@ from pygame import Surface, font, SRCALPHA, transform
 
 from ..Application_layer.Assets_load import json_load, font_load, image_load
 from ..Application_layer.Settings_Keeper import SettingsKeeper
-from ..Game_objects.Background import BackgroundMock
+from ..Game_objects.Background import BackgroundProxy
 font.init()
 """
 Contents code for menus text keeper.
@@ -47,7 +47,7 @@ class MenuText:
         :type menu_text_substrate: str | None
         """
         # Arguments processing:
-        self.background: BackgroundMock = BackgroundMock()
+        self.background: BackgroundProxy = BackgroundProxy()
         self.menu_name: str = menu_name
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.language_flag: str = self.settings_keeper.text_language
