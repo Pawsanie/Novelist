@@ -44,7 +44,7 @@ class Button:
     button_selected_color: tuple[int] = (100, 0, 0)
 
     def __init__(self, *, button_name: str, button_text: str | None, button_image_data: dict[str, int],
-                 button_text_localization_dict: dict[str]):
+                 button_text_localization_dict: dict[str], have_real_path: bool = False):
         """
         :param button_name: String with button image file name.
         :type button_name: str
@@ -55,6 +55,9 @@ class Button:
         :type button_image_data: dict[str, dict[str, int]]
         :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
         :type button_text_localization_dict: dict[str]
+        :param have_real_path: If this flag is True button_image_data['sprite_name'] will be real path to file.
+                               Is not file name.
+        :type have_real_path: bool
         """
         self.background: BackgroundProxy = BackgroundProxy()
         self.button_name: str = button_name
@@ -66,10 +69,18 @@ class Button:
         self.button_image_data: dict[str | int] = button_image_data
 
         # Generate button image:
-        self.button_sprite_standard: Surface = image_load(
-            art_name=str(self.button_image_data['sprite_name']),
-            file_format='png',
-            asset_type=path.join(*['User_Interface', 'Buttons']))
+        if have_real_path is False:
+            self.button_sprite_standard: Surface = image_load(
+                art_name=str(self.button_image_data['sprite_name']),
+                file_format='png',
+                asset_type=path.join(*['User_Interface', 'Buttons'])
+            )
+        else:  # TODO: Simplify this block...
+            self.button_sprite_standard: Surface = image_load(
+                art_name=str(self.button_image_data['sprite_name']),
+                file_format='png',
+                is_art_name_is_path=True
+            )
         self.button_sprite: Surface = self.button_sprite_standard
 
         # Generate button surface:

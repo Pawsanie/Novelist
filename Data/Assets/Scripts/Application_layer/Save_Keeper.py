@@ -3,6 +3,8 @@ import json
 from time import strftime, localtime, strptime
 import logging
 
+from pygame import image, transform, Surface
+
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
@@ -30,49 +32,73 @@ class SaveKeeper(SingletonPattern):
             .replace(path.join(
                 *['Assets', 'Scripts', 'Application_layer', 'Save_Keeper.py']
             ), '')
-        self.save_folder_path: str = path.join(*[script_root_path, 'Saves'])
+        self.save_folder_path: str = path.join(
+            *[script_root_path, 'Saves']
+        )
 
         # Saves collection:
-        self.saves_dict: dict | None = {}
-        self.save_buttons_collection: dict | None = None
+        self.saves_dict: dict = {}
+        self.save_buttons_collection: dict = {}
+        self.load_buttons_collection: dict = {}
+        self.save_load_collections: dict[str, dict[Button | None]] = {
+            "save": self.save_buttons_collection,
+            "load": self.load_buttons_collection
+        }
 
         # Save/Load buttons reference:
         self.save_buttons_reference: dict = self.interface_controller.buttons_dict['ui_save_menu_buttons']
         self.load_buttons_reference: dict = self.interface_controller.buttons_dict['ui_load_menu_buttons']
 
         self.reread: bool = True
+        self.button_image: str = "screen_preview"
+        self.autosave_name: str = "AutoSave"
 
-    def update_ui_buttons(self, menu_data: dict):
+    def update_ui_buttons(self, *, menu_data: dict, save_type: str):
         """
         Update menu`s buttons dict in 'InterfaceController.buttons_dict'.
         """
         if menu_data["menu_object"].status is True:
             menu_data["menu_buttons"] = menu_data["menu`s_buttons_reference"]
 
-            save_cell_buttons: dict = self.get_cell_buttons()
+            save_cell_buttons: dict = self.save_load_collections[save_type]
             for key, value in save_cell_buttons.items():
                 menu_data["menu_buttons"].setdefault(key, value)
 
-    def get_cell_buttons(self) -> dict[Button]:
+    def generate_cell_buttons(self):
         """
         Generate cell buttons for Save/Load UI.
         :return: dict[Button]
         """
-        # Button(
-        #     button_name=...,
-        #     button_text=...,
-        #     button_image_data=...,
-        #     button_text_localization_dict=...
-        # )
-
         if self.reread is True:
             self.saves_read()
 
         if self.saves_dict is None:
-            return {}
-        else:
             ...
-            return {}
+        else:
+            # If game was saved:
+            if len(self.saves_dict) > 0:
+                for save in self.saves_dict:
+                    save_data: dict = self.saves_dict[save]
+                    # Cells with save data:
+                    button_image_path: str = path.join(
+                        *[self.save_folder_path, save_data['file_name'], self.button_image]
+                    )
+                    for key, collection in self.save_load_collections.items():
+                        collection.setdefault(
+                            save_data['file_name'],
+                            Button(
+                                button_name=save_data['save_data']['date'],
+                                button_text=None,
+                                button_image_data={
+                                    'sprite_name': button_image_path,
+                                    'index_number': save_data['save_data']['save_cell'],
+                                    'type': key
+                                },
+                                button_text_localization_dict={},
+                                have_real_path=True
+                            )
+                        )
+                self.save_buttons_collection.pop(self.autosave_name)
 
     def generate_save_slots_buttons(self):
         """
@@ -95,8 +121,13 @@ class SaveKeeper(SingletonPattern):
             }
         }
 
-        for menu_data in ui_collection:
-            self.update_ui_buttons(ui_collection[menu_data])
+        self.generate_cell_buttons()
+
+        for save_type in ui_collection:
+            self.update_ui_buttons(
+                menu_data=ui_collection[save_type],
+                save_type=save_type
+            )
 
     def get_save_buttons_collection(self) -> dict | None:
         """
@@ -110,19 +141,42 @@ class SaveKeeper(SingletonPattern):
         """
         # Path settings:
         if auto_save is True:
-            save_name: str = "AutoSave"
+            save_name: str = self.autosave_name
         else:
             time_path_part: str = strftime("%Y-%m-%d_%H-%M-%S", localtime())
             save_name: str = f"save__{time_path_part}"
-        save_path: str = path.join(*[self.save_folder_path, save_name])
+
+        save_path: str = path.join(
+            *[self.save_folder_path, save_name]
+        )
+        save_file: str = path.join(
+            *[save_path, f"{save_name}.save"]
+        )
 
         # Saving game progress:
-        if path.exists(self.save_folder_path) is False:
-            makedirs(self.save_folder_path)
-        with open(save_path, 'w', encoding='utf-8') as file:
+        if path.exists(save_path) is False:
+            makedirs(save_path)
+        with open(save_file, 'w', encoding='utf-8') as file:
             file.write(
                self.get_game_progress_data_for_save(save_cell)
             )
+
+        # Saving game scene image preview:
+        x_screen_size: int = 720
+        y_screen_size: int = int(
+            self.settings_keeper.screen.get_height()
+            * (x_screen_size / self.settings_keeper.screen.get_width())
+        )
+        screen_preview: Surface = transform.scale(
+            surface=self.settings_keeper.screen,
+            size=(x_screen_size, y_screen_size)
+        )
+        image.save(
+            screen_preview,
+            path.join(
+                *[save_path, f"{self.button_image}.png"]
+            )
+        )
 
     def get_game_progress_data_for_save(self, save_cell: int) -> str:
         """
@@ -130,7 +184,7 @@ class SaveKeeper(SingletonPattern):
         """
         data_to_save: dict[str] = {
             "scene": self.scene_validator.scene,
-            "date": strftime("%Y:%m:%d:%H:%M:%S", localtime()),
+            "date": strftime("%Y-%m-%d_%H:%M:%S", localtime()),
             "save_cell": save_cell
         }
         return json.dumps(data_to_save, indent=4)
@@ -177,7 +231,8 @@ class SaveKeeper(SingletonPattern):
             self.saves_dict: None = None
             return
         # Check save path:
-        save_files: list[str] = walk(self.save_folder_path).__next__()[-1]
+        # Path`s names is parts of file names.
+        save_files: list[str] = walk(self.save_folder_path).__next__()[1]
         if len(save_files) == 0:
             self.saves_dict: None = None
             return
@@ -187,13 +242,13 @@ class SaveKeeper(SingletonPattern):
                 try:
                     with open(
                             path.join(
-                                *[self.save_folder_path, file]
+                                *[self.save_folder_path, file, f"{file}.save"]
                             ), 'r') as save_file:
                         # Generate save frame for save collection:
                         file_data: str = save_file.read()
                         save_data: dict = json.loads(file_data)
                         self.saves_dict.update({
-                            strptime(save_data['date'], "%Y:%m:%d:%H:%M:%S"): {
+                            strptime(save_data['date'], "%Y-%m-%d_%H:%M:%S"): {
                                 "file_name": file,
                                 "save_data": save_data
                             }
