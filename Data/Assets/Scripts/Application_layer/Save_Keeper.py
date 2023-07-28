@@ -56,6 +56,10 @@ class SaveKeeper(SingletonPattern):
     def update_ui_buttons(self, *, menu_data: dict, save_type: str):
         """
         Update menu`s buttons dict in 'InterfaceController.buttons_dict'.
+        :param menu_data: InterfaceController menu`s data.
+        :type menu_data: dict
+        :param save_type: Save | Load
+        :type save_type: str
         """
         if menu_data["menu_object"].status is True:
             menu_data["menu_buttons"] = menu_data["menu`s_buttons_reference"]
@@ -67,7 +71,6 @@ class SaveKeeper(SingletonPattern):
     def generate_cell_buttons(self):
         """
         Generate cell buttons for Save/Load UI.
-        :return: dict[Button]
         """
         if self.reread is True:
             self.saves_read()
@@ -128,12 +131,6 @@ class SaveKeeper(SingletonPattern):
                 menu_data=ui_collection[save_type],
                 save_type=save_type
             )
-
-    def get_save_buttons_collection(self) -> dict | None:
-        """
-        Get saves collection.
-        """
-        return self.save_buttons_collection
 
     def save(self, *, auto_save: bool = True, save_cell: int = 1):
         """
