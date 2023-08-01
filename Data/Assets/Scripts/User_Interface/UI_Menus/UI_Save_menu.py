@@ -28,8 +28,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
             if command == 'save_menu_save':
                 if self.selected_save_cell is not None:
                     self.save_keeper.save(
-                        auto_save=False,
-                        save_cell=self.selected_save_cell
+                        auto_save=False
                     )
                     self.selected_save_cell: None = None
                 self.save_keeper.reread = True

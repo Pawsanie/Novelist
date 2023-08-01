@@ -53,6 +53,8 @@ class SaveKeeper(SingletonPattern):
         self.button_image: str = "screen_preview"
         self.autosave_name: str = "AutoSave"
         self.button_type: str = "save_and_load_cell"
+        self.button_text_color: str = "#FFFFFF"
+        self.button_text_font: str | None = None
 
     def update_ui_buttons(self, *, menu_data: dict, save_type: str):
         """
@@ -134,16 +136,23 @@ class SaveKeeper(SingletonPattern):
                         *[self.save_folder_path, save_data['file_name'], self.button_image]
                     )
 
+                    if save_data['file_name'] == self.autosave_name:
+                        save_text: str = self.autosave_name
+                    else:
+                        save_text: str = save_data['save_data']['date']
+
                     save_cell_button: Button = Button(
                                 button_name=save_data['save_data']['date'],
-                                button_text=None,
+                                button_text=save_text,
                                 button_image_data={
                                     'sprite_name': button_image_path,
                                     'index_number': save_data['save_data']['save_cell'],
-                                    'type': self.button_type
+                                    'type': self.button_type,
+                                    'color': self.button_text_color,
+                                    'font': self.button_text_font
                                 },
-                                button_text_localization_dict={},
-                                have_real_path=True
+                                have_real_path=True,
+                                text_offset_y=3.2
                             )
 
                     for key, collection in self.save_load_collections.items():

@@ -49,30 +49,50 @@ class Button:
     # Tuple with RBG for button select render:
     button_selected_color: tuple[int] = (100, 0, 0)
 
-    def __init__(self, *, button_name: str, button_text: str | None, button_image_data: dict[str, int],
-                 button_text_localization_dict: dict[str], have_real_path: bool = False):
+    def __init__(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],
+                 button_text_localization_dict: dict[str] | None = None, have_real_path: bool = False,
+                 text_offset_x: int | float | None = None, text_offset_y: int | float | None = None):
         """
         :param button_name: String with button image file name.
         :type button_name: str
         :param button_text: String with text of button.
+                            None by default.
         :type button_text: str | None
         :param button_image_data: Nested dictionary with button name as key and dictionary with button type,
                                   index order position and sprite name as values.
         :type button_image_data: dict[str, dict[str, int]]
         :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
-        :type button_text_localization_dict: dict[str]
+                                              If this parameter is set to 'None', no localization occurs.
+                                              None by default.
+        :type button_text_localization_dict: dict[str] | None
         :param have_real_path: If this flag is True button_image_data['sprite_name'] will be real path to file.
                                Is not file name.
         :type have_real_path: bool
+        :param text_offset_x: Offset of the text inside the button, along the X axis.
+                              If set to None, then there will be no offset.
+                              The factor to multiply by the parameter is 1/10 of the button size.
+                              left -0 | Right +0
+                              None by default.
+        :type text_offset_x: int | float | None
+        :param text_offset_y: Offset of the text inside the button, along the Y axis.
+                              If set to None, then there will be no offset.
+                              The factor to multiply by the parameter is 1/10 of the button size.
+                              Up -0 | Down +0
+                              None by default.
+        :type text_offset_y: int | float | None
         """
         self.background: BackgroundProxy = BackgroundProxy()
         self.button_name: str = button_name
         self.button_text: str | None = button_text
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.language_flag: str = self.settings_keeper.text_language
-        self.button_text_localization_dict: dict[str] = button_text_localization_dict
-        self.localization_button_text()
+        self.button_text_localization_dict: dict[str] | None = button_text_localization_dict
+        if self.button_text_localization_dict is not None:
+            self.localization_button_text()
         self.button_image_data: dict[str | int] = button_image_data
+
+        self.text_offset_x: int | float = text_offset_x
+        self.text_offset_y: int | float = text_offset_y
 
         # Generate button image:
         if have_real_path is False:
@@ -377,23 +397,64 @@ class Button:
         Generate text on button if it's necessary.
         """
         # Localization button text:
-        self.localization_button_text()
+        if self.button_text_localization_dict is not None:
+            self.localization_button_text()
+
         self.font_size: int = self.background.get_data()[0].get_height() // 50
 
         # Font reload for size scale:
         if self.font_name is None:
-            self.set_button_font: font.Font = font.Font(font.get_default_font(), self.font_size)
+            self.set_button_font: font.Font = font.Font(
+                font.get_default_font(),
+                self.font_size
+            )
         else:
-            self.set_button_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
+            self.set_button_font: font.Font = font_load(
+                font_name=self.font_name,
+                font_size=self.font_size
+            )
         text_surface: Surface = self.set_button_font.render(self.button_text, True, self.text_color)
 
         # Button text coordinates:
-        button_text_coordinates: tuple[int, int] = (
-            (self.button_surface.get_width() // 2) - (text_surface.get_width() // 2),
-            (self.button_surface.get_height() // 2) - (text_surface.get_height() // 2)
-        )
+        button_text_coordinates: tuple[int, int] = self.button_text_coordinates(text_surface)
         # Button text render:
         self.button_sprite.blit(text_surface, button_text_coordinates)
+
+    def button_text_coordinates(self, text_surface: Surface) -> tuple[int, int]:
+        """
+        Calculates the coordinates of the text on the button sprite.
+        :param text_surface: Text Surface.
+        :type text_surface: Surface
+        :return: tuple[int, int]
+        """
+        if self.text_offset_x is None and self.text_offset_y is None:
+            result: tuple[int, int] = (
+                (self.button_surface.get_width() // 2) - (text_surface.get_width() // 2),
+                (self.button_surface.get_height() // 2) - (text_surface.get_height() // 2)
+            )
+        else:
+            if self.text_offset_x is None:
+                text_offset_x: int = 0
+            else:
+                text_offset_x: int = self.text_offset_x
+            if self.text_offset_y is None:
+                text_offset_y: int = 0
+            else:
+                text_offset_y: int = self.text_offset_y
+
+            result: tuple[int, int] = (
+                int(
+                 (self.button_surface.get_width() // 2)
+                 - (text_surface.get_width() // 2)
+                 + ((self.button_surface.get_width() // 10) * text_offset_x)
+                ),
+                int(
+                    (self.button_surface.get_height() // 2)
+                    - (text_surface.get_height() // 2)
+                    + ((self.button_surface.get_height() // 10) * text_offset_y)
+                )
+            )
+        return result
 
     def button_cursor_position_status(self) -> bool:
         """
@@ -443,7 +504,7 @@ def button_generator() -> dict[str, dict[str, Button]]:
     Generate dict with buttons for user interface.
     Used by InterfaceController.
 
-    :return: A nested dictionary of buttons group and an instance of the Button class.
+    :return: A nested dictionary of button`s group and an instance of the Button class.
     """
     language_flag: str = SettingsKeeper().text_language
     result: dict = {}
