@@ -21,23 +21,29 @@ class Button:
     Instances are created from button_generator function by InterfaceController class.
     """
     # Interface collections:
-    yes_no_menus: list[str] = [
+    yes_no_menus: tuple[str] = [
         'exit_menu',
         'settings_status_menu',
         'back_to_start_menu_status_menu'
     ]
-    long_buttons_menus: list[str] = [
+    long_buttons_menus: tuple[str] = [
         'game_menu',
         'settings_menu',
         'start_menu',
         'creators_menu'
     ]
-    save_load_menus: list[str] = [
+    save_load_menus: tuple[str] = [
         'save_menu',
         'load_menu',
     ]
-    save_and_load_cell: list[str] = [
+    save_and_load_cell: tuple[str] = [
         'save_and_load_cell'
+    ]
+    gameplay_ui: tuple[str] = [
+        'gameplay_ui'
+    ]
+    gameplay_dialogues_choice: tuple[str] = [
+        'gameplay_dialogues_choice'
     ]
 
     # Tuple with RBG for button select render:
@@ -146,7 +152,9 @@ class Button:
         # Button ready to be pressed:
         else:
             # Mask settings:
-            screen_mask: Surface = Surface([self.button_surface.get_width(), self.button_surface.get_height()])
+            screen_mask: Surface = Surface(
+                [self.button_surface.get_width(), self.button_surface.get_height()]
+            )
             screen_mask.fill(self.button_selected_color)
             screen_mask.set_alpha(150)
             # Button render:
@@ -231,6 +239,30 @@ class Button:
         )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
+    def menu_save_and_load_cell_coordinates(self):
+        """
+        Coordinates for save menu and load menu Save Cells buttons.
+        """
+        row, column = self.button_image_data['index_number']
+        background_x, background_y = self.background_surface_size()
+
+        # X:
+        button_coordinates_x: int = int(
+            + (background_x // 4)
+            + ((self.button_size[0] * 1.5) * column)
+            - (self.button_size[0] // 2)
+            - (self.button_size[0] * 2)
+        )
+        # Y:
+        button_coordinates_y: int = int(
+                + (background_y // 3)
+                + ((self.button_size[1] * 1.5) * row)
+                - (self.button_size[1] // 2)
+                - (self.button_size[1] * 2)
+        )
+
+        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+
     def gameplay_dialogues_choice_coordinates(self, *, multiplier: int = 2):
         """
         Coordinates for gameplay dialogues choice buttons.
@@ -307,11 +339,11 @@ class Button:
         """
         menu_type: str = self.button_image_data['type']
 
-        if menu_type == 'gameplay_ui':
+        if menu_type in self.gameplay_ui:
             self.gameplay_reading_coordinates()
             return
 
-        if menu_type == 'gameplay_dialogues_choice':
+        if menu_type in self.gameplay_dialogues_choice:
             self.gameplay_dialogues_choice_coordinates()
             return
 
@@ -325,6 +357,10 @@ class Button:
 
         if menu_type in self.save_load_menus:
             self.menu_save_and_load_coordinates()
+            return
+
+        if menu_type in self.save_and_load_cell:
+            self.menu_save_and_load_cell_coordinates()
             return
 
     def localization_button_text(self):

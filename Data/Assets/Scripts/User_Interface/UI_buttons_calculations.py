@@ -66,6 +66,22 @@ def dialogue_button_size(background_size_x, background_size_y):
     return x_size, y_size
 
 
+def save_load_cell_button_size(background_size_x, background_size_y):
+    """
+    Calculate save|load cells button size.
+
+    :param background_size_x: surface_size result.
+    :type background_size_x: int
+    :param background_size_y: surface_size result.
+    :type background_size_y: int
+    """
+    # X:
+    x_size: int = int(background_size_x / 100 * 15)
+    # Y:
+    y_size: int = int(background_size_y / 100 * 15)
+    return x_size, y_size
+
+
 def button_size(*, place_flag, background_surface) -> tuple[int, int]:
     """
     Calculate button size.
@@ -90,5 +106,8 @@ def button_size(*, place_flag, background_surface) -> tuple[int, int]:
 
     if place_flag == 'gameplay_dialogues_choice':
         x_size, y_size = dialogue_button_size(background_size_x, background_size_y)
+
+    if place_flag == 'save_and_load_cell':
+        x_size, y_size = save_load_cell_button_size(background_size_x, background_size_y)
 
     return x_size, y_size
