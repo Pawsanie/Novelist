@@ -56,7 +56,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
                             self.selected_scene_name
                         )
                         self.selected_save_cell: None = None
-                    self.save_keeper.reread = True
+                        self.save_keeper.reread = True
 
             elif command == 'load_menu_back':
                 self.status: bool = False

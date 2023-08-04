@@ -14,7 +14,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
         super(SaveMenu, self).__init__()
         self.save_keeper: SaveKeeper = SaveKeeper()
         self.selected_save_cell: int | None = None
-        self.selected_scene_name: str = ''
+        self.selected_scene_name: None = None
         self.menu_page: int = 1
 
     def vanish_menu_data(self):
@@ -22,7 +22,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
         Back menu to base state.
         """
         self.selected_save_cell: None = None
-        self.selected_scene_name: str = ''
+        self.selected_scene_name: None = None
         self.menu_page: int = 1
 
     def input_mouse(self, event):
@@ -37,11 +37,14 @@ class SaveMenu(BaseMenu, SingletonPattern):
 
             if command == 'save_menu_save':
                 if self.selected_save_cell is not None:
-                    self.save_keeper.save(
-                        auto_save=False
-                    )
-                    self.selected_save_cell: None = None
-                self.save_keeper.reread = True
+                    if self.selected_scene_name is not None:
+                        self.save_keeper.save(
+                            auto_save=False
+                        )
+                        self.selected_save_cell: None = None
+                        self.save_keeper.reread = True
+                        self.status: bool = False
+                        self.interface_controller.gameplay_interface_status = True
 
             elif command == 'save_menu_back':
                 self.status: bool = False
@@ -50,5 +53,8 @@ class SaveMenu(BaseMenu, SingletonPattern):
 
             else:
                 get_save_slot_data: dict = self.save_keeper.get_save_slot_data(command)
-                self.selected_scene_name: str = get_save_slot_data['scene']
+                try:
+                    self.selected_scene_name: str = get_save_slot_data['scene']
+                except KeyError:
+                    pass
                 self.selected_save_cell: list[int] = get_save_slot_data['save_cell']
