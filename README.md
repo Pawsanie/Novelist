@@ -568,6 +568,31 @@ The program creates a log file and writes messages about critical problems to it
 **./**:open_file_folder:Data<br>
    └── :page_facing_up:logg_file.txt
 
+## Save and Load system:
+Game saves are located in the Saves folder.<br>
+The game save is a subfolder with a simple json file marked as 'save' format and a png image.<br>
+Please note that the subfolder and the save file **must have the same name**.<br>
+**Files locations:**<br>
+**./**:open_file_folder:Data<br>
+   └── :file_folder:Saves<br>
+            └── :file_folder:AutoSave<br>
+                     ├── :page_facing_up:AutoSave.save<br>
+                     └── :page_facing_up:screen_preview.png<br>
+**Example of 'AutoSave.save' file:**
+```json
+{
+    "scene": "test_scene_03",
+    "date": "2023-08-01_19:05:15"
+}
+```
+The **SaveKeeper** class from '**Save_Keeper.py**' file is responsible for working with saves.<br>
+**File location:**<br>
+**./**:open_file_folder:Data<br>
+   ├── :page_facing_up:Visual_novel_game.py<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Scripts<br>
+                     └── :file_folder:Application_layer<br>
+                              └─── :page_facing_up:Save_Keeper.py<br>
 
 # What needs to be completed:
 ### Settings Menu:
