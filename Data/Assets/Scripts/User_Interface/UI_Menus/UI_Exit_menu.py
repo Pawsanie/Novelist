@@ -19,9 +19,11 @@ class ExitMenu(BaseMenu, SingletonPattern):
         Back from exit menu.
         """
         self.status: bool = False
+
         if self.interface_controller.start_menu_flag is True:
             from .UI_Start_menu import StartMenu
             StartMenu().status = True
+
         if self.interface_controller.start_menu_flag is False:
             from .UI_Game_menu import GameMenu
             GameMenu().status = True
@@ -35,9 +37,11 @@ class ExitMenu(BaseMenu, SingletonPattern):
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
+
             if command == 'exit_menu_yes':
                 quit()
                 exit(0)
+
             if command == 'exit_menu_no':
                 self.exit_menu_back()
 

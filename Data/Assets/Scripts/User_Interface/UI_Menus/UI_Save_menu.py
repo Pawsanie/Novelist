@@ -14,6 +14,16 @@ class SaveMenu(BaseMenu, SingletonPattern):
         super(SaveMenu, self).__init__()
         self.save_keeper: SaveKeeper = SaveKeeper()
         self.selected_save_cell: int | None = None
+        self.selected_scene_name: str = ''
+        self.menu_page: int = 1
+
+    def vanish_menu_data(self):
+        """
+        Back menu to base state.
+        """
+        self.selected_save_cell: None = None
+        self.selected_scene_name: str = ''
+        self.menu_page: int = 1
 
     def input_mouse(self, event):
         """
@@ -33,7 +43,12 @@ class SaveMenu(BaseMenu, SingletonPattern):
                     self.selected_save_cell: None = None
                 self.save_keeper.reread = True
 
-            if command == 'save_menu_back':
+            elif command == 'save_menu_back':
                 self.status: bool = False
                 from .UI_Game_menu import GameMenu
                 GameMenu().status = True
+
+            else:
+                get_save_slot_data: dict = self.save_keeper.get_save_slot_data(command)
+                self.selected_scene_name: str = get_save_slot_data['scene']
+                self.selected_save_cell: list[int] = get_save_slot_data['save_cell']

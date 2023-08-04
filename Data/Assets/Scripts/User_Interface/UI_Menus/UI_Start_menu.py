@@ -38,25 +38,32 @@ class StartMenu(BaseMenu, SingletonPattern):
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
+
             if command == 'start_menu_new_game':
                 self.start_game('scene_01')  # 'scene_01' as default!
+
             if command == 'start_menu_continue':
                 self.start_game(
                     self.save_keeper.continue_game()
                 )
+
             if command == 'start_menu_load':
                 from .UI_Load_menu import LoadMenu
                 self.status: bool = False
                 LoadMenu().status = True
+                LoadMenu().vanish_menu_data()
                 self.save_keeper.generate_save_slots_buttons()
+
             if command == 'start_menu_settings':
                 from .UI_Settings_menu import SettingsMenu
                 self.status: bool = False
                 SettingsMenu().status = True
+
             if command == 'start_menu_creators':
                 from .UI_Creators_menu import CreatorsMenu
                 self.status: bool = False
                 CreatorsMenu().status = True
+
             if command == 'start_menu_exit':
                 from .UI_Exit_menu import ExitMenu
                 self.status: bool = False

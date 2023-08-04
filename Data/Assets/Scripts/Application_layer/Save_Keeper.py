@@ -42,7 +42,7 @@ class SaveKeeper(SingletonPattern):
         )
 
         # Saves collection:
-        self.saves_dict: dict | None = None
+        self.saves_dict: dict = {}
         self.save_buttons_collection: dict = {}
         self.load_buttons_collection: dict = {}
         self.save_load_collections: dict[str, dict[Button | None]] = {
@@ -79,7 +79,8 @@ class SaveKeeper(SingletonPattern):
 
             save_cell_buttons: dict = self.save_load_collections[save_type]
             for key, value in save_cell_buttons.items():
-                menu_data["menu_buttons"].setdefault(key, value)
+                if value['save_page'] == menu_data["menu_object"].menu_page:
+                    menu_data["menu_buttons"].setdefault(key, value['button'])
 
     def save_cells_sort(self):
         """
@@ -125,7 +126,7 @@ class SaveKeeper(SingletonPattern):
                         row_number,
                         column_number
                     ]
-                    value['save_page']: int = save_cell_page
+                value['save_data']['save_page']: int = save_cell_page
 
     def enrichment_of_game_saves(self):
         """
@@ -158,10 +159,10 @@ class SaveKeeper(SingletonPattern):
         """
         Generate cell buttons for Save/Load UI.
         """
+        if len(self.saves_dict) != 0:
+            return
         if self.reread is True:
             self.saves_read()
-        if self.saves_dict is None:  # TODO: Change value to dict in all methods.
-            self.saves_dict: dict = {}
 
         self.enrichment_of_game_saves()
         self.save_cells_sort()
@@ -202,7 +203,10 @@ class SaveKeeper(SingletonPattern):
             for key, collection in self.save_load_collections.items():
                 collection.setdefault(
                     save_data['file_name'],
-                    save_cell_button
+                    {
+                        'button': save_cell_button,
+                        'save_page': save_data['save_data']['save_page']
+                    }
                 )
 
         # Drop AutoSave from Save Menu buttons:
@@ -299,7 +303,7 @@ class SaveKeeper(SingletonPattern):
                  Or False if save file was corrupted.
         """
         self.saves_read()
-        if self.saves_dict is None or len(self.saves_dict) == 0:
+        if len(self.saves_dict) == 0:
             return 'scene_01'
         else:
             last_save: list[str] = sorted(self.saves_dict.keys(), reverse=True)
@@ -323,22 +327,28 @@ class SaveKeeper(SingletonPattern):
                     ))
                 return False
 
+    def vanish_game_collections(self):
+        """
+        Vanish save collections for save reading.
+        """
+        self.saves_dict.clear()
+        self.save_buttons_collection.clear()
+        self.load_buttons_collection.clear()
+
     def saves_read(self):
         """
         Read save directory.
         """
         # Save path dos not exist:
         if path.exists(self.save_folder_path) is False:
-            self.saves_dict: None = None
             return
         # Check save path:
         # Path`s names is parts of file names.
         save_files: list[str] = walk(self.save_folder_path).__next__()[1]
         if len(save_files) == 0:
-            self.saves_dict: None = None
             return
         else:
-            self.saves_dict: dict = {}
+            self.vanish_game_collections()
             for file in save_files:
                 try:
                     with open(
@@ -374,3 +384,11 @@ class SaveKeeper(SingletonPattern):
                     ))
 
         self.reread: bool = False
+
+    def get_save_slot_data(self, slot_name):
+        """
+        Get save slot data.
+        """
+        for save in self.saves_dict.values():
+            if save['file_name'] == slot_name:
+                return save['save_data']
