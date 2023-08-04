@@ -13,6 +13,7 @@ from .Settings_Keeper import SettingsKeeper
 from .Scene_Validator import SceneValidator
 from ..Logging_Config import text_for_logging
 from ..User_Interface.UI_Button import Button
+from ..Render.Render import Render
 """
 Contend code for save/load system.
 """
@@ -28,6 +29,7 @@ class SaveKeeper(SingletonPattern):
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.scene_validator: SceneValidator = SceneValidator()
         self.interface_controller: InterfaceController = InterfaceController()
+        self.render: Render = Render()
 
         # Path settings:
         script_root_path: str = path.abspath(__file__) \
@@ -51,8 +53,12 @@ class SaveKeeper(SingletonPattern):
         }
 
         # Save/Load buttons reference:
-        self.save_buttons_reference: dict = self.interface_controller.buttons_dict['ui_save_menu_buttons']
-        self.load_buttons_reference: dict = self.interface_controller.buttons_dict['ui_load_menu_buttons']
+        self.save_buttons_reference: dict = self.deep_copy_alternative(
+            self.interface_controller.buttons_dict['ui_save_menu_buttons']
+        )
+        self.load_buttons_reference: dict = self.deep_copy_alternative(
+            self.interface_controller.buttons_dict['ui_load_menu_buttons']
+        )
 
         # SaveKeeper settings:
         self.reread: bool = True
@@ -65,6 +71,20 @@ class SaveKeeper(SingletonPattern):
         self.save_cells_count: int = 12
         self.empty_cell: str = "Empty Slot"
         self.empty_time: str = "0001-01-01_00:00:00"
+
+    @staticmethod
+    def deep_copy_alternative(interesting_data: dict) -> dict:
+        """
+        Alternative for dict deepcopy, because it cant works with pygame.
+        :param interesting_data: Dict with menus data.
+        :type interesting_data: dict
+        """
+        result: dict = {}
+        for key, value in interesting_data.items():
+            result.update(
+                {key: value}
+            )
+        return result
 
     def update_ui_buttons(self, *, menu_data: dict, save_type: str):
         """
@@ -159,10 +179,11 @@ class SaveKeeper(SingletonPattern):
         """
         Generate cell buttons for Save/Load UI.
         """
-        if len(self.saves_dict) != 0:
-            return
         if self.reread is True:
             self.saves_read()
+        else:
+            if len(self.saves_dict) != 0:
+                return
 
         self.enrichment_of_game_saves()
         self.save_cells_sort()
@@ -274,7 +295,7 @@ class SaveKeeper(SingletonPattern):
             * (x_screen_size / self.settings_keeper.screen.get_width())
         )
         screen_preview: Surface = transform.scale(
-            surface=self.settings_keeper.screen,
+            surface=self.render.save_screen,
             size=(x_screen_size, y_screen_size)
         )
         image.save(
@@ -289,7 +310,7 @@ class SaveKeeper(SingletonPattern):
         Get progress data for save it like json in file.
         """
         data_to_save: dict[str] = {
-            "scene": self.scene_validator.scene,
+            "scene": self.scene_validator.scene_flag,
             "date": strftime("%Y-%m-%d_%H:%M:%S", localtime())
         }
         return json.dumps(data_to_save, indent=4)
@@ -331,6 +352,9 @@ class SaveKeeper(SingletonPattern):
         """
         Vanish save collections for save reading.
         """
+        self.interface_controller.buttons_dict['ui_save_menu_buttons'] = self.save_buttons_reference
+        self.interface_controller.buttons_dict['ui_load_menu_buttons'] = self.load_buttons_reference
+
         self.saves_dict.clear()
         self.save_buttons_collection.clear()
         self.load_buttons_collection.clear()

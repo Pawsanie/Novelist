@@ -42,9 +42,10 @@ class SaveMenu(BaseMenu, SingletonPattern):
                             auto_save=False
                         )
                         self.selected_save_cell: None = None
-                        self.save_keeper.reread = True
                         self.status: bool = False
                         self.interface_controller.gameplay_interface_status = True
+                        self.save_keeper.reread = True
+                        self.save_keeper.generate_save_slots_buttons()
 
             elif command == 'save_menu_back':
                 self.status: bool = False

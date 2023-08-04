@@ -27,6 +27,7 @@ class Render(SingletonPattern):
         self.sprite_collection: list = []
 
         self.reset: bool = True
+        self.save_screen: Surface = self.settings_keeper.screen
 
     def screen_clear(self):
         """
@@ -71,6 +72,17 @@ class Render(SingletonPattern):
                 self.batch_collection.append(
                     self.interface_controller.generate_menus_batch()
                 )
+
+    def save_screen_prepare(self):
+        """
+        Collect screen for game save.
+        """
+        from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
+
+        if self.interface_controller.gameplay_type_reading is True \
+                and self.interface_controller.menu_name is None\
+                and GameMenu().status is False:
+            self.save_screen: Surface = self.settings_keeper.screen.convert()
 
     def layers_initialization(self):
         """
@@ -129,3 +141,4 @@ class Render(SingletonPattern):
 
         # Flip all surfaces:
         display.update()
+        self.save_screen_prepare()

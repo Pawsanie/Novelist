@@ -26,6 +26,7 @@ class GameMaster:
         self.scene_validator: SceneValidator = SceneValidator()
         # Interface Controller settings:
         self.interface_controller: InterfaceController = InterfaceController()
+        self.interface_controller.menu_name = 'start_menu'
         # Render settings:
         self.render: Render = Render()
         # User input commands processing:
