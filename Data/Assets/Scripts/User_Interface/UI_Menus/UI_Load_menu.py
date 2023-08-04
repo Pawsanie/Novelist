@@ -14,7 +14,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
         super(LoadMenu, self).__init__()
         self.save_keeper: SaveKeeper = SaveKeeper()
         self.selected_save_cell: list[int] | None = None
-        self.selected_scene_name: str = ''
+        self.selected_scene_name: str | None = None
         self.menu_page: int = 1
 
     def vanish_menu_data(self):
@@ -22,7 +22,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
         Back menu to base state.
         """
         self.selected_save_cell: None = None
-        self.selected_scene_name: str = ''
+        self.selected_scene_name: None = None
         self.menu_page: int = 1
 
     def start_game(self, scene_name: str):
@@ -51,11 +51,12 @@ class LoadMenu(BaseMenu, SingletonPattern):
 
             if command == 'load_menu_load':
                 if self.selected_save_cell is not None:
-                    self.start_game(
-                        self.selected_scene_name
-                    )
-                    self.selected_save_cell: None = None
-                self.save_keeper.reread = True
+                    if self.selected_scene_name is not None:
+                        self.start_game(
+                            self.selected_scene_name
+                        )
+                        self.selected_save_cell: None = None
+                    self.save_keeper.reread = True
 
             elif command == 'load_menu_back':
                 self.status: bool = False
@@ -68,5 +69,8 @@ class LoadMenu(BaseMenu, SingletonPattern):
 
             else:
                 get_save_slot_data: dict = self.save_keeper.get_save_slot_data(command)
-                self.selected_scene_name: str = get_save_slot_data['scene']
+                try:
+                    self.selected_scene_name: str = get_save_slot_data['scene']
+                except KeyError:
+                    pass
                 self.selected_save_cell: list[int] = get_save_slot_data['save_cell']
