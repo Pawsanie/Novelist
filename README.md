@@ -569,7 +569,7 @@ The program creates a log file and writes messages about critical problems to it
    └── :page_facing_up:logg_file.txt
 
 ## Save and Load system:
-Game saves are located in the Saves folder.<br>
+Game saves are located in the 'Saves' folder.<br>
 The game save is a subfolder with a simple json file marked as 'save' format and a png image.<br>
 Please note that the subfolder and the save file **must have the same name**.<br>
 **Files locations:**<br>
