@@ -9,11 +9,6 @@ As well as not wanting to learn RenPy scripting language.
 In addition, writing your own game, almost from scratch, is quite interesting.
 
 :warning:The code probably needs some light refactoring.:warning: <br>
-In addition, for my purposes, I decided to replace the [Pygame](https://github.com/pygame/pygame) with [Pyglet](https://github.com/pyglet/pyglet). <br>
-And, I may change the approach to the application architecture by replacing one facade with MVC.
-
-In this regard, I decided to leave the implementation on Pygame as it is. <br>
-So that people who want to get acquainted with Pygame can see how applications are written on classes with a ready-made implementation of working with assets.<br>
 :warning:Please note that some non-game features are not fully implemented.:warning:
 
 ## Disclaimer:
@@ -38,19 +33,10 @@ The application code is written in python and obviously depends on it.<br>
 Used to create windows, surfaces and draw them on top of each other.<br>
 Also for flipping the screen and drawing the window icon.
 
-**OpenCV** [3-clause BSD / Apache 2 (after 4.5 version OpenCV)]:
-* :octocat:[OpenCV GitHub](https://github.com/opencv/opencv)
-* :bookmark_tabs:[OpenCV internet page](https://opencv.org/)
-
-Used to cut video into frames and determine the number of frames in the video.<br>
-:warning:Currently not implemented.<br>
-But this is one of the possible implementation options.<br>
-As an option, I considered [moviepy](https://github.com/Zulko/moviepy).
 
 ## Installing the Required Packages:
 ```bash
 pip install pygame
-pip install opencv-python
 ```
 
 ## How to run the application:
@@ -590,12 +576,8 @@ It must be used for business logic that will work in the menu.<br>
 The **'SettingsMenu'** class and its menu can be used as an external wrapper, or modified.<br>
 I planned to use it as a wrapper and make a separate menu for each type of setting.
 
-### Save-Load system:
-There is a **'SaveKeeper'** class. It is responsible for loading and saving.<br>
-As you may have noticed, there are menus for loading and saving game states.<br>
-Someday I plan to draw a beautiful interface for them.<br>
-And create a business logic that will be responsible for loading and saving.<br>
-Until I did, for your projects you will have to implement this yourself.
+### Sound system:
+At the moment, working with sound in the application is not implemented.
 
 # Known Bugs:
 
