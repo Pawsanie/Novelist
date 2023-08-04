@@ -1,7 +1,9 @@
-from os import path, walk, makedirs
+from os import path, walk, makedirs, sep
 import json
-from time import strftime, localtime, strptime
+from time import strftime, localtime, strptime, struct_time
+from datetime import datetime, timedelta
 import logging
+from math import ceil
 
 from pygame import image, transform, Surface
 
@@ -35,6 +37,9 @@ class SaveKeeper(SingletonPattern):
         self.save_folder_path: str = path.join(
             *[script_root_path, 'Saves']
         )
+        self.save_and_load_ui_path: str = path.join(
+            *[script_root_path, "Assets", "Images", "User_Interface", "Save_System"]
+        )
 
         # Saves collection:
         self.saves_dict: dict | None = None
@@ -49,12 +54,17 @@ class SaveKeeper(SingletonPattern):
         self.save_buttons_reference: dict = self.interface_controller.buttons_dict['ui_save_menu_buttons']
         self.load_buttons_reference: dict = self.interface_controller.buttons_dict['ui_load_menu_buttons']
 
+        # SaveKeeper settings:
         self.reread: bool = True
         self.button_image: str = "screen_preview"
+        self.screen_preview_empty_image: str = "screen_preview_empty"
         self.autosave_name: str = "AutoSave"
         self.button_type: str = "save_and_load_cell"
         self.button_text_color: str = "#FFFFFF"
         self.button_text_font: str | None = None
+        self.save_cells_count: int = 12
+        self.empty_cell: str = "Empty Slot"
+        self.empty_time: str = "0001-01-01_00:00:00"
 
     def update_ui_buttons(self, *, menu_data: dict, save_type: str):
         """
@@ -79,7 +89,8 @@ class SaveKeeper(SingletonPattern):
             self.saves_dict = dict(
                 sorted(
                     self.saves_dict.items(),
-                    key=lambda item: item[0]
+                    key=lambda item: item[0],
+                    reverse=True
                 )
             )
 
@@ -103,6 +114,7 @@ class SaveKeeper(SingletonPattern):
                     if column_number == 5:
                         column_number: int = 1
                         row_counter += 1
+                        row_number += 1
                     if row_counter == 5:
                         row_counter: int = 0
                         row_number += 1
@@ -115,54 +127,86 @@ class SaveKeeper(SingletonPattern):
                     ]
                     value['save_page']: int = save_cell_page
 
+    def enrichment_of_game_saves(self):
+        """
+        Enrichment game save`s collection with empty cells.
+        """
+        if len(self.saves_dict) % self.save_cells_count == 0:
+            return
+
+        close_value: int = (
+                ceil(len(self.saves_dict) / self.save_cells_count)
+                * self.save_cells_count
+        )
+        enrichment_count: int = close_value - len(self.saves_dict)
+
+        time_stamp: datetime = datetime.strptime(self.empty_time, "%Y-%m-%d_%H:%M:%S")
+        for number in range(enrichment_count):
+            time_stamp: datetime = time_stamp + timedelta(seconds=1)
+            key_name: struct_time = datetime.timetuple(time_stamp)
+
+            self.saves_dict.update(
+                {
+                    key_name: {
+                        "file_name": self.empty_cell,
+                        "save_data": {'date': strftime("%Y-%m-%d_%H:%M:%S", key_name)}
+                    }
+                }
+            )
+
     def generate_cell_buttons(self):
         """
         Generate cell buttons for Save/Load UI.
         """
         if self.reread is True:
             self.saves_read()
+        if self.saves_dict is None:  # TODO: Change value to dict in all methods.
+            self.saves_dict: dict = {}
 
-        if self.saves_dict is None:
-            ...
-        else:
-            # If game was saved:
-            if len(self.saves_dict) > 0:
-                self.save_cells_sort()
-                for save in self.saves_dict:
-                    save_data: dict = self.saves_dict[save]
+        self.enrichment_of_game_saves()
+        self.save_cells_sort()
 
-                    # Cells with save data:
-                    button_image_path: str = path.join(
-                        *[self.save_folder_path, save_data['file_name'], self.button_image]
+        for save in self.saves_dict:
+            save_data: dict = self.saves_dict[save]
+            text_offset_y: float = 3.2
+
+            # Cells with save data:
+            button_image_path: str = path.join(
+                *[self.save_folder_path, save_data['file_name'], self.button_image]
+            )
+
+            if save_data['file_name'] == self.autosave_name:
+                save_text: str = self.autosave_name
+            elif save_data['file_name'] == self.empty_cell:
+                save_text: str = self.empty_cell
+                button_image_path: str = f"{self.save_and_load_ui_path}{sep}{self.screen_preview_empty_image}"
+                text_offset_y: None = None
+                save_data['file_name']: str = save_data['save_data']['date']
+            else:
+                save_text: str = save_data['save_data']['date']
+
+            save_cell_button: Button = Button(
+                        button_name=save_data['save_data']['date'],
+                        button_text=save_text,
+                        button_image_data={
+                            'sprite_name': button_image_path,
+                            'index_number': save_data['save_data']['save_cell'],
+                            'type': self.button_type,
+                            'color': self.button_text_color,
+                            'font': self.button_text_font
+                        },
+                        have_real_path=True,
+                        text_offset_y=text_offset_y
                     )
 
-                    if save_data['file_name'] == self.autosave_name:
-                        save_text: str = self.autosave_name
-                    else:
-                        save_text: str = save_data['save_data']['date']
+            for key, collection in self.save_load_collections.items():
+                collection.setdefault(
+                    save_data['file_name'],
+                    save_cell_button
+                )
 
-                    save_cell_button: Button = Button(
-                                button_name=save_data['save_data']['date'],
-                                button_text=save_text,
-                                button_image_data={
-                                    'sprite_name': button_image_path,
-                                    'index_number': save_data['save_data']['save_cell'],
-                                    'type': self.button_type,
-                                    'color': self.button_text_color,
-                                    'font': self.button_text_font
-                                },
-                                have_real_path=True,
-                                text_offset_y=3.2
-                            )
-
-                    for key, collection in self.save_load_collections.items():
-                        collection.setdefault(
-                            save_data['file_name'],
-                            save_cell_button
-                        )
-
-                # Drop AutoSave from Save Menu buttons:
-                self.save_buttons_collection.pop(self.autosave_name)
+        # Drop AutoSave from Save Menu buttons:
+        self.save_buttons_collection.pop(self.autosave_name)
 
     def generate_save_slots_buttons(self):
         """
