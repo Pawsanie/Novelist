@@ -588,7 +588,6 @@ Please note that the subfolder and the save file **must have the same name**.<br
 The **SaveKeeper** class from '**Save_Keeper.py**' file is responsible for working with saves.<br>
 **File location:**<br>
 **./**:open_file_folder:Data<br>
-   ├── :page_facing_up:Visual_novel_game.py<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Application_layer<br>
