@@ -16,6 +16,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
         self.selected_save_cell: int | None = None
         self.selected_scene_name: None = None
         self.menu_page: int = 1
+        self.last_menu_page: int = self.save_keeper.last_menu_page
 
     def vanish_menu_data(self):
         """
@@ -51,6 +52,14 @@ class SaveMenu(BaseMenu, SingletonPattern):
                 self.status: bool = False
                 from .UI_Game_menu import GameMenu
                 GameMenu().status = True
+
+            elif command == 'save_menu_previous_page':
+                if self.menu_page != 1:
+                    self.menu_page -= 1
+
+            elif command == 'save_menu_next_page':
+                if self.menu_page != self.last_menu_page:
+                    self.menu_page += 1
 
             else:
                 get_save_slot_data: dict = self.save_keeper.get_save_slot_data(command)

@@ -71,6 +71,7 @@ class SaveKeeper(SingletonPattern):
         self.save_cells_count: int = 12
         self.empty_cell: str = "Empty Slot"
         self.empty_time: str = "0001-01-01_00:00:00"
+        self.last_menu_page: int = 1
 
     @staticmethod
     def deep_copy_alternative(interesting_data: dict) -> dict:
@@ -129,16 +130,16 @@ class SaveKeeper(SingletonPattern):
                 else:  # Another save position:
                     # Counters:
                     column_number += 1
-                    if row_number == 4:
-                        row_number: int = 1
-                        row_counter: int = 0
                     if column_number == 5:
                         column_number: int = 1
                         row_counter += 1
                         row_number += 1
-                    if row_counter == 5:
+                    if row_number == 4:
+                        row_number: int = 1
+                    if row_counter == 4:
                         row_counter: int = 0
-                        row_number += 1
+                        column_number: int = 1
+                        row_number = 1
                         save_cell_page += 1
 
                     # Add save position data:
@@ -230,8 +231,23 @@ class SaveKeeper(SingletonPattern):
                     }
                 )
 
+        self.get_last_save_load_menus_page()
+
         # Drop AutoSave from Save Menu buttons:
         self.save_buttons_collection.pop(self.autosave_name)
+
+    def get_last_save_load_menus_page(self):
+        """
+        Generate max save menu pages.
+        """
+        saves_count: int = len(self.save_buttons_collection)
+
+        close_value: int = (
+                ceil(saves_count / self.save_cells_count)
+                * self.save_cells_count
+        )
+
+        self.last_menu_page: int = close_value // self.save_cells_count
 
     def generate_save_slots_buttons(self):
         """
