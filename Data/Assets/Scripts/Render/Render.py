@@ -1,10 +1,11 @@
-from pygame import display, Surface
+from pygame import display, Surface, SRCALPHA
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.Interface_Controller import InterfaceController
 from .Layer import Layer
+from .Sprite import Sprite
 """
 Contains code for display image render.
 """
@@ -67,6 +68,9 @@ class Render(SingletonPattern):
                         self.stage_director.generate_speech()
                     )
 
+        # Generate gameplay screen mask in game menu:
+            self.menu_screen_mask()
+
         # Generate UI:
             if self.interface_controller.gameplay_interface_hidden_status is False:
                 self.batch_collection.append(
@@ -83,6 +87,29 @@ class Render(SingletonPattern):
                 and self.interface_controller.menu_name is None\
                 and GameMenu().status is False:
             self.save_screen: Surface = self.settings_keeper.screen.convert()
+
+    def menu_screen_mask(self):
+        """
+        Make filter for gameplay part of game menu image.
+        """
+        from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
+
+        if self.interface_controller.gameplay_type_reading is True \
+                and self.interface_controller.menu_name is None\
+                and GameMenu().status is True:
+            screen_mask: Surface = Surface(
+                [self.screen.get_width(), self.screen.get_height()],
+                SRCALPHA
+            )
+            screen_mask.fill((0, 0, 0))
+            screen_mask.set_alpha(210)
+
+            self.sprite_collection.append(
+                Sprite(
+                    image=screen_mask,
+                    layer=3
+                )
+            )
 
     def layers_initialization(self):
         """

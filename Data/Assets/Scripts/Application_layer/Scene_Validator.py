@@ -32,6 +32,7 @@ class SceneValidator(SingletonPattern):
         self.next_scene: str = ''
         self.past_scene: str = ''
         self.scene_gameplay_type: str = ''
+        self.default_scene_name: str = 'scene_01'
 
         self.status: bool = True
 

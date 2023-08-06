@@ -16,7 +16,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
         self.selected_save_cell: list[int] | None = None
         self.selected_scene_name: str | None = None
         self.menu_page: int = 1
-        self.last_menu_page: int = self.save_keeper.last_menu_page
+        self.last_menu_page: int = 1
 
     def vanish_menu_data(self):
         """
@@ -25,6 +25,8 @@ class LoadMenu(BaseMenu, SingletonPattern):
         self.selected_save_cell: None = None
         self.selected_scene_name: None = None
         self.menu_page: int = 1
+        self.last_menu_page: int = self.save_keeper.last_menu_page
+        self.save_keeper.reread = True
 
     def start_game(self, scene_name: str):
         """
@@ -32,13 +34,20 @@ class LoadMenu(BaseMenu, SingletonPattern):
         Start game from correct scene.
         :param scene_name: The name of the scene to start the game from.
         """
-        self.scene_validator.scene = 'redraw'
         self.scene_validator.scene_flag = scene_name
         self.status: bool = False
 
         self.interface_controller.gameplay_interface_hidden_status = False
         self.interface_controller.gameplay_interface_status = True
         self.interface_controller.start_menu_flag = False
+
+    def save_slots_ui_reread(self):
+        """
+        Return ui to reread state.
+        """
+        self.selected_save_cell: None = None
+        self.save_keeper.reread = True
+        self.save_keeper.generate_save_slots_buttons()
 
     def input_mouse(self, event):
         """
@@ -56,8 +65,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
                         self.start_game(
                             self.selected_scene_name
                         )
-                        self.selected_save_cell: None = None
-                        self.save_keeper.reread = True
+                        self.save_slots_ui_reread()
 
             elif command == 'load_menu_back':
                 self.status: bool = False
@@ -71,10 +79,12 @@ class LoadMenu(BaseMenu, SingletonPattern):
             elif command == 'load_menu_previous_page':
                 if self.menu_page != 1:
                     self.menu_page -= 1
+                    self.save_slots_ui_reread()
 
             elif command == 'load_menu_next_page':
                 if self.menu_page != self.last_menu_page:
                     self.menu_page += 1
+                    self.save_slots_ui_reread()
 
             else:
                 get_save_slot_data: dict = self.save_keeper.get_save_slot_data(command)

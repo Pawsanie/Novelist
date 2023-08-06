@@ -34,15 +34,15 @@ class GameMenu(SingletonPattern, BaseMenu):
                 self.status: bool = False
                 from .UI_Save_menu import SaveMenu
                 SaveMenu().status = True
-                SaveMenu().vanish_menu_data()
                 self.save_keeper.generate_save_slots_buttons()
+                SaveMenu().vanish_menu_data()
 
             if command == 'game_menu_load':
                 self.status: bool = False
                 from .UI_Load_menu import LoadMenu
                 LoadMenu().status = True
-                LoadMenu().vanish_menu_data()
                 self.save_keeper.generate_save_slots_buttons()
+                LoadMenu().vanish_menu_data()
 
             if command == 'game_menu_settings':
                 self.status: bool = False

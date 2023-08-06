@@ -156,7 +156,7 @@ class InterfaceController(SingletonPattern):
                 result.append(
                     Sprite(
                         image=button.button_surface,
-                        layer=3,
+                        layer=4,
                         coordinates=button.button_coordinates
                     )
                 )

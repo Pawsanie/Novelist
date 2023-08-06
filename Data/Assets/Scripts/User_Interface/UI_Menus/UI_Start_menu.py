@@ -21,13 +21,14 @@ class StartMenu(BaseMenu, SingletonPattern):
         Start game from correct scene.
         :param scene_name: The name of the scene to start the game from.
         """
-        self.scene_validator.scene = 'redraw'
         self.scene_validator.scene_flag = scene_name
         self.status: bool = False
 
         self.interface_controller.gameplay_interface_hidden_status = False
         self.interface_controller.gameplay_interface_status = True
         self.interface_controller.start_menu_flag = False
+
+        self.save_keeper.generate_save_slots_buttons()
 
     def input_mouse(self, event):
         """
@@ -40,19 +41,22 @@ class StartMenu(BaseMenu, SingletonPattern):
             command = gameplay_ui_buttons[0]
 
             if command == 'start_menu_new_game':
-                self.start_game('scene_01')  # 'scene_01' as default!
+                self.start_game(
+                    self.scene_validator.default_scene_name
+                )
 
             if command == 'start_menu_continue':
-                self.start_game(
-                    self.save_keeper.continue_game()
-                )
+                continue_game_scene: str | False = self.save_keeper.continue_game()
+                if continue_game_scene is not False:
+                    self.start_game(continue_game_scene)
+                    self.save_keeper.reread = True
 
             if command == 'start_menu_load':
                 from .UI_Load_menu import LoadMenu
                 self.status: bool = False
                 LoadMenu().status = True
-                LoadMenu().vanish_menu_data()
                 self.save_keeper.generate_save_slots_buttons()
+                LoadMenu().vanish_menu_data()
 
             if command == 'start_menu_settings':
                 from .UI_Settings_menu import SettingsMenu
