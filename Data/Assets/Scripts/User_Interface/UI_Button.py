@@ -255,7 +255,7 @@ class Button:
         # Y:
         button_coordinates_y: int = (
                 button_middle_y
-                + (background_y // 4)
+                + (background_y // 3)
         )
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
