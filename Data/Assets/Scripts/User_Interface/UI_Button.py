@@ -264,21 +264,25 @@ class Button:
         Coordinates for save menu and load menu Save Cells buttons.
         """
         row, column = self.button_image_data['index_number']
-        background_x, background_y = self.background_surface_size()
+        background: tuple[Surface, tuple[int, int]] = self.background.get_data()
+        background_width, background_x = background[0].get_width(), background[1][0]
+        background_height, background_y = background[0].get_height(), background[1][1]
 
         # X:
         button_coordinates_x: int = int(
-            + (background_x // 4)
+            + background_x
+            + (background_width // 4)
             + ((self.button_size[0] * 1.5) * column)
             - (self.button_size[0] // 2)
             - (self.button_size[0] * 2)
         )
         # Y:
         button_coordinates_y: int = int(
-                + (background_y // 3)
+                + background_y
+                + (background_height // 3)
                 + ((self.button_size[1] * 1.5) * row)
                 - (self.button_size[1] // 2)
-                - (self.button_size[1] * 2)
+                - (self.button_size[1] * 2.5)
         )
 
         self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
