@@ -217,12 +217,13 @@ class SaveKeeper(SingletonPattern):
             save_name: str = save_data["save_data"]['save_name']
 
             if save_name == self.autosave_name:
-                save_text = save_name = self.autosave_name
+                save_text = self.autosave_name
             elif save_name in (self.empty_cell, self.new_save_button_name):
                 save_text: str = save_name
                 button_image_path: str = f"{self.save_and_load_ui_path}{sep}{self.screen_preview_empty_image}"
                 text_offset_y: None = None
-                save_name: str = save_data['save_data']['date']
+                if save_name == self.empty_cell:
+                    save_name: str = save_data['save_data']['date']
             else:
                 save_text: str = save_data['save_data']['date']
 
@@ -273,11 +274,11 @@ class SaveKeeper(SingletonPattern):
         self.saves_dict.update(
             {
                 key_name: {
-                    "file_name": time_mark_str,
+                    "file_name": self.new_save_button_name,
                     "save_data": {
                         'date': time_mark_str,
                         "save_name": self.new_save_button_name,
-                        'select_name': time_mark_str
+                        'select_name': self.new_save_button_name
                     }
                 }
             }
