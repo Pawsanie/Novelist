@@ -114,7 +114,7 @@ class SaveKeeper(SingletonPattern):
         """
         Sorted game saves for get them screen position.
         """
-        if self.saves_dict is not None:
+        if len(self.saves_dict) != 0:
             self.saves_dict = dict(
                 sorted(
                     self.saves_dict.items(),
@@ -131,7 +131,7 @@ class SaveKeeper(SingletonPattern):
 
             for key, value in self.saves_dict.items():
                 # Autosave position:
-                if value['file_name'] in (self.autosave_name, self.new_save_button_name):
+                if value['save_data']['save_name'] in (self.autosave_name, self.new_save_button_name):
                     value['save_data']['save_cell']: list[int, int] = [1, 1]
 
                 else:  # Another save position:
@@ -199,10 +199,12 @@ class SaveKeeper(SingletonPattern):
             if len(self.saves_dict) != 0:
                 return
 
-        # self.generate_new_save_button()
+        # Save slots initialization:
         self.enrichment_of_game_saves()
+        self.generate_new_save_slot()
         self.save_cells_sort()
 
+        # Generate menu`s buttons:
         for save in self.saves_dict:
             save_data: dict = self.saves_dict[save]
             text_offset_y: float = 3.2
@@ -248,24 +250,33 @@ class SaveKeeper(SingletonPattern):
 
         self.get_last_save_load_menus_page()
 
+        # Specific menus preprocessing:
+        # Drop AutoSave from Save Menu buttons:
         try:
-            # Drop AutoSave from Save Menu buttons:
             self.save_buttons_collection.pop(self.autosave_name)
-            # Drop NewSave from Load Menu buttons:
+        except KeyError:
+            pass
+
+        # Drop NewSave from Load Menu buttons:
+        try:
             self.load_buttons_collection.pop(self.new_save_button_name)
         except KeyError:
             pass
 
-    def generate_new_save_button(self):
+    def generate_new_save_slot(self):
         """
         Generate first button for Save menu.
         """
         key_name: struct_time = time.localtime()
+        time_mark_str: str = strftime("%Y-%m-%d_%H:%M:%S", key_name)
         self.saves_dict.update(
             {
                 key_name: {
-                    "file_name": self.new_save_button_name,
-                    "save_data": {'date': strftime("%Y-%m-%d_%H:%M:%S", key_name)}
+                    "file_name": time_mark_str,
+                    "save_data": {
+                        'date': time_mark_str,
+                        "save_name": self.new_save_button_name
+                    }
                 }
             }
         )
@@ -457,9 +468,11 @@ class SaveKeeper(SingletonPattern):
 
         self.reread: bool = False
 
-    def get_save_slot_data(self, slot_name):
+    def get_save_slot_data(self, slot_name: str):
         """
         Get save slot data.
+        :param slot_name: Save Slot` button name. (save name)
+        :type slot_name: str
         """
         for save in self.saves_dict.values():
             if save['file_name'] == slot_name:
