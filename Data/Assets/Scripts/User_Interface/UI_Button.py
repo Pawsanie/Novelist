@@ -1,6 +1,6 @@
 from os import path
 
-from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP
+from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP, draw, Rect
 
 from ..Application_layer.Assets_load import image_load, json_load, font_load
 from ..Universal_computing.Surface_size import surface_size
@@ -94,6 +94,9 @@ class Button:
         self.text_offset_x: int | float = text_offset_x
         self.text_offset_y: int | float = text_offset_y
 
+        self.select: bool = False
+        self.select_frame_color: tuple = (48, 213, 200)
+
         # Generate button image:
         if have_real_path is False:
             self.button_sprite_standard: Surface = image_load(
@@ -146,6 +149,15 @@ class Button:
         """
         # Arg parse:
         background_surface: Surface = self.background.get_data()[0]
+        select_frame_fatness: int = max(
+            int(
+                min(
+                    self.settings_keeper.screen.get_width(),
+                    self.settings_keeper.screen.get_height()
+                    ) / 500
+                ) * 4,
+            1
+        )
 
         # Devnull button_surface for new render:
         self.button_surface = Surface((0, 0), SRCALPHA)
@@ -180,6 +192,17 @@ class Button:
             # Button render:
             self.button_surface.blit(self.button_sprite, (0, 0))
             self.button_surface.blit(screen_mask, (0, 0))
+        if self.select is True:
+            draw.rect(
+                surface=self.button_surface,
+                color=self.select_frame_color,
+                rect=Rect(
+                    0, 0,
+                    self.button_size[0],
+                    self.button_size[1]
+                ),
+                width=select_frame_fatness
+            )
 
     def reflect(self):
         """

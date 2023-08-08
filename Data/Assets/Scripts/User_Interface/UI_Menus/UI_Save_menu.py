@@ -13,7 +13,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
     def __init__(self):
         super(SaveMenu, self).__init__()
         self.save_keeper: SaveKeeper = SaveKeeper()
-        self.selected_save_cell: int | None = None
+        self.selected_save_cell: str | None = None
         self.selected_scene_name: None = None
         self.menu_page: int = 1
         self.last_menu_page: int = 1
@@ -38,6 +38,16 @@ class SaveMenu(BaseMenu, SingletonPattern):
         self.selected_save_cell: None = None
         self.save_keeper.reread = True
         self.save_keeper.generate_save_slots_buttons()
+        self.unselect_cell()
+
+    def unselect_cell(self):
+        """
+        Try to unselect last select save slot.
+        """
+        try:
+            self.interface_controller.buttons_dict['ui_save_menu_buttons'][self.selected_save_cell].select = False
+        except KeyError:
+            pass
 
     def save_game(self):
         """
@@ -85,6 +95,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
                     self.save_slots_ui_reread()
 
             else:
+                self.unselect_cell()
                 get_save_slot_data: dict = self.save_keeper.get_save_slot_data(command)
                 try:
                     self.selected_scene_name: str = get_save_slot_data['scene']
@@ -94,4 +105,5 @@ class SaveMenu(BaseMenu, SingletonPattern):
                     self.selected_save_file_name: str = get_save_slot_data['save_name']
                 except KeyError:
                     self.selected_save_file_name: None = None
-                self.selected_save_cell: list[int] = get_save_slot_data['save_cell']
+                self.selected_save_cell: str = get_save_slot_data['select_name']
+                self.interface_controller.buttons_dict['ui_save_menu_buttons'][self.selected_save_cell].select = True

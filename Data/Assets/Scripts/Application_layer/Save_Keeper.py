@@ -183,7 +183,8 @@ class SaveKeeper(SingletonPattern):
                         "file_name": time_mark_str,
                         "save_data": {
                             'date': time_mark_str,
-                            "save_name": self.empty_cell
+                            "save_name": self.empty_cell,
+                            'select_name': time_mark_str
                         }
                     }
                 }
@@ -275,7 +276,8 @@ class SaveKeeper(SingletonPattern):
                     "file_name": time_mark_str,
                     "save_data": {
                         'date': time_mark_str,
-                        "save_name": self.new_save_button_name
+                        "save_name": self.new_save_button_name,
+                        'select_name': time_mark_str
                     }
                 }
             }
@@ -440,7 +442,12 @@ class SaveKeeper(SingletonPattern):
                         # Generate save frame for save collection:
                         file_data: str = save_file.read()
                         save_data: dict = json.loads(file_data)
-                        save_data.update({'save_name': file})
+                        save_data.update(
+                            {
+                                'save_name': file,
+                                'select_name': file
+                            }
+                        )
                         self.saves_dict.update({
                             strptime(save_data['date'], "%Y-%m-%d_%H:%M:%S"): {
                                 "file_name": file,
