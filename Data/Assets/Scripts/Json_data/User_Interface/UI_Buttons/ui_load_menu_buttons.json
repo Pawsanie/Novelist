@@ -15,12 +15,12 @@
   },
   "load_menu_previous_page": {
     "type": "gameplay_ui",
-    "index_number": -1.5,
+    "index_number": -3.2,
     "sprite_name": "past_scene"
   },
   "load_menu_next_page": {
     "type": "gameplay_ui",
-    "index_number": 1.5,
+    "index_number": 3.2,
     "sprite_name": "next_scene"
   }
 }

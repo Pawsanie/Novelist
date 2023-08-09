@@ -26,17 +26,22 @@ class MenuText:
     back_menu_text_list: list[str] = [
         'creators_menu'
     ]
+    save_and_load_menu_text_list: list[str] = [
+        'load_menu',
+        'save_menu'
+    ]
 
-    def __init__(self, *, menu_name: str, menu_text: str, menu_text_localization_dict: dict[str],
+    def __init__(self, *, menu_name: str, menu_text: str, menu_text_localization_dict: dict[str] | None,
                  menu_text_font: str or None, menu_text_color: str, menu_text_coordinates: dict[str, int],
-                 menu_text_substrate: str or None):
+                 menu_text_substrate: str or None, menu_text_factor: int | float = 1):
         """
         :param menu_name: The name of the menu the text is for.
         :type menu_name: str
         :param menu_text: Text of the menu.
         :type menu_text: str
         :param menu_text_localization_dict: Dictionary with language flags as keys and localization text as values.
-        :type menu_text_localization_dict: dict[str]
+                                            If this parameter is None localization will not be made.
+        :type menu_text_localization_dict: dict[str] | None
         :param menu_text_font: Font name for font asset load.
         :type menu_text_font: str | None
         :param menu_text_color: Text color.
@@ -45,6 +50,8 @@ class MenuText:
         :type menu_text_coordinates: dict[str, int]
         :param menu_text_substrate: Menu text image substrate.
         :type menu_text_substrate: str | None
+        :param menu_text_factor: Scale symbol factor. 1 as default.
+        :type menu_text_factor: int | float
         """
         # Arguments processing:
         self.background: BackgroundProxy = BackgroundProxy()
@@ -78,9 +85,11 @@ class MenuText:
         self.menu_text_coordinates: tuple[int, int] = (0, 0)
         self.menu_text_surface_size: tuple[int, int] = (0, 0)
 
-    def middle_text_menu_coordinates(self):
+        self.menu_text_factor: int = menu_text_factor
+
+    def set_text_surface_size(self):
         """
-        Set X coordinates for middle screen menu text.
+        Set text Surface size.
         """
         background_surface = self.background.get_data()[0]
         self.menu_text_surface_size: tuple[int, int] = (
@@ -92,7 +101,7 @@ class MenuText:
         """
         Set yes/no menu text coordinates.
         """
-        self.middle_text_menu_coordinates()
+        self.set_text_surface_size()
         self.menu_text_coordinates: tuple[int, int] = (
             (self.settings_keeper.screen.get_width() // 2) - (self.menu_text_surface_size[0] // 2),
             (self.settings_keeper.screen.get_height() // 2) - (self.menu_text_surface_size[1] // 2)
@@ -102,10 +111,27 @@ class MenuText:
         """
         Set menu text coordinates for menus with back button.
         """
-        self.middle_text_menu_coordinates()
+        self.set_text_surface_size()
         self.menu_text_coordinates: tuple[int, int] = (
             (self.settings_keeper.screen.get_width() // 2) - (self.menu_text_surface_size[0] // 2),
             (self.settings_keeper.screen.get_height() // 2) - self.menu_text_surface_size[1]
+        )
+
+    def save_and_load_menu_text_coordinates(self):
+        """
+        Set save/load menu text coordinates.
+        Generate text for current save slots page.
+        """
+        self.set_text_surface_size()
+        self.menu_text_coordinates: tuple[int, int] = (
+
+            + (self.settings_keeper.screen.get_width() // 2)
+            - (self.menu_text_surface_size[0] // 2),
+
+            + (self.settings_keeper.screen.get_height() // 2)
+            + (self.menu_text_surface_size[1])
+            - (self.menu_text_surface_size[1] // 5)
+
         )
 
     def scale(self):
@@ -117,6 +143,8 @@ class MenuText:
             self.yes_no_menu_text_coordinates()
         if self.menu_name in self.back_menu_text_list:
             self.back_menu_text_coordinates()
+        if self.menu_name in self.save_and_load_menu_text_list:
+            self.save_and_load_menu_text_coordinates()
 
         # Surface scale:
         if self.menu_text_substrate_sprite is not None:
@@ -139,8 +167,9 @@ class MenuText:
         """
         Localization menu text if it's necessary.
         """
-        self.language_flag: str = self.settings_keeper.text_language
-        self.menu_text: str = self.localisation_menu_text[self.language_flag]
+        if self.localisation_menu_text is not None:
+            self.language_flag: str = self.settings_keeper.text_language
+            self.menu_text: str = self.localisation_menu_text[self.language_flag]
 
     def text_render(self):
         """
@@ -148,7 +177,10 @@ class MenuText:
         """
         # Localization menu text:
         self.localization_menu_text()
-        self.font_size: int = self.background.get_data()[0].get_height() // 50
+        self.font_size: int = int(
+            self.background.get_data()[0].get_height() // 50
+            * self.menu_text_factor
+        )
 
         # Font reload for size scale:
         if self.font_name is not None:

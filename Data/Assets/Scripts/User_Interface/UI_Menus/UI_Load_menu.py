@@ -1,6 +1,7 @@
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
 from ...Application_layer.Save_Keeper import SaveKeeper
+from ..UI_Menu_Text import MenuText
 """
 Contains Load menu code.
 """
@@ -18,6 +19,14 @@ class LoadMenu(BaseMenu, SingletonPattern):
         self.menu_page: int = 1
         self.last_menu_page: int = 1
 
+        self.page_select_text: str = f"{self.menu_page} / {self.last_menu_page}"
+        self.menu_name: str = 'load_menu'
+        self.text_file_flag: str = 'text_file'
+        self.page_text_coordinates: dict = {'x': 1, 'y': 1}
+        self.page_text_font: None = None
+        self.page_text_color: str = '#FFFFFF'
+        self.page_flag: str = 'current_page_text'
+
     def vanish_menu_data(self):
         """
         Back menu to base state.
@@ -28,6 +37,33 @@ class LoadMenu(BaseMenu, SingletonPattern):
         self.last_menu_page: int = self.save_keeper.last_menu_page
         self.save_keeper.reread = True
         self.unselect_cell()
+        self.set_menu_pages_text()
+
+    def set_menu_pages_text(self):
+        """
+        Set new page data to menu text.
+        """
+        self.page_select_text: str = f"{self.menu_page} / {self.last_menu_page}"
+
+        self.interface_controller.menus_text_dict.update(
+            {
+                self.page_flag: {
+                    self.menu_name: MenuText(
+                        menu_name=self.menu_name,
+                        menu_text=self.page_select_text,
+                        menu_text_localization_dict=None,
+                        menu_text_font=self.page_text_font,
+                        menu_text_color=self.page_text_color,
+                        menu_text_coordinates=self.page_text_coordinates,
+                        menu_text_substrate=None,
+                        menu_text_factor=2.5
+                    )
+                }
+            }
+        )
+
+        menu_data: dict = self.interface_controller.menus_collection[self.menu_name]
+        menu_data[self.text_file_flag]: str = self.page_flag
 
     def start_game(self, scene_name: str):
         """
@@ -85,16 +121,19 @@ class LoadMenu(BaseMenu, SingletonPattern):
                 if self.interface_controller.start_menu_flag is False:
                     from .UI_Game_menu import GameMenu
                     GameMenu().status = True
+                self.vanish_menu_data()
 
             elif command == 'load_menu_previous_page':
                 if self.menu_page != 1:
                     self.menu_page -= 1
                     self.save_slots_ui_reread()
+                    self.set_menu_pages_text()
 
             elif command == 'load_menu_next_page':
                 if self.menu_page != self.last_menu_page:
                     self.menu_page += 1
                     self.save_slots_ui_reread()
+                    self.set_menu_pages_text()
 
             else:
                 self.unselect_cell()
