@@ -265,6 +265,42 @@ class SaveKeeper(SingletonPattern):
         except KeyError:
             pass
 
+        # Full empty load meny:
+        # TODO: crutch?
+        no_autosave_status: bool = True
+        for name in self.saves_dict.values():
+            if self.autosave_name in name['save_data']['save_name']:
+                no_autosave_status: bool = False
+                break
+        if no_autosave_status is True:
+            self.no_autosave_load_menu()
+
+    def no_autosave_load_menu(self):  # TODO: crutch?
+        """
+        Add additional empty save cell to load meny if AutoSave do not exist.
+        """
+        save_cell_button: Button = Button(
+            button_name=self.empty_time,
+            button_text=self.empty_cell,
+            button_image_data={
+                'sprite_name': f"{self.save_and_load_ui_path}{sep}{self.screen_preview_empty_image}",
+                'index_number': [1, 1],
+                'type': self.button_type,
+                'color': self.button_text_color,
+                'font': self.button_text_font
+            },
+            have_real_path=True,
+            text_offset_y=3.2
+        )
+
+        self.load_buttons_collection.setdefault(
+            self.empty_time,
+            {
+                'button': save_cell_button,
+                'save_page': 1
+            }
+        )
+
     def generate_new_save_slot(self):
         """
         Generate first button for Save menu.
@@ -288,7 +324,7 @@ class SaveKeeper(SingletonPattern):
         """
         Generate max save menu pages.
         """
-        saves_count: int = len(self.save_buttons_collection)
+        saves_count: int = len(self.save_buttons_collection) - 1
 
         close_value: int = (
                 ceil(saves_count / self.save_cells_count)
