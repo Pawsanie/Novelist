@@ -13,7 +13,7 @@ from ..User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Scene_Validator import SceneValidator
 from ..Logging_Config import text_for_logging
-from ..User_Interface.UI_Button import Button
+from ..User_Interface.UI_Buttons.UI_Save_Load_Cell_Button import SaveLoadCellButton
 from ..Render.Render import Render
 """
 Contend code for save/load system.
@@ -48,7 +48,7 @@ class SaveKeeper(SingletonPattern):
         self.saves_dict: dict = {}
         self.save_buttons_collection: dict = {}
         self.load_buttons_collection: dict = {}
-        self.save_load_collections: dict[str, dict[str | Button | None]] = {
+        self.save_load_collections: dict[str, dict[str | SaveLoadCellButton | None]] = {
             "save": self.save_buttons_collection,
             "load": self.load_buttons_collection
         }
@@ -227,7 +227,7 @@ class SaveKeeper(SingletonPattern):
             else:
                 save_text: str = save_data['save_data']['date']
 
-            save_cell_button: Button = Button(
+            save_cell_button: SaveLoadCellButton = SaveLoadCellButton(
                         button_name=save_data['save_data']['date'],
                         button_text=save_text,
                         button_image_data={
@@ -279,7 +279,7 @@ class SaveKeeper(SingletonPattern):
         """
         Add additional empty save cell to load meny if AutoSave do not exist.
         """
-        save_cell_button: Button = Button(
+        save_cell_button: SaveLoadCellButton = SaveLoadCellButton(
             button_name=self.empty_time,
             button_text=self.empty_cell,
             button_image_data={

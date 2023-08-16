@@ -42,7 +42,7 @@ class GamePlayReadingButton(BaseButton):
                               None by default.
         :type text_offset_y: int | float | None
         """
-        super(GamePlayReadingButton).__init__(
+        super().__init__(
             button_name=button_name,
             button_text=button_text,
             button_image_data=button_image_data,

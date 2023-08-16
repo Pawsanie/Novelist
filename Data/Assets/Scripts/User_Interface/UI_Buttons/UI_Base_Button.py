@@ -208,7 +208,6 @@ class BaseButton(ABC):
     def localization_button_text(self):
         """
         Localization text of button if it's necessary.
-
         """
         if self.button_text is not None:
             self.language_flag: str = self.settings_keeper.text_language

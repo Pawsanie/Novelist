@@ -1,6 +1,6 @@
 from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
-from ..User_Interface.UI_Button import Button
+from ..User_Interface.UI_Buttons.UI_GamePlay_Choice_Button import GamePlayChoiceButton
 from ..Application_layer.Assets_load import json_load
 """
 Contains gameplay of choice code.
@@ -23,7 +23,7 @@ class GamePlayDialoguesChoice(BaseMenu):
     def dialogues_choice_buttons_generations(self):
         """
         Generate dict with buttons for dialogues choice gameplay.
-        This is a nested dictionary of buttons group and an instance of the Button class.
+        This is a nested dictionary of button`s group and an instance of the Button class.
         """
         # localizations instructions from 'dialogues_localizations_data.json':
         localizations_data: dict[str] = json_load(
@@ -58,7 +58,7 @@ class GamePlayDialoguesChoice(BaseMenu):
                     image_data_dict.update({"index_number": index})
                     # Generate button:
                     dialogues_buttons.update(
-                        {choice: Button(
+                        {choice: GamePlayChoiceButton(
                             button_name=choice,
                             button_text=choice_buttons_text[scene][choice],
                             button_image_data=image_data_dict,
