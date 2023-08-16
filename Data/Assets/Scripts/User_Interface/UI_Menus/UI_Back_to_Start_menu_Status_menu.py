@@ -1,7 +1,7 @@
 from pygame import KEYDOWN, K_ESCAPE, K_TAB, K_e
 
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing import SingletonPattern
+from ...Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Back to start menu status menu code.
 """
@@ -28,7 +28,7 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
         Back from back to start menu status menu.
         """
         self.status: bool = False
-        from UI_Game_menu import GameMenu
+        from .UI_Game_menu import GameMenu
         GameMenu().status = True
 
     def input_mouse(self, event):
@@ -40,8 +40,10 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
+
             if command == 'back_to_start_menu_yes':
                 self.back_to_start_menu_status_menu_yes()
+
             if command == 'back_to_start_menu_no':
                 self.back_to_start_menu_status_menu_no()
 

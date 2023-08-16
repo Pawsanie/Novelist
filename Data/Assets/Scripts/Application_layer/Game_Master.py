@@ -1,5 +1,3 @@
-from pygame import Surface
-
 from .Reactions_to_input_commands import main_loop, InputCommandsReactions
 from .Stage_Director import StageDirector
 from ..Render.Render import Render
@@ -20,23 +18,20 @@ class GameMaster:
     Entry point for gameplay.
     """
     def __init__(self):
-        # Collect base game settings:  # TODO: remove?
+        # Collect base game settings:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.display_screen: Surface = self.settings_keeper.get_windows_settings()
-        self.language_flag: str = self.settings_keeper.text_language
-
         # Stage Director settings:
         self.stage_director: StageDirector = StageDirector()
         # Scene Validator settings:
         self.scene_validator: SceneValidator = SceneValidator()
         # Interface Controller settings:
         self.interface_controller: InterfaceController = InterfaceController()
+        self.interface_controller.menu_name = 'start_menu'
         # Render settings:
         self.render: Render = Render()
         # User input commands processing:
         self.reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions()
-
-        # Save and load system:  # TODO: remove?
+        # Save and load system:
         self.save_keeper: SaveKeeper = SaveKeeper()
 
     def set_gameplay_type(self):  # TODO: DEVNULL
@@ -53,9 +48,22 @@ class GameMaster:
             # Push dialogue buttons to 'InterfaceController':
             self.interface_controller.gameplay_choice_buttons = \
                 self.reactions_to_input_commands.gameplay_administrator\
-                .gameplay_dialogues_choice\
+                .gameplay_collections['choice']\
                 .dialogues_buttons[self.scene_validator.scene]
             return
+
+    def set_scene(self):  # TODO: Swap to StateMachine pattern.
+        """
+        Sets the scene for the frame, depending on its type.
+        """
+        menu_name: str | None = self.interface_controller.menu_name
+        if menu_name is not None:
+            self.stage_director.vanishing_scene()
+            self.stage_director.set_scene(
+                location=menu_name
+            )
+        else:
+            self.scene_validator()
 
     @error_logger
     @main_loop
@@ -66,7 +74,7 @@ class GameMaster:
         # User input commands processing:
         self.reactions_to_input_commands()
         # Build scene:
-        self.scene_validator()
+        self.set_scene()
         self.stage_director.scale()
         # Chose gameplay settings:
         self.set_gameplay_type()

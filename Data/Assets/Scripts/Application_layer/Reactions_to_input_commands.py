@@ -1,4 +1,4 @@
-from pygame import time, QUIT, quit, VIDEORESIZE
+from pygame import time, QUIT, quit
 from pygame import event as pygame_events
 
 from ..User_Interface.Interface_Controller import InterfaceController
@@ -25,30 +25,27 @@ def main_loop(func):
     Decorator with the main loop of game.
     """
     def coroutine(*args, **kwargs):
-        self = args[0]  # class method`s 'self.' for in class decorator.
+        # class method`s 'self.' for in class decorator:
+        self = args[0]
+
         program_running: bool = True
         main_cycle_fps_clock = time.Clock()
-        main_cycle_fps: int = 60
+        main_cycle_fps: int = SettingsKeeper().frames_per_second
+
         while program_running:
+            # Set scene:
+            func(*args, **kwargs)
             for event in pygame_events.get():
-                # Quit by exit_icon.
+                # Quit by exit_icon:
                 if event.type == QUIT:
                     quit()
-                    program_running: bool = False
                     exit(0)
-                # Set scene:
-                if self.scene_validator.scene_flag != self.scene_validator.scene:
-                    func(*args, **kwargs)
-                # Window resize:
-                if event.type == VIDEORESIZE:
-                    self.scene_validator.scene = 'redraw'
                 # User commands:
                 self.reactions_to_input_commands.reactions_to_input_commands(event)
-            # Set scene without events:
-            if self.scene_validator.scene_flag != self.scene_validator.scene:
-                func(*args, **kwargs)
+
             pygame_events.clear()
             main_cycle_fps_clock.tick(main_cycle_fps)
+
     return coroutine
 
 
@@ -126,7 +123,7 @@ class InputCommandsReactions:
     def reactions_to_input_commands(self, event):
         """
         User commands conveyor:
-        :param event: pygame.event from main_loop.
+        :param event: 'pygame.event' from main_loop.
         """
         # Gameplay:
         if self.interface_controller.gameplay_interface_status is True:

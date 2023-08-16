@@ -1,10 +1,10 @@
 from pygame import display, Surface
 
 from ..Game_objects.Character import characters_generator
-from ..Game_objects.Background import backgrounds_generator, Background, BackgroundMock
+from ..Game_objects.Background import backgrounds_generator, Background, BackgroundProxy
 from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Game_objects.Dialogues import generate_dialogues, DialoguesWords
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
 from ..Game_objects.Character import Character
 from ..Render.Sprite import Sprite
@@ -25,7 +25,7 @@ class StageDirector(SingletonPattern):
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.display_screen: display = self.settings_keeper.get_windows_settings()
         # Make background surface:
-        self.background_mock: BackgroundMock = BackgroundMock()
+        self.background_mock: BackgroundProxy = BackgroundProxy()
         self.background_surface: Surface = self.background_mock.get_data()[0]
         self.background_coordinates: tuple[int, int] = self.background_mock.get_data()[1]
 
@@ -41,7 +41,6 @@ class StageDirector(SingletonPattern):
         self.language_flag: str = self.settings_keeper.text_language
         # Text canvas:
         self.text_canvas: TextCanvas = TextCanvas()
-        self.text_canvas_surface: Surface = self.text_canvas.text_canvas_surface
         # Text generation:
         self.text_controller = DialoguesWords()
         self.text_dict_all: dict[str] = generate_dialogues()
@@ -51,6 +50,7 @@ class StageDirector(SingletonPattern):
         self.text_speaker_reading: str = ''  # Blank as default.
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        self.text_dict_reading_cash: dict[str] = {}
         # Text Choice gameplay:
         self.scene_name: str = ''
         # self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
@@ -74,7 +74,6 @@ class StageDirector(SingletonPattern):
         self.background_mock.set_new_image(new_image=scene_image)
         self.background_surface: Surface = self.background_mock.get_data()[0]
         self.background_surface.blit(scene_image, (0, 0))
-        return self.display_screen.blit(self.background_surface, self.background_coordinates)
 
     def set_actor(self, *, character: str) -> Surface.blit:
         """
@@ -94,6 +93,9 @@ class StageDirector(SingletonPattern):
         for character in self.characters_dict.values():
             character.scale()
 
+        if self.text_controller.status is True:
+            self.set_reading_words(script=self.text_dict_reading_cash)
+
     def vanishing_scene(self):
         """
         Delete all characters and background from scene.
@@ -105,8 +107,8 @@ class StageDirector(SingletonPattern):
         for character in self.characters_dict.values():
             character.kill()
 
-        self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
-        self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
+        self.text_canvas.status = False
+        self.text_controller.status = False
 
     def set_reading_words(self, *, script: dict):
         """
@@ -119,8 +121,16 @@ class StageDirector(SingletonPattern):
         speaker_color: str = script['who']['color']
         text: str = script['what']['text']
         text_color: str = script['what']['color']
+
         self.text_string_reading: str = text
         self.text_speaker_reading: str = speaker
+
+        self.text_dict_reading_cash: dict[str] = script
+
+        # TODO: Refactor?:
+        self.text_canvas.status = True
+        self.text_controller.status = True
+
         self.speech: tuple[Surface, tuple[int, int]] = \
             self.text_controller.make_words(
                 text_string=self.text_string_reading,
@@ -186,7 +196,7 @@ class StageDirector(SingletonPattern):
         result: Batch = Batch()
 
         # Text canvas:
-        if self.text_canvas.text_canvas_status is True:
+        if self.text_canvas.status is True:
             result.append(
                 Sprite(
                     image=self.text_canvas.text_canvas_surface,
@@ -194,20 +204,21 @@ class StageDirector(SingletonPattern):
                     coordinates=self.text_canvas.text_canvas_coordinates,
                 )
             )
-        # Speech:
-        result.append(
-            Sprite(
-                image=self.speech[0],
-                layer=4,
-                coordinates=self.speech[1],
+        if self.text_controller.status is True:
+            # Speech:
+            result.append(
+                Sprite(
+                    image=self.speech[0],
+                    layer=4,
+                    coordinates=self.speech[1],
+                )
             )
-        )
-        # Speaker:
-        result.append(
-            Sprite(
-                image=self.speaker[0],
-                layer=4,
-                coordinates=self.speaker[1],
+            # Speaker:
+            result.append(
+                Sprite(
+                    image=self.speaker[0],
+                    layer=4,
+                    coordinates=self.speaker[1],
+                )
             )
-        )
         return result

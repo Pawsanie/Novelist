@@ -1,5 +1,3 @@
-from cv2 import VideoCapture, CAP_PROP_FPS  # IDE can show error but classes are exist.
-
 from Pygame_Visual_Novel.Data.Assets.Scripts.Application_layer.Assets_load import json_load, video_load
 """
 Contains the code for working with video files.
@@ -15,11 +13,6 @@ class VideoBackground:
         :param video_name: String name of video file.
         :type video_name: str
         """
-        self.video: VideoCapture = VideoCapture(video_load(
-            video_name=video_name,
-            video_format='mp4'
-        ))
-        self.video_fps: int = self.video.get(CAP_PROP_FPS)
     ...
 
 

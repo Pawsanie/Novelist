@@ -1,6 +1,6 @@
 from ...Application_layer.Settings_Keeper import SettingsKeeper
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing import SingletonPattern
+from ...Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains settings menu code.
 """
@@ -23,12 +23,16 @@ class SettingsMenu(BaseMenu, SingletonPattern):
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
+
             if command == 'settings_menu_video':
                 ...
+
             if command == 'settings_menu_audio':
                 ...
+
             if command == 'settings_menu_localization':
                 ...
+
             if command == 'settings_menu_back':
                 self.status: bool = False
                 if self.interface_controller.start_menu_flag is True:

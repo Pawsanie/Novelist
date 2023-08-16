@@ -1,7 +1,7 @@
 from pygame import K_e, K_TAB, KEYDOWN, K_ESCAPE
 
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing import SingletonPattern
+from ...Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains creators menu code.
 """

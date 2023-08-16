@@ -12,5 +12,15 @@
     "sprite_name": "exit_menu_buttons",
     "font": null,
     "color": "#000000"
+  },
+  "load_menu_previous_page": {
+    "type": "gameplay_ui",
+    "index_number": -3.2,
+    "sprite_name": "past_scene"
+  },
+  "load_menu_next_page": {
+    "type": "gameplay_ui",
+    "index_number": 3.2,
+    "sprite_name": "next_scene"
   }
 }

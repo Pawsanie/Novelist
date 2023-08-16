@@ -1,5 +1,5 @@
 from ..User_Interface.UI_Button import button_generator
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 from ..User_Interface.UI_Button import Button
 from ..Application_layer.Stage_Director import StageDirector
@@ -58,6 +58,7 @@ class InterfaceController(SingletonPattern):
                 return self.buttons_dict['ui_gameplay_buttons']
             if self.gameplay_type_choice is True:
                 return self.gameplay_choice_buttons
+            
         # Menu interface:
         for menu_key in self.menus_collection:
             menu: dict = self.menus_collection[menu_key]
@@ -155,7 +156,7 @@ class InterfaceController(SingletonPattern):
                 result.append(
                     Sprite(
                         image=button.button_surface,
-                        layer=3,
+                        layer=4,
                         coordinates=button.button_coordinates
                     )
                 )

@@ -1,6 +1,6 @@
 from ..UI_Base_menu import BaseMenu
 from ...Application_layer.Save_Keeper import SaveKeeper
-from ...Universal_computing import SingletonPattern
+from ...Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains Start menu code.
 """
@@ -16,13 +16,19 @@ class StartMenu(BaseMenu, SingletonPattern):
         self.status: bool = True
 
     def start_game(self, scene_name: str):
-        self.scene_validator.scene = scene_name
+        """
+        Switch flags for correct game start.
+        Start game from correct scene.
+        :param scene_name: The name of the scene to start the game from.
+        """
         self.scene_validator.scene_flag = scene_name
         self.status: bool = False
 
         self.interface_controller.gameplay_interface_hidden_status = False
         self.interface_controller.gameplay_interface_status = True
         self.interface_controller.start_menu_flag = False
+
+        self.save_keeper.generate_save_slots_buttons()
 
     def input_mouse(self, event):
         """
@@ -33,24 +39,35 @@ class StartMenu(BaseMenu, SingletonPattern):
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
+
             if command == 'start_menu_new_game':
-                self.start_game('scene_01')  # 'scene_01' as default!
-            if command == 'start_menu_continue':
                 self.start_game(
-                    self.save_keeper.continue_game()
+                    self.scene_validator.default_scene_name
                 )
+
+            if command == 'start_menu_continue':
+                continue_game_scene: str | False = self.save_keeper.continue_game()
+                if continue_game_scene is not False:
+                    self.start_game(continue_game_scene)
+                    self.save_keeper.reread = True
+
             if command == 'start_menu_load':
                 from .UI_Load_menu import LoadMenu
                 self.status: bool = False
                 LoadMenu().status = True
+                self.save_keeper.generate_save_slots_buttons()
+                LoadMenu().vanish_menu_data()
+
             if command == 'start_menu_settings':
                 from .UI_Settings_menu import SettingsMenu
                 self.status: bool = False
                 SettingsMenu().status = True
+
             if command == 'start_menu_creators':
                 from .UI_Creators_menu import CreatorsMenu
                 self.status: bool = False
                 CreatorsMenu().status = True
+
             if command == 'start_menu_exit':
                 from .UI_Exit_menu import ExitMenu
                 self.status: bool = False

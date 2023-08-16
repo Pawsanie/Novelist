@@ -1,7 +1,7 @@
 from os import path
 import json
 
-from pygame import image, font, mixer
+from pygame import image, font, mixer, Surface
 """
 Contains code responsible for assets load.
 """
@@ -17,16 +17,23 @@ def asset_root_path() -> str:
     return root_path
 
 
-def image_load(*, art_name: str, file_format: str, asset_type: str) -> image.load:
+def image_load(*, art_name: str, file_format: str, asset_type: str = '',
+               is_art_name_is_path: bool = False) -> Surface:
     """
     Load image by name.
     :param asset_type: String: 'Characters', 'Scenes' or 'UI'.
     :param art_name: must be string with file name in '*/Images/*' folder.
     :param file_format: Image file format: 'png' or 'jpg'.
-    :return: Loaded image.
+    :param is_art_name_is_path: If this flag is True than 'art_name' is absolute path to image.
+                           In this case 'asset_type' doesn't matter.
+    :type is_art_name_is_path: bool
+    :return: Surface
     """
-    art_path: str = f"{asset_root_path()}{path.join(*['Images', asset_type, art_name])}"
-    scene_image_path: str = f"{art_path}.{file_format}"
+    if is_art_name_is_path is False:
+        art_path: str = f"{asset_root_path()}{path.join(*['Images', asset_type, art_name])}"
+        scene_image_path: str = f"{art_path}.{file_format}"
+    else:
+        scene_image_path: str = f"{art_name}.{file_format}"
 
     if file_format == 'png':
         return image.load(scene_image_path).convert_alpha()

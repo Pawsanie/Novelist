@@ -11,28 +11,22 @@ class GamePlayAdministrator(BaseMenu):
     """
     Responsible for gameplay type at the moment.
     """
+    gameplay_collections: dict = {
+        'reading': GamePlayReading(),
+        'choice': GamePlayDialoguesChoice()
+    }
+
     def __init__(self):
         # Arguments processing:
         super(GamePlayAdministrator, self).__init__()
         self.stage_director: StageDirector = StageDirector()
-
-        # Settings for gameplay:
-        self.gameplay_reading: GamePlayReading = GamePlayReading()
-        self.gameplay_dialogues_choice: GamePlayDialoguesChoice = GamePlayDialoguesChoice()
 
     def gameplay_input(self, event):
         """
         Gameplay interaction.
         :param event: pygame.event from main_loop.
         """
-        # Gameplay reading:
-        if self.scene_validator.scene_gameplay_type == 'reading':
-            self.gameplay_reading.gameplay_input(event)
-            return
-        # Gameplay choice:
-        if self.scene_validator.scene_gameplay_type == 'choice':
-            self.gameplay_dialogues_choice.gameplay_input(event)
-            return
-        # Have no gameplay:
-        if self.scene_validator.scene_gameplay_type is False:
-            pass
+        for gameplay_type, gameplay_class in self.gameplay_collections.items():
+            if self.scene_validator.scene_gameplay_type == gameplay_type:
+                gameplay_class.gameplay_input(event)
+                return

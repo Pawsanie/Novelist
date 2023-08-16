@@ -1,14 +1,14 @@
 from pygame import transform, Surface
 
 from ..Application_layer.Assets_load import image_load, json_load
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contains code responsible for rendering scenes.
 """
 
 
-class Background(SingletonPattern):
+class Background:
     """
     Load scene image by name and update the scene.
     Can scale scene size to display size.
@@ -76,8 +76,9 @@ def backgrounds_generator() -> dict[str, Background]:
     return result
 
 
-class BackgroundMock(Background):
+class BackgroundProxy(Background, SingletonPattern):
     """
+    Proxy Pattern object:
     Blank for images surface scale.
     """
     def __init__(self):

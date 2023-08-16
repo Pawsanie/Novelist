@@ -1,10 +1,10 @@
 from pygame import Surface, SRCALPHA, transform
 
 from ..Application_layer.Assets_load import image_load
-from ..Universal_computing import surface_size
-from ..Game_objects.Background import BackgroundMock
+from ..Universal_computing.Surface_size import surface_size
+from ..Game_objects.Background import BackgroundProxy
 from ..Application_layer.Settings_Keeper import SettingsKeeper
-from ..Universal_computing import SingletonPattern
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contents code for user interface text canvas.
 """
@@ -20,11 +20,11 @@ class TextCanvas(SingletonPattern):
             file_format='png',
             asset_type='User_Interface'
         )
-        self.background_surface: BackgroundMock = BackgroundMock()
+        self.background_surface: BackgroundProxy = BackgroundProxy()
         self.screen: Surface = SettingsKeeper().screen
         self.text_canvas_surface: Surface = Surface((0, 0))
         self.text_canvas_coordinates: tuple[int, int] = (0, 0)
-        self.text_canvas_status: bool = True
+        self.status: bool = True
 
     def scale(self):
         """

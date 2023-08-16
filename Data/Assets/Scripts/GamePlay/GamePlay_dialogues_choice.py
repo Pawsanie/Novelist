@@ -3,13 +3,13 @@ from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Button import Button
 from ..Application_layer.Assets_load import json_load
 """
-Contains gameplay reading code.
+Contains gameplay of choice code.
 """
 
 
 class GamePlayDialoguesChoice(BaseMenu):
     """
-    Controls reactions to user input commands from mouse or key bord in reading gameplay.
+    Controls reactions to user input commands from mouse or key bord in choice gameplay.
     Generated in GamePlayAdministrator from 'Game_Play_Administrator.py' file.
     """
     def __init__(self):
@@ -25,7 +25,7 @@ class GamePlayDialoguesChoice(BaseMenu):
         Generate dict with buttons for dialogues choice gameplay.
         This is a nested dictionary of buttons group and an instance of the Button class.
         """
-        # localizations instructions from 'dialogues_localizations_data.json'.
+        # localizations instructions from 'dialogues_localizations_data.json':
         localizations_data: dict[str] = json_load(
             ['Scripts', 'Json_data', 'Dialogues', 'dialogues_localizations_data']
         )
@@ -86,7 +86,7 @@ class GamePlayDialoguesChoice(BaseMenu):
                         if choice_data[choice]['branching'] is not False:
                             self.scene_validator.scene_flag = choice_data[choice]['branching']
                         if choice_data[choice]['counter_change'] is not False:
-                            ...
+                            ...  # TODO: Add reputation system?
 
     def key_bord_gameplay_key_down(self, event):
         ...
@@ -94,9 +94,10 @@ class GamePlayDialoguesChoice(BaseMenu):
     def gameplay_input(self, event):
         """
         Gameplay input conveyor:
-        :param event: pygame.event from main_loop.
+        :param event: 'pygame.event' from main_loop.
         """
         # Button gameplay ui status:
+        # self.interface_controller.gameplay_choice_buttons = self.dialogues_buttons[self.scene_validator.scene]
         self.button_gameplay_ui_status(event)
         # Button gameplay key bord status:
         self.key_bord_gameplay_key_down(event)
