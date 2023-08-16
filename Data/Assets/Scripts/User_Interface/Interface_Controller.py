@@ -1,7 +1,7 @@
-from ..User_Interface.UI_Button import button_generator
+from ..User_Interface.UI_Button_Factory import button_generator
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
-from ..User_Interface.UI_Button import Button
+from ..User_Interface.UI_Buttons.UI_Base_Button import BaseButton
 from ..Application_layer.Stage_Director import StageDirector
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..Render.Sprite import Sprite
@@ -45,7 +45,7 @@ class InterfaceController(SingletonPattern):
         # "True/False" and "True" as default.
         self.start_menu_flag: bool = True
 
-    def get_ui_buttons_dict(self) -> dict[str, Button]:
+    def get_ui_buttons_dict(self) -> dict[str, BaseButton]:
         """
         Generate user interface buttons.
 
@@ -83,10 +83,10 @@ class InterfaceController(SingletonPattern):
         Scale interface buttons.
         """
         # UI Buttons scale:
-        ui_buttons_dict: dict[str, Button] = self.get_ui_buttons_dict()
+        ui_buttons_dict: dict[str, BaseButton] = self.get_ui_buttons_dict()
         if ui_buttons_dict is not None:
             for key in ui_buttons_dict:
-                button: Button = ui_buttons_dict[key]
+                button: BaseButton = ui_buttons_dict[key]
                 button.scale()
 
         # UI Text scale:
@@ -118,7 +118,7 @@ class InterfaceController(SingletonPattern):
         :return: tuple[str | None, True | False]
         """
         if self.gameplay_interface_hidden_status is False:
-            gameplay_ui_dict: dict[str, Button] = self.get_ui_buttons_dict()
+            gameplay_ui_dict: dict[str, BaseButton] = self.get_ui_buttons_dict()
             for button in gameplay_ui_dict:
                 click_status = gameplay_ui_dict[button].button_click_hold()
                 if click_status is True:
@@ -149,10 +149,10 @@ class InterfaceController(SingletonPattern):
         result: Batch = Batch()
 
         # Generate buttons:
-        menus_dict: dict[str, Button] = self.get_ui_buttons_dict()
+        menus_dict: dict[str, BaseButton] = self.get_ui_buttons_dict()
         if menus_dict is not None:
             for button_name in menus_dict:
-                button: Button = menus_dict[button_name]
+                button: BaseButton = menus_dict[button_name]
                 result.append(
                     Sprite(
                         image=button.button_surface,
