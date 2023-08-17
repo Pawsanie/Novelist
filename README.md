@@ -389,43 +389,55 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
                      └── :file_folder:User_Interface<br>
                               ├── :page_facing_up:Interface_Controller.py<br>
                               ├── :page_facing_up:UI_Menu_Text.py<br>
-                              ├── :page_facing_up:UI_Button.py<br>
-                              ├── :page_facing_up:UI_buttons_calculations.py<br>
+                              ├── :page_facing_up:UI_Button_Factory.py<br>
+                              └── :file_folder:UI_Buttons<br>
+                             |         └── :page_facing_up:UI_Base_Button.py<br>
+                             |         └── :page_facing_up:UI_*_Button.py **(Can be your button file)**<br>
                               └── :file_folder:UI_Menus<br>
                                        └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
-**Buttons for new menu:**
-If your menu will use **standard coordinates**, <br>
-then it must be added to the appropriate collection at the beginning of the 'Button' class.<br>
+**Buttons for new menu:**<br>
+To create new buttons, in any case, you need to update the collections of the **ButtonFactory** class from 'UI_Button_Factory.py' file.<br>
+If you want to use **standard button coordinates**.<br>
+Simply update the lists under the **"Interface collections"** comment.<br>
 **Example:**
 ```python
 # Interface collections:
-yes_no_menus: list[str] = [
+yes_no_menus: tuple = (
     'exit_menu',
     'settings_status_menu',
     'back_to_start_menu_status_menu'
-]
-long_buttons_menus: list[str] = [
+)
+long_buttons_menus: tuple = (
     'game_menu',
     'settings_menu',
     'start_menu',
     'creators_menu'
-]
-save_load_menus: list[str] = [
-    'save_menu',
-    'load_menu',
-]
+)
 ```
 In **this case**, all settings will be applied **automatically**.
 
-If your menu will have a different way of calculating button positions, then
-new menu need to be added in '**coordinates**' method of '**Button**' class in 'UI_Button.py' file.<br>
-Also you need to **write a new method** finding button coordinates.<br>
-'menu_yes_no_coordinates' method as example of **horizontal** menu.<br>
-And 'menu_start_and_settings_coordinates' as example of **vertical** menu.
+If your menu will hase a different way of calculating button positions, then
+you need to create a **new button class** and make it inherit from the **BaseButton** abstract class.<br>
+You will also need to update the **"button_collections"** dictionary.<br>
+**Example:**
+```python
+# Buttons collection:
+button_collections: dict = {
+    'yes_no_menus': {
+        'button_object': YesNoButton,
+        'allowable_menus': yes_no_menus
+    },
+    'long_buttons_menus': {
+        'button_object': LongButton,
+        'allowable_menus': long_buttons_menus
+    }
+}
+```
+Where is your **"button_object"** key value is your new class.<br>
+And **"allowable_menus"** key value is tuple from under **"Interface collections"** comment.
 
-New menu buttons need to be added in 'UI_buttons_calculations.py **button_size** function.'
-
+**New menu objects:**<br>
 You will need to modify the menus_collection dictionary of '**InputCommandsReactions**' in 'Reactions_to_input_commands.py' file.<br>
 Add a new item with menu settings to the dictionary.<br>
 **Example:**
