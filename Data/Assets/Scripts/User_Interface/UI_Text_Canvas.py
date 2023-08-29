@@ -42,7 +42,8 @@ class TextCanvas(SingletonPattern):
 
         # Text canvas coordinates:
         self.text_canvas_coordinates: tuple[int, int] = (
-            0,
+            self.background_surface.background_coordinates[0],
+
             (self.screen.get_height() // 2)
             + (background_surface.get_height() // 2)
             - surface_size(self.text_canvas_surface)[1]
