@@ -2,7 +2,7 @@
   "scene_01": {
     "background": "back_ground_01",
     "actors": {
-      "Nurse": {
+      "Test_character": {
         "character_start_position": "right",
         "character_pose": "3",
         "character_plan": "background_plan"
@@ -22,7 +22,7 @@
    "test_scene_02": {
     "background": "back_ground_01",
     "actors": {
-      "Nurse": {
+      "Test_character": {
         "character_start_position": "middle",
         "character_pose": "2",
         "character_plan": "first_plan"
@@ -37,10 +37,10 @@
   "test_scene_03": {
     "background": "back_ground_01",
     "actors": {
-      "Nurse": {
-        "character_start_position": "middle",
+      "Test_character": {
+        "character_start_position": "left",
         "character_pose": "2",
-        "character_plan": "first_plan"
+        "character_plan": "background_plan"
       }
     },
     "special_effects": false,

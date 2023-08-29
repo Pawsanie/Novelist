@@ -18,7 +18,7 @@ class Character:
         """
         :param surface: Character surface object for render.
         :type surface: pygame.Surface
-        :param character_image: Surface with image loaded.
+        :param character_image: pygame.Surface with image loaded.
         :type character_image: pygame.Surface
         :param character_size: Base character size.
         :type character_size: tuple[int, int]
@@ -33,9 +33,9 @@ class Character:
         self.character_poses: dict = character_poses
         self.background: BackgroundProxy = BackgroundProxy()
         self.character_size: tuple[int, int] = character_size
-        # [middle/right/left/custom] as 'middle' as default
+        # [middle|right|left|custom] with 'middle' as default
         self.position: str = 'middle'
-        # [first_plan/background_plan] as 'first_plan' as default
+        # [first_plan|background_plan] with 'first_plan' as default
         self.plan: str = 'first_plan'
         # 1 as default
         self.pose_number: str = '1'
@@ -138,68 +138,68 @@ class Character:
         """
         self.plan: str = plan
 
-    def meddle_point_for_character_render(self, *, screen_surface: Surface,
-                                          character_surface: Surface) -> list[int, int]:
+    def middle_point_for_character_render(self) -> list[int, int]:
         """
         Calculation middle coordinates for character render.
-
-        :param screen_surface: pygame.Surface of background.
-        :param character_surface: pygame.Surface of character.
         :return: List with coordinates of meddle point for character render.
         """
-        screen_size: tuple[int, int] = surface_size(screen_surface)
-        sprite_size: tuple[int, int] = surface_size(character_surface)
+        screen_size: tuple[int, int] = surface_size(self.background.get_data()[0])
+        sprite_size: tuple[int, int] = surface_size(self.surface)
         background_y_coordinate: int = self.background.background_coordinates[1]
-        result: list[int, int] = [
-            (screen_size[0] // 2)
-            - (sprite_size[0] // 2),
 
+        # X:
+        x_coordinate: int = int(
+            (screen_size[0] // 2)
+            - (sprite_size[0] // 2)
+        )
+
+        # Y:
+        y_coordinate: int = int(
             (screen_size[1] - sprite_size[1])
             + background_y_coordinate
-        ]
+        )
 
-        return result
+        return [x_coordinate, y_coordinate]
 
     def move_to_middle(self):
         """
         Move character to middle of scene.
         """
-        background_surface: Surface = self.background.get_data()[0]
-
-        if self.plan == 'background_plan':
-            self.coordinates_pixels: list[int, int] = self.meddle_point_for_character_render(
-                screen_surface=background_surface,
-                character_surface=self.surface
-            )
-
-        if self.plan == 'first_plan':
-            coordinates_pixels: list[int, int] = self.meddle_point_for_character_render(
-                screen_surface=background_surface,
-                character_surface=self.surface
-            )
-            coordinates_pixels_y: int = coordinates_pixels[1]
-            self.coordinates_pixels: list[int, int] = [coordinates_pixels[0], coordinates_pixels_y]
-
+        x_coordinate, y_coordinate = self.middle_point_for_character_render()
+        self.coordinates_pixels: list[int, int] = [
+            int(
+                x_coordinate
+                + self.background.background_coordinates[0]
+            ),
+            y_coordinate
+        ]
         self.position: str = 'middle'
 
     def move_to_left(self):
         """
         Move character to right of scene.
         """
-        self.move_to_middle()
-        coordinates_pixels: list[int, int] = self.coordinates_pixels
-        self.coordinates_pixels: list[int, int] = [coordinates_pixels[0] // 3, coordinates_pixels[1]]
+        x_coordinate, y_coordinate = self.middle_point_for_character_render()
+        self.coordinates_pixels: list[int, int] = [
+            int(
+                x_coordinate // 3
+                + self.background.background_coordinates[0]
+            ),
+            y_coordinate
+        ]
         self.position: str = 'left'
 
     def move_to_right(self):
         """
         Move character to right of scene.
         """
-        self.move_to_middle()
-        coordinates_pixels: list[int, int] = self.coordinates_pixels
+        x_coordinate, y_coordinate = self.middle_point_for_character_render()
         self.coordinates_pixels: list[int, int] = [
-            int(coordinates_pixels[0] * 1.64),
-            coordinates_pixels[1]
+            int(
+                x_coordinate * 1.64
+                + self.background.background_coordinates[0]
+            ),
+            y_coordinate
         ]
         self.position: str = 'right'
 
@@ -208,7 +208,7 @@ def characters_generator() -> dict[str, Character]:
     """
     Load data about characters and their sprites from json and make dict with Character class exemplars.
 
-    :return: Dictionary with 'character`s names as a keys and Character`s exemplar as values.
+    :return: Dictionary with character`s names as a keys and Character`s exemplar as values.
     """
     result: dict = {}
     characters_list: dict = json_load([
