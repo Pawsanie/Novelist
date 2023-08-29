@@ -1,6 +1,7 @@
 from .Stage_Director import StageDirector
 from .Assets_load import json_load
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from .Sound_Director import SoundDirector
 """
 Contains SceneValidator code.
 """
@@ -22,8 +23,11 @@ class SceneValidator(SingletonPattern):
                 'Scripts', 'Json_data', 'Dialogues', 'choices_data'
             ]
         )
-        # Stage Director settings:
+
+        # Directors settings:
         self.stage_director: StageDirector = StageDirector()
+        # self.sound_director: SoundDirector = SoundDirector()
+
         # Scene FLAGS:
         # START as default!
         self.scene: str = 'START'
@@ -73,9 +77,6 @@ class SceneValidator(SingletonPattern):
         self.next_scene: str = scene['next_scene']
         self.past_scene: str = scene['past_scene']
         self.scene_gameplay_type: str = scene['gameplay_type']
-
-        self.stage_director.scene_name = self.scene  # TODO: Remove when refactoring rendering.
-        # TODO: Uses in the gameplay of choice ^.
 
         # Scene text settings!:
         if self.scene_gameplay_type is not False:  # TODO: Remake?

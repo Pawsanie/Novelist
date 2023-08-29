@@ -72,8 +72,7 @@ class GamePlayDialoguesChoice(BaseMenu):
         :param event: pygame.event from main_loop.
         """
         # Rules of choice for scene:
-        choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.stage_director.scene_name]
-        # TODO: change 'self.stage_director.scene_name' with render refactoring.
+        choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
 
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:
