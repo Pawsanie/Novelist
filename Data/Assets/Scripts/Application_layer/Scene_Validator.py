@@ -44,11 +44,11 @@ class SceneValidator(SingletonPattern):
         """
         Manages game scene selection and rendering.
         """
-        if self.status is False:
-            return
-
         # Keep current scene!:
-        if self.scene_flag == self.scene:
+        if all((
+                self.status is False,
+                self.scene_flag == self.scene
+        )):
             return
 
         # Set new scene!:
