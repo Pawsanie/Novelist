@@ -26,7 +26,7 @@ class SceneValidator(SingletonPattern):
 
         # Directors settings:
         self.stage_director: StageDirector = StageDirector()
-        # self.sound_director: SoundDirector = SoundDirector()
+        self.sound_director: SoundDirector = SoundDirector()
 
         # Scene FLAGS:
         # START as default!
