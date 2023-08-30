@@ -228,7 +228,7 @@ Sprites must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:Backgrounds<br>
-                            └── :framed_picture:*.png **(Can be your image file)**<br>
+                            └── :framed_picture:*.jpg **(Can be your image file)**<br>
 
 However, you can change the sprite's format requirement by modifying it in the code.
 
