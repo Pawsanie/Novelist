@@ -195,7 +195,7 @@ Sprites must be in **png** format and stored in a 'Characters' folder.<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:Characters<br>
-                           └── :framed_picture:*.png **(Can be your image file)**<br>
+                            └── :framed_picture:*.png **(Can be your image file)**<br>
 
 ## Backgrounds and its sprites:
 Information about the backgrounds and its sprites must be entered into the 'backgrounds_sprites.json' file.<br>
@@ -226,8 +226,9 @@ Sprites must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
 ./:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
-            ├── :file_folder:Images<br>
-            └── :file_folder:Backgrounds<br>
+            └── :file_folder:Images<br>
+                    └── :file_folder:Backgrounds<br>
+                            └── :framed_picture:*.png **(Can be your image file)**<br>
 
 However, you can change the sprite's format requirement by modifying it in the code.
 
