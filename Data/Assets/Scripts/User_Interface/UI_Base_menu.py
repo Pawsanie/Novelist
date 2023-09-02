@@ -20,7 +20,7 @@ class BaseMenu:
         """
         Stop loop after user command and redraw image.
         """
-        self.scene_validator.status = True
+        self.scene_validator.scene = 'redraw'
 
     def input_mouse(self, event):
         """

@@ -93,7 +93,7 @@ In this case, the keys indicate which scene was before 'scene_01' and which shou
 Scenes 'START' or 'FINISH' do not exist.<br>
 But the game focuses on its flags.<br>
 Please note that a '**gameplay_type**' key value must be **reading/choice/false** where the first two options are strings.<br>
-Please note that an **actors** characters keys must match certain values:<br>
+Please note that a **actors** characters keys must match certain values:<br>
 **character_start_position** - may have values **right/middle/left**.<br>
 **character_pose** - can be any key from the dictionary 'characters_sprites.json'. <br>
 More about this further in **"Characters and their sprites"** paragraph.<br>
@@ -195,7 +195,6 @@ Sprites must be in **png** format and stored in a 'Characters' folder.<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:Characters<br>
-                            └── :framed_picture:*.png **(Can be your image file)**<br>
 
 ## Backgrounds and its sprites:
 Information about the backgrounds and its sprites must be entered into the 'backgrounds_sprites.json' file.<br>
@@ -226,9 +225,8 @@ Sprites must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
 ./:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:Backgrounds<br>
-                            └── :framed_picture:*.jpg **(Can be your image file)**<br>
+            ├── :file_folder:Images<br>
+            └── :file_folder:Backgrounds<br>
 
 However, you can change the sprite's format requirement by modifying it in the code.
 
@@ -391,55 +389,43 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
                      └── :file_folder:User_Interface<br>
                               ├── :page_facing_up:Interface_Controller.py<br>
                               ├── :page_facing_up:UI_Menu_Text.py<br>
-                              ├── :page_facing_up:UI_Button_Factory.py<br>
-                              ├── :file_folder:UI_Buttons<br>
-                               |       └── :page_facing_up:UI_Base_Button.py<br>
-                               |       └── :page_facing_up:UI_*_Button.py **(Can be your button file)**<br>
+                              ├── :page_facing_up:UI_Button.py<br>
+                              ├── :page_facing_up:UI_buttons_calculations.py<br>
                               └── :file_folder:UI_Menus<br>
                                        └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
-**Buttons for new menu:**<br>
-To create new buttons, in any case, you need to update the collections of the **ButtonFactory** class from 'UI_Button_Factory.py' file.<br>
-If you want to use **standard button coordinates**.<br>
-Simply update the lists under the **"Interface collections"** comment.<br>
+**Buttons for new menu:**
+If your menu will use **standard coordinates**, <br>
+then it must be added to the appropriate collection at the beginning of the 'Button' class.<br>
 **Example:**
 ```python
 # Interface collections:
-yes_no_menus: tuple = (
+yes_no_menus: list[str] = [
     'exit_menu',
     'settings_status_menu',
     'back_to_start_menu_status_menu'
-)
-long_buttons_menus: tuple = (
+]
+long_buttons_menus: list[str] = [
     'game_menu',
     'settings_menu',
     'start_menu',
     'creators_menu'
-)
+]
+save_load_menus: list[str] = [
+    'save_menu',
+    'load_menu',
+]
 ```
 In **this case**, all settings will be applied **automatically**.
 
-If your menu will hase a different way of calculating button positions, then
-you need to create a **new button class** and make it inherit from the **BaseButton** abstract class.<br>
-You will also need to update the **"button_collections"** dictionary.<br>
-**Example:**
-```python
-# Buttons collection:
-button_collections: dict = {
-    'yes_no_menus': {
-        'button_object': YesNoButton,
-        'allowable_menus': yes_no_menus
-    },
-    'long_buttons_menus': {
-        'button_object': LongButton,
-        'allowable_menus': long_buttons_menus
-    }
-}
-```
-Where is your **"button_object"** key value is your new class.<br>
-And **"allowable_menus"** key value is tuple from under **"Interface collections"** comment.
+If your menu will have a different way of calculating button positions, then
+new menu need to be added in '**coordinates**' method of '**Button**' class in 'UI_Button.py' file.<br>
+Also you need to **write a new method** finding button coordinates.<br>
+'menu_yes_no_coordinates' method as example of **horizontal** menu.<br>
+And 'menu_start_and_settings_coordinates' as example of **vertical** menu.
 
-**New menu objects:**<br>
+New menu buttons need to be added in 'UI_buttons_calculations.py **button_size** function.'
+
 You will need to modify the menus_collection dictionary of '**InputCommandsReactions**' in 'Reactions_to_input_commands.py' file.<br>
 Add a new item with menu settings to the dictionary.<br>
 **Example:**
@@ -540,7 +526,7 @@ Generates a '**Character**', '**Background**' and '**DialoguesWords**' objects u
 * **SceneValidator** - controls the order of the scenes.<br>
 Stores inside itself information about the type of scene with which the StageDirector.
 * **InterfaceController** - controls all interface with which the player can interact.<br>
-Generates '**Button**' instances with **'ButtonFactory'** and make menus from them.
+Generates '**Button**' instances and make menus from them.
 * **InputCommandsReactions** - catches user commands inside the game and passes them inside the loop to other entities.<br>
 Generates '**GamePlayAdministrator**' and all **menus** objects.
 * **Render** - renders the image after the calculations.
@@ -571,7 +557,7 @@ The **StageDirector** builds a scene.<br>
                      │        └── :page_facing_up:Render.py<br>
                      └── :file_folder:User_Interface<br>
                               ├── :page_facing_up:Interface_Controller.py<br>
-                              └── :page_facing_up:UI_Button_Factory.py<br>
+                              └── :page_facing_up:UI_Button.py<br>
 
 Please note that the name of some classes does not correspond to the files where they are contained.<br>
 But according to the meaning of the names of the given files, it is still clear where they are.
@@ -591,7 +577,7 @@ Please note that the subfolder and the save file **must have the same name**.<br
    └── :file_folder:Saves<br>
             └── :file_folder:AutoSave<br>
                      ├── :page_facing_up:AutoSave.save<br>
-                     └── :framed_picture:screen_preview.png<br>
+                     └── :page_facing_up:screen_preview.png<br>
 **Example of 'AutoSave.save' file:**
 ```json
 {
