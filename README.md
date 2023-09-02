@@ -69,23 +69,37 @@ In the last scene next_scene key **must** be **'FINISH'**.<br>
 ```json
 {
    "scene_01": {
-      "background": "back_ground_01",
-      "actors": {
-         "Character_1": {
-            "character_start_position": "right",
-            "character_pose": "3",
-            "character_plan": "background_plan"
+     "background": "back_ground_01",
+     "actors": {
+       "Character_1": {
+         "character_start_position": "right",
+         "character_pose": "3",
+         "character_plan": "background_plan"
+       },
+       "Character_2": {
+         "character_start_position": "middle",
+         "character_pose": "2",
+         "character_plan": "first_plan"
+       }
+     },
+     "special_effects": false,
+     "gameplay_type": "reading",
+     "past_scene": "START",
+     "next_scene": "scene_02",
+     "sounds": {
+       "music": false,
+       "effects": [
+         {
+           "file_name": "blank_01",
+           "delay": 0.5
          },
-         "Character_2": {
-            "character_start_position": "middle",
-            "character_pose": "2",
-            "character_plan": "first_plan"
+         {
+           "file_name": "blank_02",
+           "delay": false
          }
-      },
-      "special_effects": false,
-      "gameplay_type": "reading",
-      "past_scene": "START",
-      "next_scene": "scene_02"
+       ],
+       "voice": false
+     }
    }
 }
 ```
@@ -97,7 +111,11 @@ Please note that an **actors** characters keys must match certain values:<br>
 **character_start_position** - may have values **right/middle/left**.<br>
 **character_pose** - can be any key from the dictionary 'characters_sprites.json'. <br>
 More about this further in **"Characters and their sprites"** paragraph.<br>
-**character_plan** - may have values **background_plan/first_plan**.
+**character_plan** - may have values **background_plan/first_plan**.<br>
+The nested dictionary of the **"sounds"** key contains the keys and values of the sound effects and music<br>
+that will be played at the start of the scene and will be interrupted at the transition to the next one.<br>
+Please note that the keys **"voice"** and **"music"** can contain either a string with a name, without a file extension, or **false** as values.<br>
+And the **"effects"** key can contain either **false** or a **list with dictionaries** describing the file name and playback delay in decimal form as values.
 
 ### Dialogues:
 Game dialogues have to be writen in **lang_tag.json** file... **eng.json** as example...<br>

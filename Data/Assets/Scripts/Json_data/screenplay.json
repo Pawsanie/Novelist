@@ -16,7 +16,21 @@
     "special_effects": false,
     "gameplay_type": "reading",
     "past_scene": "START",
-    "next_scene": "test_scene_02"
+    "next_scene": "test_scene_02",
+    "sounds": {
+      "music": false,
+      "effects": [
+        {
+          "file_name": "blank_01",
+          "delay": 0.5
+        },
+        {
+          "file_name": "blank_02",
+          "delay": false
+        }
+      ],
+      "voice": false
+    }
   },
 
    "test_scene_02": {
@@ -31,7 +45,12 @@
     "special_effects": false,
     "gameplay_type": "choice",
     "past_scene": "scene_01",
-    "next_scene": false
+    "next_scene": false,
+    "sounds": {
+      "music": false,
+      "effects": false,
+      "voice": false
+    }
   },
 
   "test_scene_03": {
@@ -46,7 +65,12 @@
     "special_effects": false,
     "gameplay_type": "reading",
     "past_scene": "test_scene_02",
-    "next_scene": "FINISH"
+    "next_scene": "FINISH",
+    "sounds": {
+      "music": false,
+      "effects": false,
+      "voice": false
+    }
   }
 
 }

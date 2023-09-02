@@ -6,6 +6,7 @@ from ..User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Save_Keeper import SaveKeeper
 from ..Logging_Config import error_logger
+from .Sound_Director import SoundDirector
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
@@ -24,6 +25,8 @@ class GameMaster:
         self.stage_director: StageDirector = StageDirector()
         # Scene Validator settings:
         self.scene_validator: SceneValidator = SceneValidator()
+        # Sound Director settings:
+        self.sound_director: SoundDirector = SoundDirector()
         # Interface Controller settings:
         self.interface_controller: InterfaceController = InterfaceController()
         self.interface_controller.menu_name = 'start_menu'
@@ -76,6 +79,8 @@ class GameMaster:
         # Build scene:
         self.set_scene()
         self.stage_director.scale()
+        # Sound
+        self.sound_director.play()
         # Chose gameplay settings:
         self.set_gameplay_type()
         # Build interface:
