@@ -31,7 +31,10 @@ class ButtonFactory(SingletonPattern):
     )
     save_load_menus: tuple[str] = (
         'save_menu',
-        'load_menu',
+        'load_menu'
+    )
+    gameplay_reading: tuple[str] = (
+        'gameplay_ui',
     )
 
     # Buttons collection:
@@ -50,8 +53,8 @@ class ButtonFactory(SingletonPattern):
         },
         'gameplay_reading': {
             'button_object': GamePlayReadingButton,
-            'allowable_menus': ('gameplay_ui',)
-        },
+            'allowable_menus': gameplay_reading
+        }
     }
 
     def produce(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],

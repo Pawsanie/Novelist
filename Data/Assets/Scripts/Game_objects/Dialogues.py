@@ -92,7 +92,10 @@ class DialoguesWords(SingletonPattern):
 
         text_canvas_y: int = self.text_canvas.text_canvas_coordinates[1]
 
-        x_result: int = (text_canvas_size_x // 100) * 30
+        x_result: int = (
+                (text_canvas_size_x // 100) * 30
+                + self.background_surface.background_coordinates[0]
+        )
         if text_type == 'speech':
             y_result: int = (
                     text_canvas_y

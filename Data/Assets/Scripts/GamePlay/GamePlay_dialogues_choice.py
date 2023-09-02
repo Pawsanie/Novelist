@@ -37,7 +37,9 @@ class GamePlayDialoguesChoice(BaseMenu):
         all_buttons_text_localizations_dict: dict = {}
         for language in localizations:
             all_buttons_text_localizations_dict.update(
-                {language: json_load(['Scripts', 'Json_data', 'Dialogues', 'Choice', language])}
+                {language: json_load(
+                    ['Scripts', 'Json_data', 'Dialogues', 'Choice', language]
+                )}
             )
         choice_buttons_text: dict[str] = all_buttons_text_localizations_dict[self.stage_director.language_flag]
         # Generate dialogues choice buttons:
@@ -72,8 +74,7 @@ class GamePlayDialoguesChoice(BaseMenu):
         :param event: pygame.event from main_loop.
         """
         # Rules of choice for scene:
-        choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.stage_director.scene_name]
-        # TODO: change 'self.stage_director.scene_name' with render refactoring.
+        choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
 
         # If user interface is not hidden:
         if self.interface_controller.gameplay_interface_hidden_status is False:
@@ -97,7 +98,6 @@ class GamePlayDialoguesChoice(BaseMenu):
         :param event: 'pygame.event' from main_loop.
         """
         # Button gameplay ui status:
-        # self.interface_controller.gameplay_choice_buttons = self.dialogues_buttons[self.scene_validator.scene]
         self.button_gameplay_ui_status(event)
         # Button gameplay key bord status:
         self.key_bord_gameplay_key_down(event)
