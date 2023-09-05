@@ -68,37 +68,37 @@ In the last scene next_scene key **must** be **'FINISH'**.<br>
 **Example of one scene in screenplay.json file:**
 ```json
 {
-   "scene_01": {
-     "background": "back_ground_01",
-     "actors": {
-       "Character_1": {
-         "character_start_position": "right",
-         "character_pose": "3",
-         "character_plan": "background_plan"
-       },
-       "Character_2": {
-         "character_start_position": "middle",
-         "character_pose": "2",
-         "character_plan": "first_plan"
-       }
-     },
-     "special_effects": false,
-     "gameplay_type": "reading",
-     "past_scene": "START",
-     "next_scene": "scene_02",
-     "sounds": {
-       "music": false,
-       "effects": [
-         {
-           "file_name": "blank_01",
-           "delay": 0.5
-         },
-         {
-           "file_name": "blank_02",
-           "delay": false
-         }
-       ],
-       "voice": false
+  "scene_01": {
+    "background": "back_ground_01",
+    "actors": {
+      "Test_character": {
+        "character_start_position": "right",
+        "character_pose": "3",
+        "character_plan": "background_plan"
+      },
+      "Test": {
+        "character_start_position": "middle",
+        "character_pose": "2",
+        "character_plan": "first_plan"
+      }
+    },
+    "special_effects": false,
+    "gameplay_type": "reading",
+    "past_scene": "START",
+    "next_scene": "test_scene_02",
+    "sounds": {
+      "music_channel": false,
+      "sound_channel": [
+        {
+          "file_name": "blank_01",
+          "delay": 0.5
+        },
+        {
+          "file_name": "blank_02",
+          "delay": false
+        }
+      ],
+      "voice_channel": false
      }
    }
 }
