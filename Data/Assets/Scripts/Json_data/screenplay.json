@@ -18,8 +18,8 @@
     "past_scene": "START",
     "next_scene": "test_scene_02",
     "sounds": {
-      "music": false,
-      "effects": [
+      "music_channel": false,
+      "sound_channel": [
         {
           "file_name": "blank_01",
           "delay": 0.5
@@ -29,7 +29,7 @@
           "delay": false
         }
       ],
-      "voice": false
+      "voice_channel": false
     }
   },
 
@@ -47,9 +47,9 @@
     "past_scene": "scene_01",
     "next_scene": false,
     "sounds": {
-      "music": false,
-      "effects": false,
-      "voice": false
+      "music_channel": false,
+      "sound_channel": false,
+      "voice_channel": false
     }
   },
 
@@ -67,9 +67,9 @@
     "past_scene": "test_scene_02",
     "next_scene": "FINISH",
     "sounds": {
-      "music": false,
-      "effects": false,
-      "voice": false
+      "music_channel": false,
+      "sound_channel": false,
+      "voice_channel": false
     }
   }
 

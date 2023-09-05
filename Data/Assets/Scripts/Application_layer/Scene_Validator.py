@@ -1,5 +1,5 @@
 from .Stage_Director import StageDirector
-from .Assets_load import json_load
+from .Assets_load import json_load, sound_load, music_load
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Sound_Director import SoundDirector
 """
@@ -96,6 +96,20 @@ class SceneValidator(SingletonPattern):
         # Special effects!:
         if scene['special_effects'] is not False:
             ...
+
+        # Sounds settings:
+        for key, value in scene['sounds'].items():
+            if value is not False:
+                if key == 'music':
+                    self.sound_director.channels_collection[key]['sound_file'] = music_load(
+                        asset_type='music',
+                        file_name=value
+                    )
+                else:
+                    self.sound_director.channels_collection[key]['sound_file'] = sound_load(
+                        asset_type='sound',
+                        file_name=value
+                    )
 
     @staticmethod
     def autosave():
