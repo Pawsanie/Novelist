@@ -51,8 +51,6 @@ class StageDirector(SingletonPattern):
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.speaker: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
         self.text_dict_reading_cash: dict[str] = {}
-        # Text Choice gameplay:
-        # self.text_dict_choice: dict[str] = self.text_dict_all['Choice']
 
     def set_scene(self, *, location: str) -> Surface.blit:
         """
@@ -65,7 +63,7 @@ class StageDirector(SingletonPattern):
             scene: Background = self.backgrounds_dict.get(location)
             self.location: Background = scene
         else:
-            scene = self.location
+            scene: Background = self.location
 
         scene.scale()
         scene_image: Surface = scene.scene_image
@@ -92,6 +90,7 @@ class StageDirector(SingletonPattern):
         for character in self.characters_dict.values():
             character.scale()
 
+        # Set words again (cant be scaled):
         if self.text_controller.status is True:
             self.set_reading_words(script=self.text_dict_reading_cash)
 

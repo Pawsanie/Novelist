@@ -18,7 +18,7 @@ class Background:
         Set background image.
 
         :param scene_image: Image for background.
-        :type scene_image: pygame.image.load
+        :type scene_image: Surface
         """
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.display_surface: Surface = self.settings_keeper.get_windows_settings()
@@ -99,6 +99,8 @@ class BackgroundProxy(Background, SingletonPattern):
     def set_new_image(self, *, new_image: Surface):
         """
         Set new image to safe place for scale.
+        :param new_image: Surface with image.
+        :type new_image: Surface
         """
         self.scene_image_safe: Surface = new_image
         self.scene_image: Surface = new_image
