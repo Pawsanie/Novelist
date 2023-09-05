@@ -112,9 +112,9 @@ Please note that an **actors** characters keys must match certain values:<br>
 **character_pose** - can be any key from the dictionary 'characters_sprites.json'. <br>
 More about this further in **"Characters and their sprites"** paragraph.<br>
 **character_plan** - may have values **background_plan/first_plan**.<br>
-The nested dictionary of the **"sounds"** key contains the keys and values of the sound effects and music<br>
+The nested dictionary of the **"sound_channel"** key contains the keys and values of the sound effects and music<br>
 that will be played at the start of the scene and will be interrupted at the transition to the next one.<br>
-Please note that the keys **"voice"** and **"music"** can contain either a string with a name, without a file extension, or **false** as values.<br>
+Please note that the keys **"voice_channel"** and **"music_channel"** can contain either a string with a name, without a file extension, or **false** as values.<br>
 And the **"effects"** key can contain either **false** or a **list with dictionaries** describing the file name and playback delay in decimal form as values.
 
 ### Dialogues:
