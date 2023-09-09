@@ -47,7 +47,7 @@
     "past_scene": "scene_01",
     "next_scene": false,
     "sounds": {
-      "music_channel": false,
+      "music_channel": "blank",
       "sound_channel": false,
       "voice_channel": false
     }
@@ -69,7 +69,7 @@
     "sounds": {
       "music_channel": false,
       "sound_channel": false,
-      "voice_channel": false
+      "voice_channel": "blank"
     }
   }
 

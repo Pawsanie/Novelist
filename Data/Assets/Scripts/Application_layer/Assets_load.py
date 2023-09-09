@@ -49,7 +49,7 @@ def sound_load(*, asset_type: str, file_name: str) -> Sound:
     :param file_name: must be string with file name in '*/Sounds/*' folder.
     :return: Sound
     """
-    sound_path: str = f"{asset_root_path()}{path.join(*['Sounds', asset_type, file_name])}"
+    sound_path: str = f"{asset_root_path()}{path.join(*['Sounds', asset_type, file_name])}.mp3"
     return Sound(sound_path)
 
 
@@ -60,7 +60,7 @@ def music_load(*, asset_type: str, file_name: str) -> mixer.music.load:
     :param file_name: must be string with file name in '*/Sounds/*' folder.
     :return: Sound
     """
-    sound_path: str = f"{asset_root_path()}{path.join(*['Sounds', asset_type, file_name])}"
+    sound_path: str = f"{asset_root_path()}{path.join(*['Sounds', asset_type, file_name])}.mp3"
     return mixer.music.load(sound_path)
 
 
