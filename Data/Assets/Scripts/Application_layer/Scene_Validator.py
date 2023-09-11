@@ -108,20 +108,12 @@ class SceneValidator(SingletonPattern):
                         file_name=value
                     )
 
-                # Character Speach:
-                if key == 'voice_channel':
+                # Character Speach or Sound effects:
+                else:
                     self.sound_director.channels_collection[key]['sound_file'] = sound_load(
                         asset_type='Voice',
                         file_name=value
                     )
-
-                # Sound effects:
-                if key == "sound_channel":
-                    for sound in value:
-                        self.sound_director.channels_collection[key]['sound_file'] = sound_load(
-                            asset_type='Effects',
-                            file_name=sound['file_name']
-                        )
 
     @staticmethod
     def autosave():

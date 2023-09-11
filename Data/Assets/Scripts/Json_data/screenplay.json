@@ -19,16 +19,7 @@
     "next_scene": "test_scene_02",
     "sounds": {
       "music_channel": false,
-      "sound_channel": [
-        {
-          "file_name": "blank_01",
-          "delay": 0.5
-        },
-        {
-          "file_name": "blank_02",
-          "delay": false
-        }
-      ],
+      "sound_channel": "blank",
       "voice_channel": false
     }
   },

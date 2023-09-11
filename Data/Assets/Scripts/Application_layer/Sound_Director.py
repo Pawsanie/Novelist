@@ -86,7 +86,7 @@ class SoundDirector(SingletonPattern):
                 channel: dict = self.channels_collection[channel]
                 sound_file: Sound | None = channel['sound_file']
 
-                if channel['sound_file'] is not None:
+                if sound_file is not None:
                     self.play_sound(
                         sound_file=sound_file,
                         sound_channel=channel['sound_channel'],

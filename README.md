@@ -88,16 +88,7 @@ In the last scene next_scene key **must** be **'FINISH'**.<br>
     "next_scene": "test_scene_02",
     "sounds": {
       "music_channel": false,
-      "sound_channel": [
-        {
-          "file_name": "blank_01",
-          "delay": 0.5
-        },
-        {
-          "file_name": "blank_02",
-          "delay": false
-        }
-      ],
+      "sound_channel": "blank",
       "voice_channel": false
      }
    }
@@ -114,8 +105,7 @@ More about this further in **"Characters and their sprites"** paragraph.<br>
 **character_plan** - may have values **background_plan/first_plan**.<br>
 The nested dictionary of the **"sounds"** key contains the keys and values of the sound effects and music<br>
 that will be played at the start of the scene and will be interrupted at the transition to the next one.<br>
-Please note that the keys **"voice_channel"** and **"music_channel"** can contain either a string with a name, without a file extension, or **false** as values.<br>
-And the **"sound_channel"** key can contain either **false** or a **list with dictionaries** describing the file name and playback delay in decimal form as values.
+Please note that the keys **"voice_channel"**, **"sound_channel"** and **"music_channel"** can contain either a string with a name, without a file extension, or **false** as values.<br>
 
 ### Dialogues:
 Game dialogues have to be writen in **lang_tag.json** file... **eng.json** as example...<br>
@@ -546,6 +536,12 @@ The game reads them at startup and saves them there, with the consent to change 
    └── :file_folder:Assets<br>
             └── :page_facing_up:user_settings<br>
 
+## Sound System:
+The **SoundDirector** class is responsible for working with sound.<br>
+Inside, it works with three audio channels responsible for character speech, music and sound effects.<br>
+All sounds and music files **must be** in **MP3** format.
+You can read more about installing audio tracks in paragraph **"Settings of scenes"**.
+
 ## How the program works:
 
 'Visual_novel_game.py' initializes game and call 'GameMaster' class.<br>
@@ -631,9 +627,6 @@ The **'SettingsKeeper'** class already exists.<br>
 It must be used for business logic that will work in the menu.<br>
 The **'SettingsMenu'** class and its menu can be used as an external wrapper, or modified.<br>
 I planned to use it as a wrapper and make a separate menu for each type of setting.
-
-### Sound system:
-At the moment, working with sound in the application is not implemented.
 
 # Known Bugs:
 
