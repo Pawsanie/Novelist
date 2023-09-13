@@ -139,6 +139,7 @@ class SceneValidator(SingletonPattern):
         :param sound_chanel: Sound chanel type.
         :type sound_chanel: str
         """
+        # Change soundtrack in sound chanel:
         if self.sound_director.channels_collection[sound_chanel]['sound_file_name'] != sound_file_name:
             if asset_type == 'Music':
                 sound_file = music_load(
@@ -152,7 +153,10 @@ class SceneValidator(SingletonPattern):
                 )
             self.sound_director.channels_collection[sound_chanel]['sound_file'] = sound_file
             self.sound_director.channels_collection[sound_chanel]['devnull_status'] = True
+
+        # Keep current soundtrack in sound chanel:
         else:
+            self.sound_director.channels_collection[sound_chanel]['sound_file'] = None
             self.sound_director.channels_collection[sound_chanel]['devnull_status'] = False
 
     @staticmethod
