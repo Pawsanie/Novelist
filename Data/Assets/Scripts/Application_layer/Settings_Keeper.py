@@ -12,7 +12,7 @@ Contains the code responsible for the game settings.
 
 class SettingsKeeper(SingletonPattern):
     """
-    Reading settings from "settings" file.
+    Reading settings from "settings" file and keep it.
     """
     def __init__(self):
         # Path settings:
@@ -62,13 +62,14 @@ class SettingsKeeper(SingletonPattern):
     def get_windows_settings(self) -> Surface:
         """
         Get "display.set_mode(...)" pygame.Surface with actual settings.
+        :return: pygame.Surface
         """
         return self.screen
 
     def set_windows_settings(self) -> Surface:
         """
         Generate or set new display mode.
-        :result: pygame.display.Surface
+        :return: pygame.display.Surface
         """
         if self.screen_type == 'full_screen':
             screen_size = Tk()
@@ -108,7 +109,8 @@ class SettingsKeeper(SingletonPattern):
     @staticmethod
     def system_type() -> str:
         """
-        :return: String with system type.
+        Return String with system type.
+        :return: str
         """
         if platform == "linux" or platform == "linux2":
             return 'linux'

@@ -21,28 +21,37 @@ class SoundDirector(SingletonPattern):
             "music_channel": {
                 "sound_channel": Channel(0),
                 "sound_file": None,
-                "sound_type_volume": self.settings_keeper.music_volume
+                "sound_type_volume": self.settings_keeper.music_volume,
+                "devnull_status": False,
+                "sound_file_name": None
             },
             "sound_channel": {
                 "sound_channel": Channel(1),
                 "sound_file": None,
-                "sound_type_volume": self.settings_keeper.sound_volume
+                "sound_type_volume": self.settings_keeper.sound_volume,
+                "devnull_status": False,
+                "sound_file_name": None
             },
             "voice_channel": {
                 "sound_channel": Channel(2),
                 "sound_file": None,
-                "sound_type_volume": self.settings_keeper.sound_volume
+                "sound_type_volume": self.settings_keeper.sound_volume,
+                "devnull_status": False,
+                "sound_file_name": None
             }
         }
 
         self.status: bool = True
+        self.single_voiceover_language: bool = True
+        self.default_language: str = 'eng'
 
     def vanish_channels(self):
         """
         Devnull sounds from all sound channels.
         """
         for chanel in self.channels_collection:
-            self.channels_collection[chanel]["sound_channel"].fadeout(300)
+            if self.channels_collection[chanel]["devnull_status"] is True:
+                self.channels_collection[chanel]["sound_channel"].fadeout(300)
 
     def play_sound(self, sound_file: Sound, sound_channel: Channel, sound_type_volume: int):
         """

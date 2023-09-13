@@ -1,7 +1,10 @@
+from os import sep
+
 from .Stage_Director import StageDirector
 from .Assets_load import json_load, sound_load, music_load
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Sound_Director import SoundDirector
+from .Settings_Keeper import SettingsKeeper
 """
 Contains SceneValidator code.
 """
@@ -24,9 +27,10 @@ class SceneValidator(SingletonPattern):
             ]
         )
 
-        # Directors settings:
+        # Program layers settings:
         self.stage_director: StageDirector = StageDirector()
         self.sound_director: SoundDirector = SoundDirector()
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
 
         # Scene FLAGS:
         # START as default!
@@ -38,20 +42,21 @@ class SceneValidator(SingletonPattern):
         self.scene_gameplay_type: str = ''
         self.default_scene_name: str = 'scene_01'
 
+        # Other settings:
         self.status: bool = True
 
     def __call__(self):
         """
         Manages game scene selection and rendering.
         """
-        # Keep current scene!:
+        # Keep current scene:
         if all((
                 self.status is False,
                 self.scene_flag == self.scene
         )):
             return
 
-        # Set new scene!:
+        # Set new scene:
         self.stage_director.vanishing_scene()
         scene: dict = self.screenplay[self.scene_flag]
         self.stage_director.set_scene(location=scene['background'])
@@ -72,13 +77,13 @@ class SceneValidator(SingletonPattern):
                 self.stage_director.set_actor(character=name)\
                     .move_to_left()
 
-        # Scene FLAG settings!:
+        # Scene FLAG settings:
         self.scene: str = self.scene_flag
         self.next_scene: str = scene['next_scene']
         self.past_scene: str = scene['past_scene']
         self.scene_gameplay_type: str = scene['gameplay_type']
 
-        # Scene text settings!:
+        # Scene text settings:
         if self.scene_gameplay_type is not False:  # TODO: Remake?
             if self.scene_gameplay_type == 'reading':
                 self.stage_director.text_canvas.text_canvas_status = True
@@ -93,27 +98,62 @@ class SceneValidator(SingletonPattern):
         else:
             self.stage_director.text_canvas.text_canvas_status = False  # TODO: Remake?
 
-        # Special effects!:
+        # Special effects:
         if scene['special_effects'] is not False:
             ...
 
         # Sounds settings:
         for key, value in scene['sounds'].items():
             if value is not False:
+                asset_type: str = ''
 
                 # Music:
                 if key == 'music_channel':
-                    self.sound_director.channels_collection[key]['sound_file'] = music_load(
-                        asset_type='Music',
-                        file_name=value
-                    )
+                    asset_type: str = 'Music'
 
-                # Character Speach or Sound effects:
-                else:
-                    self.sound_director.channels_collection[key]['sound_file'] = sound_load(
-                        asset_type='Voice',
-                        file_name=value
-                    )
+                # Sound effects:
+                if key == 'sound_channel':
+                    asset_type: str = 'Effects'
+
+                # Character Speach:
+                if key == 'voice_channel':
+                    if self.sound_director.single_voiceover_language is True:
+                        asset_type: str = 'Voice'
+                    else:
+                        asset_type: str = f"Voice{sep}{self.settings_keeper.voice_acting_language}"
+
+                self.sound_chanel_controller(
+                    asset_type=asset_type,
+                    sound_chanel=key,
+                    sound_file_name=value
+                )
+
+    def sound_chanel_controller(self, asset_type: str, sound_file_name: str, sound_chanel: str):
+        """
+        Send soundtrack to sound chanel if necessary.
+
+        :param asset_type: Asset "Sounds" sub folder.
+        :type asset_type: str
+        :param sound_file_name: Sound file name.
+        :type sound_file_name: str
+        :param sound_chanel: Sound chanel type.
+        :type sound_chanel: str
+        """
+        if self.sound_director.channels_collection[sound_chanel]['sound_file_name'] != sound_file_name:
+            if asset_type == 'Music':
+                sound_file = music_load(
+                    asset_type=asset_type,
+                    file_name=sound_file_name
+                )
+            else:
+                sound_file = sound_load(
+                    asset_type=asset_type,
+                    file_name=sound_file_name
+                )
+            self.sound_director.channels_collection[sound_chanel]['sound_file'] = sound_file
+            self.sound_director.channels_collection[sound_chanel]['devnull_status'] = True
+        else:
+            self.sound_director.channels_collection[sound_chanel]['devnull_status'] = False
 
     @staticmethod
     def autosave():
