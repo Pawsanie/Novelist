@@ -402,7 +402,7 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
                               ├── :page_facing_up:UI_Button_Factory.py<br>
                               ├── :file_folder:UI_Buttons<br>
                                |       └── :page_facing_up:UI_Base_Button.py<br>
-                               |       └── :page_facing_up:UI_*_Button.py **(Can be your button file)**<br>
+                               |       └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
                               └── :file_folder:UI_Menus<br>
                                        └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
@@ -547,9 +547,9 @@ You can read more about installing audio tracks in paragraph **"Settings of scen
    └── :file_folder:Assets<br>
             ├── :file_folder:Sounds<br>
              |       ├── :file_folder:Effects<br>
-             |        |       └── :musical_note:/*.mp3 **(Can be your sound file)**<br>
+             |        |       └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
              |       ├── :file_folder:Music<br>
-             |        |       └── :musical_note:/*.mp3 **(Can be your music file)**<br>
+             |        |       └── :musical_note:\*.mp3 **(Can be your music file)**<br>
              |       └── :file_folder:Voice<br>
              |                └── :musical_note:*.mp3 **(Can be your sound file)**<br>
             └── :file_folder:Scripts<br>
