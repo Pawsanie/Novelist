@@ -1,0 +1,38 @@
+{
+  "back_to_start_menu_status_menu": {
+    "music_channel": false,
+    "sound_channel": "blank"
+  },
+  "exit_menu": {
+    "music_channel": false,
+    "sound_channel": false
+  },
+  "settings_status_menu": {
+    "music_channel": false,
+    "sound_channel": false
+  },
+  "settings_menu": {
+    "music_channel": false,
+    "sound_channel": "blank"
+  },
+  "creators_menu": {
+    "music_channel": "blank",
+    "sound_channel": false
+  },
+  "game_menu": {
+    "music_channel": false,
+    "sound_channel": "blank"
+  },
+  "load_menu": {
+    "music_channel": false,
+    "sound_channel": "blank"
+  },
+  "save_menu": {
+    "music_channel": false,
+    "sound_channel": "blank"
+  },
+  "start_menu": {
+    "music_channel": "blank",
+    "sound_channel": false
+  }
+}
