@@ -542,6 +542,20 @@ Inside, it works with three audio channels responsible for character speech, mus
 All sounds and music files **must be** in **MP3** format.
 You can read more about installing audio tracks in paragraph **"Settings of scenes"**.
 
+**Files locations:**<br>
+**./**:open_file_folder:Data<br>
+   └── :file_folder:Assets<br>
+            ├── :file_folder:Sounds<br>
+             |       ├── :file_folder:Effects<br>
+             |        |       └── :musical_note:*.mp3 **(Can be your sound file)**<br>
+             |       ├── :file_folder:Music<br>
+             |        |       └── :musical_note:*.mp3 **(Can be your music file)**<br>
+             |       └── :file_folder:Voice<br>
+             |                └── :musical_note:*.mp3 **(Can be your sound file)**<br>
+            └── :file_folder:Scripts<br>
+                     └── :file_folder:Application_layer<br>
+                              └── :page_facing_up:Sound_Director.py<br>
+
 ## How the program works:
 
 'Visual_novel_game.py' initializes game and call 'GameMaster' class.<br>
