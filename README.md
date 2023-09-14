@@ -547,9 +547,9 @@ You can read more about installing audio tracks in paragraph **"Settings of scen
    └── :file_folder:Assets<br>
             ├── :file_folder:Sounds<br>
              |       ├── :file_folder:Effects<br>
-             |        |       └── :musical_note:*.mp3 **(Can be your sound file)**<br>
+             |        |       └── :musical_note:/*.mp3 **(Can be your sound file)**<br>
              |       ├── :file_folder:Music<br>
-             |        |       └── :musical_note:*.mp3 **(Can be your music file)**<br>
+             |        |       └── :musical_note:/*.mp3 **(Can be your music file)**<br>
              |       └── :file_folder:Voice<br>
              |                └── :musical_note:*.mp3 **(Can be your sound file)**<br>
             └── :file_folder:Scripts<br>
