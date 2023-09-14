@@ -539,8 +539,17 @@ The game reads them at startup and saves them there, with the consent to change 
 ## Sound System:
 The **SoundDirector** class is responsible for working with sound.<br>
 Inside, it works with three audio channels responsible for character speech, music and sound effects.<br>
-All sounds and music files **must be** in **MP3** format.
-You can read more about installing audio tracks in paragraph **"Settings of scenes"**.
+All sounds and music files **must be** in **MP3** format.<br>
+You can read more about installing audio tracks in paragraph **"Settings of scenes"**.<br>
+
+Your sound files should be located in their appropriate directories.<br>
+However, there is a condition if you have multiple voice covers.<br>
+In this case, you will have to change the value of the **"single_voiceover_language"** attribute in the **Sound_Director** class from **True** to **False**.<br>
+After this, you will need to add a sub folder for your voice acting to the **Voice** folder.<br>
+And place sound files in it.<br>
+When this option is enabled, the audio track select from folder stored in the **"voice_acting_language"** attribute of the **SettingsKeeper** class will be automatically selected.<br>
+This attribute can be changed in the settings menu, or in the settings file.<br>
+Naturally, this voice acting does not have to be voice localization. But it is important to consider changes in the storage principle when enabling the option.
 
 **Files locations:**<br>
 **./**:open_file_folder:Data<br>
@@ -554,7 +563,7 @@ You can read more about installing audio tracks in paragraph **"Settings of scen
              |                └── :musical_note:*.mp3 **(Can be your sound file)**<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Application_layer<br>
-                              └── :page_facing_up:Sound_Director.py<br>
+                              └── :page_facing_up:Sound_Director.py
 
 ## How the program works:
 
