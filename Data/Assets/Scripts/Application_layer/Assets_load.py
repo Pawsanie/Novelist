@@ -1,7 +1,7 @@
 from os import path
 import json
 
-from pygame import image, font, mixer, Surface
+from pygame import image, font, Surface
 from pygame.mixer import Sound
 """
 Contains code responsible for assets load.
@@ -53,7 +53,7 @@ def sound_load(*, asset_type: str, file_name: str) -> Sound:
     return Sound(sound_path)
 
 
-def music_load(*, asset_type: str, file_name: str) -> mixer.music.load:
+def music_load(*, asset_type: str, file_name: str) -> Sound:
     """
     Load music by name.
     :param asset_type: String with file folder name.
@@ -61,7 +61,8 @@ def music_load(*, asset_type: str, file_name: str) -> mixer.music.load:
     :return: Sound
     """
     sound_path: str = f"{asset_root_path()}{path.join(*['Sounds', asset_type, file_name])}.mp3"
-    return mixer.music.load(sound_path)
+    # music.load(sound_path)  # TODO: music use low RAM
+    return Sound(sound_path)
 
 
 def font_load(*, font_name: str, font_size: int) -> font.Font:

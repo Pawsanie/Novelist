@@ -141,6 +141,7 @@ class SceneValidator(SingletonPattern):
         """
         # Change soundtrack in sound chanel:
         if self.sound_director.channels_collection[sound_chanel]['sound_file_name'] != sound_file_name:
+            self.sound_director.status = True
             if asset_type == 'Music':
                 sound_file = music_load(
                     asset_type=asset_type,
@@ -152,6 +153,7 @@ class SceneValidator(SingletonPattern):
                     file_name=sound_file_name
                 )
             self.sound_director.channels_collection[sound_chanel]['sound_file'] = sound_file
+            self.sound_director.channels_collection[sound_chanel]['sound_file_name'] = sound_file_name
             self.sound_director.channels_collection[sound_chanel]['devnull_status'] = True
 
         # Keep current soundtrack in sound chanel:

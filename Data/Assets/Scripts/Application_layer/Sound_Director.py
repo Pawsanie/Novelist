@@ -1,5 +1,6 @@
 from pygame.mixer import Channel, Sound, music
-from pygame import mixer
+from pygame import mixer \
+ # , constants
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
@@ -44,6 +45,7 @@ class SoundDirector(SingletonPattern):
         self.status: bool = True
         self.single_voiceover_language: bool = True
         self.default_language: str = 'eng'
+        # music.set_endevent(constants.USEREVENT)  # TODO: music use low RAM.
 
     def vanish_channels(self):
         """
@@ -51,9 +53,9 @@ class SoundDirector(SingletonPattern):
         """
         for chanel in self.channels_collection:
             if self.channels_collection[chanel]["devnull_status"] is True:
-                self.channels_collection[chanel]["sound_channel"].fadeout(300)
+                self.channels_collection[chanel]["sound_channel"].fadeout(1600)
 
-    def play_sound(self, sound_file: Sound, sound_channel: Channel, sound_type_volume: int):
+    def play_sound(self, sound_file: Sound, sound_channel: Channel, sound_type_volume: int, sound_chanel_name: str):
         """
         Play sound file.
         :param sound_file: Sound file.
@@ -62,12 +64,20 @@ class SoundDirector(SingletonPattern):
         :type sound_channel: Channel
         :param sound_type_volume: Link to SettingsKeeper sound volume type.
         :type sound_type_volume: int
+        :param sound_chanel_name: Name of sound chanel.
+        :type sound_chanel_name: str
         """
         self.set_sound_volume(
             sound_file=sound_file,
             sound_type_volume=sound_type_volume
         )
-        sound_channel.play(sound_file)
+        loops: int = 0
+        if sound_chanel_name == "music_channel":
+            loops -= 1
+        sound_channel.play(
+            sound_file,
+            loops=loops
+        )
 
     def set_sound_volume(self, *, sound_file: Sound, sound_type_volume: int):
         """
@@ -91,15 +101,16 @@ class SoundDirector(SingletonPattern):
         if self.status is True:
             self.vanish_channels()
 
-            for channel in self.channels_collection:
-                channel: dict = self.channels_collection[channel]
+            for channel_name in self.channels_collection:
+                channel: dict = self.channels_collection[channel_name]
                 sound_file: Sound | None = channel['sound_file']
 
                 if sound_file is not None:
                     self.play_sound(
                         sound_file=sound_file,
                         sound_channel=channel['sound_channel'],
-                        sound_type_volume=channel['sound_type_volume']
+                        sound_type_volume=channel['sound_type_volume'],
+                        sound_chanel_name=channel_name
                     )
 
             self.status: bool = False
