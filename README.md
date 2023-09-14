@@ -576,8 +576,9 @@ The **GameMaster** class control game loop and generates lower-level entities th
 Controls who and what will say as well as the appearance of the characters.<br>
 Manages the scene background.<br>
 Generates a '**Character**', '**Background**' and '**DialoguesWords**' objects used to control staging.
+* **SoundDirector** - Play music, sound effects and speech for the scene if necessary.
 * **SceneValidator** - controls the order of the scenes.<br>
-Stores inside itself information about the type of scene with which the StageDirector.
+Stores inside itself information about the type of scene with which the StageDirector and the SoundDirector.
 * **InterfaceController** - controls all interface with which the player can interact.<br>
 Generates '**Button**' instances with **'ButtonFactory'** and make menus from them.
 * **InputCommandsReactions** - catches user commands inside the game and passes them inside the loop to other entities.<br>
@@ -599,6 +600,7 @@ The **StageDirector** builds a scene.<br>
                      │        ├── :page_facing_up:Reactions_to_input_commands.py<br>
                      │        ├── :page_facing_up:Scene_Validator.py<br>
                      │        ├── :page_facing_up:Settings_Keeper.py<br>
+                     │        ├── :page_facing_up:Sound_Director.py<br>
                      │        └── :page_facing_up:Stage_Director.py<br>
                      ├── :file_folder:Game_objects<br>
                      │        ├── :page_facing_up:Background.py<br>
