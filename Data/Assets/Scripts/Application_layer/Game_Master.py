@@ -7,13 +7,15 @@ from .Settings_Keeper import SettingsKeeper
 from .Save_Keeper import SaveKeeper
 from ..Logging_Config import error_logger
 from .Sound_Director import SoundDirector
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from .State_Machine import StateMachine
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
 """
 
 
-class GameMaster:
+class GameMaster(SingletonPattern):
     """
     Set all settings for Stage Director and game.
     Entry point for gameplay.
@@ -36,6 +38,8 @@ class GameMaster:
         self.reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions()
         # Save and load system:
         self.save_keeper: SaveKeeper = SaveKeeper()
+        # StateMachine:
+        self.state_machine: StateMachine = StateMachine()
 
     def set_gameplay_type(self):  # TODO: DEVNULL
         """
@@ -55,19 +59,6 @@ class GameMaster:
                 .dialogues_buttons[self.scene_validator.scene]
             return
 
-    def set_scene(self):  # TODO: Swap to StateMachine pattern.
-        """
-        Sets the scene for the frame, depending on its type.
-        """
-        menu_name: str | None = self.interface_controller.menu_name
-        if menu_name is not None:
-            self.stage_director.vanishing_scene()
-            self.stage_director.set_scene(
-                location=menu_name
-            )
-        else:
-            self.scene_validator()
-
     @error_logger
     @main_loop
     def __call__(self):
@@ -77,7 +68,7 @@ class GameMaster:
         # User input commands processing:
         self.reactions_to_input_commands()
         # Build scene:
-        self.set_scene()
+        self.state_machine()
         self.stage_director.scale()
         # Sound
         self.sound_director.play()

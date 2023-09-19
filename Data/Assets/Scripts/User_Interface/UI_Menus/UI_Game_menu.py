@@ -29,6 +29,7 @@ class GameMenu(SingletonPattern, BaseMenu):
             if command == 'game_menu_continue':
                 self.status: bool = False
                 self.interface_controller.gameplay_interface_status = True
+                self.state_machine.next_state()
 
             if command == 'game_menu_save':
                 self.status: bool = False

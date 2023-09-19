@@ -25,6 +25,7 @@ class GamePlayReading(BaseMenu):
         self.interface_controller.gameplay_interface_status = False
         from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
         GameMenu().status = True
+        self.state_machine.next_state()
 
     def button_gameplay_ui_status(self, event):
         """
