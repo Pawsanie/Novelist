@@ -37,7 +37,7 @@ class InterfaceController(SingletonPattern):
         self.gameplay_type_choice: bool = False
 
         # Tag for menu background render:
-        self.menu_name: str | None = None
+        self.menu_name: str | None = 'start_menu'
         # Menu interface:
         self.menus_collection: dict | None = None
         self.game_menu_status: bool = False

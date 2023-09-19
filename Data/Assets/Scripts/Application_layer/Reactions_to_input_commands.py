@@ -111,8 +111,8 @@ class InputCommandsReactions:
 
         # Settings for gameplay:
         self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
-        # Itself data mock:
-        self.interface_controller.menus_collection = self.menus_collection  # TODO: crutch?
+        # Itself data proxy:
+        self.interface_controller.menus_collection = self.menus_collection
 
     def __call__(self):
         """

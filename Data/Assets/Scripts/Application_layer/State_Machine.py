@@ -17,12 +17,11 @@ class MenuState(SingletonPattern):
         self.stage_director: StageDirector = StageDirector()
 
     def __call__(self):
-        menu_name: str | None = self.interface_controller.menu_name
-        if menu_name is not None:
-            self.stage_director.vanishing_scene()
-            self.stage_director.set_scene(
-                location=menu_name
-            )
+        menu_name: str = self.interface_controller.menu_name
+        self.stage_director.vanishing_scene()
+        self.stage_director.set_scene(
+            location=menu_name
+        )
 
 
 class StateMachine(StateMachinePattern, SingletonPattern):

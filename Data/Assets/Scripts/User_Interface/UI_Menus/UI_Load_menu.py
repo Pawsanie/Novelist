@@ -78,6 +78,8 @@ class LoadMenu(BaseMenu, SingletonPattern):
         self.interface_controller.gameplay_interface_status = True
         self.interface_controller.start_menu_flag = False
 
+        self.state_machine.next_state()
+
     def save_slots_ui_reread(self):
         """
         Return ui to reread state.
