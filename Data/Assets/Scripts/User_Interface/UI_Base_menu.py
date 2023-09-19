@@ -1,5 +1,6 @@
 from .Interface_Controller import InterfaceController
 from ..Application_layer.Scene_Validator import SceneValidator
+from ..Application_layer.State_Machine import StateMachine
 """
 Contains code for User Interface Master Class.
 """
@@ -12,6 +13,7 @@ class BaseMenu:
     def __init__(self):
         # Control in game scene order:
         self.scene_validator: SceneValidator = SceneValidator()
+        self.state_machine: StateMachine = StateMachine()
         # User Interface controller settings:
         self.interface_controller: InterfaceController = InterfaceController()
         self.status: bool = False

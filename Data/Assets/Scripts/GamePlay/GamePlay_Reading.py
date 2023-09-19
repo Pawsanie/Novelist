@@ -3,12 +3,13 @@ from pygame import event as pygame_events
 
 from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains gameplay reading code.
 """
 
 
-class GamePlayReading(BaseMenu):
+class GamePlayReading(BaseMenu, SingletonPattern):
     """
     Controls reactions to user input commands from mouse or key bord in reading gameplay.
     Generated in GamePlayAdministrator from 'Game_Play_Administrator.py' file.
@@ -25,6 +26,7 @@ class GamePlayReading(BaseMenu):
         self.interface_controller.gameplay_interface_status = False
         from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
         GameMenu().status = True
+        self.state_machine.next_state()
 
     def button_gameplay_ui_status(self, event):
         """

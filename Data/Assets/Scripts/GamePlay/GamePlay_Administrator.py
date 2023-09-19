@@ -1,25 +1,57 @@
-from ..Application_layer.Stage_Director import StageDirector
 from .GamePlay_Reading import GamePlayReading
 from ..User_Interface.UI_Base_menu import BaseMenu
 from .GamePlay_dialogues_choice import GamePlayDialoguesChoice
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains gameplay code.
 """
 
 
-class GamePlayAdministrator(BaseMenu):
+class GamePlayAdministrator(BaseMenu, SingletonPattern):
     """
     Responsible for gameplay type at the moment.
     """
-    gameplay_collections: dict = {
-        'reading': GamePlayReading(),
-        'choice': GamePlayDialoguesChoice()
-    }
-
     def __init__(self):
         # Arguments processing:
         super(GamePlayAdministrator, self).__init__()
-        self.stage_director: StageDirector = StageDirector()
+        self.gameplay_collections: dict = {
+            'reading': {
+                "gameplay": GamePlayReading(),
+                "interface": "gameplay_type_reading"
+            },
+            'choice': {
+                "gameplay": GamePlayDialoguesChoice(),
+                "interface": "gameplay_type_choice"
+            }
+        }
+
+    def devnull(self):
+        """
+        Return interface to base state.
+        """
+        for gameplay_type, gameplay_class in self.gameplay_collections.items():
+            setattr(
+                self.interface_controller,
+                gameplay_class["interface"],
+                False
+            )
+
+    def set_gameplay_type(self):
+        """
+        Set GamePlay type.
+        """
+        self.devnull()
+        for gameplay_type, gameplay_class in self.gameplay_collections.items():
+            if self.scene_validator.scene_gameplay_type == gameplay_type:
+                setattr(
+                    self.interface_controller,
+                    gameplay_class["interface"],
+                    True
+                )
+                try:
+                    gameplay_class["gameplay"].set_choice()
+                except AttributeError:
+                    pass
 
     def gameplay_input(self, event):
         """
@@ -28,5 +60,5 @@ class GamePlayAdministrator(BaseMenu):
         """
         for gameplay_type, gameplay_class in self.gameplay_collections.items():
             if self.scene_validator.scene_gameplay_type == gameplay_type:
-                gameplay_class.gameplay_input(event)
+                gameplay_class["gameplay"].gameplay_input(event)
                 return

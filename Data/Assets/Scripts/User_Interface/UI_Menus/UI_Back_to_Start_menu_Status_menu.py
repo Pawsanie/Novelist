@@ -30,6 +30,7 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
         self.status: bool = False
         from .UI_Game_menu import GameMenu
         GameMenu().status = True
+        self.state_machine.next_state()
 
     def input_mouse(self, event):
         """

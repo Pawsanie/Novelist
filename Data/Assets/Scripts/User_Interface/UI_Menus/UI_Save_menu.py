@@ -96,6 +96,8 @@ class SaveMenu(BaseMenu, SingletonPattern):
         self.interface_controller.gameplay_interface_status = True
         self.save_slots_ui_reread()
 
+        self.state_machine.next_state()
+
     def input_mouse(self, event):
         """
         Interface interaction in in-game save menu.

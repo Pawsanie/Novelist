@@ -30,6 +30,8 @@ class StartMenu(BaseMenu, SingletonPattern):
 
         self.save_keeper.generate_save_slots_buttons()
 
+        self.state_machine.next_state()
+
     def input_mouse(self, event):
         """
         Interface interaction in in-game start menu.

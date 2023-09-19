@@ -2,12 +2,13 @@ from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Buttons.UI_GamePlay_Choice_Button import GamePlayChoiceButton
 from ..Application_layer.Assets_load import json_load
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains gameplay of choice code.
 """
 
 
-class GamePlayDialoguesChoice(BaseMenu):
+class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
     """
     Controls reactions to user input commands from mouse or key bord in choice gameplay.
     Generated in GamePlayAdministrator from 'Game_Play_Administrator.py' file.
@@ -18,7 +19,6 @@ class GamePlayDialoguesChoice(BaseMenu):
         self.stage_director: StageDirector = StageDirector()
         # Gameplay choice buttons generate:
         self.dialogues_buttons: dict = {}
-        self.dialogues_choice_buttons_generations()
 
     def dialogues_choice_buttons_generations(self):
         """
@@ -91,6 +91,13 @@ class GamePlayDialoguesChoice(BaseMenu):
 
     def key_bord_gameplay_key_down(self, event):
         ...
+
+    def set_choice(self):
+        """
+        Set new choice buttons.
+        """
+        self.dialogues_choice_buttons_generations()
+        self.interface_controller.gameplay_choice_buttons = self.dialogues_buttons[self.scene_validator.scene]
 
     def gameplay_input(self, event):
         """
