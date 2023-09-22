@@ -32,7 +32,7 @@ class MenuState(SingletonPattern):
 
     def __call__(self):
         # Scene settings:
-        menu_name: str = self.interface_controller.menu_name
+        menu_name: str | None = self.interface_controller.menu_name
         self.stage_director.vanishing_scene()
         self.stage_director.set_scene(
             location=menu_name

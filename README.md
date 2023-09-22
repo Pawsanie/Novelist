@@ -540,7 +540,7 @@ The game reads them at startup and saves them there, with the consent to change 
 The **SoundDirector** class is responsible for working with sound.<br>
 Inside, it works with three audio channels responsible for character speech, music and sound effects.<br>
 All sounds and music files **must be** in **MP3** format.<br>
-You can read more about installing audio tracks in paragraph **"Settings of scenes"**.<br>
+You can read more about installing audio tracks to game scenes in paragraph **"Settings of scenes"**.<br>
 
 Your sound files should be located in their appropriate directories.<br>
 However, there is a condition if you have multiple voice covers.<br>
@@ -564,8 +564,23 @@ Naturally, this voice acting does not have to be voice localization. But it is i
              |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
              |                        └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
             └── :file_folder:Scripts<br>
-                     └── :file_folder:Application_layer<br>
-                              └── :page_facing_up:Sound_Director.py
+                     ├── :file_folder:Application_layer<br>
+                      |       └── :page_facing_up:Sound_Director.py<br>
+                     └── :file_folder:Json_data<br>
+                              └── :page_facing_up:menu_sound_settings.json
+
+To install sounds and music in the menus, you need to modify the "*menu_sound_settings.json*" file.<br>
+**Example of menu sound settings.:**<br>
+```json
+{
+  "start_menu": {
+    "music_channel": "blank",
+    "sound_channel": false
+  }
+}
+```
+The values of the sound and music keys must also be either **false** or the **name of the file** located in the corresponding folder.<br>
+If you add a sound effect, it will only play once.
 
 ## How the program works:
 
