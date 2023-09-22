@@ -1,12 +1,10 @@
-from pygame.mixer import Sound
-
 from ..Universal_computing.Pattern_State_Machine import StateMachinePattern
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Scene_Validator import SceneValidator
 from ..User_Interface.Interface_Controller import InterfaceController
 from .Stage_Director import StageDirector
 from .Sound_Director import SoundDirector
-from .Assets_load import music_load, json_load
+from .Assets_load import json_load
 """
 Contend code for switch between gameplay and menu state.
 """
@@ -44,21 +42,11 @@ class MenuState(SingletonPattern):
         menu_data: dict = self.menu_music_data[menu_name]
         for sound_chanel in self.menu_music_data[menu_name]:
             sound_file_name: str | bool = menu_data[sound_chanel]
-            if sound_file_name is not False:
 
-                # Change soundtrack in sound chanel:
-                if self.sound_director.channels_collection[sound_chanel]['sound_file_name'] != sound_file_name:
-                    sound_file: Sound = music_load(
-                        asset_type='Music',
-                        file_name=sound_file_name
-                    )
-                    self.sound_director.channels_collection[sound_chanel]['sound_file'] = sound_file
-                    self.sound_director.channels_collection[sound_chanel]['devnull_status'] = True
-
-                # Keep current soundtrack in sound chanel:
-                else:
-                    self.sound_director.channels_collection[sound_chanel]['sound_file'] = None
-                    self.sound_director.channels_collection[sound_chanel]['devnull_status'] = False
+            self.sound_director.sound_chanel_controller(
+                sound_file_name=sound_file_name,
+                sound_chanel=sound_chanel
+            )
 
 
 class StateMachine(StateMachinePattern, SingletonPattern):

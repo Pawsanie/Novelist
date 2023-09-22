@@ -1,7 +1,7 @@
 from os import sep
 
 from .Stage_Director import StageDirector
-from .Assets_load import json_load, sound_load, music_load
+from .Assets_load import json_load
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Sound_Director import SoundDirector
 from .Settings_Keeper import SettingsKeeper
@@ -104,62 +104,10 @@ class SceneValidator(SingletonPattern):
 
         # Sounds settings:
         for key, value in scene['sounds'].items():
-            if value is not False:
-                asset_type: str = ''
-
-                # Music:
-                if key == 'music_channel':
-                    asset_type: str = 'Music'
-
-                # Sound effects:
-                if key == 'sound_channel':
-                    asset_type: str = 'Effects'
-
-                # Character Speach:
-                if key == 'voice_channel':
-                    if self.sound_director.single_voiceover_language is True:
-                        asset_type: str = 'Voice'
-                    else:
-                        asset_type: str = f"Voice{sep}{self.settings_keeper.voice_acting_language}"
-
-                self.sound_chanel_controller(
-                    asset_type=asset_type,
-                    sound_chanel=key,
-                    sound_file_name=value
-                )
-
-    def sound_chanel_controller(self, asset_type: str, sound_file_name: str, sound_chanel: str):
-        """
-        Send soundtrack to sound chanel if necessary.
-
-        :param asset_type: Asset "Sounds" sub folder.
-        :type asset_type: str
-        :param sound_file_name: Sound file name.
-        :type sound_file_name: str
-        :param sound_chanel: Sound chanel type.
-        :type sound_chanel: str
-        """
-        # Change soundtrack in sound chanel:
-        if self.sound_director.channels_collection[sound_chanel]['sound_file_name'] != sound_file_name:
-            self.sound_director.status = True
-            if asset_type == 'Music':
-                sound_file = music_load(
-                    asset_type=asset_type,
-                    file_name=sound_file_name
-                )
-            else:
-                sound_file = sound_load(
-                    asset_type=asset_type,
-                    file_name=sound_file_name
-                )
-            self.sound_director.channels_collection[sound_chanel]['sound_file'] = sound_file
-            self.sound_director.channels_collection[sound_chanel]['sound_file_name'] = sound_file_name
-            self.sound_director.channels_collection[sound_chanel]['devnull_status'] = True
-
-        # Keep current soundtrack in sound chanel:
-        else:
-            self.sound_director.channels_collection[sound_chanel]['sound_file'] = None
-            self.sound_director.channels_collection[sound_chanel]['devnull_status'] = False
+            self.sound_director.sound_chanel_controller(
+                sound_chanel=key,
+                sound_file_name=value
+            )
 
     @staticmethod
     def autosave():
