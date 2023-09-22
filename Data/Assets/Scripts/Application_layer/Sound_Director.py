@@ -1,9 +1,12 @@
+from os import sep
+
 from pygame.mixer import Channel, Sound, music
 from pygame import mixer \
  # , constants
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
+from .Assets_load import sound_load, music_load
 """
 Contains the code responsible for play sounds.
 """
@@ -114,3 +117,61 @@ class SoundDirector(SingletonPattern):
                     )
 
             self.status: bool = False
+
+    def sound_chanel_controller(self, *, asset_type: str = '', sound_file_name: str | bool, sound_chanel: str):
+        """
+        Send soundtrack to sound chanel if necessary.
+
+        :param asset_type: Asset "Sounds" sub folder.
+                           Controlled by default.
+        :type asset_type: str
+        :param sound_file_name: Sound file name. Must be "string" or "False".
+        :type sound_file_name: str | False
+        :param sound_chanel: Sound chanel type.
+        :type sound_chanel: str
+        """
+        # Change soundtrack in sound chanel:
+        if self.channels_collection[sound_chanel]['sound_file_name'] != sound_file_name:
+            self.status = True
+
+            # Devnull sound in chanel:
+            if sound_file_name is False:
+                self.channels_collection[sound_chanel]['sound_file_name'] = sound_file_name
+                self.channels_collection[sound_chanel]['sound_file'] = None
+                self.channels_collection[sound_chanel]['devnull_status'] = True
+                return
+
+            # Music:
+            if sound_chanel == 'music_channel':
+                asset_type: str = 'Music'
+
+            # Sound effects:
+            if sound_chanel == 'sound_channel':
+                asset_type: str = 'Effects'
+
+            # Character Speach:
+            if sound_chanel == 'voice_channel':
+                if self.single_voiceover_language is True:
+                    asset_type: str = 'Voice'
+                else:
+                    asset_type: str = f"Voice{sep}{self.settings_keeper.voice_acting_language}"
+
+            # Install sound in chanel:
+            if asset_type == 'Music':
+                sound_file = music_load(
+                    asset_type=asset_type,
+                    file_name=sound_file_name
+                )
+            else:
+                sound_file = sound_load(
+                    asset_type=asset_type,
+                    file_name=sound_file_name
+                )
+            self.channels_collection[sound_chanel]['sound_file'] = sound_file
+            self.channels_collection[sound_chanel]['sound_file_name'] = sound_file_name
+            self.channels_collection[sound_chanel]['devnull_status'] = True
+
+        # Keep current soundtrack in sound chanel:
+        else:
+            self.channels_collection[sound_chanel]['sound_file'] = None
+            self.channels_collection[sound_chanel]['devnull_status'] = False
