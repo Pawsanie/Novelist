@@ -1,9 +1,10 @@
-from pygame import transform, Surface, SRCALPHA
+from pygame import transform, Surface
 
 from .Characters_calculations import character_sprite_size
 from ..Application_layer.Assets_load import image_load, json_load
 from .Background import BackgroundProxy
 from ..Universal_computing.Surface_size import surface_size
+from ..Render.Sprite import Sprite
 """
 Contains code responsible for rendering character.
 """
@@ -14,25 +15,24 @@ class Character:
     Super class for characters.
     Control characters by a lot of methods.
     """
-    def __init__(self, *, surface: Surface, character_image: Surface, character_size: tuple, character_poses: dict):
+    def __init__(self, *, character_image: Surface, sprite_sheet_data: dict | None = None):
         """
-        :param surface: Character surface object for render.
-        :type surface: pygame.Surface
         :param character_image: pygame.Surface with image loaded.
         :type character_image: pygame.Surface
-        :param character_size: Base character size.
-        :type character_size: tuple[int, int]
-        :param character_poses: All poses coordinates for sprite animation.
-        :type character_poses: dict[dict[str, int]]
+        :param sprite_sheet_data: All poses coordinates for sprite animation.
+        :type sprite_sheet_data: dict[dict[str, int]]
         """
-        self.surface: Surface = surface
-        self.character_image_safe: Surface = character_image
-        self.character_image: Surface | None = None
-        self.coordinates_pixels: list[int, int] = [0, 0]
 
-        self.character_poses: dict = character_poses
+        self.sprite: Sprite = Sprite(
+            image=character_image,
+            layer=2,
+            sprite_sheet_data=sprite_sheet_data
+        )
+        self.coordinates_pixels: list[int, int] = [0, 0]
+        self.character_size: tuple[int, int] = self.sprite.image.get_size()
+
         self.background: BackgroundProxy = BackgroundProxy()
-        self.character_size: tuple[int, int] = character_size
+
         # [middle|right|left|custom] with 'middle' as default
         self.position: str = 'middle'
         # [first_plan|background_plan] with 'first_plan' as default
@@ -50,22 +50,6 @@ class Character:
         self.coordinates_pixels: list[int, int] = [coordinates[0], coordinates[1]]
         self.position: str = 'custom'
 
-    def get_pose(self):
-        """
-        Selects the correct part of the sprite to render on the surface.
-        """
-        # Surface change:
-        pose_coordinates: dict = self.character_poses.get(self.pose_number)
-        surface_x: list[int, int] = pose_coordinates.get('x')
-        surface_y: list[int, int] = pose_coordinates.get('y')
-        x_line: int = (surface_x[1] - surface_x[0])
-        y_line: int = (surface_y[1] - surface_y[0])
-        self.character_image: Surface = Surface((x_line, y_line), SRCALPHA)
-
-        # Image pose change:
-        sprite_coordinates: tuple[int, int] = (-surface_x[0], -surface_y[0])
-        self.character_image.blit(self.character_image_safe, sprite_coordinates)
-
     def set_pose(self, *, pose_number: str):
         """
         Set pose for character sprite sheet.
@@ -77,8 +61,8 @@ class Character:
         """
         Reflect character sprite surface.
         """
-        self.surface: Surface = transform.flip(
-            self.surface,
+        self.sprite.image = transform.flip(
+            self.sprite.image,
             flip_x=True,
             flip_y=False
         )
@@ -88,9 +72,8 @@ class Character:
         Scale characters surface, with background context.
         """
         # Initialization:
-        self.get_pose()
         self.character_size: tuple[int, int] = character_sprite_size(
-            character_surface=self.character_image
+            character_surface=self.sprite.image
         )
 
         # Size scale:
@@ -100,7 +83,6 @@ class Character:
                 int(size[0] * 0.8),
                 int(size[1] * 0.8)
             )
-            self.surface: Surface = transform.scale(self.character_image, self.character_size)
 
         if self.plan == 'first_plan':
             background_surface: Surface = self.background.get_data()[0]
@@ -111,9 +93,7 @@ class Character:
                 self.character_size[0],
                 self.character_size[1] - coordinates_difference
             )
-            self.surface: Surface = Surface(fp_size, SRCALPHA)
-            self.character_image: Surface = transform.scale(self.character_image, self.character_size)
-            self.surface.blit(self.character_image, (0, 0))
+            self.sprite.scale(fp_size)
 
         # Position correction:
         if self.position == 'middle':
@@ -124,6 +104,7 @@ class Character:
             self.move_to_left()
         if self.position == 'custom':
             ...
+        self.sprite.coordinates = self.coordinates_pixels
 
     def kill(self):
         """
@@ -144,7 +125,7 @@ class Character:
         :return: List with coordinates of meddle point for character render.
         """
         screen_size: tuple[int, int] = surface_size(self.background.get_data()[0])
-        sprite_size: tuple[int, int] = surface_size(self.surface)
+        sprite_size: tuple[int, int] = surface_size(self.sprite.image)
         background_y_coordinate: int = self.background.background_coordinates[1]
 
         # X:
@@ -223,17 +204,26 @@ def characters_generator() -> dict[str, Character]:
             file_format='png',
             asset_type='Characters'
         )
-        character_poses: dict = character['poses']
-        character_size_base: tuple[int, int] = (
-            character_poses['1']['x'][1],
-            character_poses['1']['y'][1]
-        )
-        character_surface: Surface = Surface(character_size_base, SRCALPHA)
-        result.update({str(character_name): Character(
-            surface=character_surface,
-            character_image=sprite,
-            character_size=character_size_base,
-            character_poses=character_poses
-        )})
+
+        # Animated Sprite:
+        if character['sprite_sheet'] is True:
+            sprite_sheet_data: dict = json_load([
+                'Scripts',
+                'Json_data',
+                'Sprite_Sheet_data',
+                'Characters',
+                character["sprite"]
+            ])
+            result.update({str(character_name): Character(
+                character_image=sprite,
+                sprite_sheet_data=sprite_sheet_data
+            )})
+
+        # Statick Sprite:
+        else:
+            result.update({str(character_name): Character(
+                character_image=sprite,
+                sprite_sheet_data=character['poses']
+            )})
 
     return result
