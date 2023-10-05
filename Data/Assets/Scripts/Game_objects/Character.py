@@ -1,3 +1,5 @@
+from sys import getsizeof
+
 from pygame import transform, Surface
 
 from .Characters_calculations import character_sprite_size
@@ -223,7 +225,7 @@ def characters_generator() -> dict[str, Character]:
         else:
             result.update({str(character_name): Character(
                 character_image=sprite,
-                sprite_sheet_data=character['poses']
+                sprite_sheet_data={'poses': character['poses']}
             )})
 
     return result
