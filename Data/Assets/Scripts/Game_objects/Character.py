@@ -1,5 +1,3 @@
-from sys import getsizeof
-
 from pygame import transform, Surface
 
 from .Characters_calculations import character_sprite_size
@@ -17,14 +15,18 @@ class Character:
     Super class for characters.
     Control characters by a lot of methods.
     """
-    def __init__(self, *, character_image: Surface, sprite_sheet_data: dict | None = None):
+    def __init__(self, *, character_image: Surface, sprite_sheet_data: dict | None = None,
+                 poses: dict, animation: bool = False):
         """
         :param character_image: pygame.Surface with image loaded.
         :type character_image: pygame.Surface
         :param sprite_sheet_data: All poses coordinates for sprite animation.
         :type sprite_sheet_data: dict[dict[str, int]]
+        :param poses: For animation sprites hold pose name. For statick sprite hold coordination for pose switch.
+        :type poses: dict[str] | dict[str, [int, int],
+        :param animation: Animation status for Sprite.
+        :type animation: bool
         """
-
         self.sprite: Sprite = Sprite(
             image=character_image,
             layer=2,
@@ -32,6 +34,9 @@ class Character:
         )
         self.coordinates_pixels: list[int, int] = [0, 0]
         self.character_size: tuple[int, int] = self.sprite.image.get_size()
+        self.sprite_sheet_data: dict[str, dict[str, dict[str, list[int, int]]]] = sprite_sheet_data
+        self.poses: dict = poses
+        self.animation: bool = animation
 
         self.background: BackgroundProxy = BackgroundProxy()
 
@@ -41,6 +46,7 @@ class Character:
         self.plan: str = 'first_plan'
         # 1 as default
         self.pose_number: str = '1'
+        self.default_animation: str = 'static'
 
         self.hidden: bool = True
 
@@ -56,8 +62,13 @@ class Character:
         """
         Set pose for character sprite sheet.
         :param pose_number: Number of pose in character sprite, from character_poses dict key.
+        :type pose_number: str
         """
         self.pose_number: str = pose_number
+        if self.animation is True:
+            self.sprite.animation_name = self.poses[self.pose_number]
+        else:
+            self.sprite.animation_name = self.default_animation
 
     def reflect(self):
         """
@@ -73,9 +84,12 @@ class Character:
         """
         Scale characters surface, with background context.
         """
+        if self.hidden is True:
+            return
+
         # Initialization:
         self.character_size: tuple[int, int] = character_sprite_size(
-            character_surface=self.sprite.image
+            character_surface=self.sprite.sprite_sheet[self.sprite.animation_name][int(self.pose_number)]
         )
 
         # Size scale:
@@ -85,6 +99,7 @@ class Character:
                 int(size[0] * 0.8),
                 int(size[1] * 0.8)
             )
+            self.sprite.scale(self.character_size)
 
         if self.plan == 'first_plan':
             background_surface: Surface = self.background.get_data()[0]
@@ -118,6 +133,7 @@ class Character:
         """
         Move character to first or background plan.
         :param plan: String [first_plan/background_plan].
+        :type plan: str
         """
         self.plan: str = plan
 
@@ -218,14 +234,17 @@ def characters_generator() -> dict[str, Character]:
             ])
             result.update({str(character_name): Character(
                 character_image=sprite,
-                sprite_sheet_data=sprite_sheet_data
+                sprite_sheet_data=sprite_sheet_data,
+                poses=character['poses'],
+                animation=True
             )})
 
         # Statick Sprite:
         else:
             result.update({str(character_name): Character(
                 character_image=sprite,
-                sprite_sheet_data={'poses': character['poses']}
+                sprite_sheet_data={'static': character['poses']},
+                poses=character['poses']
             )})
 
     return result

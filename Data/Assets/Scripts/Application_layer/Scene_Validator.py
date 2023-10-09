@@ -1,5 +1,3 @@
-from os import sep
-
 from .Stage_Director import StageDirector
 from .Assets_load import json_load
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
@@ -62,20 +60,13 @@ class SceneValidator(SingletonPattern):
         self.stage_director.set_scene(location=scene['background'])
         for name in scene['actors']:
             character: dict[str, dict] = scene['actors'][name]
+
             self.stage_director.set_actor(character=name)\
                 .set_pose(pose_number=character['character_pose'])
             self.stage_director.set_actor(character=name)\
                 .set_plan(plan=character['character_plan'])
-
-            if character['character_start_position'] == 'middle':
-                self.stage_director.set_actor(character=name)\
-                    .move_to_middle()
-            if character['character_start_position'] == 'right':
-                self.stage_director.set_actor(character=name)\
-                    .move_to_right()
-            if character['character_start_position'] == 'left':
-                self.stage_director.set_actor(character=name)\
-                    .move_to_left()
+            self.stage_director.set_actor(character=name).position = \
+                character['character_start_position']
 
         # Scene FLAG settings:
         self.scene: str = self.scene_flag

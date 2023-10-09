@@ -73,6 +73,13 @@ class Sprite:
             )
 
     def scale(self, size: tuple[int, int]):
+        """
+        Scale Sprite image to size.
+        :param size: Tuple with x/y size data.
+        :type size: tuple[int, int]
+        """
+        self.image: Surface = Surface(size, SRCALPHA)
+        self.sprite_sheet_next_frame()
         self.image: Surface = transform.scale(self.image, size)
 
     def make_sprite_sheet(self, sprite_sheet_data) -> dict[str, list[Surface]] | None:
@@ -92,14 +99,17 @@ class Sprite:
             for frame_name in sprite_sheet_data[animation]:
                 frame: dict = sprite_sheet_data[animation][frame_name]
                 frame_image: Surface = Surface(
-                    (frame['x'][1], frame['y'][0]),
+                    (
+                        frame['x'][1] - frame['x'][0],
+                        frame['y'][1] - frame['y'][0]
+                    ),
                     SRCALPHA
                 )
                 frame_image.blit(
                     self.image_safe,
                     (
-                            frame['x'][1] - frame['x'][0],
-                            frame['y'][1] - frame['y'][0],
+                            - frame['x'][0],
+                            - frame['y'][0],
                     )
                 )
                 animation_sprite_sheet.append(
