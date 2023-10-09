@@ -16,21 +16,24 @@ class Character:
     Control characters by a lot of methods.
     """
     def __init__(self, *, character_image: Surface, sprite_sheet_data: dict | None = None,
-                 poses: dict, animation: bool = False):
+                 poses: dict, animation: bool = False, name: str | None = None):
         """
         :param character_image: pygame.Surface with image loaded.
         :type character_image: pygame.Surface
         :param sprite_sheet_data: All poses coordinates for sprite animation.
         :type sprite_sheet_data: dict[dict[str, int]]
         :param poses: For animation sprites hold pose name. For statick sprite hold coordination for pose switch.
-        :type poses: dict[str] | dict[str, [int, int],
+        :type poses: dict[str] | dict[str, [int, int]
         :param animation: Animation status for Sprite.
         :type animation: bool
+        :param name: Character name.
+        :type name: str
         """
         self.sprite: Sprite = Sprite(
             image=character_image,
             layer=2,
-            sprite_sheet_data=sprite_sheet_data
+            sprite_sheet_data=sprite_sheet_data,
+            name=name
         )
         self.coordinates_pixels: list[int, int] = [0, 0]
         self.character_size: tuple[int, int] = self.sprite.image.get_size()
@@ -237,7 +240,8 @@ def characters_generator() -> dict[str, Character]:
                 character_image=sprite,
                 sprite_sheet_data=sprite_sheet_data,
                 poses=character['poses'],
-                animation=True
+                animation=True,
+                name=character_name
             )})
 
         # Statick Sprite:
@@ -245,7 +249,8 @@ def characters_generator() -> dict[str, Character]:
             result.update({str(character_name): Character(
                 character_image=sprite,
                 sprite_sheet_data={'static': character['poses']},
-                poses=character['poses']
+                poses=character['poses'],
+                name=character_name
             )})
 
     return result

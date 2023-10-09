@@ -43,6 +43,7 @@ class Sprite:
         self.animation_name: str | None = None
 
         self.statick_frame_key: int | None = None
+        self.last_frame_number: int = 0
 
     def blit(self, any_surface: Surface):
         """
@@ -63,13 +64,13 @@ class Sprite:
             self.animation_name: str = list(self.sprite_sheet.keys())[0]
 
         if self.statick_frame_key is None:
-            sprite_sheet_frame: int = self.get_frame_per_second()
+            sprite_sheet_frame: int = self.get_frame_number()
         else:
             sprite_sheet_frame: int = self.statick_frame_key
 
         self.image: Surface = self.sprite_sheet[self.animation_name][sprite_sheet_frame]
 
-    def get_frame_per_second(self) -> int:
+    def get_frame_number(self) -> int:
         """
         Get step for sprite sheet frame swap.
         :result: int
@@ -77,9 +78,11 @@ class Sprite:
         fps: int = self.settings_keeper.frames_per_second
         if time.get_ticks() - self.frame_time >= 1000 / fps:
             self.frame_time: int = time.get_ticks()
-            return int(
-                (self.frame_time + 1) % len(self.sprite_sheet)
-            )
+            if self.last_frame_number + 1 <= len(self.sprite_sheet[self.animation_name]) - 1:
+                self.last_frame_number += 1
+            else:
+                self.last_frame_number: int = 0
+        return self.last_frame_number
 
     def scale(self, size: tuple[int, int]):
         """
