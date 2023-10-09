@@ -39,11 +39,14 @@ class Sprite:
         self.layer: int = layer
         self.coordinates: tuple[int, int] = coordinates
 
-        self.sprite_sheet: dict[str, list[Surface]] | None = self.make_sprite_sheet(sprite_sheet_data)
+        self.frames: str = "frames"
+        self.time_duration: str = "time_duration"
+        self.sprite_sheet: dict[str, dict[str, list[Surface] | float | None]] | None = \
+            self.make_sprite_sheet(sprite_sheet_data)
         self.animation_name: str | None = None
 
         self.statick_frame_key: int | None = None
-        self.last_frame_number: int = 0
+        self.last_frame_number: int = -1
 
     def blit(self, any_surface: Surface):
         """
@@ -68,7 +71,7 @@ class Sprite:
         else:
             sprite_sheet_frame: int = self.statick_frame_key
 
-        self.image: Surface = self.sprite_sheet[self.animation_name][sprite_sheet_frame]
+        self.image: Surface = self.sprite_sheet[self.animation_name][self.frames][sprite_sheet_frame]
 
     def get_frame_number(self) -> int:
         """
@@ -76,9 +79,16 @@ class Sprite:
         :result: int
         """
         fps: int = self.settings_keeper.frames_per_second
+        time_duration: float = (
+            len(self.sprite_sheet[self.animation_name][self.frames]) /
+            self.sprite_sheet[self.animation_name][self.time_duration]
+        )
+
         if time.get_ticks() - self.frame_time >= 1000 / fps:
             self.frame_time: int = time.get_ticks()
-            if self.last_frame_number + 1 <= len(self.sprite_sheet[self.animation_name]) - 1:
+            if self.last_frame_number + 1 <= len(
+                    self.sprite_sheet[self.animation_name][self.frames]
+            ) - 1:
                 self.last_frame_number += 1
             else:
                 self.last_frame_number: int = 0
@@ -108,8 +118,8 @@ class Sprite:
         result: dict = {}
         for animation in sprite_sheet_data:
             animation_sprite_sheet: list = []
-            for frame_name in sprite_sheet_data[animation]:
-                frame: dict = sprite_sheet_data[animation][frame_name]
+            for frame_name in sprite_sheet_data[animation][self.frames]:
+                frame: dict = sprite_sheet_data[animation][self.frames][frame_name]
                 frame_image: Surface = Surface(
                     (
                         frame['x'][1] - frame['x'][0],
@@ -128,7 +138,10 @@ class Sprite:
                     frame_image
                 )
             result.update({
-                animation: animation_sprite_sheet
+                animation: {
+                    self.frames: animation_sprite_sheet,
+                    self.time_duration: sprite_sheet_data[animation][self.time_duration]
+                }
             })
         return result
 

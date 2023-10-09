@@ -93,7 +93,10 @@ class Character:
 
         # Initialization:
         self.character_size: tuple[int, int] = character_sprite_size(
-            character_surface=self.sprite.sprite_sheet[self.sprite.animation_name][int(self.pose_number)]
+            character_surface=
+            self.sprite.sprite_sheet[self.sprite.animation_name]
+            [self.sprite.frames]
+            [int(self.pose_number)]
         )
 
         # Size scale:
@@ -248,7 +251,10 @@ def characters_generator() -> dict[str, Character]:
         else:
             result.update({str(character_name): Character(
                 character_image=sprite,
-                sprite_sheet_data={'static': character['poses']},
+                sprite_sheet_data={'static': {
+                    "frames": character['poses'],
+                    "time_duration": None
+                }},
                 poses=character['poses'],
                 name=character_name
             )})
