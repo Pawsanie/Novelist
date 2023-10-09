@@ -28,6 +28,11 @@ class Sprite:
                                   None as default.
         :type sprite_sheet_data: dict[str, list[int, int]] | None
         """
+        # Program layers settings:
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+        self.frame_time: int = time.get_ticks()
+
+        # Arguments processing:
         self.name: str | None = name
         self.image_safe: Surface = image
         self.image: Surface = image
@@ -37,8 +42,7 @@ class Sprite:
         self.sprite_sheet: dict[str, list[Surface]] | None = self.make_sprite_sheet(sprite_sheet_data)
         self.animation_name: str | None = None
 
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.frame_time: int = time.get_ticks()
+        self.statick_frame_key: int | None = None
 
     def blit(self, any_surface: Surface):
         """
@@ -58,7 +62,12 @@ class Sprite:
         if self.animation_name is None:
             self.animation_name: str = list(self.sprite_sheet.keys())[0]
 
-        self.image: Surface = self.sprite_sheet[self.animation_name][self.get_frame_per_second()]
+        if self.statick_frame_key is None:
+            sprite_sheet_frame: int = self.get_frame_per_second()
+        else:
+            sprite_sheet_frame: int = self.statick_frame_key
+
+        self.image: Surface = self.sprite_sheet[self.animation_name][sprite_sheet_frame]
 
     def get_frame_per_second(self) -> int:
         """

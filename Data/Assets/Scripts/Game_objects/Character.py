@@ -69,6 +69,7 @@ class Character:
             self.sprite.animation_name = self.poses[self.pose_number]
         else:
             self.sprite.animation_name = self.default_animation
+            self.sprite.statick_frame_key = int(self.pose_number)
 
     def reflect(self):
         """
