@@ -1,6 +1,4 @@
 from pygame import Surface, time, SRCALPHA, transform
-
-from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Responsible for the code of a sprites used in rendering.
 """
@@ -29,7 +27,6 @@ class Sprite:
         :type sprite_sheet_data: dict[str, list[int, int]] | None
         """
         # Program layers settings:
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.frame_time: int = time.get_ticks()
 
         # Arguments processing:
@@ -78,13 +75,10 @@ class Sprite:
         Get step for sprite sheet frame swap.
         :result: int
         """
-        fps: int = self.settings_keeper.frames_per_second
-        time_duration: float = (
-            len(self.sprite_sheet[self.animation_name][self.frames]) /
-            self.sprite_sheet[self.animation_name][self.time_duration]
-        )
-
-        if time.get_ticks() - self.frame_time >= 1000 / fps:
+        if (time.get_ticks() - self.frame_time) / 1000 >= (
+                self.sprite_sheet[self.animation_name][self.time_duration]
+                / len(self.sprite_sheet[self.animation_name][self.frames])
+        ):
             self.frame_time: int = time.get_ticks()
             if self.last_frame_number + 1 <= len(
                     self.sprite_sheet[self.animation_name][self.frames]
