@@ -9,7 +9,7 @@
       },
       "Character_02": {
         "character_start_position": "middle",
-        "character_pose": "2",
+        "character_pose": "3",
         "character_plan": "first_plan"
       }
     },
@@ -49,7 +49,7 @@
     "actors": {
       "Character_02": {
         "character_start_position": "left",
-        "character_pose": "2",
+        "character_pose": "1",
         "character_plan": "background_plan"
       }
     },

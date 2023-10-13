@@ -66,7 +66,7 @@ class Sprite:
         if self.statick_frame_key is None:
             sprite_sheet_frame: int = self.get_frame_number()
         else:
-            sprite_sheet_frame: int = self.statick_frame_key
+            sprite_sheet_frame: int = self.statick_frame_key - 1
 
         self.image: Surface = self.sprite_sheet[self.animation_name][self.frames][sprite_sheet_frame]
 
