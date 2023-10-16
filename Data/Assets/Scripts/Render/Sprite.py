@@ -1,4 +1,6 @@
 from pygame import Surface, time, SRCALPHA, transform
+
+from .Sprite_animation_pause import SpriteAnimationPause
 """
 Responsible for the code of a sprites used in rendering.
 """
@@ -70,6 +72,7 @@ class Sprite:
 
         self.image: Surface = self.sprite_sheet[self.animation_name][self.frames][sprite_sheet_frame]
 
+    @SpriteAnimationPause()
     def get_frame_number(self) -> int:
         """
         Get step for sprite sheet frame swap.
