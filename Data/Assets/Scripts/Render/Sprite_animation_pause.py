@@ -26,9 +26,7 @@ class SpriteAnimationPause(SingletonPattern):
             decorated_self = args[0]
             scene_name: str = self.get_scene_name()
 
-            if any((
-                self.scene_name != scene_name,
-            )):
+            if self.scene_name != scene_name:
                 self.scene_name = scene_name
                 self.animation_skip = False
                 return func(*args, **kwargs)
