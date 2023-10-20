@@ -2,7 +2,7 @@ from pygame import time
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
-
+Responsible for the code of a pauses between sprite animations.
 """
 
 
@@ -22,8 +22,10 @@ class SpriteAnimationPause(SingletonPattern):
             # class method`s 'self.' for in class decorator:
             decorated_self = args[0]
 
-            if self.sprite_name != decorated_self.name \
-                    or self.sprite_animation != decorated_self.animation_name:
+            if any((
+                self.sprite_name != decorated_self.name,
+                self.sprite_animation != decorated_self.animation_name
+            )):
                 self.sprite_name = decorated_self.name
                 self.sprite_animation = decorated_self.animation_name
                 self.animation_skip = False
@@ -31,15 +33,16 @@ class SpriteAnimationPause(SingletonPattern):
 
             if decorated_self.statick_frame_key is None:
                 sprite_sheet_len: int = len(
-                            decorated_self.sprite_sheet[decorated_self.animation_name][decorated_self.frames]
+                            decorated_self.sprite_sheet[decorated_self.animation_name]
+                            [decorated_self.frames]
                         )
 
                 if decorated_self.last_frame_number == sprite_sheet_len - 1:
                     self.animation_skip = True
-                    decorated_self.last_frame_number = - 1
+                    decorated_self.last_frame_number = -1
 
                 if self.animation_skip is True:
-                    decorated_self.last_frame_number = - 1
+                    decorated_self.last_frame_number = -1
                     if time.get_ticks() / 1000 >= self.frame_time / 1000 + self.animation_skip_time:
                         self.animation_skip = False
                         self.frame_time = time.get_ticks()

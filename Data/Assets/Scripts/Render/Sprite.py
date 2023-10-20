@@ -89,6 +89,12 @@ class Sprite:
                 self.last_frame_number += 1
             else:
                 self.last_frame_number: int = 0
+
+        # TODO: SpriteAnimationPause call "-1" frame stabilisation:
+        # TODO: Think about how to move it to SpriteAnimationPause class...
+        if self.last_frame_number < 0:
+            self.last_frame_number: int = 0
+
         return self.last_frame_number
 
     def scale(self, size: tuple[int, int]):
