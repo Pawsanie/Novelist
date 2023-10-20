@@ -14,20 +14,22 @@ class SpriteAnimationPause(SingletonPattern):
         self.frame_time: int = time.get_ticks()
         self.animation_skip: bool = False
         self.animation_skip_time: int = 4
-        self.sprite_name: str | None = None
-        self.sprite_animation: str | None = None
+
+        self.scene_name: str = ""
 
     def __call__(self, func):
+        """
+        Control animation frame to hold "0" frame between sprite animations.
+        """
         def decorated(*args, **kwargs):
             # class method`s 'self.' for in class decorator:
             decorated_self = args[0]
+            scene_name: str = self.get_scene_name()
 
             if any((
-                self.sprite_name != decorated_self.name,
-                self.sprite_animation != decorated_self.animation_name
+                self.scene_name != scene_name,
             )):
-                self.sprite_name = decorated_self.name
-                self.sprite_animation = decorated_self.animation_name
+                self.scene_name = scene_name
                 self.animation_skip = False
                 return func(*args, **kwargs)
 
@@ -49,3 +51,11 @@ class SpriteAnimationPause(SingletonPattern):
 
             return func(*args, **kwargs)
         return decorated
+
+    @staticmethod
+    def get_scene_name() -> str:
+        """
+        Get scene name.
+        """
+        from ..Application_layer.Scene_Validator import SceneValidator
+        return SceneValidator().scene
