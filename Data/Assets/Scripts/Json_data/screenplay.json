@@ -2,14 +2,14 @@
   "scene_01": {
     "background": "back_ground_01",
     "actors": {
-      "Test_character": {
+      "Character_01": {
         "character_start_position": "right",
         "character_pose": "3",
         "character_plan": "background_plan"
       },
-      "Test": {
+      "Character_02": {
         "character_start_position": "middle",
-        "character_pose": "2",
+        "character_pose": "3",
         "character_plan": "first_plan"
       }
     },
@@ -27,7 +27,7 @@
    "test_scene_02": {
     "background": "back_ground_01",
     "actors": {
-      "Test_character": {
+      "Character_01": {
         "character_start_position": "middle",
         "character_pose": "2",
         "character_plan": "first_plan"
@@ -47,9 +47,9 @@
   "test_scene_03": {
     "background": "back_ground_01",
     "actors": {
-      "Test_character": {
+      "Character_02": {
         "character_start_position": "left",
-        "character_pose": "2",
+        "character_pose": "1",
         "character_plan": "background_plan"
       }
     },

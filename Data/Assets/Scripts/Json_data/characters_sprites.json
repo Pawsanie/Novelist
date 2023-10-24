@@ -1,6 +1,17 @@
 {
-  "Test_character": {
+  "Character_01": {
+    "sprite": "blank_pink",
+    "sprite_sheet": true,
+    "poses": {
+      "1": "animation_1",
+      "2": "animation_2",
+      "3": "animation_3"
+    }
+  },
+
+  "Character_02": {
     "sprite": "blank",
+    "sprite_sheet": false,
     "poses": {
        "1": {
          "x": [25,280],
@@ -21,30 +32,9 @@
     }
   },
 
-  "Test": {
+  "Character_03": {
     "sprite": "blank",
-    "poses": {
-       "1": {
-         "x": [25,280],
-         "y": [49, 618]
-       },
-       "2": {
-         "x": [330, 594],
-         "y": [49, 618]
-       },
-       "3": {
-         "x": [630, 882],
-         "y": [49, 618]
-       },
-       "4": {
-         "x": [922,1170],
-         "y": [49, 618]
-       }
-    }
-  },
-
-  "Test2": {
-    "sprite": "blank",
+    "sprite_sheet": false,
     "poses": {
        "1": {
          "x": [25,280],
@@ -64,6 +54,5 @@
        }
     }
   }
-
 
 }

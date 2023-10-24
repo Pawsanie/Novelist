@@ -153,17 +153,7 @@ class StageDirector(SingletonPattern):
 
         for character in self.characters_dict.values():
             if character.hidden is False:
-                character_coordinates: tuple[int, int] = (
-                    character.coordinates_pixels[0],
-                    character.coordinates_pixels[1]
-                )
-                result.append(
-                    Sprite(
-                        image=character.surface,
-                        layer=2,
-                        coordinates=character_coordinates,
-                    )
-                )
+                result.append(character.sprite)
 
         return result
 
