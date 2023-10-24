@@ -215,6 +215,8 @@ As example 'eng.json' file from 'Dialogues' folder.
 **Character_02** is the character with an animated sprite.<br>
 It is distinguished by the presence of an animation sprite sheet, which must be filled out separately in the **json** file in directory **Sprite_Sheet_data/Characters**.<br>
 The file name must match the name specified in the **sprite** key.<br>
+The **poses** key values must match the animation names from the sprite sheet file.<br>
+
 **File location:**<br>
 **./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
@@ -222,8 +224,8 @@ The file name must match the name specified in the **sprite** key.<br>
                      └── :file_folder:Json_data<br>
                               └── :file_folder:Sprite_Sheet_data<br>
                                         └── :file_folder:Characters<br>
-                                                └── :page_facing_up:*.json **(Can be your json)**<br>
-**Example of such a '.json' file:**
+                                                └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
+**Example of such a 'sprite sheet .json' file:**
 ```json
 {
   "animation_1": {
