@@ -30,12 +30,6 @@ class SpriteAnimationPause(SingletonPattern):
                 self.sprite_collection.clear()
                 return func(*args, **kwargs)
 
-            if any((
-                    decorated_self.name,
-                    str(decorated_self)
-            )) not in self.sprite_collection.keys():
-                self.update_scene_sprites(decorated_self)
-
             if decorated_self.statick_frame_key is None:
                 sprite_sheet_len: int = len(
                             decorated_self.sprite_sheet
@@ -46,8 +40,15 @@ class SpriteAnimationPause(SingletonPattern):
                     sprite_name: str = decorated_self.name
                 else:
                     sprite_name: str = str(decorated_self)
+                if any((
+                        decorated_self.name,
+                        str(decorated_self)
+                )) not in self.sprite_collection.keys():
+                    self.update_scene_sprites(
+                        sprite=decorated_self,
+                        sprite_name=sprite_name
+                    )
                 sprite: dict = self.sprite_collection[sprite_name]
-
                 if sprite["sprite"].last_frame_number == sprite_sheet_len - 1:
                     sprite["animation_skip"]: bool = True
                     sprite["sprite"].last_frame_number = -1
@@ -69,15 +70,15 @@ class SpriteAnimationPause(SingletonPattern):
         from ..Application_layer.Scene_Validator import SceneValidator
         return SceneValidator().scene
 
-    def update_scene_sprites(self, sprite):
+    def update_scene_sprites(self, *, sprite, sprite_name: str):
         """
+        Update scene animation sprite`s data.
+
         :param sprite: Sprite for "sprite_collection".
         :type sprite: Sprite
+        :param sprite_name: Name of Sprite.
+        :type sprite_name: str
         """
-        if sprite.name is not None:
-            sprite_name: str = sprite.name
-        else:
-            sprite_name: str = str(sprite)
         self.sprite_collection.setdefault(
             sprite_name, {
                 "sprite": sprite,
