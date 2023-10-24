@@ -175,29 +175,88 @@ Sprite file name. And the x|y coordinates for sprite animations.<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
-                              └── :page_facing_up:characters_sprites.json<br>
+                              └── :page_facing_up:characters_sprites.json
 **Example of 'characters_sprites.json' file:**
 ```json
 {
-  "Character_1": {
-    "sprite": "blank",
+  "Character_01": {
+      "sprite": "blank",
+      "sprite_sheet": false,
+      "poses": {
+        "1": {
+          "x": [25, 280],
+          "y": [49, 618]
+        },
+        "2": {
+          "x": [330, 594],
+          "y": [49, 618]
+        }}},  
+  
+    "Character_02": {
+    "sprite": "blank_pink",
+    "sprite_sheet": true,
     "poses": {
-      "1": {
-        "x": [25, 280],
-        "y": [49, 618]
-      },
-      "2": {
-        "x": [330, 594],
-        "y": [49, 618]
-}}}}
+      "1": "animation_1",
+      "2": "animation_2",
+      "3": "animation_3"
+    }
+}
 ```
+**Character_01** is the character without animations.<br>
+A static Sprite does not require filling out a separate file and the coordinates of each pose are set right here.
+
 Please note that the name of the sprite is indicated without the file extension.<br>
 The coordinates are in pixels.<br>
 **Please note** that the name specified here is how the key is used in the **'screenplay.json'** file!<br>
 And this name is in no way related to the one you can set in the dialogs!<br>
 As example 'eng.json' file from 'Dialogues' folder.
 
-Sprites must be in **png** format and stored in a 'Characters' folder.<br>
+In this case, two options for implementing a character sprite are indicated:<br>
+**Character_02** is the character with an animated sprite.<br>
+It is distinguished by the presence of an animation sprite sheet, which must be filled out separately in the **json** file in directory **Sprite_Sheet_data/Characters**.<br>
+The file name must match the name specified in the **sprite** key.<br>
+**File location:**<br>
+**./**:open_file_folder:Data<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Scripts<br>
+                     └── :file_folder:Json_data<br>
+                              └── :file_folder:Sprite_Sheet_data<br>
+                                        └── :file_folder:Characters<br>
+                                                └── :page_facing_up:*.json **(Can be your json)**<br>
+**Example of such a '.json' file:**
+```json
+{
+  "animation_1": {
+    "frames": {
+      "1": {
+        "y": [20, 940],
+        "x": [21, 342]
+      },
+      "2": {
+        "y": [20, 940],
+        "x": [400, 721]
+      }
+    },
+    "time_duration": 1.0
+  },
+
+  "animation_2": {
+    "frames":{
+      "1": {
+        "y": [1000, 1919],
+        "x": [21, 342]
+      },
+      "2": {
+        "y": [1000, 1919],
+        "x": [400, 721]
+      }
+    },
+    "time_duration": 2.0
+  }
+}
+```
+
+Sprite images must be in **png** format and stored in a 'Characters' folder.<br>
 **Folder location:**<br>
 ./:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
