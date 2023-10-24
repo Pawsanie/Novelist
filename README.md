@@ -202,6 +202,7 @@ Sprite file name. And the x|y coordinates for sprite animations.<br>
     }
 }
 ```
+In this case, two options for implementing a character sprite are indicated:<br>
 **Character_01** is the character without animations.<br>
 A static Sprite does not require filling out a separate file and the coordinates of each pose are set right here.
 
@@ -211,7 +212,6 @@ The coordinates are in pixels.<br>
 And this name is in no way related to the one you can set in the dialogs!<br>
 As example 'eng.json' file from 'Dialogues' folder.
 
-In this case, two options for implementing a character sprite are indicated:<br>
 **Character_02** is the character with an animated sprite.<br>
 It is distinguished by the presence of an animation sprite sheet, which must be filled out separately in the **json** file in directory **Sprite_Sheet_data/Characters**.<br>
 The file name must match the name specified in the **sprite** key.<br>
