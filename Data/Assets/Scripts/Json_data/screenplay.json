@@ -31,6 +31,11 @@
         "character_start_position": "middle",
         "character_pose": "2",
         "character_plan": "first_plan"
+      },
+      "Character_04": {
+        "character_start_position": "left",
+        "character_pose": "3",
+        "character_plan": "first_plan"
       }
     },
     "special_effects": false,
