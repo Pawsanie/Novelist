@@ -9,6 +9,16 @@
     }
   },
 
+  "Character_04": {
+    "sprite": "blank_pink",
+    "sprite_sheet": true,
+    "poses": {
+      "1": "animation_1",
+      "2": "animation_2",
+      "3": "animation_3"
+    }
+  },
+
   "Character_02": {
     "sprite": "blank",
     "sprite_sheet": false,
