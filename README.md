@@ -71,12 +71,12 @@ In the last scene next_scene key **must** be **'FINISH'**.<br>
   "scene_01": {
     "background": "back_ground_01",
     "actors": {
-      "Test_character": {
+      "Character_01": {
         "character_start_position": "right",
         "character_pose": "3",
         "character_plan": "background_plan"
       },
-      "Test": {
+      "Character_02": {
         "character_start_position": "middle",
         "character_pose": "2",
         "character_plan": "first_plan"
