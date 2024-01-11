@@ -35,22 +35,22 @@ class SettingsKeeper(SingletonPattern):
                     )
                     self.screen_size: tuple[int, int] = screen_size
 
-                if setting_type[0] == 'general_volume':
+                elif setting_type[0] == 'general_volume':
                     self.general_volume: int = int(setting_type[1])
 
-                if setting_type[0] == 'music_volume':
+                elif setting_type[0] == 'music_volume':
                     self.music_volume: int = int(setting_type[1])
 
-                if setting_type[0] == 'sound_volume':
+                elif setting_type[0] == 'sound_volume':
                     self.sound_volume: int = int(setting_type[1])
 
-                if setting_type[0] == 'screen_type':
+                elif setting_type[0] == 'screen_type':
                     self.screen_type: str = setting_type[1]
 
-                if setting_type[0] == 'text_language':
+                elif setting_type[0] == 'text_language':
                     self.text_language: str = setting_type[1]
 
-                if setting_type[0] == 'voice_acting_language':
+                elif setting_type[0] == 'voice_acting_language':
                     self.voice_acting_language: str = setting_type[1]
 
         # Get system type:
@@ -112,9 +112,9 @@ class SettingsKeeper(SingletonPattern):
         Return String with system type.
         :return: str
         """
-        if platform == "linux" or platform == "linux2":
+        if platform == "win32" or platform == "win64":
+            return 'Windows'
+        elif platform == "linux" or platform == "linux2":
             return 'linux'
         elif platform == "darwin":
             return 'Mac_OS'
-        elif platform == "win32" or platform == "win64":
-            return 'Windows'

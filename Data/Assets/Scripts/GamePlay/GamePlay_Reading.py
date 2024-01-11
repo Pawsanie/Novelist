@@ -50,19 +50,19 @@ class GamePlayReading(BaseMenu, SingletonPattern):
                             else:
                                 ...
 
-                        if command == 'hide_interface':
+                        elif command == 'hide_interface':
                             self.interface_controller.gameplay_interface_hidden_status = True
 
-                        if command == 'game_menu':
+                        elif command == 'game_menu':
                             self.go_to_game_menu()
 
-                        if command == 'next_scene':
+                        elif command == 'next_scene':
                             if self.scene_validator.next_scene != 'FINISH':
                                 self.scene_validator.scene_flag = self.scene_validator.next_scene
                             else:
                                 ...  # TODO: Make FINISH credits path.
 
-                        if command == 'fast_forward':
+                        elif command == 'fast_forward':
                             if button_clicked[0] is not False:
                                 if self.scene_validator.next_scene != 'FINISH':
                                     self.scene_validator.scene_flag = self.scene_validator.next_scene
@@ -96,11 +96,11 @@ class GamePlayReading(BaseMenu, SingletonPattern):
                     if self.scene_validator.past_scene != 'START':
                         self.scene_validator.scene_flag = self.scene_validator.past_scene
 
-                if event.key == K_RIGHT:
+                elif event.key == K_RIGHT:
                     if self.scene_validator.next_scene != 'FINISH':
                         self.scene_validator.scene_flag = self.scene_validator.next_scene
 
-                if event.key == K_SPACE:
+                elif event.key == K_SPACE:
                     if self.scene_validator.next_scene != 'FINISH':
                         self.scene_validator.scene_flag = self.scene_validator.next_scene
 

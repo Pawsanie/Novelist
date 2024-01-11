@@ -27,13 +27,13 @@ class SettingsMenu(BaseMenu, SingletonPattern):
             if command == 'settings_menu_video':
                 ...
 
-            if command == 'settings_menu_audio':
+            elif command == 'settings_menu_audio':
                 ...
 
-            if command == 'settings_menu_localization':
+            elif command == 'settings_menu_localization':
                 ...
 
-            if command == 'settings_menu_back':
+            elif command == 'settings_menu_back':
                 self.status: bool = False
                 if self.interface_controller.start_menu_flag is True:
                     from .UI_Start_menu import StartMenu

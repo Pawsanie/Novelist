@@ -122,11 +122,11 @@ class Character:
         # Position correction:
         if self.position == 'middle':
             self.move_to_middle()
-        if self.position == 'right':
+        elif self.position == 'right':
             self.move_to_right()
-        if self.position == 'left':
+        elif self.position == 'left':
             self.move_to_left()
-        if self.position == 'custom':
+        elif self.position == 'custom':
             ...
         self.sprite.coordinates = self.coordinates_pixels
 
