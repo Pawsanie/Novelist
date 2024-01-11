@@ -462,8 +462,8 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
                               ├── :page_facing_up:UI_Menu_Text.py<br>
                               ├── :page_facing_up:UI_Button_Factory.py<br>
                               ├── :file_folder:UI_Buttons<br>
-                               |       ├── :page_facing_up:UI_Base_Button.py<br>
-                               |       └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
+                               │       ├── :page_facing_up:UI_Base_Button.py<br>
+                               │       └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
                               └── :file_folder:UI_Menus<br>
                                        └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
