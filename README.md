@@ -314,10 +314,10 @@ Localization of the standard interface is stored in the appropriate files: 'eng.
                      └── :file_folder:Json_data<br>
                               └── :file_folder:User_Interface<br>
                                        ├── :file_folder:UI_Buttons<br>
-                                       |       ├── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
-                                       |       └── :file_folder:Localization<br>
-                                       |                ├── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                       |                └── :page_facing_up:ui_buttons_localizations_data.json<br>
+                                       |        ├── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
+                                       |        └── :file_folder:Localization<br>
+                                       |                 ├── :page_facing_up:eng.json **(Can be your localization)**<br>
+                                       |                 └── :page_facing_up:ui_buttons_localizations_data.json<br>
                                        └── :file_folder:UI_Menu_texts<br>
                                                 ├── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
                                                 └── :file_folder:Localization<br>
@@ -462,8 +462,8 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
                               ├── :page_facing_up:UI_Menu_Text.py<br>
                               ├── :page_facing_up:UI_Button_Factory.py<br>
                               ├── :file_folder:UI_Buttons<br>
-                               |      ├── :page_facing_up:UI_Base_Button.py<br>
-                               |      └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
+                               |       └── :page_facing_up:UI_Base_Button.py<br>
+                               |       └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
                               └── :file_folder:UI_Menus<br>
                                        └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
@@ -617,16 +617,16 @@ Naturally, this voice acting does not have to be voice localization. But it is i
    └── :file_folder:Assets<br>
             ├── :file_folder:Sounds<br>
              |       ├── :file_folder:Effects<br>
-             |       |        └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
+             |        |       └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
              |       ├── :file_folder:Music<br>
-             |       |        └── :musical_note:\*.mp3 **(Can be your music file)**<br>
+             |        |       └── :musical_note:\*.mp3 **(Can be your music file)**<br>
              |       └── :file_folder:Voice<br>
              |                ├── :musical_note:\*.mp3 **(Can be your sound file)**<br>
              |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
              |                        └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
             └── :file_folder:Scripts<br>
                      ├── :file_folder:Application_layer<br>
-                     |        └── :page_facing_up:Sound_Director.py<br>
+                      |       └── :page_facing_up:Sound_Director.py<br>
                      └── :file_folder:Json_data<br>
                               └── :page_facing_up:menu_sound_settings.json
 
@@ -672,20 +672,20 @@ The **StageDirector** builds a scene.<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      ├── :file_folder:Application_layer<br>
-                     |       ├── :page_facing_up:Game_Master.py<br>
-                     |       ├── :page_facing_up:Reactions_to_input_commands.py<br>
-                     |       ├── :page_facing_up:Scene_Validator.py<br>
-                     |       ├── :page_facing_up:Settings_Keeper.py<br>
-                     |       ├── :page_facing_up:Sound_Director.py<br>
-                     |       └── :page_facing_up:Stage_Director.py<br>
+                     |        ├── :page_facing_up:Game_Master.py<br>
+                     |        ├── :page_facing_up:Reactions_to_input_commands.py<br>
+                     |        ├── :page_facing_up:Scene_Validator.py<br>
+                     |        ├── :page_facing_up:Settings_Keeper.py<br>
+                     |        ├── :page_facing_up:Sound_Director.py<br>
+                     |        └── :page_facing_up:Stage_Director.py<br>
                      ├── :file_folder:Game_objects<br>
-                     |       ├── :page_facing_up:Background.py<br>
-                     |       ├── :page_facing_up:Character.py<br>
-                     |       └── :page_facing_up:Dialogues.py<br>
+                     |        ├── :page_facing_up:Background.py<br>
+                     |        ├── :page_facing_up:Character.py<br>
+                     |        └── :page_facing_up:Dialogues.py<br>
                      ├── :file_folder:GamePlay<br>
-                     |       └── :page_facing_up:GamePlay_Administrator.py<br>
+                     |        └── :page_facing_up:GamePlay_Administrator.py<br>
                      ├── :file_folder:Render<br>
-                     |       └── :page_facing_up:Render.py<br>
+                     |        └── :page_facing_up:Render.py<br>
                      └── :file_folder:User_Interface<br>
                               ├── :page_facing_up:Interface_Controller.py<br>
                               └── :page_facing_up:UI_Button_Factory.py<br>
