@@ -616,17 +616,17 @@ Naturally, this voice acting does not have to be voice localization. But it is i
 **./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             ├── :file_folder:Sounds<br>
-             |       ├── :file_folder:Effects<br>
-             |        |       └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
-             |       ├── :file_folder:Music<br>
-             |        |       └── :musical_note:\*.mp3 **(Can be your music file)**<br>
-             |       └── :file_folder:Voice<br>
-             |                ├── :musical_note:\*.mp3 **(Can be your sound file)**<br>
-             |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
-             |                        └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
+            │        ├── :file_folder:Effects<br>
+            │        │        └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
+            │        ├── :file_folder:Music<br>
+            │        │        └── :musical_note:\*.mp3 **(Can be your music file)**<br>
+            │        └── :file_folder:Voice<br>
+            │                 ├── :musical_note:\*.mp3 **(Can be your sound file)**<br>
+            │                 └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
+            │                         └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
             └── :file_folder:Scripts<br>
                      ├── :file_folder:Application_layer<br>
-                      |       └── :page_facing_up:Sound_Director.py<br>
+                     │        └── :page_facing_up:Sound_Director.py<br>
                      └── :file_folder:Json_data<br>
                               └── :page_facing_up:menu_sound_settings.json
 
