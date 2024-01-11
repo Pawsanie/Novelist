@@ -146,11 +146,11 @@ class SoundDirector(SingletonPattern):
                 asset_type: str = 'Music'
 
             # Sound effects:
-            if sound_chanel == 'sound_channel':
+            elif sound_chanel == 'sound_channel':
                 asset_type: str = 'Effects'
 
             # Character Speach:
-            if sound_chanel == 'voice_channel':
+            elif sound_chanel == 'voice_channel':
                 if self.single_voiceover_language is True:
                     asset_type: str = 'Voice'
                 else:

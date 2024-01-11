@@ -31,31 +31,31 @@ class GameMenu(SingletonPattern, BaseMenu):
                 self.interface_controller.gameplay_interface_status = True
                 self.state_machine.next_state()
 
-            if command == 'game_menu_save':
+            elif command == 'game_menu_save':
                 self.status: bool = False
                 from .UI_Save_menu import SaveMenu
                 SaveMenu().status = True
                 self.save_keeper.generate_save_slots_buttons()
                 SaveMenu().vanish_menu_data()
 
-            if command == 'game_menu_load':
+            elif command == 'game_menu_load':
                 self.status: bool = False
                 from .UI_Load_menu import LoadMenu
                 LoadMenu().status = True
                 self.save_keeper.generate_save_slots_buttons()
                 LoadMenu().vanish_menu_data()
 
-            if command == 'game_menu_settings':
+            elif command == 'game_menu_settings':
                 self.status: bool = False
                 from .UI_Settings_menu import SettingsMenu
                 SettingsMenu().status = True
 
-            if command == 'game_menu_start_menu':
+            elif command == 'game_menu_start_menu':
                 self.status: bool = False
                 from .UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
                 BackToStartMenuStatusMenu().status = True
 
-            if command == 'game_menu_exit':
+            elif command == 'game_menu_exit':
                 self.status: bool = False
                 from .UI_Exit_menu import ExitMenu
                 ExitMenu().status = True

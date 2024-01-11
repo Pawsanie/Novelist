@@ -47,30 +47,30 @@ class StartMenu(BaseMenu, SingletonPattern):
                     self.scene_validator.default_scene_name
                 )
 
-            if command == 'start_menu_continue':
+            elif command == 'start_menu_continue':
                 continue_game_scene: str | False = self.save_keeper.continue_game()
                 if continue_game_scene is not False:
                     self.start_game(continue_game_scene)
                     self.save_keeper.reread = True
 
-            if command == 'start_menu_load':
+            elif command == 'start_menu_load':
                 from .UI_Load_menu import LoadMenu
                 self.status: bool = False
                 LoadMenu().status = True
                 self.save_keeper.generate_save_slots_buttons()
                 LoadMenu().vanish_menu_data()
 
-            if command == 'start_menu_settings':
+            elif command == 'start_menu_settings':
                 from .UI_Settings_menu import SettingsMenu
                 self.status: bool = False
                 SettingsMenu().status = True
 
-            if command == 'start_menu_creators':
+            elif command == 'start_menu_creators':
                 from .UI_Creators_menu import CreatorsMenu
                 self.status: bool = False
                 CreatorsMenu().status = True
 
-            if command == 'start_menu_exit':
+            elif command == 'start_menu_exit':
                 from .UI_Exit_menu import ExitMenu
                 self.status: bool = False
                 ExitMenu().status = True
