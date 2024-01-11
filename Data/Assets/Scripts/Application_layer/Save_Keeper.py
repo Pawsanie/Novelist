@@ -9,6 +9,7 @@ from math import ceil
 from pygame import image, transform, Surface
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..Universal_computing.Alternative_deep_copy import deep_copy_alternative
 from ..User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
 from .Scene_Validator import SceneValidator
@@ -54,10 +55,10 @@ class SaveKeeper(SingletonPattern):
         }
 
         # Save/Load buttons reference:
-        self.save_buttons_reference: dict = self.deep_copy_alternative(
+        self.save_buttons_reference: dict = deep_copy_alternative(
             self.interface_controller.buttons_dict['ui_save_menu_buttons']
         )
-        self.load_buttons_reference: dict = self.deep_copy_alternative(
+        self.load_buttons_reference: dict = deep_copy_alternative(
             self.interface_controller.buttons_dict['ui_load_menu_buttons']
         )
 
@@ -76,20 +77,6 @@ class SaveKeeper(SingletonPattern):
         self.save_file_format: str = 'save'
         self.preview_file_format: str = 'png'
         self.new_save_button_name: str = "New Save"
-
-    @staticmethod
-    def deep_copy_alternative(interesting_data: dict) -> dict:
-        """
-        Alternative for dict deepcopy, because it cant works with pygame.
-        :param interesting_data: Dict with menus data.
-        :type interesting_data: dict
-        """
-        result: dict = {}
-        for key, value in interesting_data.items():
-            result.update(
-                {key: value}
-            )
-        return result
 
     def update_ui_buttons(self, *, menu_data: dict, save_type: str):
         """
