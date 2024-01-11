@@ -22,6 +22,7 @@ class BaseButton(ABC):
     """
     # Tuple with RBG for button select render:
     button_selected_color: tuple[int] = (100, 0, 0)
+    select_frame_color: tuple[int] = (48, 213, 200)
 
     def __init__(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],
                  button_text_localization_dict: dict[str] | None = None, have_real_path: bool = False,
@@ -69,7 +70,6 @@ class BaseButton(ABC):
         self.text_offset_y: int | float = text_offset_y
 
         self.select: bool = False
-        self.select_frame_color: tuple = (48, 213, 200)
 
         # Generate button image:
         if have_real_path is False:
