@@ -119,9 +119,9 @@ You need to name localization language tags for translation in the game settings
                      └── :file_folder:Json_data<br>
                               └── :file_folder:Dialogues<br>
                                        ├── :file_folder:Choice<br>
-                                       │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
+                                       │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
                                        ├── :file_folder:Reading<br>
-                                       │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
+                                       │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
                                        └── :page_facing_up:dialogues_localizations_data.json<br>
 
 **Example of one scene in 'eng.json' file in 'Reading' folder':**
@@ -314,10 +314,10 @@ Localization of the standard interface is stored in the appropriate files: 'eng.
                      └── :file_folder:Json_data<br>
                               └── :file_folder:User_Interface<br>
                                        ├── :file_folder:UI_Buttons<br>
-                                       │       ├── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
-                                       │       └── :file_folder:Localization<br>
-                                       │                ├── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                       │                └── :page_facing_up:ui_buttons_localizations_data.json<br>
+                                       │       ├── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
+                                       │       └── :file_folder:Localization<br>
+                                       │                ├── :page_facing_up:eng.json **(Can be your localization)**<br>
+                                       │                └── :page_facing_up:ui_buttons_localizations_data.json<br>
                                        └── :file_folder:UI_Menu_texts<br>
                                                 ├── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
                                                 └── :file_folder:Localization<br>
@@ -672,20 +672,20 @@ The **StageDirector** builds a scene.<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      ├── :file_folder:Application_layer<br>
-                     │       ├── :page_facing_up:Game_Master.py<br>
-                     │       ├── :page_facing_up:Reactions_to_input_commands.py<br>
-                     │       ├── :page_facing_up:Scene_Validator.py<br>
-                     │       ├── :page_facing_up:Settings_Keeper.py<br>
-                     │       ├── :page_facing_up:Sound_Director.py<br>
-                     │       └── :page_facing_up:Stage_Director.py<br>
+                     │       ├── :page_facing_up:Game_Master.py<br>
+                     │       ├── :page_facing_up:Reactions_to_input_commands.py<br>
+                     │       ├── :page_facing_up:Scene_Validator.py<br>
+                     │       ├── :page_facing_up:Settings_Keeper.py<br>
+                     │       ├── :page_facing_up:Sound_Director.py<br>
+                     │       └── :page_facing_up:Stage_Director.py<br>
                      ├── :file_folder:Game_objects<br>
-                     │       ├── :page_facing_up:Background.py<br>
-                     │       ├── :page_facing_up:Character.py<br>
-                     │       └── :page_facing_up:Dialogues.py<br>
+                     │       ├── :page_facing_up:Background.py<br>
+                     │       ├── :page_facing_up:Character.py<br>
+                     │       └── :page_facing_up:Dialogues.py<br>
                      ├── :file_folder:GamePlay<br>
-                     │       └── :page_facing_up:GamePlay_Administrator.py<br>
+                     │       └── :page_facing_up:GamePlay_Administrator.py<br>
                      ├── :file_folder:Render<br>
-                     │       └── :page_facing_up:Render.py<br>
+                     │       └── :page_facing_up:Render.py<br>
                      └── :file_folder:User_Interface<br>
                               ├── :page_facing_up:Interface_Controller.py<br>
                               └── :page_facing_up:UI_Button_Factory.py<br>
