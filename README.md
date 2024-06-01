@@ -38,6 +38,10 @@ Also for flipping the screen and drawing the window icon.
 ```bash
 pip install pygame
 ```
+If you want you can change this library by first downloading it from the repository and installing your version using the command.
+```bash
+pip install ./path/to/modified/lib
+```
 
 ## How to run the application:
 To run the application, you need to run the 'Visual_novel_game.py' script with your shell.<br>
