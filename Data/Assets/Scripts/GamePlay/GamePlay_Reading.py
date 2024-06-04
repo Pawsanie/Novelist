@@ -1,5 +1,8 @@
+from asyncio import sleep
+
 from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse, MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from pygame import event as pygame_events
+from pygame.event import Event
 
 from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
@@ -16,7 +19,7 @@ class GamePlayReading(BaseMenu, SingletonPattern):
     """
     def __init__(self):
         # Arguments processing:
-        super(GamePlayReading, self).__init__()
+        super().__init__()
         self.stage_director: StageDirector = StageDirector()
 
     def go_to_game_menu(self):
@@ -28,7 +31,7 @@ class GamePlayReading(BaseMenu, SingletonPattern):
         GameMenu().status = True
         self.state_machine.next_state()
 
-    def button_gameplay_ui_status(self, event):
+    async def button_gameplay_ui_status(self, event):
         """
         Processing the gameplay interface.
         :param event: pygame.event from main_loop.
@@ -72,11 +75,12 @@ class GamePlayReading(BaseMenu, SingletonPattern):
                 if button_clicked[0] is True:
                     gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_push_status()
                     if gameplay_ui_buttons[1] is False:
+                        new_event: Event = pygame_events.poll()
+                        while new_event.type != MOUSEBUTTONUP:
+                            new_event: Event = pygame_events.poll()
+                            await sleep(0)
                         if self.scene_validator.next_scene != 'FINISH':
                             self.scene_validator.scene_flag = self.scene_validator.next_scene
-                        new_event = pygame_events.wait()
-                        while new_event.type != MOUSEBUTTONUP:
-                            new_event = pygame_events.wait()
 
         # If user interface is hidden:
         else:
@@ -108,13 +112,13 @@ class GamePlayReading(BaseMenu, SingletonPattern):
                 if event.key == K_ESCAPE:
                     self.go_to_game_menu()
 
-    def gameplay_input(self, event):
+    async def gameplay_input(self, event):
         """
         Gameplay input conveyor:
         :param event: pygame.event from main_loop.
         """
         # Button gameplay ui status:
-        self.button_gameplay_ui_status(event)
+        await self.button_gameplay_ui_status(event)
         # Button gameplay key bord status:
         self.key_bord_gameplay_key_down(event)
         self.input_wait_ready()

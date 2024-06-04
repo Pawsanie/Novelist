@@ -82,7 +82,7 @@ class InputCommandsReactions(SingletonPattern):
         # Itself data proxy:
         self._interface_controller.menus_collection = self._menus_collection
 
-    def _reactions_to_input_commands(self, event: Event):
+    async def _reactions_to_input_commands(self, event: Event):
         """
         User commands conveyor.
         Uses in input_command_oop.
@@ -90,7 +90,7 @@ class InputCommandsReactions(SingletonPattern):
         """
         # Gameplay:
         if self._interface_controller.gameplay_interface_status is True:
-            self._gameplay_administrator.gameplay_input(event)
+            await self._gameplay_administrator.gameplay_input(event)
             return
         # Game menus:
         for key in self._menus_collection:
@@ -112,7 +112,7 @@ class InputCommandsReactions(SingletonPattern):
                     exit(0)
 
                 # User commands:
-                self._reactions_to_input_commands(event)
+                await self._reactions_to_input_commands(event)
 
             pygame_events.clear()
             await sleep(0)

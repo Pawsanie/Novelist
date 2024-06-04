@@ -81,13 +81,11 @@ class BaseButton(ABC):
                 file_catalog='Buttons'
             )
         else:  # TODO: Simplify this block...
-            base_path: list[str] = str(self.button_image_data['sprite_name']).split(sep)
-            root_path: str = lambda: 'Images' if "Images" in base_path else ""
             self.button_sprite_standard: Surface = self._assets_loader.image_load(
-                art_name=base_path[-1],
-                asset_type=base_path[-3],
-                file_catalog=base_path[-2],
-                root_path=root_path()
+                art_name=str(self.button_image_data['sprite_name']),
+                asset_type=str(self.button_image_data['sprite_name']).split(sep)[-3],
+                art_name_is_path=True
+
             )
         self.button_sprite: Surface = self.button_sprite_standard
 

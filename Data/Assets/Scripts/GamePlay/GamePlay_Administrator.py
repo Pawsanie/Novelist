@@ -1,3 +1,5 @@
+from inspect import iscoroutinefunction
+
 from .GamePlay_Reading import GamePlayReading
 from ..User_Interface.UI_Base_menu import BaseMenu
 from .GamePlay_dialogues_choice import GamePlayDialoguesChoice
@@ -53,12 +55,16 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
                 except AttributeError:
                     pass
 
-    def gameplay_input(self, event):
+    async def gameplay_input(self, event):
         """
         Gameplay interaction.
         :param event: pygame.event from main_loop.
         """
         for gameplay_type, gameplay_class in self.gameplay_collections.items():
             if self.scene_validator.scene_gameplay_type == gameplay_type:
-                gameplay_class["gameplay"].gameplay_input(event)
+                gameplay_method = gameplay_class["gameplay"].gameplay_input
+                if iscoroutinefunction(gameplay_method):
+                    await gameplay_method(event)
+                else:
+                    gameplay_method(event)
                 return

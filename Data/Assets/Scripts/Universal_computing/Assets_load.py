@@ -67,11 +67,12 @@ class AssetLoader(SingletonPattern):
             )
 
     def image_load(self, *, art_name: str, asset_type: str,
-                   file_catalog: str = "", root_path: str = 'Images') -> Surface:
+                   file_catalog: str = "", root_path: str = 'Images',
+                   art_name_is_path: bool = False) -> Surface:
         """
         Load image by name and return it as Surface for image rendering.
         :param asset_type: String.
-                           Example: "Textures".
+                           Example: "Characters".
         :type asset_type: str
         :param art_name: must be string with file name without file format.
         :param file_catalog: Catalog in Asset_Type_Folder.
@@ -79,11 +80,16 @@ class AssetLoader(SingletonPattern):
         :type file_catalog: str
         :param root_path: Root path for get image file. Images as default.
         :type root_path: str
+        :param art_name_is_path: If True art_name will be art_path.
+        :type art_name_is_path: bool
         :return: Surface
         """
         file_format: str = self.__images_instructions[asset_type]["file_format"]
-        art_additional_part: str = f"{path.join(*[root_path, asset_type, file_catalog, art_name])}"
-        art_path: str = f"{self.__root_path}{art_additional_part}.{file_format}"
+        if art_name_is_path is False:
+            art_additional_part: str = f"{path.join(*[root_path, asset_type, file_catalog, art_name])}"
+            art_path: str = f"{self.__root_path}{art_additional_part}.{file_format}"
+        else:
+            art_path: str = f"{art_name}.{file_format}"
 
         if self.__images_instructions[asset_type]["alpha_chanel"] is True:
             return image.load(art_path).convert_alpha()
