@@ -1,5 +1,5 @@
 from .Interface_Controller import InterfaceController
-from ..Application_layer.Scene_Validator import SceneValidator
+from ..GamePlay.Scene_Validator import SceneValidator
 from ..Application_layer.State_Machine import StateMachine
 """
 Contains code for User Interface Master Class.

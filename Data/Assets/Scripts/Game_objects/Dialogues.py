@@ -1,6 +1,6 @@
 from pygame import font, Surface
 
-from ..Application_layer.Assets_load import json_load, font_load
+from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Surface_size import surface_size
 from .Background import BackgroundProxy
 from ..Application_layer.Settings_Keeper import SettingsKeeper
@@ -23,11 +23,14 @@ class DialoguesWords(SingletonPattern):
         :param font_name: String with font file name.
         :type font_name: str | None
         """
+        # Program layers settings:
         self.background_surface: BackgroundProxy = BackgroundProxy()
         self.screen: Surface = SettingsKeeper().screen
+        self.text_canvas: TextCanvas = TextCanvas()
+        self._asset_loader: AssetLoader = AssetLoader()
+
         self.font_size: int = 0
         self.font_name: str = font_name
-        self.text_canvas: TextCanvas = TextCanvas()
         self.used_font: font.Font | None = None
         self.set_font(font_name=font_name)
         self.font_coordinates: tuple[int, int] = (0, 0)
@@ -45,7 +48,7 @@ class DialoguesWords(SingletonPattern):
                 self.font_size
             )
         else:
-            self.used_font: font.Font = font_load(
+            self.used_font: font.Font = self._asset_loader.font_load(
                 font_name=font_name,
                 font_size=self.font_size
             )
@@ -116,19 +119,22 @@ def generate_dialogues():
     Generate dict with dialogues.
     With keys as languages flags and json dictionary as value.
     """
+    asset_loader: AssetLoader = AssetLoader()
     result: dict = {}
-    language_flags: tuple = (json_load(
-        [
-            'Scripts',
-            'Json_data',
-            'Dialogues',
-            'dialogues_localizations_data'
-        ]
-    )['language_flags'])
+    language_flags: tuple = (
+        asset_loader.json_load(
+            [
+                'Scripts',
+                'Json_data',
+                'Dialogues',
+                'dialogues_localizations_data'
+            ]
+        )['language_flags']
+    )
 
     for flag in language_flags:
         for dialogs_type in ['Reading', 'Choice']:
-            json_values: dict = json_load(
+            json_values: dict = asset_loader.json_load(
                 [
                     'Scripts',
                     'Json_data',

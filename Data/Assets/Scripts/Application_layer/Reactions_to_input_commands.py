@@ -1,10 +1,10 @@
-from pygame import time, QUIT, quit
+from asyncio import sleep
+
+from pygame import QUIT, quit
 from pygame import event as pygame_events
+from pygame.event import Event
 
 from ..User_Interface.Interface_Controller import InterfaceController
-from .Settings_Keeper import SettingsKeeper
-from .Stage_Director import StageDirector
-from .Scene_Validator import SceneValidator
 from ..User_Interface.UI_Menus.UI_Exit_menu import ExitMenu
 from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
 from ..User_Interface.UI_Menus.UI_Load_menu import LoadMenu
@@ -15,46 +15,18 @@ from ..User_Interface.UI_Menus.UI_Start_menu import StartMenu
 from ..User_Interface.UI_Menus.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
 from ..User_Interface.UI_Menus.UI_Creators_menu import CreatorsMenu
 from ..GamePlay.GamePlay_Administrator import GamePlayAdministrator
+from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains code for reactions to input commands.
 """
 
 
-def main_loop(func):
-    """
-    Decorator with the main loop of game.
-    """
-    def coroutine(*args, **kwargs):
-        # class method`s 'self.' for in class decorator:
-        self = args[0]
-
-        program_running: bool = True
-        main_cycle_fps_clock = time.Clock()
-        main_cycle_fps: int = SettingsKeeper().frames_per_second
-
-        while program_running:
-            # Set scene:
-            func(*args, **kwargs)
-            for event in pygame_events.get():
-                # Quit by exit_icon:
-                if event.type == QUIT:
-                    quit()
-                    exit(0)
-                # User commands:
-                self.reactions_to_input_commands.reactions_to_input_commands(event)
-
-            pygame_events.clear()
-            main_cycle_fps_clock.tick(main_cycle_fps)
-
-    return coroutine
-
-
-class InputCommandsReactions:
+class InputCommandsReactions(SingletonPattern):
     """
     Controls reactions to user input commands from mouse or key bord by conveyor
-    in 'reactions_to_input_commands' method from 'main_loop'.
+    in '_reactions_to_input_commands' method from 'input_commands_loop'.
     """
-    menus_collection: dict = {
+    _menus_collection: dict = {
         'exit_menu': {
             'object': ExitMenu(),
             'menu_file': 'ui_exit_menu_buttons',
@@ -103,35 +75,44 @@ class InputCommandsReactions:
     }
 
     def __init__(self):
-        # Arguments processing:
-        self.interface_controller: InterfaceController = InterfaceController()
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.stage_director: StageDirector = StageDirector()
-        self.scene_validator: SceneValidator = SceneValidator()
+        # Program layers:
+        self._interface_controller: InterfaceController = InterfaceController()
+        self._gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
 
-        # Settings for gameplay:
-        self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
         # Itself data proxy:
-        self.interface_controller.menus_collection = self.menus_collection
+        self._interface_controller.menus_collection = self._menus_collection
 
-    def __call__(self):
+    def _reactions_to_input_commands(self, event: Event):
         """
-        Need for calling by Game_Master class in main_loop.
-        """
-        pass
-
-    def reactions_to_input_commands(self, event):
-        """
-        User commands conveyor:
-        :param event: 'pygame.event' from main_loop.
+        User commands conveyor.
+        Uses in input_command_oop.
+        :param event: 'pygame.event' from input_commands_loop.
         """
         # Gameplay:
-        if self.interface_controller.gameplay_interface_status is True:
-            self.gameplay_administrator.gameplay_input(event)
+        if self._interface_controller.gameplay_interface_status is True:
+            self._gameplay_administrator.gameplay_input(event)
             return
         # Game menus:
-        for key in self.menus_collection:
-            menu = self.menus_collection[key]['object']
+        for key in self._menus_collection:
+            menu = self._menus_collection[key]['object']
             if menu.status is True:
                 menu.menu_input(event)
                 return
+
+    async def input_commands_loop(self):
+        """
+        Controller MVC pattern part: coll from GameMaster.
+        """
+        while True:
+            for event in pygame_events.get():
+
+                # Quit by exit_icon:
+                if event.type == QUIT:
+                    quit()
+                    exit(0)
+
+                # User commands:
+                self._reactions_to_input_commands(event)
+
+            pygame_events.clear()
+            await sleep(0)

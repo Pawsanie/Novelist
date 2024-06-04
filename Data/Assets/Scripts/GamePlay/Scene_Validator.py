@@ -1,8 +1,8 @@
-from .Stage_Director import StageDirector
-from .Assets_load import json_load
+from ..Application_layer.Stage_Director import StageDirector
+from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from .Sound_Director import SoundDirector
-from .Settings_Keeper import SettingsKeeper
+from ..Application_layer.Sound_Director import SoundDirector
+from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contains SceneValidator code.
 """
@@ -13,13 +13,16 @@ class SceneValidator(SingletonPattern):
     Controls in what order the scenes go and their settings.
     """
     def __init__(self):
+        # Program layers settings:
+        self._asset_loader: AssetLoader = AssetLoader()
+
         # Screenplay loading:
-        self.screenplay: dict = json_load(
+        self.screenplay: dict = self._asset_loader.json_load(
             path_list=[
                 'Scripts', 'Json_data', 'screenplay'
             ]
         )
-        self.choices_data: dict = json_load(
+        self.choices_data: dict = self._asset_loader.json_load(
             path_list=[
                 'Scripts', 'Json_data', 'Dialogues', 'choices_data'
             ]
@@ -105,5 +108,5 @@ class SceneValidator(SingletonPattern):
         """
         If current scene type is reading autosave it.
         """
-        from .Save_Keeper import SaveKeeper
+        from ..Application_layer.Save_Keeper import SaveKeeper
         SaveKeeper().save(auto_save=True)

@@ -1,7 +1,7 @@
 from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Buttons.UI_GamePlay_Choice_Button import GamePlayChoiceButton
-from ..Application_layer.Assets_load import json_load
+from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
 Contains gameplay of choice code.
@@ -14,10 +14,12 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
     Generated in GamePlayAdministrator from 'Game_Play_Administrator.py' file.
     """
     def __init__(self):
-        # Arguments processing:
-        super(GamePlayDialoguesChoice, self).__init__()
+        super().__init__()
+        # Program layers settings:
         self.stage_director: StageDirector = StageDirector()
-        # Gameplay choice buttons generate:
+        self._assets_loader: AssetLoader = AssetLoader()
+
+        # Gameplay choice buttons settings:
         self.dialogues_buttons: dict = {}
 
     def dialogues_choice_buttons_generations(self):
@@ -26,7 +28,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         This is a nested dictionary of button`s group and an instance of the Button class.
         """
         # localizations instructions from 'dialogues_localizations_data.json':
-        localizations_data: dict[str] = json_load(
+        localizations_data: dict[str] = self._assets_loader.json_load(
             ['Scripts', 'Json_data', 'Dialogues', 'dialogues_localizations_data']
         )
         # localizations data:
@@ -37,9 +39,11 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         all_buttons_text_localizations_dict: dict = {}
         for language in localizations:
             all_buttons_text_localizations_dict.update(
-                {language: json_load(
-                    ['Scripts', 'Json_data', 'Dialogues', 'Choice', language]
-                )}
+                {
+                    language: self._assets_loader.json_load(
+                        ['Scripts', 'Json_data', 'Dialogues', 'Choice', language]
+                    )
+                }
             )
         choice_buttons_text: dict[str] = all_buttons_text_localizations_dict[self.stage_director.language_flag]
         # Generate dialogues choice buttons:
@@ -51,21 +55,26 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                     buttons_text_localization: dict = {}
                     for language in all_buttons_text_localizations_dict:
                         buttons_text_localization.update(
-                            {language: all_buttons_text_localizations_dict[language][scene][choice]}
+                            {
+                                language: all_buttons_text_localizations_dict[language][scene][choice]
+                            }
                         )
                     # Generate sprite data for button:
-                    image_data_dict: dict = json_load(
+                    image_data_dict: dict = self._assets_loader.json_load(
                         ['Scripts', 'Json_data', 'Dialogues', 'dialogues_choice_buttons']
                     )
                     image_data_dict.update({"index_number": index})
                     # Generate button:
                     dialogues_buttons.update(
-                        {choice: GamePlayChoiceButton(
-                            button_name=choice,
-                            button_text=choice_buttons_text[scene][choice],
-                            button_image_data=image_data_dict,
-                            button_text_localization_dict=buttons_text_localization
-                        )})
+                        {
+                            choice: GamePlayChoiceButton(
+                                button_name=choice,
+                                button_text=choice_buttons_text[scene][choice],
+                                button_image_data=image_data_dict,
+                                button_text_localization_dict=buttons_text_localization
+                            )
+                        }
+                    )
                     self.dialogues_buttons.setdefault(scene, dialogues_buttons)
 
     def button_gameplay_ui_status(self, event):

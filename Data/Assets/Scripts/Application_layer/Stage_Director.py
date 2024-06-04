@@ -55,7 +55,6 @@ class StageDirector(SingletonPattern):
     def set_scene(self, *, location: str) -> Surface.blit:
         """
         Update background Image, for scene render.
-
         :param location: String with background location name.
         :return: Background for scene render.
         """
@@ -145,7 +144,6 @@ class StageDirector(SingletonPattern):
     def generate_characters_batch(self):
         """
         Generate batch with characters sprites for display image render.
-
         :return: Batch
         """
         from ..Render.Batch import Batch
@@ -160,7 +158,6 @@ class StageDirector(SingletonPattern):
     def generate_background_batch(self):
         """
         Generate batch with background sprite for display image render.
-
         :return: Batch
         """
         from ..Render.Batch import Batch
@@ -177,7 +174,6 @@ class StageDirector(SingletonPattern):
     def generate_speech(self):
         """
         Generate batch with speech text sprites for display image render.
-
         :return: Batch
         """
         from ..Render.Batch import Batch

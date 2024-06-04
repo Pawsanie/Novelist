@@ -69,7 +69,6 @@ class InterfaceController(SingletonPattern):
     def get_menus_text_dict(self) -> dict[str, MenuText]:
         """
         Generate text for same menu.
-
         :return: Dict with menu text.
         """
         for menu_key in self.menus_collection:

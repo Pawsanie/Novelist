@@ -1,5 +1,5 @@
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from ..Application_layer.Assets_load import json_load
+from ..Universal_computing.Assets_load import AssetLoader
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from .UI_Buttons.UI_Base_Button import BaseButton
 from .UI_Buttons.UI_Yes_No_Button import YesNoButton
@@ -14,7 +14,6 @@ Contents code for user interface buttons generation.
 class ButtonFactory(SingletonPattern):
     """
     Generate interface button surface and coordinates for render as Factory.
-
     Instances are created from button_generator function by InterfaceController class.
     """
     # Interface collections:
@@ -108,16 +107,16 @@ class ButtonFactory(SingletonPattern):
 def button_generator() -> dict[str, dict[str, BaseButton]]:
     """
     Generate dict with buttons for user interface.
-    Used by InterfaceController.
-
+    Use by InterfaceController.
     :return: A nested dictionary of button`s group and an instance of the Button class.
     """
     language_flag: str = SettingsKeeper().text_language
     result: dict = {}
     factory: ButtonFactory = ButtonFactory()
+    asset_loader: AssetLoader = AssetLoader()
 
     # localizations instructions from 'ui_buttons_localizations_data.json': UI files and languages for UI.
-    localizations_data: dict[str] = json_load(
+    localizations_data: dict[str] = asset_loader.json_load(
         ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'Localization', 'ui_buttons_localizations_data']
     )
 
@@ -133,14 +132,16 @@ def button_generator() -> dict[str, dict[str, BaseButton]]:
     all_buttons_text_localizations_dict: dict = {}
     for language in localizations:
         all_buttons_text_localizations_dict.update(
-            {language: json_load(
-                ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'Localization', language]
-            )}
+            {
+                language: asset_loader.json_load(
+                    ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'Localization', language]
+                )
+            }
         )
 
     # User Interface buttons:
     for file_name in ui_buttons_files:
-        ui_buttons_json: dict[str] = json_load(
+        ui_buttons_json: dict[str] = asset_loader.json_load(
             ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', file_name]
         )
         ui_buttons: dict = {}
@@ -151,7 +152,9 @@ def button_generator() -> dict[str, dict[str, BaseButton]]:
             try:
                 for language in all_buttons_text_localizations_dict:
                     button_text_localization.update(
-                        {language: all_buttons_text_localizations_dict[language][key]}
+                        {
+                            language: all_buttons_text_localizations_dict[language][key]
+                        }
                     )
                 button_text: str = all_buttons_text_localizations_dict[language_flag][key]
             except KeyError:
@@ -159,12 +162,14 @@ def button_generator() -> dict[str, dict[str, BaseButton]]:
 
             # Generate button:
             ui_buttons.update(
-                {key: factory.produce(
-                    button_name=key,
-                    button_text=button_text,
-                    button_image_data=ui_buttons_json[key],
-                    button_text_localization_dict=button_text_localization
-                )}
+                {
+                    key: factory.produce(
+                        button_name=key,
+                        button_text=button_text,
+                        button_image_data=ui_buttons_json[key],
+                        button_text_localization_dict=button_text_localization
+                    )
+                }
             )
 
         result.update({file_name: ui_buttons})

@@ -1,6 +1,6 @@
 from pygame import Surface, SRCALPHA, transform
 
-from ..Application_layer.Assets_load import image_load
+from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Surface_size import surface_size
 from ..Game_objects.Background import BackgroundProxy
 from ..Application_layer.Settings_Keeper import SettingsKeeper
@@ -15,13 +15,15 @@ class TextCanvas(SingletonPattern):
     Generate text canvas surface and coordinates for render.
     """
     def __init__(self):
-        self.canvas_safe: Surface = image_load(
-            art_name='text_canvas',
-            file_format='png',
-            asset_type='User_Interface'
-        )
+        # Program layers settings:
         self.background_surface: BackgroundProxy = BackgroundProxy()
         self.screen: Surface = SettingsKeeper().screen
+
+        # Text canvas settings:
+        self.canvas_safe: Surface = AssetLoader().image_load(
+            art_name='text_canvas',
+            asset_type='User_Interface'
+        )
         self.text_canvas_surface: Surface = Surface((0, 0))
         self.text_canvas_coordinates: tuple[int, int] = (0, 0)
         self.status: bool = True

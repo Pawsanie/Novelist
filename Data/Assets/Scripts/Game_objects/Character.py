@@ -1,7 +1,7 @@
 from pygame import transform, Surface
 
 from .Characters_calculations import character_sprite_size
-from ..Application_layer.Assets_load import image_load, json_load
+from ..Universal_computing.Assets_load import AssetLoader
 from .Background import BackgroundProxy
 from ..Universal_computing.Surface_size import surface_size
 from ..Render.Sprite import Sprite
@@ -213,51 +213,64 @@ class Character:
 def characters_generator() -> dict[str, Character]:
     """
     Load data about characters and their sprites from json and make dict with Character class exemplars.
-
     :return: Dictionary with character`s names as a keys and Character`s exemplar as values.
     """
+    asset_loader: AssetLoader = AssetLoader()
     result: dict = {}
-    characters_list: dict = json_load([
-        'Scripts',
-        'Json_data',
-        'characters_sprites'
-    ])
+    characters_list: dict = asset_loader.json_load(
+        [
+            'Scripts',
+            'Json_data',
+            'characters_sprites'
+        ]
+    )
+
     for character_name in characters_list:
         character: dict = characters_list[character_name]
-        sprite: Surface = image_load(
+        sprite: Surface = asset_loader.image_load(
             art_name=character['sprite'],
-            file_format='png',
             asset_type='Characters'
         )
 
         # Animated Sprite:
         if character['sprite_sheet'] is True:
-            sprite_sheet_data: dict = json_load([
-                'Scripts',
-                'Json_data',
-                'Sprite_Sheet_data',
-                'Characters',
-                character["sprite"]
-            ])
-            result.update({str(character_name): Character(
-                character_image=sprite,
-                sprite_sheet_data=sprite_sheet_data,
-                poses=character['poses'],
-                animation=True,
-                name=character_name
-            )})
+            sprite_sheet_data: dict = asset_loader.json_load(
+                [
+                    'Scripts',
+                    'Json_data',
+                    'Sprite_Sheet_data',
+                    'Characters',
+                    character["sprite"]
+                ]
+            )
+            result.update(
+                {
+                    str(character_name): Character(
+                        character_image=sprite,
+                        sprite_sheet_data=sprite_sheet_data,
+                        poses=character['poses'],
+                        animation=True,
+                        name=character_name
+                    )
+                }
+            )
 
         # Statick Sprite:
         else:
-            result.update({str(character_name): Character(
-                character_image=sprite,
-                sprite_sheet_data={
-                        'static': {
-                            "frames": character['poses'],
-                            "time_duration": None
-                        }},
-                poses=character['poses'],
-                name=character_name
-            )})
+            result.update(
+                {
+                    str(character_name): Character(
+                        character_image=sprite,
+                        sprite_sheet_data={
+                                'static': {
+                                    "frames": character['poses'],
+                                    "time_duration": None
+                                }
+                        },
+                        poses=character['poses'],
+                        name=character_name
+                    )
+                }
+            )
 
     return result

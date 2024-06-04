@@ -1,13 +1,12 @@
-from os import path
 from abc import ABC, abstractmethod
+from os.path import sep
 
 from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP, draw, Rect
 
-from ...Application_layer.Assets_load import image_load, font_load
+from ...Universal_computing.Assets_load import AssetLoader
 from ...Universal_computing.Surface_size import surface_size
 from ...Game_objects.Background import BackgroundProxy
 from ...Application_layer.Settings_Keeper import SettingsKeeper
-font.init()
 """
 Contents code for user interface buttons.
 Path of code of user interface buttons in 'UI_buttons_calculations.py' file...
@@ -56,10 +55,13 @@ class BaseButton(ABC):
                               None by default.
         :type text_offset_y: int | float | None
         """
+        # Program layers settings:
+        self._assets_loader: AssetLoader = AssetLoader()
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+
         self.background: BackgroundProxy = BackgroundProxy()
         self.button_name: str = button_name
         self.button_text: str | None = button_text
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
         self.language_flag: str = self.settings_keeper.text_language
         self.button_text_localization_dict: dict[str] | None = button_text_localization_dict
         if self.button_text_localization_dict is not None:
@@ -73,16 +75,19 @@ class BaseButton(ABC):
 
         # Generate button image:
         if have_real_path is False:
-            self.button_sprite_standard: Surface = image_load(
+            self.button_sprite_standard: Surface = self._assets_loader.image_load(
                 art_name=str(self.button_image_data['sprite_name']),
-                file_format='png',
-                asset_type=path.join(*['User_Interface', 'Buttons'])
+                asset_type='User_Interface',
+                file_catalog='Buttons'
             )
         else:  # TODO: Simplify this block...
-            self.button_sprite_standard: Surface = image_load(
-                art_name=str(self.button_image_data['sprite_name']),
-                file_format='png',
-                is_art_name_is_path=True
+            base_path: list[str] = str(self.button_image_data['sprite_name']).split(sep)
+            root_path: str = lambda: 'Images' if "Images" in base_path else ""
+            self.button_sprite_standard: Surface = self._assets_loader.image_load(
+                art_name=base_path[-1],
+                asset_type=base_path[-3],
+                file_catalog=base_path[-2],
+                root_path=root_path()
             )
         self.button_sprite: Surface = self.button_sprite_standard
 
@@ -103,10 +108,16 @@ class BaseButton(ABC):
             self.text_color: str = str(self.button_image_data['color'])
             if self.button_image_data['font'] is not None:
                 self.font_name: str = str(self.button_image_data['font'])
-                self.set_button_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
+                self.set_button_font: font.Font = self._assets_loader.font_load(
+                    font_name=self.font_name,
+                    font_size=self.font_size
+                )
             else:
                 self.font_name: None = None
-                self.set_button_font: font.Font = font.Font(font.get_default_font(), self.font_size)
+                self.set_button_font: font.Font = font.Font(
+                    font.get_default_font(),
+                    self.font_size
+                )
 
     def generator(self) -> tuple[Surface, tuple[int, int]]:
         """
@@ -230,7 +241,7 @@ class BaseButton(ABC):
                 self.font_size
             )
         else:
-            self.set_button_font: font.Font = font_load(
+            self.set_button_font: font.Font = self._assets_loader.font_load(
                 font_name=self.font_name,
                 font_size=self.font_size
             )
@@ -280,7 +291,6 @@ class BaseButton(ABC):
     def button_cursor_position_status(self) -> bool:
         """
         Checking the cursor position above the button.
-
         :return: True | False
         """
         # Mouse processing:
@@ -290,8 +300,8 @@ class BaseButton(ABC):
         button_coordinates_x, button_coordinates_y = self.button_coordinates
 
         # Drawing a button while hovering over:
-        if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size and \
-                button_coordinates_y < cursor_position[1] < button_coordinates_y + button_y_size:
+        if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size \
+                and button_coordinates_y < cursor_position[1] < button_coordinates_y + button_y_size:
             return True
         # Default Button Rendering:
         else:
@@ -300,7 +310,6 @@ class BaseButton(ABC):
     def button_click_hold(self) -> bool:
         """
         Check left click of mouse to button status.
-
         :return: True | False
         """
         if self.button_cursor_position_status() is True:
@@ -311,7 +320,6 @@ class BaseButton(ABC):
     def button_clicked_status(self, event) -> bool:
         """
         Check left push out mouse left button status.
-
         :param event: pygame.event element.
         :return: True | False
         """
@@ -330,7 +338,6 @@ class BaseButton(ABC):
     def get_button_size(self) -> tuple[int, int]:
         """
         Calculate button size.
-
         :return: Tuple with x and y sizes of button`s surface.
         """
         pass

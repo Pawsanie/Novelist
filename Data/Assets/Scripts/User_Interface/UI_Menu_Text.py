@@ -1,11 +1,8 @@
-from os import path
-
 from pygame import Surface, font, SRCALPHA, transform
 
-from ..Application_layer.Assets_load import json_load, font_load, image_load
+from ..Universal_computing.Assets_load import AssetLoader
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..Game_objects.Background import BackgroundProxy
-font.init()
 """
 Contents code for menus text keeper.
 """
@@ -53,10 +50,13 @@ class MenuText:
         :param menu_text_factor: Scale symbol factor. 1 as default.
         :type menu_text_factor: int | float
         """
-        # Arguments processing:
+        # Program layers settings:
+        self._asset_loader: AssetLoader = AssetLoader()
         self.background: BackgroundProxy = BackgroundProxy()
-        self.menu_name: str = menu_name
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
+
+        # Arguments processing:
+        self.menu_name: str = menu_name
         self.language_flag: str = self.settings_keeper.text_language
         self.menu_text: str = menu_text
         self.localisation_menu_text: dict[str] = menu_text_localization_dict
@@ -64,19 +64,26 @@ class MenuText:
         self.menu_text_coordinates_y: int = menu_text_coordinates['y']
         self.font_size: int = 0
         self.text_color: str = menu_text_color
+
         if menu_text_font is not None:
             self.font_name: str = menu_text_font
-            self.set_text_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
+            self.set_text_font: font.Font = self._asset_loader.font_load(
+                font_name=self.font_name,
+                font_size=self.font_size
+            )
         else:
             self.font_name: None = None
-            self.set_text_font: font.Font = font.Font(font.get_default_font(), self.font_size)
+            self.set_text_font: font.Font = font.Font(
+                font.get_default_font(),
+                self.font_size
+            )
+
         if menu_text_substrate is not None:
-            self.menu_text_substrate_standard: Surface = image_load(
+            self.menu_text_substrate_standard: Surface = self._asset_loader.image_load(
                 art_name=menu_text_substrate,
-                file_format='png',
-                asset_type=path.join(
-                    *['User_Interface', 'Menu_Substrate']
-                ))
+                asset_type="User_Interface",
+                file_catalog='Menu_Substrate'
+            )
             self.menu_text_substrate_sprite: Surface = self.menu_text_substrate_standard
         else:
             self.menu_text_substrate_sprite: None = None
@@ -184,9 +191,15 @@ class MenuText:
 
         # Font reload for size scale:
         if self.font_name is not None:
-            self.set_text_font: font.Font = font_load(font_name=self.font_name, font_size=self.font_size)
+            self.set_text_font: font.Font = self._asset_loader.font_load(
+                font_name=self.font_name,
+                font_size=self.font_size
+            )
         else:
-            self.set_text_font: font.Font = font.Font(font.get_default_font(), self.font_size)
+            self.set_text_font: font.Font = font.Font(
+                font.get_default_font(),
+                self.font_size
+            )
 
         # Generate text:
         rows_list: list = []
@@ -203,7 +216,7 @@ class MenuText:
             )
             rows_list.append((text_surface, text_coordinates))
 
-        # Render text on substrate if it possible:
+        # Render text on substrate if it`s possible:
         if self.menu_text_substrate_sprite is not None:
             for row in rows_list:
                 self.menu_text_substrate_sprite.blit(row[0], row[1])
@@ -222,14 +235,14 @@ class MenuText:
 def menus_text_generator() -> dict[str, dict[str]]:
     """
     Generate all menus text for MenusTextKeeper.
-
     :return: dict with text.
     """
     language_flag = SettingsKeeper().text_language
     result: dict = {}
+    asset_loader: AssetLoader = AssetLoader()
 
-    # localizations instructions from 'ui_menu_text_localizations_data.json': Menus text files and localisation data.
-    localizations_data: dict[str] = json_load(
+    # localizations instructions from 'ui_menu_text_localizations_data.json': menu`s text files and localisation`s data.
+    localizations_data: dict[str] = asset_loader.json_load(
         ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', 'Localization', 'ui_menu_text_localizations_data']
     )
 
@@ -245,14 +258,16 @@ def menus_text_generator() -> dict[str, dict[str]]:
     all_menus_text_localizations_dict: dict = {}
     for language in localizations:
         all_menus_text_localizations_dict.update(
-            {language: json_load(
-                ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', 'Localization', language]
-            )}
+            {
+                language: asset_loader.json_load(
+                    ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', 'Localization', language]
+                )
+            }
         )
 
     # Menu`s texts:
     for file_name in ui_menus_text_files:
-        ui_menus_texts_json: dict[str] = json_load(
+        ui_menus_texts_json: dict[str] = asset_loader.json_load(
             ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', file_name]
         )
         ui_menus_texts: dict = {}
@@ -263,21 +278,26 @@ def menus_text_generator() -> dict[str, dict[str]]:
         menu_text_localization: dict = {}
         for language in all_menus_text_localizations_dict:
             menu_text_localization.update(
-                {language: all_menus_text_localizations_dict[language][text_name]}
+                {
+                    language: all_menus_text_localizations_dict[language][text_name]
+                }
             )
         menu_text: str = all_menus_text_localizations_dict[language_flag][text_name]
 
         # Generate menu text:
         ui_menus_texts.update(
-            {text_type: MenuText(
-                menu_name=text_type,
-                menu_text=menu_text,
-                menu_text_localization_dict=menu_text_localization,
-                menu_text_font=ui_menus_texts_json['font'],
-                menu_text_color=ui_menus_texts_json['color'],
-                menu_text_coordinates=ui_menus_texts_json['coordinates'],
-                menu_text_substrate=ui_menus_texts_json['substrate']
-            )})
+            {
+                text_type: MenuText(
+                    menu_name=text_type,
+                    menu_text=menu_text,
+                    menu_text_localization_dict=menu_text_localization,
+                    menu_text_font=ui_menus_texts_json['font'],
+                    menu_text_color=ui_menus_texts_json['color'],
+                    menu_text_coordinates=ui_menus_texts_json['coordinates'],
+                    menu_text_substrate=ui_menus_texts_json['substrate']
+                )
+            }
+        )
 
         result.update({file_name: ui_menus_texts})
 

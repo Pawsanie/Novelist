@@ -12,7 +12,7 @@ from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Universal_computing.Alternative_deep_copy import deep_copy_alternative
 from ..User_Interface.Interface_Controller import InterfaceController
 from .Settings_Keeper import SettingsKeeper
-from .Scene_Validator import SceneValidator
+from ..GamePlay.Scene_Validator import SceneValidator
 from ..Logging_Config import text_for_logging
 from ..User_Interface.UI_Buttons.UI_Save_Load_Cell_Button import SaveLoadCellButton
 from ..Render.Render import Render
@@ -28,57 +28,57 @@ class SaveKeeper(SingletonPattern):
     """
     def __init__(self):
         # Program layers settings:
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.scene_validator: SceneValidator = SceneValidator()
-        self.interface_controller: InterfaceController = InterfaceController()
-        self.render: Render = Render()
+        self._settings_keeper: SettingsKeeper = SettingsKeeper()
+        self._scene_validator: SceneValidator = SceneValidator()
+        self._interface_controller: InterfaceController = InterfaceController()
+        self._render: Render = Render()
 
         # Path settings:
         script_root_path: str = path.abspath(__file__) \
             .replace(path.join(
                 *['Assets', 'Scripts', 'Application_layer', 'Save_Keeper.py']
             ), '')
-        self.save_folder_path: str = path.join(
+        self._save_folder_path: str = path.join(
             *[script_root_path, 'Saves']
         )
-        self.save_and_load_ui_path: str = path.join(
+        self._save_and_load_ui_path: str = path.join(
             *[script_root_path, "Assets", "Images", "User_Interface", "Save_System"]
         )
 
         # Saves collection:
-        self.saves_dict: dict = {}
-        self.save_buttons_collection: dict = {}
-        self.load_buttons_collection: dict = {}
-        self.save_load_collections: dict[str, dict[str | SaveLoadCellButton | None]] = {
-            "save": self.save_buttons_collection,
-            "load": self.load_buttons_collection
+        self._saves_dict: dict = {}
+        self._save_buttons_collection: dict = {}
+        self._load_buttons_collection: dict = {}
+        self._save_load_collections: dict[str, dict[str | SaveLoadCellButton | None]] = {
+            "save": self._save_buttons_collection,
+            "load": self._load_buttons_collection
         }
 
         # Save/Load buttons reference:
-        self.save_buttons_reference: dict = deep_copy_alternative(
-            self.interface_controller.buttons_dict['ui_save_menu_buttons']
+        self._save_buttons_reference: dict = deep_copy_alternative(
+            self._interface_controller.buttons_dict['ui_save_menu_buttons']
         )
         self.load_buttons_reference: dict = deep_copy_alternative(
-            self.interface_controller.buttons_dict['ui_load_menu_buttons']
+            self._interface_controller.buttons_dict['ui_load_menu_buttons']
         )
 
         # SaveKeeper settings:
-        self.reread: bool = True
-        self.button_image: str = "screen_preview"
-        self.screen_preview_empty_image: str = "screen_preview_empty"
-        self.autosave_name: str = "AutoSave"
-        self.button_type: str = "save_and_load_cell"
-        self.button_text_color: str = "#FFFFFF"
-        self.button_text_font: str | None = None
-        self.save_cells_count: int = 12
-        self.empty_cell: str = "Empty Slot"
-        self.empty_time: str = "0001-01-01_00:00:00"
+        self._reread: bool = True
+        self._button_image: str = "screen_preview"
+        self._screen_preview_empty_image: str = "screen_preview_empty"
+        self._autosave_name: str = "AutoSave"
+        self._button_type: str = "save_and_load_cell"
+        self._button_text_color: str = "#FFFFFF"
+        self._button_text_font: str | None = None
+        self._save_cells_count: int = 12
+        self._empty_cell: str = "Empty Slot"
+        self._empty_time: str = "0001-01-01_00:00:00"
         self.last_menu_page: int = 1
-        self.save_file_format: str = 'save'
-        self.preview_file_format: str = 'png'
-        self.new_save_button_name: str = "New Save"
+        self._save_file_format: str = 'save'
+        self._preview_file_format: str = 'png'
+        self._new_save_button_name: str = "New Save"
 
-    def update_ui_buttons(self, *, menu_data: dict, save_type: str):
+    def _update_ui_buttons(self, *, menu_data: dict, save_type: str):
         """
         Update menu`s buttons dict in 'InterfaceController.buttons_dict'.
         :param menu_data: InterfaceController menu`s data.
@@ -92,19 +92,19 @@ class SaveKeeper(SingletonPattern):
                 menu_data["menu`s_buttons_reference"]
             )
 
-            save_cell_buttons: dict = self.save_load_collections[save_type]
+            save_cell_buttons: dict = self._save_load_collections[save_type]
             for key, value in save_cell_buttons.items():
                 if value['save_page'] == menu_data["menu_object"].menu_page:
                     menu_data["menu_buttons"].setdefault(key, value['button'])
 
-    def save_cells_sort(self):
+    def _save_cells_sort(self):
         """
         Sorted game saves for get them screen position.
         """
-        if len(self.saves_dict) != 0:
-            self.saves_dict = dict(
+        if len(self._saves_dict) != 0:
+            self._saves_dict = dict(
                 sorted(
-                    self.saves_dict.items(),
+                    self._saves_dict.items(),
                     key=lambda key_name: key_name[0],
                     reverse=True
                 )
@@ -116,9 +116,9 @@ class SaveKeeper(SingletonPattern):
             row_counter: int = 1
             save_cell_page: int = 1
 
-            for key, value in self.saves_dict.items():
+            for key, value in self._saves_dict.items():
                 # Autosave position:
-                if value['save_data']['save_name'] in (self.autosave_name, self.new_save_button_name):
+                if value['save_data']['save_name'] in (self._autosave_name, self._new_save_button_name):
                     value['save_data']['save_cell']: list[int, int] = [1, 1]
 
                 else:  # Another save position:
@@ -141,75 +141,75 @@ class SaveKeeper(SingletonPattern):
                     ]
                 value['save_data']['save_page']: int = save_cell_page
 
-    def enrichment_of_game_saves(self):
+    def _enrichment_of_game_saves(self):
         """
         Enrichment game save`s collection with empty cells.
         """
-        if len(self.saves_dict) != 0:
-            divider: int = len(self.saves_dict)
-            if len(self.saves_dict) % self.save_cells_count == 0:
+        if len(self._saves_dict) != 0:
+            divider: int = len(self._saves_dict)
+            if len(self._saves_dict) % self._save_cells_count == 0:
                 return
         else:
             divider: int = 12
 
         close_value: int = (
-                ceil(divider / self.save_cells_count)
-                * self.save_cells_count
+                ceil(divider / self._save_cells_count)
+                * self._save_cells_count
         )
-        enrichment_count: int = close_value - len(self.saves_dict)
+        enrichment_count: int = close_value - len(self._saves_dict)
 
-        time_stamp: datetime = datetime.strptime(self.empty_time, "%Y-%m-%d_%H:%M:%S")
+        time_stamp: datetime = datetime.strptime(self._empty_time, "%Y-%m-%d_%H:%M:%S")
         for number in range(enrichment_count):
             time_stamp: datetime = time_stamp + timedelta(seconds=1)
             key_name: struct_time = datetime.timetuple(time_stamp)
             time_mark_str: str = strftime("%Y-%m-%d_%H:%M:%S", key_name)
 
-            self.saves_dict.update(
+            self._saves_dict.update(
                 {
                     key_name: {
                         "file_name": time_mark_str,
                         "save_data": {
                             'date': time_mark_str,
-                            "save_name": self.empty_cell,
+                            "save_name": self._empty_cell,
                             'select_name': time_mark_str
                         }
                     }
                 }
             )
 
-    def generate_cell_buttons(self):
+    def _generate_cell_buttons(self):
         """
         Generate cell buttons for Save/Load UI.
         """
-        if self.reread is True:
-            self.saves_read()
+        if self._reread is True:
+            self._saves_read()
         else:
-            if len(self.saves_dict) != 0:
+            if len(self._saves_dict) != 0:
                 return
 
         # Save slots initialization:
-        self.enrichment_of_game_saves()
-        self.generate_new_save_slot()
-        self.save_cells_sort()
+        self._enrichment_of_game_saves()
+        self._generate_new_save_slot()
+        self._save_cells_sort()
 
         # Generate menu`s buttons:
-        for save in self.saves_dict:
-            save_data: dict = self.saves_dict[save]
+        for save in self._saves_dict:
+            save_data: dict = self._saves_dict[save]
             text_offset_y: float = 3.2
 
             # Cells with save data:
             button_image_path: str = path.join(
-                *[self.save_folder_path, save_data['file_name'], self.button_image]
+                *[self._save_folder_path, save_data['file_name'], self._button_image]
             )
             save_name: str = save_data["save_data"]['save_name']
 
-            if save_name == self.autosave_name:
-                save_text = self.autosave_name
-            elif save_name in (self.empty_cell, self.new_save_button_name):
+            if save_name == self._autosave_name:
+                save_text = self._autosave_name
+            elif save_name in (self._empty_cell, self._new_save_button_name):
                 save_text: str = save_name
-                button_image_path: str = f"{self.save_and_load_ui_path}{sep}{self.screen_preview_empty_image}"
+                button_image_path: str = f"{self._save_and_load_ui_path}{sep}{self._screen_preview_empty_image}"
                 text_offset_y: None = None
-                if save_name == self.empty_cell:
+                if save_name == self._empty_cell:
                     save_name: str = save_data['save_data']['date']
             else:
                 save_text: str = save_data['save_data']['date']
@@ -220,15 +220,15 @@ class SaveKeeper(SingletonPattern):
                         button_image_data={
                             'sprite_name': button_image_path,
                             'index_number': save_data['save_data']['save_cell'],
-                            'type': self.button_type,
-                            'color': self.button_text_color,
-                            'font': self.button_text_font
+                            'type': self._button_type,
+                            'color': self._button_text_color,
+                            'font': self._button_text_font
                         },
                         have_real_path=True,
                         text_offset_y=text_offset_y
                     )
 
-            for key, collection in self.save_load_collections.items():
+            for key, collection in self._save_load_collections.items():
                 collection.setdefault(
                     save_name,
                     {
@@ -237,92 +237,93 @@ class SaveKeeper(SingletonPattern):
                     }
                 )
 
-        self.get_last_save_load_menus_page()
+        self._get_last_save_load_menus_page()
 
         # Specific menus preprocessing:
         # Drop AutoSave from Save Menu buttons:
         try:
-            self.save_buttons_collection.pop(self.autosave_name)
+            self._save_buttons_collection.pop(self._autosave_name)
         except KeyError:
             pass
 
         # Drop NewSave from Load Menu buttons:
         try:
-            self.load_buttons_collection.pop(self.new_save_button_name)
+            self._load_buttons_collection.pop(self._new_save_button_name)
         except KeyError:
             pass
 
         # Full empty load meny:
         # TODO: crutch?
         no_autosave_status: bool = True
-        for name in self.saves_dict.values():
-            if self.autosave_name in name['save_data']['save_name']:
+        for name in self._saves_dict.values():
+            if self._autosave_name in name['save_data']['save_name']:
                 no_autosave_status: bool = False
                 break
         if no_autosave_status is True:
-            self.no_autosave_load_menu()
+            self._no_autosave_load_menu()
 
-    def no_autosave_load_menu(self):  # TODO: crutch?
+    def _no_autosave_load_menu(self):  # TODO: crutch?
         """
         Add additional empty save cell to load meny if AutoSave do not exist.
         """
         save_cell_button: SaveLoadCellButton = SaveLoadCellButton(
-            button_name=self.empty_time,
-            button_text=self.empty_cell,
+            button_name=self._empty_time,
+            button_text=self._empty_cell,
             button_image_data={
-                'sprite_name': f"{self.save_and_load_ui_path}{sep}{self.screen_preview_empty_image}",
+                'sprite_name': f"{self._save_and_load_ui_path}{sep}{self._screen_preview_empty_image}",
                 'index_number': [1, 1],
-                'type': self.button_type,
-                'color': self.button_text_color,
-                'font': self.button_text_font
+                'type': self._button_type,
+                'color': self._button_text_color,
+                'font': self._button_text_font
             },
             have_real_path=True,
             text_offset_y=3.2
         )
 
-        self.load_buttons_collection.setdefault(
-            self.empty_time,
+        self._load_buttons_collection.setdefault(
+            self._empty_time,
             {
                 'button': save_cell_button,
                 'save_page': 1
             }
         )
 
-    def generate_new_save_slot(self):
+    def _generate_new_save_slot(self):
         """
         Generate first button for Save menu.
         """
         key_name: struct_time = time.localtime()
         time_mark_str: str = strftime("%Y-%m-%d_%H:%M:%S", key_name)
-        self.saves_dict.update(
+        self._saves_dict.update(
             {
                 key_name: {
-                    "file_name": self.new_save_button_name,
+                    "file_name": self._new_save_button_name,
                     "save_data": {
                         'date': time_mark_str,
-                        "save_name": self.new_save_button_name,
-                        'select_name': self.new_save_button_name
+                        "save_name": self._new_save_button_name,
+                        'select_name': self._new_save_button_name
                     }
                 }
             }
         )
 
-    def get_last_save_load_menus_page(self):
+    def _get_last_save_load_menus_page(self):
         """
         Generate max save menu pages.
         """
-        saves_count: int = len(self.save_buttons_collection) - 1
+        saves_count: int = len(self._save_buttons_collection) - 1
 
         close_value: int = (
-                ceil(saves_count / self.save_cells_count)
-                * self.save_cells_count
+                ceil(saves_count / self._save_cells_count)
+                * self._save_cells_count
         )
 
-        self.last_menu_page: int = close_value // self.save_cells_count
+        self.last_menu_page: int = close_value // self._save_cells_count
 
     def generate_save_slots_buttons(self):
         """
         Add save cell buttons for Save/Load UI.
+        Call from GameMenu/SaveMenu/LoadMenu and StartMenu.
         """
         from ..User_Interface.UI_Menus.UI_Save_menu import SaveMenu
         from ..User_Interface.UI_Menus.UI_Load_menu import LoadMenu
@@ -331,20 +332,20 @@ class SaveKeeper(SingletonPattern):
         ui_collection: dict = {
             "save": {
                 "menu_object": SaveMenu(),
-                "menu_buttons": self.interface_controller.buttons_dict['ui_save_menu_buttons'],
-                "menu`s_buttons_reference": self.save_buttons_reference
+                "menu_buttons": self._interface_controller.buttons_dict['ui_save_menu_buttons'],
+                "menu`s_buttons_reference": self._save_buttons_reference
             },
             "load": {
                 "menu_object": LoadMenu(),
-                "menu_buttons": self.interface_controller.buttons_dict['ui_load_menu_buttons'],
+                "menu_buttons": self._interface_controller.buttons_dict['ui_load_menu_buttons'],
                 "menu`s_buttons_reference": self.load_buttons_reference
             }
         }
 
-        self.generate_cell_buttons()
+        self._generate_cell_buttons()
 
         for save_type in ui_collection:
-            self.update_ui_buttons(
+            self._update_ui_buttons(
                 menu_data=ui_collection[save_type],
                 save_type=save_type
             )
@@ -352,19 +353,20 @@ class SaveKeeper(SingletonPattern):
     def save(self, *, auto_save: bool = True):
         """
         Save game progress.
+        Call from SaveMenu and SceneValidator.
         """
         # Path settings:
         if auto_save is True:
-            save_name: str = self.autosave_name
+            save_name: str = self._autosave_name
         else:
             time_path_part: str = strftime("%Y-%m-%d_%H-%M-%S", localtime())
             save_name: str = f"save__{time_path_part}"
 
         save_path: str = path.join(
-            *[self.save_folder_path, save_name]
+            *[self._save_folder_path, save_name]
         )
         save_file: str = path.join(
-            *[save_path, f"{save_name}.{self.save_file_format}"]
+            *[save_path, f"{save_name}.{self._save_file_format}"]
         )
 
         # Saving game progress:
@@ -372,32 +374,32 @@ class SaveKeeper(SingletonPattern):
             makedirs(save_path)
         with open(save_file, 'w', encoding='utf-8') as file:
             file.write(
-               self.get_game_progress_data_for_save()
+               self._get_game_progress_data_for_save()
             )
 
         # Saving game scene image preview:
         x_screen_size: int = 720
         y_screen_size: int = int(
-            self.settings_keeper.screen.get_height()
-            * (x_screen_size / self.settings_keeper.screen.get_width())
+            self._settings_keeper.screen.get_height()
+            * (x_screen_size / self._settings_keeper.screen.get_width())
         )
         screen_preview: Surface = transform.scale(
-            surface=self.render.save_screen,
+            surface=self._render.save_screen,
             size=(x_screen_size, y_screen_size)
         )
         image.save(
             screen_preview,
             path.join(
-                *[save_path, f"{self.button_image}.{self.preview_file_format}"]
+                *[save_path, f"{self._button_image}.{self._preview_file_format}"]
             )
         )
 
-    def get_game_progress_data_for_save(self) -> str:
+    def _get_game_progress_data_for_save(self) -> str:
         """
         Get progress data for save it like json in file.
         """
         data_to_save: dict[str] = {
-            "scene": self.scene_validator.scene_flag,
+            "scene": self._scene_validator.scene_flag,
             "date": strftime("%Y-%m-%d_%H:%M:%S", localtime())
         }
         return json.dumps(data_to_save, indent=4)
@@ -406,23 +408,22 @@ class SaveKeeper(SingletonPattern):
         """
         Get scene name for game continue.
         Used in StartMenu class from "UI_Start_menu.py".
-
         :return: String with scene name from last save.
                  Or False if save file was corrupted.
         """
-        self.saves_read()
-        if len(self.saves_dict) == 0:
-            return self.scene_validator.default_scene_name
+        self._saves_read()
+        if len(self._saves_dict) == 0:
+            return self._scene_validator.default_scene_name
         else:
-            last_save: list[str] = sorted(self.saves_dict.keys(), reverse=True)
+            last_save: list[str] = sorted(self._saves_dict.keys(), reverse=True)
 
             try:
-                return self.saves_dict[last_save[0]]["save_data"]["scene"]
+                return self._saves_dict[last_save[0]]["save_data"]["scene"]
 
             # Logging errors:
             except Exception as error:
                 try:
-                    corrupted_data = self.saves_dict[last_save[0]]
+                    corrupted_data = self._saves_dict[last_save[0]]
                 except Exception as corrupted_data_error:
                     corrupted_data = corrupted_data_error
                 logging.error(
@@ -435,33 +436,33 @@ class SaveKeeper(SingletonPattern):
                     ))
                 return False
 
-    def vanish_game_collections(self):
+    def _vanish_game_collections(self):
         """
         Vanish save collections for save reading.
         """
-        self.saves_dict.clear()
-        self.save_buttons_collection.clear()
-        self.load_buttons_collection.clear()
+        self._saves_dict.clear()
+        self._save_buttons_collection.clear()
+        self._load_buttons_collection.clear()
 
-    def saves_read(self):
+    def _saves_read(self):
         """
         Read save directory.
         """
         # Save path dos not exist:
-        if path.exists(self.save_folder_path) is False:
+        if path.exists(self._save_folder_path) is False:
             return
         # Check save path:
         # Path`s names is parts of file names.
-        save_files: list[str] = walk(self.save_folder_path).__next__()[1]
+        save_files: list[str] = walk(self._save_folder_path).__next__()[1]
         if len(save_files) == 0:
             return
         else:
-            self.vanish_game_collections()
+            self._vanish_game_collections()
             for file in save_files:
                 try:
                     with open(
                             path.join(
-                                *[self.save_folder_path, file, f"{file}.{self.save_file_format}"]
+                                *[self._save_folder_path, file, f"{file}.{self._save_file_format}"]
                             ), 'r') as save_file:
                         # Generate save frame for save collection:
                         file_data: str = save_file.read()
@@ -472,7 +473,7 @@ class SaveKeeper(SingletonPattern):
                                 'select_name': file
                             }
                         )
-                        self.saves_dict.update({
+                        self._saves_dict.update({
                             strptime(save_data['date'], "%Y-%m-%d_%H:%M:%S"): {
                                 "file_name": file,
                                 "save_data": save_data
@@ -497,30 +498,32 @@ class SaveKeeper(SingletonPattern):
                         log_error=error
                     ))
 
-        self.reread: bool = False
+        self._reread: bool = False
 
     def get_save_slot_data(self, slot_name: str):
         """
         Get save slot data.
+        Call from Save/Load menus
         :param slot_name: Save Slot` button name. (save name)
         :type slot_name: str
         """
-        for save in self.saves_dict.values():
+        for save in self._saves_dict.values():
             if save['file_name'] == slot_name:
                 return save['save_data']
 
     def delete_save(self, file_name: str | None):
         """
         Delete save files and save cell folder.
+        Call from save menu.
         """
         if file_name is not None:
             save_path: str = path.join(
-                *[self.save_folder_path, file_name]
+                *[self._save_folder_path, file_name]
             )
 
             for file in [
-                f"{file_name}.{self.save_file_format}",
-                f"{self.button_image}.{self.preview_file_format}"
+                f"{file_name}.{self._save_file_format}",
+                f"{self._button_image}.{self._preview_file_format}"
             ]:
                 try:
                     remove(

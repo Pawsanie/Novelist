@@ -1,6 +1,6 @@
 from pygame import transform, Surface
 
-from ..Application_layer.Assets_load import image_load, json_load
+from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
@@ -16,14 +16,17 @@ class Background:
     def __init__(self, *, scene_image: Surface):
         """
         Set background image.
-
         :param scene_image: Image for background.
         :type scene_image: Surface
         """
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.display_surface: Surface = self.settings_keeper.get_windows_settings()
+        # Program layers settings:
+        self._settings_keeper: SettingsKeeper = SettingsKeeper()
+
+        # Background settings:
+        self._display_surface: Surface = self._settings_keeper.get_windows_settings()
         self.scene_image: Surface = scene_image
         self.background_coordinates: tuple[int, int] = (0, 0)
+
         # hold standard image for rescale:
         self.scene_image_safe: Surface = scene_image
 
@@ -33,8 +36,8 @@ class Background:
         """
         # Calculate scale coefficient:
         coefficient: int | float = min(
-            self.display_surface.get_width() / self.scene_image_safe.get_width(),
-            self.display_surface.get_height() / self.scene_image_safe.get_height()
+            self._display_surface.get_width() / self.scene_image_safe.get_width(),
+            self._display_surface.get_height() / self.scene_image_safe.get_height()
         )
         # Set background sprite size:
         scene_image: Surface = self.scene_image_safe
@@ -47,8 +50,8 @@ class Background:
         )
         # Calculate coordinates:
         render_coordinates: tuple[int, int] = (
-            (self.display_surface.get_width() - self.scene_image.get_width()) // 2,
-            (self.display_surface.get_height() - self.scene_image.get_height()) // 2
+            (self._display_surface.get_width() - self.scene_image.get_width()) // 2,
+            (self._display_surface.get_height() - self.scene_image.get_height()) // 2
         )
         # Set background sprite coordinates:
         self.background_coordinates: tuple[int, int] = render_coordinates
@@ -57,22 +60,25 @@ class Background:
 def backgrounds_generator() -> dict[str, Background]:
     """
     Generate dict with names of backgrounds and their sprites, for StageDirector.
-
     :return: Dict wth names of backgrounds and their sprites.
     """
+    asset_loader: AssetLoader = AssetLoader()
     result: dict = {}
-    backgrounds_list: dict = json_load(
+    backgrounds_list: dict = asset_loader.json_load(
         ['Scripts', 'Json_data', 'backgrounds_sprites']
     )
     for location in backgrounds_list:
-        sprite: Surface = image_load(
+        sprite: Surface = asset_loader.image_load(
             art_name=backgrounds_list[location],
-            file_format='jpg',
             asset_type='Backgrounds'
         )
-        result.update({location: Background(
-            scene_image=sprite
-        )})
+        result.update(
+            {
+                location: Background(
+                    scene_image=sprite
+                )
+            }
+        )
     return result
 
 
