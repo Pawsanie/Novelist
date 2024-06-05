@@ -31,10 +31,10 @@ class GamePlayReading(BaseMenu, SingletonPattern):
         GameMenu().status = True
         self.state_machine.next_state()
 
-    async def button_gameplay_ui_status(self, event):
+    async def button_gameplay_ui_status(self, event: Event):
         """
         Processing the gameplay interface.
-        :param event: pygame.event from main_loop.
+        :param event: pygame.event.Event from main_loop.
         """
         button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
 
@@ -112,10 +112,10 @@ class GamePlayReading(BaseMenu, SingletonPattern):
                 if event.key == K_ESCAPE:
                     self.go_to_game_menu()
 
-    async def gameplay_input(self, event):
+    async def gameplay_input(self, event: Event):
         """
         Gameplay input conveyor:
-        :param event: pygame.event from main_loop.
+        :param event: pygame.event.Event from main_loop.
         """
         # Button gameplay ui status:
         await self.button_gameplay_ui_status(event)
