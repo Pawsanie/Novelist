@@ -28,15 +28,15 @@ class Sprite:
                                   None as default.
         :type sprite_sheet_data: dict[str, list[int, int]] | None
         """
-        # Program layers settings:
-        self.frame_time: int = time.get_ticks()
-
         # Arguments processing:
         self.name: str | None = name
         self.image_safe: Surface = image
         self.image: Surface = image
         self.layer: int = layer
         self.coordinates: tuple[int, int] = coordinates
+
+        # Other settings:
+        self.frame_time: int = time.get_ticks()
 
         self.frames: str = "frames"
         self.time_duration: str = "time_duration"

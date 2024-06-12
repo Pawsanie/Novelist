@@ -15,6 +15,9 @@ class SceneValidator(SingletonPattern):
     def __init__(self):
         # Program layers settings:
         self._asset_loader: AssetLoader = AssetLoader()
+        self.stage_director: StageDirector = StageDirector()
+        self.sound_director: SoundDirector = SoundDirector()
+        self.settings_keeper: SettingsKeeper = SettingsKeeper()
 
         # Screenplay loading:
         self.screenplay: dict = self._asset_loader.json_load(
@@ -27,11 +30,6 @@ class SceneValidator(SingletonPattern):
                 'Scripts', 'Json_data', 'Dialogues', 'choices_data'
             ]
         )
-
-        # Program layers settings:
-        self.stage_director: StageDirector = StageDirector()
-        self.sound_director: SoundDirector = SoundDirector()
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
 
         # Scene FLAGS:
         # START as default!

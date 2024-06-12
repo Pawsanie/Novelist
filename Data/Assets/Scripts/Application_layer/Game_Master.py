@@ -41,7 +41,7 @@ class GameMaster(SingletonPattern):
 
     async def _render_loop(self):
         """
-        MVC Model and View.
+        MVC pattern Model and View parts.
         """
         main_cycle_fps_clock: Clock = time.Clock()
         main_cycle_fps: int = SettingsKeeper().frames_per_second
