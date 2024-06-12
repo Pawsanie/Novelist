@@ -27,20 +27,17 @@ class GameMaster(SingletonPattern):
     """
     def __init__(self):
         initialization()
-        # Stage Director settings:
-        self.stage_director: StageDirector = StageDirector()
-        # Sound Director settings:
-        self.sound_director: SoundDirector = SoundDirector()
-        # Interface Controller settings:
-        self.interface_controller: InterfaceController = InterfaceController()
-        # User input commands processing:
-        self.reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions()
-        # Render settings:
-        self.render: Render = Render()
-        # StateMachine:
-        self.state_machine: StateMachine = StateMachine()
-        # Settings for gameplay:
-        self.gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
+
+        # Program layers settings:
+        self._stage_director: StageDirector = StageDirector()
+        self._sound_director: SoundDirector = SoundDirector()
+
+        self._interface_controller: InterfaceController = InterfaceController()
+        self._render: Render = Render()
+
+        self._state_machine: StateMachine = StateMachine()
+        self._reactions_to_input_commands: InputCommandsReactions = InputCommandsReactions()
+        self._gameplay_administrator: GamePlayAdministrator = GamePlayAdministrator()
 
     async def _render_loop(self):
         """
@@ -51,15 +48,15 @@ class GameMaster(SingletonPattern):
 
         while True:
             # Build scene:
-            self.state_machine()
-            self.stage_director.scale()
+            self._state_machine()
+            self._stage_director.scale()
             # Sound control:
-            self.sound_director.play()
+            self._sound_director.play()
             # Build interface:
-            self.gameplay_administrator.set_gameplay_type()
-            self.interface_controller.scale()
+            self._gameplay_administrator.set_gameplay_type()
+            self._interface_controller.scale()
             # Image render:
-            self.render.image_render()
+            self._render.image_render()
 
             main_cycle_fps_clock.tick(main_cycle_fps)
             await sleep(0)
@@ -71,7 +68,7 @@ class GameMaster(SingletonPattern):
         await gather(
                 *[
                     self._render_loop(),
-                    self.reactions_to_input_commands.input_commands_loop()
+                    self._reactions_to_input_commands.input_commands_loop()
                 ]
             )
 

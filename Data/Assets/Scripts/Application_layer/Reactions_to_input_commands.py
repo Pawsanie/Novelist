@@ -85,7 +85,7 @@ class InputCommandsReactions(SingletonPattern):
     async def _reactions_to_input_commands(self, event: Event):
         """
         User commands conveyor.
-        Uses in input_command_oop.
+        Uses in input_command_loop.
         :param event: 'pygame.event' from input_commands_loop.
         """
         # Gameplay:

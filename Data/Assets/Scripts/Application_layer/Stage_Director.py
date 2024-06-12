@@ -1,4 +1,4 @@
-from pygame import display, Surface
+from pygame import Surface
 
 from ..Game_objects.Character import characters_generator
 from ..Game_objects.Background import backgrounds_generator, Background, BackgroundProxy
@@ -21,9 +21,9 @@ class StageDirector(SingletonPattern):
     Created in GameMaster class in Game_Master.py.
     """
     def __init__(self):
-        # Arguments processing:
+        # Program layers settings:
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.display_screen: display = self.settings_keeper.get_windows_settings()
+
         # Make background surface:
         self.background_mock: BackgroundProxy = BackgroundProxy()
         self.background_surface: Surface = self.background_mock.get_data()[0]
@@ -144,6 +144,7 @@ class StageDirector(SingletonPattern):
     def generate_characters_batch(self):
         """
         Generate batch with characters sprites for display image render.
+        Call from Render class.
         :return: Batch
         """
         from ..Render.Batch import Batch
@@ -158,6 +159,7 @@ class StageDirector(SingletonPattern):
     def generate_background_batch(self):
         """
         Generate batch with background sprite for display image render.
+        Call from Render class.
         :return: Batch
         """
         from ..Render.Batch import Batch
@@ -174,6 +176,7 @@ class StageDirector(SingletonPattern):
     def generate_speech(self):
         """
         Generate batch with speech text sprites for display image render.
+        Call from Render class.
         :return: Batch
         """
         from ..Render.Batch import Batch

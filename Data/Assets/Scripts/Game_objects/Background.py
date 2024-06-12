@@ -33,6 +33,7 @@ class Background:
     def scale(self):
         """
         Sets the size and coordinates of the background.
+        Call from StageDirector.
         """
         # Calculate scale coefficient:
         coefficient: int | float = min(
@@ -96,7 +97,7 @@ class BackgroundProxy(Background, SingletonPattern):
         """
         Calculation background size and return it Surface object.
         Calculation background coordinates and return it too.
-
+        Call from StageDirector.
         :return: Background surface and coordinates.
         """
         self.scale()
@@ -105,6 +106,7 @@ class BackgroundProxy(Background, SingletonPattern):
     def set_new_image(self, *, new_image: Surface):
         """
         Set new image to safe place for scale.
+        Call from StageDirector.
         :param new_image: Surface with image.
         :type new_image: Surface
         """

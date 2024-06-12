@@ -1,5 +1,7 @@
 from inspect import iscoroutinefunction
 
+from pygame.event import Event
+
 from .GamePlay_Reading import GamePlayReading
 from ..User_Interface.UI_Base_menu import BaseMenu
 from .GamePlay_dialogues_choice import GamePlayDialoguesChoice
@@ -14,7 +16,6 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
     Responsible for gameplay type at the moment.
     """
     def __init__(self):
-        # Arguments processing:
         super(GamePlayAdministrator, self).__init__()
         self.gameplay_collections: dict = {
             'reading': {
@@ -27,7 +28,7 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
             }
         }
 
-    def devnull(self):
+    def _devnull(self):
         """
         Return interface to base state.
         """
@@ -41,8 +42,9 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
     def set_gameplay_type(self):
         """
         Set GamePlay type.
+        Call from GameMaster _render_loop method.
         """
-        self.devnull()
+        self._devnull()
         for gameplay_type, gameplay_class in self.gameplay_collections.items():
             if self.scene_validator.scene_gameplay_type == gameplay_type:
                 setattr(
@@ -55,10 +57,11 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
                 except AttributeError:
                     pass
 
-    async def gameplay_input(self, event):
+    async def gameplay_input(self, event: Event):
         """
         Gameplay interaction.
-        :param event: pygame.event from main_loop.
+        Call from InputCommandsReactions.
+        :param event: pygame.event from InputCommandsReactions input_commands_loop method.
         """
         for gameplay_type, gameplay_class in self.gameplay_collections.items():
             if self.scene_validator.scene_gameplay_type == gameplay_type:
