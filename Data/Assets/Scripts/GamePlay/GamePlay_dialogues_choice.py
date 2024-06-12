@@ -20,9 +20,9 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         self._assets_loader: AssetLoader = AssetLoader()
 
         # Gameplay choice buttons settings:
-        self.dialogues_buttons: dict = {}
+        self._dialogues_buttons: dict = {}
 
-    def dialogues_choice_buttons_generations(self):
+    def _dialogues_choice_buttons_generations(self):
         """
         Generate dict with buttons for dialogues choice gameplay.
         This is a nested dictionary of button`s group and an instance of the Button class.
@@ -75,9 +75,9 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                             )
                         }
                     )
-                    self.dialogues_buttons.setdefault(scene, dialogues_buttons)
+                    self._dialogues_buttons.setdefault(scene, dialogues_buttons)
 
-    def button_gameplay_ui_status(self, event):
+    def _button_gameplay_ui_status(self, event):
         """
         Processing the gameplay choice.
         :param event: pygame.event from main_loop.
@@ -98,15 +98,16 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                         if choice_data[choice]['counter_change'] is not False:
                             ...  # TODO: Add reputation system?
 
-    def key_bord_gameplay_key_down(self, event):
+    def _key_bord_gameplay_key_down(self, event):
         ...
 
     def set_choice(self):
         """
         Set new choice buttons.
+        Call from GameplayAdministrator.
         """
-        self.dialogues_choice_buttons_generations()
-        self.interface_controller.gameplay_choice_buttons = self.dialogues_buttons[self.scene_validator.scene]
+        self._dialogues_choice_buttons_generations()
+        self.interface_controller.gameplay_choice_buttons = self._dialogues_buttons[self.scene_validator.scene]
 
     def gameplay_input(self, event):
         """
@@ -114,7 +115,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         :param event: 'pygame.event' from main_loop.
         """
         # Button gameplay ui status:
-        self.button_gameplay_ui_status(event)
+        self._button_gameplay_ui_status(event)
         # Button gameplay key bord status:
-        self.key_bord_gameplay_key_down(event)
+        self._key_bord_gameplay_key_down(event)
         self.input_wait_ready()

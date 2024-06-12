@@ -53,15 +53,18 @@ class StateMachine(StateMachinePattern, SingletonPattern):
     """
     Contend state machine for switch between menu and gameplay states.
     """
-    state_collection = [
+    _state_collection = [
         MenuState(),
         SceneValidator()  # GamePlay state.
     ]
 
     def __init__(self):
         super().__init__(
-            collection=self.state_collection
+            collection=self._state_collection
         )
 
     def __call__(self):
+        """
+        Call from GameMaster.
+        """
         self.state()

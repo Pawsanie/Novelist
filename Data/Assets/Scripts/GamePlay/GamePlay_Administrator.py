@@ -17,7 +17,7 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
     """
     def __init__(self):
         super(GamePlayAdministrator, self).__init__()
-        self.gameplay_collections: dict = {
+        self._gameplay_collections: dict = {
             'reading': {
                 "gameplay": GamePlayReading(),
                 "interface": "gameplay_type_reading"
@@ -32,7 +32,7 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
         """
         Return interface to base state.
         """
-        for gameplay_type, gameplay_class in self.gameplay_collections.items():
+        for gameplay_type, gameplay_class in self._gameplay_collections.items():
             setattr(
                 self.interface_controller,
                 gameplay_class["interface"],
@@ -45,7 +45,7 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
         Call from GameMaster _render_loop method.
         """
         self._devnull()
-        for gameplay_type, gameplay_class in self.gameplay_collections.items():
+        for gameplay_type, gameplay_class in self._gameplay_collections.items():
             if self.scene_validator.scene_gameplay_type == gameplay_type:
                 setattr(
                     self.interface_controller,
@@ -63,7 +63,7 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
         Call from InputCommandsReactions.
         :param event: pygame.event from InputCommandsReactions input_commands_loop method.
         """
-        for gameplay_type, gameplay_class in self.gameplay_collections.items():
+        for gameplay_type, gameplay_class in self._gameplay_collections.items():
             if self.scene_validator.scene_gameplay_type == gameplay_type:
                 gameplay_method = gameplay_class["gameplay"].gameplay_input
                 if iscoroutinefunction(gameplay_method):

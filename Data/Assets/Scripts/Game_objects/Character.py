@@ -29,6 +29,7 @@ class Character:
         :param name: Character name.
         :type name: str
         """
+        # Arguments processing:
         self.sprite: Sprite = Sprite(
             image=character_image,
             layer=2,
