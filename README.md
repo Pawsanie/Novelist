@@ -8,7 +8,10 @@ As well as not wanting to learn RenPy scripting language.
 
 In addition, writing your own game, almost from scratch, is quite interesting.
 
-:warning:The code probably needs some light refactoring.:warning: <br>
+:warning::warning:warning::warning::warning:<br>
+The code is in a state of refactoring.<br>
+Therefore, some information in the readme may not be relevant.<br>
+:warning::warning:warning::warning::warning: <br>
 :warning:Please note that some non-game features are not fully implemented.:warning:
 
 ## Disclaimer:
