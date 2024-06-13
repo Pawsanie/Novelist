@@ -1,5 +1,5 @@
 from configparser import ConfigParser
-from os import sep, path
+from os import sep, path, walk
 """
 The utility for building a screenplay.
 """
@@ -33,8 +33,7 @@ class ScreenplaySourceParser:
             # Scene Settings:
             "scene_type",
             "scene_special_effects"
-            "scene_reading_gameplay_text_file",
-            "scene_choice_gameplay_text_file",
+            "scene_text_file",
 
             # Background:
             "background_sprite_sheet",
@@ -56,14 +55,21 @@ class ScreenplaySourceParser:
             "right_character_sprite_sheet"
         )
         self._immutable_path_of_scene_choice_key: str = "scene_choice"
+        self._valid_scene_types: tuple = (
+            "reading",
+            "choice"
+        )
+
         self._scene_settings_collection: dict = {}
 
-    def read_source(self, path_to_file: str):
+    def read_source(self, source_path: str = "./Screenplay_source"):
         """
         Read ini screenplays files.
         """
-        scene_config = self._config_parser.read(
-            path_to_file
-        )
+        for root_path, folders, filenames in walk(source_path):
+            ...
 
+        # scene_config = self._config_parser.read(
+        #     path_to_file
+        # )
 
