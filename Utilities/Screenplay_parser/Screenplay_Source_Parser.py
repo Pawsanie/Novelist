@@ -1,5 +1,7 @@
 from configparser import ConfigParser
 from os import sep, path, walk
+import json
+from argparse import ArgumentParser, Namespace
 """
 The utility for building a screenplay.
 """
@@ -9,7 +11,7 @@ class ScreenplaySourceParser:
     """
     Parse scene configs to screenplay json.
     """
-    def __init__(self, source_path: str):
+    def __init__(self, *, source_path: str):
         """
         :param source_path: Source path for reading ini screenplay scene files.
         :type source_path: str
@@ -62,14 +64,46 @@ class ScreenplaySourceParser:
 
         self._scene_settings_collection: dict = {}
 
-    def read_source(self, source_path: str = "./Screenplay_source"):
+    def _read_source(self):
         """
         Read ini screenplays files.
         """
-        for root_path, folders, filenames in walk(source_path):
+        for root_path, folders, filenames in walk(self._source_path):
             ...
 
         # scene_config = self._config_parser.read(
         #     path_to_file
         # )
 
+    def execute(self):
+        self._read_source()
+
+
+if __name__ == "__main__":
+    """
+    Get path from scrypt run argument and run screenplay parser.
+    """
+    # Parse args:
+    arguments_parser: ArgumentParser = ArgumentParser()
+    arguments_parser.add_argument(
+        "-sp",
+        "--sp",
+        type=str,
+        help="This is a scene`s configs source path flag. Example ./*.py -ps ./example/path"
+    )
+    arguments: Namespace = arguments_parser.parse_args()
+
+    if any(
+            vars(arguments).values()
+    ):
+        if arguments.sp:
+            screenplay_data_source_path: str = arguments.sp
+        else:
+            raise "Have no -sp flag: please use flag -h for help"
+    else:
+        screenplay_data_source_path: str = "./Screenplay_source"
+
+    # Execute:
+    ScreenplaySourceParser(
+        source_path=screenplay_data_source_path
+    ).execute()
