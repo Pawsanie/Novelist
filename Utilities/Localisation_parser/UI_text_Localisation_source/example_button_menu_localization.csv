@@ -1,0 +1,28 @@
+button_id	eng	ru
+start_menu_new_game	New game	Новая игра
+start_menu_continue	Continue	Продолжить
+start_menu_load	Load	Загрузить
+start_menu_settings	Settings	Настройки
+start_menu_creators	Creators	Создатели
+start_menu_exit	Exit	Выйти
+game_menu_continue	Continue	Продолжить
+game_menu_save	Save	Сохранить
+game_menu_load	Load	Загрузить
+game_menu_settings	Settings	Настройки
+game_menu_start_menu	Main menu	Главное меню
+game_menu_exit	Exit	Выйти
+exit_menu_yes	Yes	Да
+exit_menu_no	No	Нет
+load_menu_load	Load	Загрузить
+load_menu_back	Back	Назад
+save_menu_save	Save	Сохранить
+save_menu_back	Back	Назад
+settings_menu_video	Video	Видео
+settings_menu_audio	Audio	Звук
+settings_menu_localization	localization	Локализация
+settings_menu_back	Back	Назад
+settings_status_menu_apply	Apply	Применить
+settings_status_menu_cancel	Cancel	Отменить
+back_to_start_menu_yes	Yes	Да
+back_to_start_menu_no	No	Нет
+creators_menu_back	Back	Назад
