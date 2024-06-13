@@ -8,7 +8,7 @@ source_path="$1"
 
 # Execute task:
 if [ -n "$source_path" ]; then
-    python3 "./Screenplay_Source_Parser.py" "$source_path"
+    python3 -B -m "./Screenplay_Source_Parser.py" "$source_path"
 else
-    python3 "./Screenplay_Source_Parser.py"
+    python3 -B -m "./Screenplay_Source_Parser.py"
 fi

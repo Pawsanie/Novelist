@@ -9,9 +9,9 @@ param (
 
 # Create task:
 if ($source_path) {
-    $parser_task = "python3 $PSScriptRoot\Screenplay_Source_Parser.py $source_path"
+    $parser_task = "python3 -B -m $PSScriptRoot\Screenplay_Source_Parser.py $source_path"
 } else {
-    $parser_task = "python3 $PSScriptRoot\Screenplay_Source_Parser.py"
+    $parser_task = "python3 -B -m $PSScriptRoot\Screenplay_Source_Parser.py"
 }
 
 # Execute:
