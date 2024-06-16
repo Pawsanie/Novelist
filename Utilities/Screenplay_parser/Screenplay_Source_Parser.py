@@ -126,7 +126,10 @@ class ScreenplaySourceParser:
         ...
 
     def _land_screenplay(self):
-        print(self._destination_path)
+        """
+        Land screenplay data to screenplay.json file.
+        """
+        ...
 
     def execute(self):
         """
