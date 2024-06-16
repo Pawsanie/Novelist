@@ -12,3 +12,4 @@ if [ -n "$source_path" ]; then
 else
     python3 -B -m "./Screenplay_Source_Parser.py"
 fi
+
