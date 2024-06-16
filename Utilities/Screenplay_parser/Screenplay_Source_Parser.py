@@ -1,5 +1,5 @@
 from configparser import ConfigParser, MissingSectionHeaderError, ParsingError
-from os import sep, path, walk
+from os import path, walk
 import json
 from argparse import ArgumentParser, Namespace
 """
@@ -11,23 +11,38 @@ class ScreenplaySourceParser:
     """
     Parse scene configs to screenplay json.
     """
-    def __init__(self, *, source_path: str):
+    def __init__(self, *, source_path: str, alternative_destination_path: str | None = None):
         """
         :param source_path: Source path for reading ini screenplay scene files.
         :type source_path: str
+        :param alternative_destination_path: Alternative destination path for screenplay.json.
+                                             If you need screenplay.json specific file path.
+                                             As example if the utility is not in the directory
+                                             with your copy of the game.
+        :type alternative_destination_path: str
         """
         # Path Settings:
-        self.__replace_path_list: list[str] = [
-            'Scripts', 'Utilities', 'Source_parser.py'
-        ]
-        self.__root_path: str = f"{path.abspath(__file__).replace(path.join(*self.__replace_path_list), '')}"
-        self.__screenplay_add_path: str = path.join(
+        self.__replace_path: str = path.join(
             *[
-                "Scripts", "Json_data" "screenplay.json"
+                'Utilities', 'Screenplay_parser', 'Screenplay_Source_Parser.py'
             ]
         )
-        self.__screenplay_path: str = f"{self.__root_path}{sep}{self.__screenplay_add_path}"
+        self.__root_path: str = f"{path.abspath(__file__).replace(self.__replace_path, '')}"
+        self.__screenplay_add_path: str = path.join(
+            *[
+                "Data", "Assets", "Scripts", "Json_data", "screenplay.json"
+            ]
+        )
+        self.__screenplay_path: str = path.join(
+            *[
+                self.__root_path, self.__screenplay_add_path
+            ]
+        )
         self._source_path: str = source_path
+        if alternative_destination_path is not None:
+            self._destination_path: str = alternative_destination_path
+        else:
+            self._destination_path: str = self.__screenplay_path
 
         # Parser settings:
         self._config_parser: ConfigParser = ConfigParser()
@@ -110,6 +125,9 @@ class ScreenplaySourceParser:
         """
         ...
 
+    def _land_screenplay(self):
+        print(self._destination_path)
+
     def execute(self):
         """
         Execute class destination.
@@ -117,6 +135,7 @@ class ScreenplaySourceParser:
         self._read_source()
         self._get_row_data()
         self._parse_scene_configs()
+        self._land_screenplay()
 
 
 if __name__ == "__main__":
@@ -128,22 +147,23 @@ if __name__ == "__main__":
     arguments_parser.add_argument(
         "-sp",
         "--sp",
+        default="./Screenplay_source",
         type=str,
-        help="This is a scene`s configs source path flag. Example ./*.py -ps ./example/path"
+        help="This is a scene`s configs Source Path flag. Example: python ./*.py -sp ./example/path"
+    )
+    arguments_parser.add_argument(
+        "-dp",
+        "--dp",
+        type=str or None,
+        default=None,
+        help="This is a scene`s screenplay Destination Path flag. Example: python ./*.py -dp ./example/path"
     )
     arguments: Namespace = arguments_parser.parse_args()
-
-    if any(
-            vars(arguments).values()
-    ):
-        if arguments.sp:
-            screenplay_data_source_path: str = arguments.sp
-        else:
-            raise "Have no -sp flag: please use flag -h for help"
-    else:
-        screenplay_data_source_path: str = "./Screenplay_source"
+    screenplay_data_source_path: str = arguments.sp
+    screenplay_destination_path: str | None = arguments.dp
 
     # Execute:
     ScreenplaySourceParser(
-        source_path=screenplay_data_source_path
+        source_path=screenplay_data_source_path,
+        alternative_destination_path=screenplay_destination_path
     ).execute()
