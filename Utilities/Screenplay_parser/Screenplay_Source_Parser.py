@@ -1,4 +1,4 @@
-from configparser import ConfigParser
+from configparser import ConfigParser, MissingSectionHeaderError, ParsingError
 from os import sep, path, walk
 import json
 from argparse import ArgumentParser, Namespace
@@ -62,21 +62,61 @@ class ScreenplaySourceParser:
             "choice"
         )
 
+        self._scene_row_data_collection: dict = {}
         self._scene_settings_collection: dict = {}
 
     def _read_source(self):
         """
         Read ini screenplays files.
         """
-        for root_path, folders, filenames in walk(self._source_path):
-            ...
+        for target_path, path_folders, catalog_filenames in walk(self._source_path):
+            for file_name in catalog_filenames:
+                target_file: str = path.join(
+                    *[
+                        target_path, file_name
+                    ]
+                )
+                try:
+                    self._config_parser.read(
+                        target_file
+                    )
+                except MissingSectionHeaderError as exception:
+                    ...
+                except ParsingError as exception:
+                    ...
 
-        # scene_config = self._config_parser.read(
-        #     path_to_file
-        # )
+    def _get_row_data(self):
+        """
+        Get row data from scene config`s and parse it to dictionary.
+        """
+        # Get row data from configs:
+        for scene_name in self._config_parser.sections():
+            scene_settings: dict = {}
+            for key, value in self._config_parser.items(scene_name):
+                scene_settings.update(
+                    {
+                        key: value
+                    }
+                )
+            self._scene_row_data_collection.update(
+                {
+                    scene_name: scene_settings
+                }
+            )
+
+    def _parse_scene_configs(self):
+        """
+        Parse row data to dictionary for easy landing in screenplay.json.
+        """
+        ...
 
     def execute(self):
+        """
+        Execute class destination.
+        """
         self._read_source()
+        self._get_row_data()
+        self._parse_scene_configs()
 
 
 if __name__ == "__main__":
