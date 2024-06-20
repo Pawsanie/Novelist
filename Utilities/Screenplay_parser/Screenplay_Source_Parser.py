@@ -49,27 +49,39 @@ class ScreenplaySourceParser:
         self._parser_immutable_keys: tuple = (
             # Scene Settings:
             "scene_type",
-            "scene_special_effects"
             "scene_text_file",
+            "past_scene",
 
             # Background:
             "background_sprite_sheet",
             "background_animation",
 
+            # Reading gameplay:
+            "next_scene",
+
             # Left Character:
             "left_character_name",
             "left_character_animation",
             "left_character_sprite_sheet",
+            "left_character_character_plan",
 
             # Middle Character:
             "middle_character_name",
             "middle_character_animation",
             "middle_character_sprite_sheet",
+            "middle_character_character_plan",
 
             # Right Character:
             "right_character_name",
             "right_character_animation",
-            "right_character_sprite_sheet"
+            "right_character_sprite_sheet",
+            "right_character_character_plan",
+            
+            # Scene optional settings:
+            "scene_special_effects",
+            "music",
+            "sound",
+            "voice"
         )
         self._immutable_path_of_scene_choice_key: str = "scene_choice"
         self._valid_scene_types: tuple = (
@@ -184,22 +196,66 @@ class ScreenplaySourceParser:
                 }
             },
         }
-
         """
         for scene_name, scene_settings in self._scene_row_data_collection.items():
+            # Default keys:
             self._scene_settings_collection.update(
                 {
-                    scene_name: {}
+                    scene_name: {
+                        "background": {
+                            "background_id": scene_settings["background_sprite_sheet"],
+                            "background_animation": scene_settings["background_animation"]
+                        },
+                        "past_scene": scene_settings["past_scene"],
+                        "actors": {}
+                    }
                 }
             )
             for key, value in scene_settings.items():
                 # Immutable keys:
                 if key in self._parser_immutable_keys:
-                    self._scene_settings_collection[scene_name].update(
-                        {
-                            key: value
-                        }
-                    )
+                    if key in (
+                            "background_sprite_sheet",
+                            "background_animation",
+                            "past_scene"
+                    ):
+                        continue
+
+                    # Scene Actors:
+                    if "character" in key:
+                        for position in (
+                                "left",
+                                "middle",
+                                "right"
+                        ):
+                            try:
+                                self._scene_settings_collection[scene_name]["actors"].update(
+                                    {
+                                        "character_position": scene_settings[
+                                            f"{position}_character_"
+                                        ],
+                                        "character_start_position":  [
+                                            f"{position}_character_"
+                                        ],
+                                        "character_animation":  scene_settings[
+                                            f"{position}_character_animation"
+                                        ],
+                                        "character_scene_start_animation":  scene_settings[
+                                            f"{position}_character_plan"
+                                        ],
+                                        "character_plan": scene_settings[
+                                            f"{position}_character_"
+                                        ]
+                                    }
+                                )
+                            except KeyError as error:
+                                print(
+                                    f"Fatal parsing error!:\n"
+                                    f"Have no character key {error} in {scene_name}.\n"
+                                    f"But have any settings this character..."
+                                )
+                                exit(1)
+
                 # Scene choice targets:
                 elif self._immutable_path_of_scene_choice_key in key:
                     if scene_settings[self._scene_type] == self._reading_scene_type:
@@ -212,8 +268,10 @@ class ScreenplaySourceParser:
                     scene_choose_name, scene_choose_target = key.split(".")
                     self._scene_settings_collection[scene_name].update(
                         {
-                            scene_choose_name: {
-                                "branching": scene_choose_target
+                            "choices": {
+                                scene_choose_name: {
+                                    "branching": scene_choose_target
+                                }
                             }
                         }
                     )
