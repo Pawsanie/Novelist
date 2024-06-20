@@ -76,6 +76,8 @@ class ScreenplaySourceParser:
             "reading",
             "choice"
         )
+        self._reading_scene_type: str = "reading"
+        self._scene_type: str = "scene_type"
 
         self._scene_row_data_collection: dict = {}
         self._scene_settings_collection: dict = {}
@@ -122,14 +124,113 @@ class ScreenplaySourceParser:
     def _parse_scene_configs(self):
         """
         Parse row data to dictionary for easy landing in screenplay.json.
+        Scene settings result example:
+        {
+            "reading_scene_name": {
+                "background": {
+                    background_id: "back_ground_01",
+                    background_animation: "animation_1"
+                    },
+                "actors": {
+                  "character_id": {
+                    "character_start_position": "right",
+                    "character_animation": "animation_3",
+                    "character_scene_start_animation: "animation_10",
+                    "character_plan": "background_plan"
+                  },
+                  ...
+                },
+                "special_effects": false | [str...],
+                "gameplay_type": "reading",
+                "past_scene": "scene_name",
+                "next_scene": "scene_name_02",
+                "sounds": {
+                  "music_channel": false,
+                  "sound_channel": "blank",
+                  "voice_channel": false
+                }
+            },
+
+            "choice_scene_name": {
+                "background": {
+                    background_id: "back_ground_01",
+                    background_animation: "animation_1"
+                    },
+                "actors": {
+                  "character_id": {
+                    "character_start_position": "right",
+                    "character_animation": "animation_3",
+                    "character_scene_start_animation: "animation_10",
+                    "character_plan": "background_plan"
+                  },
+                  ...
+                },
+                "special_effects": false | [str...],
+                "gameplay_type": "choice",
+                "choices": {
+                    "choice_01": {
+                        "branching": "scene_name",
+                        "counter_change": {
+                            "counter_name": 1
+                        }
+                    },
+                    ...
+                }
+                "past_scene": "scene_name",
+                "sounds": {
+                  "music_channel": false,
+                  "sound_channel": "blank",
+                  "voice_channel": false
+                }
+            },
+        }
+
         """
-        ...
+        for scene_name, scene_settings in self._scene_row_data_collection.items():
+            self._scene_settings_collection.update(
+                {
+                    scene_name: {}
+                }
+            )
+            for key, value in scene_settings.items():
+                # Immutable keys:
+                if key in self._parser_immutable_keys:
+                    self._scene_settings_collection[scene_name].update(
+                        {
+                            key: value
+                        }
+                    )
+                # Scene choice targets:
+                elif self._immutable_path_of_scene_choice_key in key:
+                    if scene_settings[self._scene_type] == self._reading_scene_type:
+                        print(
+                            f"Scene {scene_name}: "
+                            f"{self._immutable_path_of_scene_choice_key} key "
+                            f"in {self._reading_scene_type} detected."
+                        )
+                        continue
+                    scene_choose_name, scene_choose_target = key.split(".")
+                    self._scene_settings_collection[scene_name].update(
+                        {
+                            scene_choose_name: {
+                                "branching": scene_choose_target
+                            }
+                        }
+                    )
+                else:
+                    print(
+                        f"Invalid configuration key detected: {key}"
+                    )
 
     def _land_screenplay(self):
         """
         Land screenplay data to screenplay.json file.
         """
         ...
+
+        print(
+            f"Successfully land screenplay data to path: {self._destination_path}"
+        )
 
     def execute(self):
         """
