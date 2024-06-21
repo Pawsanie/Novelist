@@ -63,19 +63,19 @@ class ScreenplaySourceParser:
             "left_character_name",
             "left_character_animation",
             "left_character_sprite_sheet",
-            "left_character_character_plan",
+            "left_character_plan",
 
             # Middle Character:
             "middle_character_name",
             "middle_character_animation",
             "middle_character_sprite_sheet",
-            "middle_character_character_plan",
+            "middle_character_plan",
 
             # Right Character:
             "right_character_name",
             "right_character_animation",
             "right_character_sprite_sheet",
-            "right_character_character_plan",
+            "right_character_plan",
             
             # Scene optional settings:
             "scene_special_effects",
@@ -228,23 +228,21 @@ class ScreenplaySourceParser:
                                 "middle",
                                 "right"
                         ):
+                            if key != f"{position}_character_name":
+                                continue
                             try:
                                 self._scene_settings_collection[scene_name]["actors"].update(
                                     {
-                                        "character_position": scene_settings[
-                                            f"{position}_character_"
-                                        ],
-                                        "character_start_position":  [
-                                            f"{position}_character_"
-                                        ],
+                                        value: {}
+                                    }
+                                )
+                                self._scene_settings_collection[scene_name]["actors"][value].update(
+                                    {
                                         "character_animation":  scene_settings[
                                             f"{position}_character_animation"
                                         ],
-                                        "character_scene_start_animation":  scene_settings[
-                                            f"{position}_character_plan"
-                                        ],
                                         "character_plan": scene_settings[
-                                            f"{position}_character_"
+                                            f"{position}_character_plan"
                                         ]
                                     }
                                 )
@@ -255,6 +253,22 @@ class ScreenplaySourceParser:
                                     f"But have any settings this character..."
                                 )
                                 exit(1)
+                            try:
+                                for optional_key, optional_value in {
+                                    "character_start_position": [
+                                                f"{position}_character_start_position"
+                                            ],
+                                    "character_scene_start_animation": scene_settings[
+                                        f"{position}_character_start_animation"
+                                    ]
+                                }.items():
+                                    self._scene_settings_collection[scene_name]["actors"][value].update(
+                                        {
+                                            optional_key: optional_value
+                                        }
+                                    )
+                            except KeyError:
+                                pass
 
                 # Scene choice targets:
                 elif self._immutable_path_of_scene_choice_key in key:
