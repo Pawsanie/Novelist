@@ -336,7 +336,17 @@ class ScreenplaySourceParser:
         Land screenplay data to screenplay.json file.
         """
         if len(self._scene_settings_collection) > 0:
-            ...
+            with open(
+                    file=self._destination_path,
+                    mode='w',
+                    encoding='utf-8'
+            ) as file:
+                json.dump(
+                    obj=self._scene_settings_collection,
+                    fp=file,
+                    ensure_ascii=False,
+                    indent=4
+                )
 
             print(
                 f"Successfully land screenplay data to path: {self._destination_path}"
