@@ -87,10 +87,6 @@ class ScreenplaySourceParser:
             "voice"
         )
         self._immutable_path_of_scene_choice_key: str = "scene_choice"
-        self._valid_scene_types: tuple = (
-            "reading",
-            "choice"
-        )
         self._reading_scene_type: str = "reading"
         self._scene_type: str = "scene_type"
 
@@ -143,7 +139,7 @@ class ScreenplaySourceParser:
         {
             "reading_scene_name": {
                 "background": {
-                    background_id: "back_ground_01",
+                    background_sprite_sheet: "back_ground_01",
                     background_animation: "animation_1"
                     },
                 "actors": {
@@ -155,7 +151,7 @@ class ScreenplaySourceParser:
                   },
                   ...
                 },
-                "special_effects": false | [str...],
+                "special_effects": false | [str, ...],
                 "gameplay_type": "reading",
                 "past_scene": "scene_name",
                 "next_scene": "scene_name_02",
@@ -168,7 +164,7 @@ class ScreenplaySourceParser:
 
             "choice_scene_name": {
                 "background": {
-                    background_id: "back_ground_01",
+                    background_sprite_sheet: "back_ground_01",
                     background_animation: "animation_1"
                     },
                 "actors": {
@@ -180,7 +176,7 @@ class ScreenplaySourceParser:
                   },
                   ...
                 },
-                "special_effects": false | [str...],
+                "special_effects": false | [str, ...],
                 "gameplay_type": "choice",
                 "choices": {
                     "choice_01": {
@@ -205,8 +201,9 @@ class ScreenplaySourceParser:
             self._scene_settings_collection.update(
                 {
                     scene_name: {
+                        "gameplay_type": scene_settings["scene_type"],
                         "background": {
-                            "background_id": scene_settings["background_sprite_sheet"],
+                            "background_sprite_sheet": scene_settings["background_sprite_sheet"],
                             "background_animation": scene_settings["background_animation"]
                         },
                         "past_scene": scene_settings["past_scene"],
@@ -220,7 +217,8 @@ class ScreenplaySourceParser:
                     if key in (
                             "background_sprite_sheet",
                             "background_animation",
-                            "past_scene"
+                            "past_scene",
+                            "scene_type"
                     ):
                         continue
 
@@ -294,11 +292,18 @@ class ScreenplaySourceParser:
 
                     # Special effects optional settings:
                     elif key == "scene_special_effects":
-                        self._scene_settings_collection[scene_name].update(
-                            {
-                                "special_effects": value
-                            }
-                        )
+                        if value is False:
+                            self._scene_settings_collection[scene_name].update(
+                                {
+                                    "special_effects": value
+                                }
+                            )
+                        elif value is str:
+                            self._scene_settings_collection[scene_name].update(
+                                {
+                                    "special_effects": value.split(",")
+                                }
+                            )
 
                 # Scene choice targets:
                 elif self._immutable_path_of_scene_choice_key in key:
