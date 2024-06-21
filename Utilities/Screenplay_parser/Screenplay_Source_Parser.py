@@ -99,6 +99,8 @@ class ScreenplaySourceParser:
         """
         for target_path, path_folders, catalog_filenames in walk(self._source_path):
             for file_name in catalog_filenames:
+                if file_name == "example_scene_config.ini":
+                    continue
                 target_file: str = path.join(
                     *[
                         target_path, file_name
