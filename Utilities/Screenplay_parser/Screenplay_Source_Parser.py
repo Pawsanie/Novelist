@@ -110,10 +110,14 @@ class ScreenplaySourceParser:
                     self._config_parser.read(
                         target_file
                     )
-                except MissingSectionHeaderError as exception:
-                    ...
-                except ParsingError as exception:
-                    ...
+                except MissingSectionHeaderError:
+                    print(
+                        f"File {file_name} have no legal header, or this is no ini configuration. File ignored."
+                    )
+                except ParsingError:
+                    print(
+                        f"File {file_name} have no legal ini syntax. File ignored."
+                    )
 
     def _get_row_data(self):
         """
