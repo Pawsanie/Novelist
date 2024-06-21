@@ -335,11 +335,16 @@ class ScreenplaySourceParser:
         """
         Land screenplay data to screenplay.json file.
         """
-        ...
+        if len(self._scene_settings_collection) > 0:
+            ...
 
-        print(
-            f"Successfully land screenplay data to path: {self._destination_path}"
-        )
+            print(
+                f"Successfully land screenplay data to path: {self._destination_path}"
+            )
+        else:
+            print(
+                f"Have no data to landing."
+            )
 
     def execute(self):
         """
