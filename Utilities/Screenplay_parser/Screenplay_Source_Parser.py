@@ -63,16 +63,22 @@ class ScreenplaySourceParser:
             "left_character_animation",
             "left_character_sprite_sheet",
             "left_character_plan",
+            "left_character_position",
+            "left_character_start_animation",
 
             # Middle Character:
             "middle_character_animation",
             "middle_character_sprite_sheet",
             "middle_character_plan",
+            "middle_character_position",
+            "middle_character_start_animation",
 
             # Right Character:
             "right_character_animation",
             "right_character_sprite_sheet",
             "right_character_plan",
+            "right_character_position",
+            "right_character_start_animation",
             
             # Scene optional settings:
             "scene_special_effects",
@@ -219,7 +225,7 @@ class ScreenplaySourceParser:
                         continue
 
                     # Scene Actors:
-                    if "character" in key:
+                    elif "character" in key:
                         for position in (
                                 "left",
                                 "middle",
@@ -253,7 +259,7 @@ class ScreenplaySourceParser:
                                 exit(1)
                             try:
                                 for optional_key, optional_value in {
-                                    "character_start_position": [
+                                    "character_position": [
                                                 f"{position}_character_start_position"
                                             ],
                                     "character_scene_start_animation": scene_settings[
@@ -267,6 +273,32 @@ class ScreenplaySourceParser:
                                     )
                             except KeyError:
                                 pass
+
+                    # Sound optional scene settings:
+                    elif key in (
+                        "music",
+                        "sound",
+                        "voice"
+                    ):
+                        if "sounds" not in self._scene_settings_collection[scene_name].keys():
+                            self._scene_settings_collection[scene_name].update(
+                                {
+                                    "sounds": {}
+                                }
+                            )
+                        self._scene_settings_collection[scene_name]["sounds"].update(
+                            {
+                                f"{key}_channel": value
+                            }
+                        )
+
+                    # Special effects optional settings:
+                    elif key == "scene_special_effects":
+                        self._scene_settings_collection[scene_name].update(
+                            {
+                                "special_effects": value
+                            }
+                        )
 
                 # Scene choice targets:
                 elif self._immutable_path_of_scene_choice_key in key:
