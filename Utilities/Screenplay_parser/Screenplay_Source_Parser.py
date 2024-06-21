@@ -60,19 +60,16 @@ class ScreenplaySourceParser:
             "next_scene",
 
             # Left Character:
-            "left_character_name",
             "left_character_animation",
             "left_character_sprite_sheet",
             "left_character_plan",
 
             # Middle Character:
-            "middle_character_name",
             "middle_character_animation",
             "middle_character_sprite_sheet",
             "middle_character_plan",
 
             # Right Character:
-            "right_character_name",
             "right_character_animation",
             "right_character_sprite_sheet",
             "right_character_plan",
@@ -144,7 +141,7 @@ class ScreenplaySourceParser:
                     background_animation: "animation_1"
                     },
                 "actors": {
-                  "character_id": {
+                  "character_sprite_sheet_id": {
                     "character_start_position": "right",
                     "character_animation": "animation_3",
                     "character_scene_start_animation: "animation_10",
@@ -169,7 +166,7 @@ class ScreenplaySourceParser:
                     background_animation: "animation_1"
                     },
                 "actors": {
-                  "character_id": {
+                  "character_sprite_sheet_id": {
                     "character_start_position": "right",
                     "character_animation": "animation_3",
                     "character_scene_start_animation: "animation_10",
@@ -228,7 +225,7 @@ class ScreenplaySourceParser:
                                 "middle",
                                 "right"
                         ):
-                            if key != f"{position}_character_name":
+                            if key != f"{position}_character_sprite_sheet":
                                 continue
                             try:
                                 self._scene_settings_collection[scene_name]["actors"].update(
@@ -243,7 +240,8 @@ class ScreenplaySourceParser:
                                         ],
                                         "character_plan": scene_settings[
                                             f"{position}_character_plan"
-                                        ]
+                                        ],
+                                        "character_start_position": position
                                     }
                                 )
                             except KeyError as error:
