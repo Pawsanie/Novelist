@@ -95,6 +95,7 @@ class ScreenplaySourceParser:
 
         self._scene_row_data_collection: dict = {}
         self._scene_settings_collection: dict = {}
+        self._scene_name_collections: list = []
 
     def _read_source(self):
         """
@@ -128,6 +129,16 @@ class ScreenplaySourceParser:
         """
         # Get row data from configs:
         for scene_name in self._config_parser.sections():
+            if scene_name in self._scene_name_collections:
+                print(
+                    "Critical parse error:\n"
+                    f"Scene name {scene_name} already parsed.\n"
+                    "Scenes must have unique names."
+                )
+                exit(1)
+            else:
+                self._scene_name_collections.append(scene_name)
+
             scene_settings: dict = {}
             for key, value in self._config_parser.items(scene_name):
                 if value.lower() in ("false", "no", "off"):
@@ -289,9 +300,9 @@ class ScreenplaySourceParser:
                                 )
                             except KeyError as error:
                                 print(
-                                    f"Fatal parsing error!:\n"
+                                    "Fatal parsing error!:\n"
                                     f"Have no character key {error} in {scene_name}.\n"
-                                    f"But have any settings this character..."
+                                    "But have any settings this character..."
                                 )
                                 exit(1)
                             try:
@@ -348,7 +359,7 @@ class ScreenplaySourceParser:
                 elif self._immutable_path_of_scene_choice_key in key:
                     if scene_settings["scene_type"] != "choice":
                         print(
-                            f"Parsing critical error:\n"
+                            "Parsing critical error:\n"
                             f"Not choice type scene {scene_name} have"
                             f"{self._immutable_path_of_scene_choice_key} key.\n"
                             f"Key name {key}"
@@ -394,8 +405,14 @@ class ScreenplaySourceParser:
             )
         else:
             print(
-                f"Have no data to landing."
+                "Have no data to landing."
             )
+
+    def get_scenes(self):
+        """
+        Get scene names.
+        """
+        return self._scene_settings_collection.keys()
 
     def execute(self):
         """
