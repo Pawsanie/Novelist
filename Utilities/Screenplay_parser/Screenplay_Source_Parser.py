@@ -412,16 +412,29 @@ class ScreenplaySourceParser:
         """
         Get scene names.
         """
+        self._devnull()
+        self._read_source()
+        self._get_row_data()
+        self._parse_scene_configs()
         return self._scene_settings_collection.keys()
 
     def execute(self):
         """
         Execute class destination.
         """
+        self._devnull()
         self._read_source()
         self._get_row_data()
         self._parse_scene_configs()
         self._land_screenplay()
+
+    def _devnull(self):
+        """
+        Devnull collections data.
+        """
+        self._scene_row_data_collection.clear()
+        self._scene_settings_collection.clear()
+        self._scene_name_collections.clear()
 
 
 if __name__ == "__main__":
