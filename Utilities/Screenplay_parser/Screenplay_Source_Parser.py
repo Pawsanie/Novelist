@@ -228,6 +228,21 @@ class ScreenplaySourceParser:
                     ):
                         continue
 
+                    # Reading gameplay:
+                    if key == "next_scene":
+                        if scene_settings[self._scene_type] != self._reading_scene_type:
+                            print(
+                                f"Scene {scene_name}: "
+                                f"Have 'next_scene' key but have no acceptable 'scene_type' value."
+                            )
+                            continue
+                        else:
+                            self._scene_settings_collection[scene_name].update(
+                                {
+                                    "next_scene": value
+                                }
+                            )
+
                     # Scene Actors:
                     elif "character" in key:
                         for position in (
@@ -320,13 +335,16 @@ class ScreenplaySourceParser:
                             f"in {self._reading_scene_type} detected."
                         )
                         continue
-                    scene_choose_name, scene_choose_target = key.split(".")
-                    self._scene_settings_collection[scene_name].update(
+                    if "choices" not in self._scene_settings_collection[scene_name]:
+                        self._scene_settings_collection[scene_name].update(
+                            {
+                                "choices": {}
+                            }
+                        )
+                    self._scene_settings_collection[scene_name]["choices"].update(
                         {
-                            "choices": {
-                                scene_choose_name: {
-                                    "branching": scene_choose_target
-                                }
+                            key.split(".")[-1]: {
+                                "branching": value
                             }
                         }
                     )
