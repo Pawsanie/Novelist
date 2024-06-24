@@ -58,6 +58,8 @@ class ScreenplaySourceParser:
 
             # Reading gameplay:
             "next_scene",
+            "speaker_name_color",
+            "speech_text_color",
 
             # Left Character:
             "left_character_animation",
@@ -87,8 +89,9 @@ class ScreenplaySourceParser:
             "voice"
         )
         self._immutable_path_of_scene_choice_key: str = "scene_choice"
-        self._reading_scene_type: str = "reading"
-        self._scene_type: str = "scene_type"
+
+        self._default_speaker_name_color: str = "#00ffff"
+        self._default_speech_text_color: str = "#ffffff"
 
         self._scene_row_data_collection: dict = {}
         self._scene_settings_collection: dict = {}
@@ -219,6 +222,31 @@ class ScreenplaySourceParser:
                     }
                 }
             )
+
+            # Reading gameplay:
+            if scene_settings["scene_type"] == "reading":
+                if "next_scene" not in scene_settings:
+                    print(
+                        f"Parsing critical error:\n"
+                        f"Reading scene {scene_name} have no 'next_scene' key..."
+                    )
+                    exit(1)
+                if "speaker_name_color" in scene_settings:
+                    speaker_name_color: str = scene_settings["speaker_name_color"]
+                else:
+                    speaker_name_color: str = self._default_speaker_name_color
+                if "speech_text_color" in scene_settings:
+                    speech_text_color: str = scene_settings["speech_text_color"]
+                else:
+                    speech_text_color: str = self._default_speech_text_color
+                self._scene_settings_collection[scene_name].update(
+                    {
+                        "next_scene": scene_settings["next_scene"],
+                        "speaker_name_color": speaker_name_color,
+                        "speech_text_color": speech_text_color,
+                    }
+                )
+
             for key, value in scene_settings.items():
                 # Immutable keys:
                 if key in self._parser_immutable_keys:
@@ -226,24 +254,12 @@ class ScreenplaySourceParser:
                             "background_sprite_sheet",
                             "background_animation",
                             "past_scene",
-                            "scene_type"
+                            "scene_type",
+                            "next_scene",
+                            "speaker_name_color",
+                            "speech_text_color"
                     ):
                         continue
-
-                    # Reading gameplay:
-                    if key == "next_scene":
-                        if scene_settings[self._scene_type] != self._reading_scene_type:
-                            print(
-                                f"Scene {scene_name}: "
-                                f"Have 'next_scene' key but have no acceptable 'scene_type' value."
-                            )
-                            continue
-                        else:
-                            self._scene_settings_collection[scene_name].update(
-                                {
-                                    "next_scene": value
-                                }
-                            )
 
                     # Scene Actors:
                     elif "character" in key:
@@ -330,13 +346,14 @@ class ScreenplaySourceParser:
 
                 # Scene choice targets:
                 elif self._immutable_path_of_scene_choice_key in key:
-                    if scene_settings[self._scene_type] == self._reading_scene_type:
+                    if scene_settings["scene_type"] != "choice":
                         print(
-                            f"Scene {scene_name}: "
-                            f"{self._immutable_path_of_scene_choice_key} key "
-                            f"in {self._reading_scene_type} detected."
+                            f"Parsing critical error:\n"
+                            f"Not choice type scene {scene_name} have"
+                            f"{self._immutable_path_of_scene_choice_key} key.\n"
+                            f"Key name {key}"
                         )
-                        continue
+                        exit(1)
                     if "choices" not in self._scene_settings_collection[scene_name]:
                         self._scene_settings_collection[scene_name].update(
                             {
