@@ -127,6 +127,8 @@ class ScreenplaySourceParser:
         for scene_name in self._config_parser.sections():
             scene_settings: dict = {}
             for key, value in self._config_parser.items(scene_name):
+                if value.lower() in ("false", "no", "off"):
+                    value: bool = False
                 scene_settings.update(
                     {
                         key: value
@@ -367,7 +369,7 @@ class ScreenplaySourceParser:
                     obj=self._scene_settings_collection,
                     fp=file,
                     ensure_ascii=False,
-                    indent=4
+                    indent=2
                 )
 
             print(
