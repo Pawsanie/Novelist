@@ -352,7 +352,7 @@ class ScreenplaySourceParser:
                                     "special_effects": value
                                 }
                             )
-                        elif value is str:
+                        elif type(value) is str:
                             self._scene_settings_collection[scene_name].update(
                                 {
                                     "special_effects": value.split(",")
