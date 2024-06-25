@@ -90,8 +90,9 @@ class ScreenplaySourceParser:
         )
         self._immutable_path_of_scene_choice_key: str = "scene_choice"
 
-        self._default_speaker_name_color: str = "#00ffff"
+        self._default_speaker_name_color: str = "#ffffff"
         self._default_speech_text_color: str = "#ffffff"
+        self._default_choice_text_color: str = "#ffffff"
 
         self._scene_row_data_collection: dict = {}
         self._scene_settings_collection: dict = {}
@@ -371,15 +372,42 @@ class ScreenplaySourceParser:
                                 "choices": {}
                             }
                         )
+                    choice_name: str = key.split(".")[-1]
                     self._scene_settings_collection[scene_name]["choices"].update(
                         {
-                            key.split(".")[-1]: {
+                            choice_name: {
                                 "branching": value
                             }
                         }
                     )
+                    try:
+                        self._scene_settings_collection[scene_name]["choices"][choice_name].update(
+                            {
+                                "text_color": scene_settings[f"choice_text_color.{choice_name}"]
+                            }
+                        )
+                    except KeyError:
+                        self._scene_settings_collection[scene_name]["choices"][choice_name].update(
+                            {
+                                "text_color": self._default_choice_text_color
+                            }
+                        )
+                # Independently not significant key:
+                elif "choice_text_color" in key:
+                    if scene_settings["scene_type"] == "choice":
+                        continue
+                    else:
+                        print(
+                            "Critical parsing error:\n"
+                            f"Scene {scene_name}.\n"
+                            "Choice text color key in not choice scene type detected."
+                        )
+                        exit(1)
+
+                # Invalid keys:
                 else:
                     print(
+                        "Warning:\n"
                         f"Invalid configuration key detected: {key}"
                     )
 
