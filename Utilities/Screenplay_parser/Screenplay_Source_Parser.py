@@ -178,6 +178,8 @@ class ScreenplaySourceParser:
                 "gameplay_type": "reading",
                 "past_scene": "scene_name",
                 "next_scene": "scene_name_02",
+                "speaker_name_color": "#00ffff",
+                "speech_text_color": "#ffffff",
                 "sounds": {
                   "music_channel": false,
                   "sound_channel": "blank",
@@ -204,6 +206,7 @@ class ScreenplaySourceParser:
                 "choices": {
                     "choice_01": {
                         "branching": "scene_name",
+                        "text_color": "#ffffff",
                         "counter_change": {
                             "counter_name": 1
                         }
