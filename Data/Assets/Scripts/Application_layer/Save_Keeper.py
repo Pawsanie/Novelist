@@ -399,7 +399,7 @@ class SaveKeeper(SingletonPattern):
         Get progress data for save it like json in file.
         """
         data_to_save: dict[str] = {
-            "scene": self._scene_validator.scene_flag,
+            "scene": self._scene_validator.get_current_scene_name(),
             "date": strftime("%Y-%m-%d_%H:%M:%S", localtime())
         }
         return json.dumps(data_to_save, indent=4)
@@ -413,7 +413,7 @@ class SaveKeeper(SingletonPattern):
         """
         self._saves_read()
         if len(self._saves_dict) == 0:
-            return self._scene_validator.default_scene_name
+            return self._scene_validator.get_default_scene_name()
         else:
             last_save: list[str] = sorted(self._saves_dict.keys(), reverse=True)
 

@@ -48,7 +48,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
         """
         self.page_select_text: str = f"{self.menu_page} / {self.last_menu_page}"
 
-        self.interface_controller.menus_text_dict.update(
+        self._interface_controller.menus_text_dict.update(
             {
                 self.page_flag: {
                     self.menu_name: MenuText(
@@ -65,7 +65,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
             }
         )
 
-        menu_data: dict = self.interface_controller.menus_collection[self.menu_name]
+        menu_data: dict = self._interface_controller.menus_collection[self.menu_name]
         menu_data[self.text_file_flag]: str = self.page_flag
 
     def save_slots_ui_reread(self):
@@ -81,7 +81,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
         Try to unselect last select save slot.
         """
         try:
-            self.interface_controller.buttons_dict['ui_save_menu_buttons'][self.selected_save_cell].select = False
+            self._interface_controller.buttons_dict['ui_save_menu_buttons'][self.selected_save_cell].select = False
         except KeyError:
             pass
 
@@ -93,17 +93,17 @@ class SaveMenu(BaseMenu, SingletonPattern):
             auto_save=False
         )
         self.status: bool = False
-        self.interface_controller.gameplay_interface_status = True
+        self._interface_controller.gameplay_interface_status = True
         self.save_slots_ui_reread()
 
-        self.state_machine.next_state()
+        self._state_machine.next_state()
 
-    def input_mouse(self, event):
+    def _input_mouse(self, event):
         """
         Interface interaction in in-game save menu.
         :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
+        gameplay_ui_buttons: tuple[str, bool] = self._interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command: str = gameplay_ui_buttons[0]
@@ -147,4 +147,4 @@ class SaveMenu(BaseMenu, SingletonPattern):
                 except KeyError:
                     self.selected_save_file_name: None = None
                 self.selected_save_cell: str = get_save_slot_data['select_name']
-                self.interface_controller.buttons_dict['ui_save_menu_buttons'][self.selected_save_cell].select = True
+                self._interface_controller.buttons_dict['ui_save_menu_buttons'][self.selected_save_cell].select = True

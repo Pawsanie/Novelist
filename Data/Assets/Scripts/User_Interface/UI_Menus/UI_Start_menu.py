@@ -21,30 +21,30 @@ class StartMenu(BaseMenu, SingletonPattern):
         Start game from correct scene.
         :param scene_name: The name of the scene to start the game from.
         """
-        self.scene_validator.scene_flag = scene_name
+        self._scene_validator.switch_scene(scene_name)
         self.status: bool = False
 
-        self.interface_controller.gameplay_interface_hidden_status = False
-        self.interface_controller.gameplay_interface_status = True
-        self.interface_controller.start_menu_flag = False
+        self._interface_controller.gameplay_interface_hidden_status = False
+        self._interface_controller.gameplay_interface_status = True
+        self._interface_controller.start_menu_flag = False
 
         self.save_keeper.generate_save_slots_buttons()
 
-        self.state_machine.next_state()
+        self._state_machine.next_state()
 
-    def input_mouse(self, event):
+    def _input_mouse(self, event):
         """
         Interface interaction in in-game start menu.
         :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
+        gameplay_ui_buttons: tuple[str, bool] = self._interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
 
             if command == 'start_menu_new_game':
                 self.start_game(
-                    self.scene_validator.default_scene_name
+                    self._scene_validator.get_default_scene_name()
                 )
 
             elif command == 'start_menu_continue':

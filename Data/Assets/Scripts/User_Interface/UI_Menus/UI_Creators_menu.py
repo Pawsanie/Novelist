@@ -22,7 +22,7 @@ class CreatorsMenu(BaseMenu, SingletonPattern):
         self.status: bool = False
         StartMenu().status = True
 
-    def key_bord_key_down(self, event):
+    def _key_bord_key_down(self, event):
         """
         Interface interaction in creators menu.
         :param event: pygame.event from main_loop.
@@ -31,12 +31,12 @@ class CreatorsMenu(BaseMenu, SingletonPattern):
             if event.key == K_ESCAPE or event.key == K_TAB or event.key == K_e:
                 self.creators_menu_back()
 
-    def input_mouse(self, event):
+    def _input_mouse(self, event):
         """
         Interface interaction in creators menu.
         :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
+        gameplay_ui_buttons: tuple[str, bool] = self._interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             if gameplay_ui_buttons[0] == 'creators_menu_back':

@@ -8,6 +8,7 @@ from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
 from ..Game_objects.Character import Character
 from ..Render.Sprite import Sprite
+from ..Application_layer.Sound_Director import SoundDirector
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -22,12 +23,13 @@ class StageDirector(SingletonPattern):
     """
     def __init__(self):
         # Program layers settings:
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+        self._settings_keeper: SettingsKeeper = SettingsKeeper()
+        self._sound_director: SoundDirector = SoundDirector()
 
         # Make background surface:
-        self.background_mock: BackgroundProxy = BackgroundProxy()
-        self.background_surface: Surface = self.background_mock.get_data()[0]
-        self.background_coordinates: tuple[int, int] = self.background_mock.get_data()[1]
+        self._background_mock: BackgroundProxy = BackgroundProxy()
+        self.background_surface: Surface = self._background_mock.get_data()[0]
+        self.background_coordinates: tuple[int, int] = self._background_mock.get_data()[1]
 
         """Assets loading:"""
         # Characters load:
@@ -38,7 +40,7 @@ class StageDirector(SingletonPattern):
 
         """Make UI:"""
         # Set language:
-        self.language_flag: str = self.settings_keeper.text_language
+        self.language_flag: str = self._settings_keeper.text_language
         # Text canvas:
         self.text_canvas: TextCanvas = TextCanvas()
         # Text generation:
@@ -67,8 +69,8 @@ class StageDirector(SingletonPattern):
         scene.scale()
         scene_image: Surface = scene.scene_image
         # Update background surface:
-        self.background_mock.set_new_image(new_image=scene_image)
-        self.background_surface: Surface = self.background_mock.get_data()[0]
+        self._background_mock.set_new_image(new_image=scene_image)
+        self.background_surface: Surface = self._background_mock.get_data()[0]
         self.background_surface.blit(scene_image, (0, 0))
 
     def set_actor(self, *, character: str) -> Surface.blit:
@@ -97,7 +99,7 @@ class StageDirector(SingletonPattern):
         """
         Delete all characters and background from scene.
         """
-        background_data: tuple = self.background_mock.get_data()
+        background_data: tuple = self._background_mock.get_data()
         self.background_surface: Surface = background_data[0]
         self.background_surface.fill((0, 0, 0))
         self.background_coordinates: tuple[int, int] = background_data[1]
@@ -209,3 +211,50 @@ class StageDirector(SingletonPattern):
                 )
             )
         return result
+
+    def build_a_scene(self):
+        """
+        Call from SceneValidator.
+        """
+        from ..GamePlay.Scene_Validator import SceneValidator
+        scene_validator: SceneValidator = SceneValidator()
+        scene_data: dict = scene_validator.get_current_scene_data()
+        self.vanishing_scene()
+
+        # Set new background:
+        self.set_scene(
+            location=scene_data['background']['background_sprite_sheet']
+        )
+
+        # Set new actors:
+        for name in scene_data['actors']:
+            character: dict[str, dict] = scene_data['actors'][name]
+
+            self.set_actor(character=name)\
+                .set_pose(pose_number=character['character_animation'])
+            self.set_actor(character=name)\
+                .set_plan(plan=character['character_plan'])
+            self.set_actor(character=name).position = \
+                character['character_start_position']
+
+        # Scene text settings:
+        if scene_data['gameplay_type'] == 'reading':
+            self.text_canvas.text_canvas_status = True
+            self.set_reading_words(
+                script=self.text_dict_reading.get(
+                    self.language_flag
+                )[scene_validator.get_current_scene_name()]
+            )
+        elif scene_data['gameplay_type'] == 'choice':
+            self.text_canvas.text_canvas_status = False
+
+        # Special effects:
+        if scene_data['special_effects'] is not False:
+            ...
+
+        # Sounds settings:
+        for key, value in scene_data['sounds'].items():
+            self._sound_director.sound_chanel_controller(
+                sound_chanel=key,
+                sound_file_name=value
+            )

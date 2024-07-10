@@ -19,7 +19,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
         self.menu_page: int = 1
         self.last_menu_page: int = 1
 
-        self.page_select_text: str = f"{self.menu_page} / {self.last_menu_page}"
+        self._page_select_text: str = f"{self.menu_page} / {self.last_menu_page}"
         self.menu_name: str = 'load_menu'
         self.text_file_flag: str = 'text_file'
         self.page_text_coordinates: dict = {'x': 1, 'y': 1}
@@ -43,14 +43,14 @@ class LoadMenu(BaseMenu, SingletonPattern):
         """
         Set new page data to menu text.
         """
-        self.page_select_text: str = f"{self.menu_page} / {self.last_menu_page}"
+        self._page_select_text: str = f"{self.menu_page} / {self.last_menu_page}"
 
-        self.interface_controller.menus_text_dict.update(
+        self._interface_controller.menus_text_dict.update(
             {
                 self.page_flag: {
                     self.menu_name: MenuText(
                         menu_name=self.menu_name,
-                        menu_text=self.page_select_text,
+                        menu_text=self._page_select_text,
                         menu_text_localization_dict=None,
                         menu_text_font=self.page_text_font,
                         menu_text_color=self.page_text_color,
@@ -62,7 +62,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
             }
         )
 
-        menu_data: dict = self.interface_controller.menus_collection[self.menu_name]
+        menu_data: dict = self._interface_controller.menus_collection[self.menu_name]
         menu_data[self.text_file_flag]: str = self.page_flag
 
     def start_game(self, scene_name: str):
@@ -71,14 +71,14 @@ class LoadMenu(BaseMenu, SingletonPattern):
         Start game from correct scene.
         :param scene_name: The name of the scene to start the game from.
         """
-        self.scene_validator.scene_flag = scene_name
+        self._scene_validator.switch_scene(scene_name)
         self.status: bool = False
 
-        self.interface_controller.gameplay_interface_hidden_status = False
-        self.interface_controller.gameplay_interface_status = True
-        self.interface_controller.start_menu_flag = False
+        self._interface_controller.gameplay_interface_hidden_status = False
+        self._interface_controller.gameplay_interface_status = True
+        self._interface_controller.start_menu_flag = False
 
-        self.state_machine.next_state()
+        self._state_machine.next_state()
 
     def save_slots_ui_reread(self):
         """
@@ -93,16 +93,16 @@ class LoadMenu(BaseMenu, SingletonPattern):
         Try to unselect last select save slot.
         """
         try:
-            self.interface_controller.buttons_dict['ui_load_menu_buttons'][self.selected_save_cell].select = False
+            self._interface_controller.buttons_dict['ui_load_menu_buttons'][self.selected_save_cell].select = False
         except KeyError:
             pass
 
-    def input_mouse(self, event):
+    def _input_mouse(self, event):
         """
         Interface interaction in in-game load menu.
         :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
+        gameplay_ui_buttons: tuple[str, bool] = self._interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command: str = gameplay_ui_buttons[0]
@@ -117,10 +117,10 @@ class LoadMenu(BaseMenu, SingletonPattern):
 
             elif command == 'load_menu_back':
                 self.status: bool = False
-                if self.interface_controller.start_menu_flag is True:
+                if self._interface_controller.start_menu_flag is True:
                     from .UI_Start_menu import StartMenu
                     StartMenu().status = True
-                if self.interface_controller.start_menu_flag is False:
+                if self._interface_controller.start_menu_flag is False:
                     from .UI_Game_menu import GameMenu
                     GameMenu().status = True
                 self.vanish_menu_data()
@@ -145,4 +145,4 @@ class LoadMenu(BaseMenu, SingletonPattern):
                 except KeyError:
                     pass
                 self.selected_save_cell: str = get_save_slot_data['select_name']
-                self.interface_controller.buttons_dict['ui_load_menu_buttons'][self.selected_save_cell].select = True
+                self._interface_controller.buttons_dict['ui_load_menu_buttons'][self.selected_save_cell].select = True

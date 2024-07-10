@@ -1,8 +1,6 @@
 from ..Application_layer.Stage_Director import StageDirector
 from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from ..Application_layer.Sound_Director import SoundDirector
-from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contains SceneValidator code.
 """
@@ -15,94 +13,91 @@ class SceneValidator(SingletonPattern):
     def __init__(self):
         # Program layers settings:
         self._asset_loader: AssetLoader = AssetLoader()
-        self.stage_director: StageDirector = StageDirector()
-        self.sound_director: SoundDirector = SoundDirector()
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+        self._stage_director: StageDirector = StageDirector()
 
         # Screenplay loading:
-        self.screenplay: dict = self._asset_loader.json_load(
+        self._screenplay: dict = self._asset_loader.json_load(
             path_list=[
                 'Scripts', 'Json_data', 'screenplay'
             ]
         )
-        self.choices_data: dict = self._asset_loader.json_load(
-            path_list=[
-                'Scripts', 'Json_data', 'Dialogues', 'choices_data'
-            ]
-        )
 
         # Scene FLAGS:
-        # START as default!
-        self.scene: str = 'START'
-        # 'scene_01' as default!
-        self.scene_flag: str = 'scene_01'
-        self.next_scene: str = ''
-        self.past_scene: str = ''
-        self.scene_gameplay_type: str = ''
-        self.default_scene_name: str = 'scene_01'
+        self._default_start_scene: str = 'START'
+        self._current_scene_name: str | None = None
+        self._possible_next_scene_checker_flag: str | None = None
+        self._scene_update_status: bool = True
 
-        # Other settings:
-        self.status: bool = True
+        # Over settings:
+        self._scene_data: dict | None = None
+
+    def get_default_scene_name(self):
+        """
+        Get default scene for New Game.
+        Use in SaveKeeper or StartMenu.
+        """
+        for scene_name, scene_data in self._screenplay.items():
+            if scene_data["past_scene"] == self._default_start_scene:
+                return scene_name
+
+    def devnull(self):
+        """
+        Return to base settings.
+        """
+        self._current_scene_name: str = self.get_default_scene_name()
+        self._possible_next_scene_checker_flag: str | None = None
+        self._scene_update_status: bool = True
+
+    def get_gameplay_type(self):
+        """
+        Used in GamePlayAdministrator.
+        """
+        try:
+            return self._scene_data['gameplay_type']
+        except TypeError:
+            return None
+
+    def switch_scene(self, new_scene_name: str):
+        """
+        Used in GamePlayDialoguesChoice, GamePlayReading, LoadMenu, StartMenu.
+        """
+        self._possible_next_scene_checker_flag: str = new_scene_name
+
+    def get_current_scene_data(self):
+        """
+        Used in GamePlayDialoguesChoice, GamePlayReading, StageDirector.
+        """
+        return self._screenplay[self._current_scene_name]
+
+    def get_current_scene_name(self):
+        """
+        Used in SaveKeeper, GamePlayDialoguesChoice, SpriteAnimationPause, StageDirector.
+        """
+        return self._current_scene_name
 
     def __call__(self):
         """
         Manages game scene selection and rendering.
         """
         # Keep current scene:
-        if all((
-                self.status is False,
-                self.scene_flag == self.scene
-        )):
+        if self._possible_next_scene_checker_flag == self._current_scene_name:
+            self._scene_update_status: bool = False
             return
 
-        # Set new scene:
-        self.stage_director.vanishing_scene()
-        scene: dict = self.screenplay[self.scene_flag]
-        self.stage_director.set_scene(location=scene['background'])
-        for name in scene['actors']:
-            character: dict[str, dict] = scene['actors'][name]
+        # Set new scene settings:
+        self._current_scene_name: str = self._possible_next_scene_checker_flag
+        self._scene_data: dict = self._screenplay[self._current_scene_name]
+        self._scene_update_status: bool = True
 
-            self.stage_director.set_actor(character=name)\
-                .set_pose(pose_number=character['character_pose'])
-            self.stage_director.set_actor(character=name)\
-                .set_plan(plan=character['character_plan'])
-            self.stage_director.set_actor(character=name).position = \
-                character['character_start_position']
+        # Build a scene:
+        self._stage_director.build_a_scene()
 
-        # Scene FLAG settings:
-        self.scene: str = self.scene_flag
-        self.next_scene: str = scene['next_scene']
-        self.past_scene: str = scene['past_scene']
-        self.scene_gameplay_type: str = scene['gameplay_type']
-
-        # Scene text settings:
-        if self.scene_gameplay_type is not False:  # TODO: Remake?
-            if self.scene_gameplay_type == 'reading':
-                self.stage_director.text_canvas.text_canvas_status = True
-                self.stage_director.set_reading_words(
-                    script=self.stage_director.text_dict_reading.get(
-                        self.stage_director.language_flag
-                    )[self.scene]
-                )
-                self.autosave()
-            if self.scene_gameplay_type == 'choice':
-                self.stage_director.text_canvas.text_canvas_status = False
-        else:
-            self.stage_director.text_canvas.text_canvas_status = False  # TODO: Remake?
-
-        # Special effects:
-        if scene['special_effects'] is not False:
-            ...
-
-        # Sounds settings:
-        for key, value in scene['sounds'].items():
-            self.sound_director.sound_chanel_controller(
-                sound_chanel=key,
-                sound_file_name=value
-            )
+        # Autosave:
+        if self._scene_data['gameplay_type'] == 'reading':
+            self._autosave()
 
     @staticmethod
-    def autosave():
+    def _autosave():
         """
         If current scene type is reading autosave it.
         """

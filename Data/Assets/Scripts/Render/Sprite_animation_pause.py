@@ -68,7 +68,7 @@ class SpriteAnimationPause(SingletonPattern):
         Get scene name.
         """
         from ..GamePlay.Scene_Validator import SceneValidator
-        return SceneValidator().scene
+        return SceneValidator().get_current_scene_name()
 
     def update_scene_sprites(self, *, sprite, sprite_name: str):
         """

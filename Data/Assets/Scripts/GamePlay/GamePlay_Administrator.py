@@ -34,7 +34,7 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
         """
         for gameplay_type, gameplay_class in self._gameplay_collections.items():
             setattr(
-                self.interface_controller,
+                self._interface_controller,
                 gameplay_class["interface"],
                 False
             )
@@ -46,9 +46,9 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
         """
         self._devnull()
         for gameplay_type, gameplay_class in self._gameplay_collections.items():
-            if self.scene_validator.scene_gameplay_type == gameplay_type:
+            if self._scene_validator.get_gameplay_type() == gameplay_type:
                 setattr(
-                    self.interface_controller,
+                    self._interface_controller,
                     gameplay_class["interface"],
                     True
                 )
@@ -64,7 +64,7 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
         :param event: pygame.event from InputCommandsReactions input_commands_loop method.
         """
         for gameplay_type, gameplay_class in self._gameplay_collections.items():
-            if self.scene_validator.scene_gameplay_type == gameplay_type:
+            if self._scene_validator.get_gameplay_type() == gameplay_type:
                 gameplay_method = gameplay_class["gameplay"].gameplay_input
                 if iscoroutinefunction(gameplay_method):
                     await gameplay_method(event)

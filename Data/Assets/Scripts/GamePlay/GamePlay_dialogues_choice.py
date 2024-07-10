@@ -83,20 +83,22 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         :param event: pygame.event from main_loop.
         """
         # Rules of choice for scene:
-        choice_data: dict[str, dict[str]] = self.scene_validator.choices_data[self.scene_validator.scene]
+        choice_data: dict[str, dict[str]] = self._scene_validator.get_current_scene_data()["choices"]
 
         # If user interface is not hidden:
-        if self.interface_controller.gameplay_interface_hidden_status is False:
-            gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
+        if self._interface_controller.gameplay_interface_hidden_status is False:
+            gameplay_ui_buttons: tuple[str, bool] = self._interface_controller.button_clicked_status(event)
             # Clicking a virtual button with a mouse:
             if gameplay_ui_buttons[1] is True:
                 command = gameplay_ui_buttons[0]
                 for choice in choice_data:
                     if command == choice:
                         if choice_data[choice]['branching'] is not False:
-                            self.scene_validator.scene_flag = choice_data[choice]['branching']
-                        if choice_data[choice]['counter_change'] is not False:
-                            ...  # TODO: Add reputation system?
+                            self._scene_validator.switch_scene(
+                                choice_data[choice]['branching']
+                            )
+                        # if choice_data[choice]['counter_change'] is not False:
+                        #     ...  # TODO: Add reputation system?
 
     def _key_bord_gameplay_key_down(self, event):
         ...
@@ -107,7 +109,9 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         Call from GameplayAdministrator.
         """
         self._dialogues_choice_buttons_generations()
-        self.interface_controller.gameplay_choice_buttons = self._dialogues_buttons[self.scene_validator.scene]
+        self._interface_controller.gameplay_choice_buttons = self._dialogues_buttons[
+            self._scene_validator.get_current_scene_name()
+        ]
 
     def gameplay_input(self, event):
         """
@@ -118,4 +122,4 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         self._button_gameplay_ui_status(event)
         # Button gameplay key bord status:
         self._key_bord_gameplay_key_down(event)
-        self.input_wait_ready()
+        self._input_wait_ready()
