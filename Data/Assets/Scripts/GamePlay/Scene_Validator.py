@@ -75,19 +75,29 @@ class SceneValidator(SingletonPattern):
         """
         return self._current_scene_name
 
+    def set_scene_update_status(self, status: bool):
+        """
+        Used in GamePlayReading.
+        """
+        self._scene_update_status: bool = status
+
     def __call__(self):
         """
         Manages game scene selection and rendering.
         """
         # Keep current scene:
-        if self._possible_next_scene_checker_flag == self._current_scene_name:
-            self._scene_update_status: bool = False
+        if all(
+                (
+                        self._possible_next_scene_checker_flag == self._current_scene_name,
+                        self._scene_update_status is False
+                )
+        ):
             return
 
         # Set new scene settings:
         self._current_scene_name: str = self._possible_next_scene_checker_flag
         self._scene_data: dict = self._screenplay[self._current_scene_name]
-        self._scene_update_status: bool = True
+        self._scene_update_status: bool = False
 
         # Build a scene:
         self._stage_director.build_a_scene()

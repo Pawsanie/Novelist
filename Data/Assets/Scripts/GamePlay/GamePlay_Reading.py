@@ -31,6 +31,9 @@ class GamePlayReading(BaseMenu, SingletonPattern):
         GameMenu().status = True
         self._state_machine.next_state()
 
+        from .Scene_Validator import SceneValidator
+        SceneValidator().set_scene_update_status(True)
+
     async def _button_gameplay_ui_status(self, event: Event):
         """
         Processing the gameplay interface interaction.
@@ -85,7 +88,7 @@ class GamePlayReading(BaseMenu, SingletonPattern):
                         while new_event.type != MOUSEBUTTONUP:
                             new_event: Event = pygame_events.poll()
                             await sleep(0)
-                        if self._scene_validator.next_scene != 'FINISH':
+                        if self._scene_validator.get_current_scene_data()["next_scene"] != 'FINISH':
                             self._scene_validator.switch_scene(
                                 self._scene_validator.get_current_scene_data()["next_scene"]
                             )
