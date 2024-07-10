@@ -51,7 +51,7 @@ class StartMenu(BaseMenu, SingletonPattern):
                 continue_game_scene: str | False = self.save_keeper.continue_game()
                 if continue_game_scene is not False:
                     self.start_game(continue_game_scene)
-                    self.save_keeper.reread = True
+                    self.save_keeper.reread()
 
             elif command == 'start_menu_load':
                 from .UI_Load_menu import LoadMenu

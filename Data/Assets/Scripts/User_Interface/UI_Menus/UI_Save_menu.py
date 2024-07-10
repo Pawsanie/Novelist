@@ -37,7 +37,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
         self.selected_scene_name: None = None
         self.menu_page: int = 1
         self.last_menu_page: int = self.save_keeper.last_menu_page
-        self.save_keeper.reread = True
+        self.save_keeper.reread()
         self.selected_save_file_name: None = None
         self.unselect_cell()
         self.set_menu_pages_text()
@@ -73,7 +73,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
         Return ui to reread state.
         """
         self.selected_save_cell: None = None
-        self.save_keeper.reread = True
+        self.save_keeper.reread()
         self.save_keeper.generate_save_slots_buttons()
 
     def unselect_cell(self):
@@ -116,6 +116,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
                             self.save_keeper.delete_save(
                                 self.selected_save_file_name
                             )
+                        self.vanish_menu_data()
 
             elif command == 'save_menu_back':
                 self.status: bool = False

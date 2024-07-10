@@ -35,7 +35,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
         self.selected_scene_name: None = None
         self.menu_page: int = 1
         self.last_menu_page: int = self.save_keeper.last_menu_page
-        self.save_keeper.reread = True
+        self.save_keeper.reread()
         self.unselect_cell()
         self.set_menu_pages_text()
 
@@ -85,7 +85,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
         Return ui to reread state.
         """
         self.selected_save_cell: None = None
-        self.save_keeper.reread = True
+        self.save_keeper.reread()
         self.save_keeper.generate_save_slots_buttons()
 
     def unselect_cell(self):
@@ -114,6 +114,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
                             self.selected_scene_name
                         )
                         self.save_slots_ui_reread()
+                        self.vanish_menu_data()
 
             elif command == 'load_menu_back':
                 self.status: bool = False

@@ -78,6 +78,12 @@ class SaveKeeper(SingletonPattern):
         self._preview_file_format: str = 'png'
         self._new_save_button_name: str = "New Save"
 
+    def reread(self):
+        """
+        Used in SaveMenu, StartMenu, LoadMenu.
+        """
+        self._reread: bool = True
+
     def _update_ui_buttons(self, *, menu_data: dict, save_type: str):
         """
         Update menu`s buttons dict in 'InterfaceController.buttons_dict'.
@@ -532,7 +538,7 @@ class SaveKeeper(SingletonPattern):
                         )
                     )
                 except OSError:
-                    pass
+                    continue
 
             try:
                 rmdir(save_path)
