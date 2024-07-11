@@ -3,7 +3,7 @@ from pygame import Surface
 from ..Game_objects.Character import characters_generator
 from ..Game_objects.Background import backgrounds_generator, Background, BackgroundProxy
 from ..User_Interface.UI_Text_Canvas import TextCanvas
-from ..Game_objects.Dialogues import generate_dialogues, DialoguesWords
+from ..Game_objects.Dialogues import DialogueKeeper, DialoguesWords
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
 from ..Game_objects.Character import Character
@@ -45,9 +45,9 @@ class StageDirector(SingletonPattern):
         self.text_canvas: TextCanvas = TextCanvas()
         # Text generation:
         self.text_controller = DialoguesWords()
-        self.text_dict_all: dict[str] = generate_dialogues()
+        self.text_dict_all: dict[str] = DialogueKeeper().get_dialogues_data()
         # Text Reading gameplay:
-        self.text_dict_reading: dict[str] = self.text_dict_all['Reading']
+        self.text_dict_reading: dict[str] = self.text_dict_all['reading']
         self.text_string_reading: str = ''  # Blank as default.
         self.text_speaker_reading: str = ''  # Blank as default.
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))

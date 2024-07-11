@@ -1,4 +1,5 @@
 from os import path
+from csv import DictReader
 import json
 
 from pygame import image, font, mixer, Surface
@@ -119,3 +120,23 @@ class AssetLoader(SingletonPattern):
             name=f"{self.__root_path}{path.join(*['Fonts', font_name])}.{self.__font_format}",
             size=font_size
         )
+
+    def csv_load(self, *, file_name: str, inner_path: str = "Main", delimiter: str = "\t") -> tuple:
+        """
+        Load csv table by name.
+        :param file_name: File name without file extension.
+        :param inner_path: Path string. 'Main' as default.
+        :param delimiter: Table delimiter.
+        """
+        with open(
+                file=f"{self.__root_path}{path.join(*['Localisation', inner_path, file_name])}.csv",
+                mode="r",
+                encoding="utf-8"
+        ) as csvfile:
+            return tuple(
+                dict(row)
+                for (row) in DictReader(
+                    f=csvfile,
+                    delimiter=delimiter
+                )
+            )

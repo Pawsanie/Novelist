@@ -31,6 +31,12 @@ class SceneValidator(SingletonPattern):
         # Over settings:
         self._scene_data: dict | None = None
 
+    def get_screenplay_data(self) -> dict:
+        """
+        Used in StageDirector (generate_dialogues).
+        """
+        return self._screenplay
+
     def get_default_scene_name(self):
         """
         Get default scene for New Game.
@@ -48,7 +54,7 @@ class SceneValidator(SingletonPattern):
         self._possible_next_scene_checker_flag: str | None = None
         self._scene_update_status: bool = True
 
-    def get_gameplay_type(self):
+    def get_gameplay_type(self) -> str | None:
         """
         Used in GamePlayAdministrator.
         """
@@ -63,13 +69,13 @@ class SceneValidator(SingletonPattern):
         """
         self._possible_next_scene_checker_flag: str = new_scene_name
 
-    def get_current_scene_data(self):
+    def get_current_scene_data(self) -> dict:
         """
         Used in GamePlayDialoguesChoice, GamePlayReading, StageDirector.
         """
         return self._screenplay[self._current_scene_name]
 
-    def get_current_scene_name(self):
+    def get_current_scene_name(self) -> str:
         """
         Used in SaveKeeper, GamePlayDialoguesChoice, SpriteAnimationPause, StageDirector.
         """

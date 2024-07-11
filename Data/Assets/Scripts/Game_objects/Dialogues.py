@@ -6,6 +6,7 @@ from .Background import BackgroundProxy
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
+
 font.init()
 """
 Contains the code for text of dialogues.
@@ -114,34 +115,78 @@ class DialoguesWords(SingletonPattern):
             return x_result, y_result
 
 
-def generate_dialogues():
-    """
-    Generate dict with dialogues.
-    With keys as languages flags and json dictionary as value.
-    """
-    asset_loader: AssetLoader = AssetLoader()
-    result: dict = {}
-    language_flags: tuple = (
-        asset_loader.json_load(
-            [
-                'Scripts',
-                'Json_data',
-                'Dialogues',
-                'dialogues_localizations_data'
-            ]
-        )['language_flags']
-    )
+class DialogueKeeper:
+    def __init__(self):
+        self._dialogues_dict: dict = {}
+        self._generate_dialogues()
 
-    for flag in language_flags:
-        for dialogs_type in ['Reading', 'Choice']:
-            json_values: dict = asset_loader.json_load(
-                [
-                    'Scripts',
-                    'Json_data',
-                    'Dialogues',
-                    dialogs_type,
-                    flag
-                ]
+    def get_dialogues_data(self) -> dict:
+        """
+        Get dict with dialogues.
+        With keys as languages flags and json dictionary as value.
+        """
+        return self._dialogues_dict
+
+    def _generate_dialogues(self):
+        """
+        Generate dict with dialogues.
+        With keys as languages flags and json dictionary as value.
+        """
+        from ..GamePlay.Scene_Validator import SceneValidator
+        screenplay_data: dict = SceneValidator().get_screenplay_data()
+        screenplay_localization_data: tuple[dict] = AssetLoader().csv_load(
+            file_name="screenplay_localization"
+        )
+        language_flags: tuple = tuple(
+            flag
+            for flag in screenplay_localization_data[0]
+            if flag not in (
+                "scene_id",
+                "scene_type",
+                "choice_id"
             )
-            result.setdefault(dialogs_type, {flag: json_values})
-    return result
+        )
+
+        for flag in language_flags:
+            for row in screenplay_localization_data:
+                self._dialogues_dict.setdefault(
+                    row["scene_type"], {}
+                )
+                self._dialogues_dict[row["scene_type"]].setdefault(
+                        flag, {}
+                )
+                scene_data: dict = {}
+                if row["scene_type"] == "reading":
+                    scene_text: list[str] = row[flag].split("::")
+                    scene_data.update(
+                        {
+                            "who": {
+                                "text": scene_text[0],
+                                "color": screenplay_data[row["scene_id"]]
+                                ["speaker_name_color"]
+                            },
+                            "what": {
+                                "text": scene_text[1],
+                                "color": screenplay_data[row["scene_id"]]
+                                ["speech_text_color"]
+                            }
+                        }
+                    )
+
+                elif row["scene_type"] == "choice":
+                    scene_data.update(
+                        {
+                            row["choice_id"]: row[flag]
+                        }
+                    )
+
+                if row["scene_id"] in self._dialogues_dict[row["scene_type"]][flag]\
+                        and row["scene_type"] == "choice":
+                    self._dialogues_dict[row["scene_type"]][flag][row["scene_id"]]\
+                        .update(scene_data)
+                else:
+                    self._dialogues_dict[row["scene_type"]][flag].update(
+                        {
+                            row["scene_id"]: scene_data
+                        }
+                    )
