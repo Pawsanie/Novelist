@@ -116,6 +116,9 @@ class DialoguesWords(SingletonPattern):
 
 
 class DialogueKeeper(SingletonPattern):
+    """
+    Generate and keep dialogues data for gameplay.
+    """
     def __init__(self):
         self._dialogues_dict: dict = {}
         self._generate_dialogues()
