@@ -115,7 +115,7 @@ class DialoguesWords(SingletonPattern):
             return x_result, y_result
 
 
-class DialogueKeeper:
+class DialogueKeeper(SingletonPattern):
     def __init__(self):
         self._dialogues_dict: dict = {}
         self._generate_dialogues()
