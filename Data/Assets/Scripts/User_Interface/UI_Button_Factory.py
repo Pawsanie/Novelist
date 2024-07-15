@@ -115,34 +115,41 @@ def button_generator() -> dict[str, dict[str, BaseButton]]:
     factory: ButtonFactory = ButtonFactory()
     asset_loader: AssetLoader = AssetLoader()
 
-    # localizations instructions from 'ui_buttons_localizations_data.json': UI files and languages for UI.
-    localizations_data: dict[str] = asset_loader.json_load(
-        ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'Localization', 'ui_buttons_localizations_data']
+    # Buttons data:
+    ui_buttons_files: tuple[str] = tuple(
+        asset_loader.json_load(
+            ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'ui_buttons_data']
+        )
     )
-
     # localizations data:
-    ui_buttons_files: tuple[str] = (
-        localizations_data['ui_buttons_files']
-    )
-    localizations: tuple[str] = (
-        localizations_data['localizations']
-    )
+    localizations_data: tuple[dict] = asset_loader.csv_load(
+            file_name='button_menu_localization'
+        )
+    localizations: tuple = tuple(
+            flag
+            for flag in localizations_data[0]
+            if flag != "button_id"
+        )
 
     # All buttons text localizations:
     all_buttons_text_localizations_dict: dict = {}
     for language in localizations:
         all_buttons_text_localizations_dict.update(
             {
-                language: asset_loader.json_load(
-                    ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'Localization', language]
-                )
+                language: {}
             }
         )
+        for row in localizations_data:
+            all_buttons_text_localizations_dict[language].update(
+                {
+                    row["button_id"]: row[language]
+                }
+            )
 
     # User Interface buttons:
     for file_name in ui_buttons_files:
         ui_buttons_json: dict[str] = asset_loader.json_load(
-            ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', file_name]
+            ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', "Buttons_config_files", file_name]
         )
         ui_buttons: dict = {}
         for key in ui_buttons_json:

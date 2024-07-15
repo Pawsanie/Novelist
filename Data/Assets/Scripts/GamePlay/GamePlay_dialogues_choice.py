@@ -4,6 +4,7 @@ from ..User_Interface.UI_Buttons.UI_GamePlay_Choice_Button import GamePlayChoice
 from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Game_objects.Dialogues import DialogueKeeper
+from ..GamePlay.Scene_Validator import SceneValidator
 """
 Contains gameplay of choice code.
 """
@@ -20,9 +21,16 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         self._stage_director: StageDirector = StageDirector()
         self._assets_loader: AssetLoader = AssetLoader()
         self._dialogue_keeper: DialogueKeeper = DialogueKeeper()
+        self._scene_validator: SceneValidator = SceneValidator()
 
         # Gameplay choice buttons settings:
         self._dialogues_buttons: dict = {}
+        self._default_button_image_data: dict = {
+            "type": "gameplay_dialogues_choice",
+            "sprite_name": "dialogues_choice_button",
+            "font": None,
+            "color": "#FFFFFF"
+        }
 
     def _dialogues_choice_buttons_generations(self):
         """
@@ -41,8 +49,8 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
             )
         choice_buttons_text: dict[str] = all_buttons_text_localizations_dict[self._stage_director.language_flag]
         # Generate dialogues choice buttons:
-        dialogues_buttons: dict = {}
         for scene in choice_buttons_text:
+            dialogues_buttons: dict = {}
             if choice_buttons_text[scene] is not False:
                 for index, choice in enumerate(choice_buttons_text[scene]):
                     # Generate text localizations for button:
@@ -54,10 +62,24 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                             }
                         )
                     # Generate sprite data for button:
-                    image_data_dict: dict = self._assets_loader.json_load(
-                        ['Scripts', 'Json_data', 'Dialogues', 'dialogues_choice_buttons']
+                    image_data_dict: dict = self._default_button_image_data.copy()
+                    try:
+                        image_data_dict["color"]: str = self._scene_validator.get_screenplay_data()[
+                            scene
+                        ][
+                            "choices"
+                        ][
+                            choice
+                        ][
+                            "text_color"
+                        ]
+                    except KeyError:
+                        pass
+                    image_data_dict.update(
+                        {
+                            "index_number": index
+                        }
                     )
-                    image_data_dict.update({"index_number": index})
                     # Generate button:
                     dialogues_buttons.update(
                         {
@@ -69,7 +91,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                             )
                         }
                     )
-                    self._dialogues_buttons.setdefault(scene, dialogues_buttons)
+                self._dialogues_buttons.setdefault(scene, dialogues_buttons)
 
     def _button_gameplay_ui_status(self, event):
         """
@@ -102,6 +124,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         Set new choice buttons.
         Call from GameplayAdministrator.
         """
+        self._dialogues_buttons.clear()
         self._dialogues_choice_buttons_generations()
         self._interface_controller.gameplay_choice_buttons = self._dialogues_buttons[
             self._scene_validator.get_current_scene_name()
