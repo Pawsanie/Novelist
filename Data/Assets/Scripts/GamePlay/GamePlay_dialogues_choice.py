@@ -3,6 +3,7 @@ from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Buttons.UI_GamePlay_Choice_Button import GamePlayChoiceButton
 from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..Game_objects.Dialogues import DialogueKeeper
 """
 Contains gameplay of choice code.
 """
@@ -16,8 +17,9 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
     def __init__(self):
         super().__init__()
         # Program layers settings:
-        self.stage_director: StageDirector = StageDirector()
+        self._stage_director: StageDirector = StageDirector()
         self._assets_loader: AssetLoader = AssetLoader()
+        self._dialogue_keeper: DialogueKeeper = DialogueKeeper()
 
         # Gameplay choice buttons settings:
         self._dialogues_buttons: dict = {}
@@ -27,25 +29,17 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         Generate dict with buttons for dialogues choice gameplay.
         This is a nested dictionary of button`s group and an instance of the Button class.
         """
-        # localizations instructions from 'dialogues_localizations_data.json':
-        localizations_data: dict[str] = self._assets_loader.json_load(
-            ['Scripts', 'Json_data', 'Dialogues', 'dialogues_localizations_data']
-        )
         # localizations data:
-        localizations: tuple[str] = (
-            localizations_data['language_flags']
-        )
+        localizations_data: dict[str] = self._dialogue_keeper.get_dialogues_data()['choice']
         # All buttons text localizations:
         all_buttons_text_localizations_dict: dict = {}
-        for language in localizations:
+        for language in localizations_data:
             all_buttons_text_localizations_dict.update(
                 {
-                    language: self._assets_loader.json_load(
-                        ['Scripts', 'Json_data', 'Dialogues', 'Choice', language]
-                    )
+                    language: localizations_data[language]
                 }
             )
-        choice_buttons_text: dict[str] = all_buttons_text_localizations_dict[self.stage_director.language_flag]
+        choice_buttons_text: dict[str] = all_buttons_text_localizations_dict[self._stage_director.language_flag]
         # Generate dialogues choice buttons:
         dialogues_buttons: dict = {}
         for scene in choice_buttons_text:
@@ -90,7 +84,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
             gameplay_ui_buttons: tuple[str, bool] = self._interface_controller.button_clicked_status(event)
             # Clicking a virtual button with a mouse:
             if gameplay_ui_buttons[1] is True:
-                command = gameplay_ui_buttons[0]
+                command: str = gameplay_ui_buttons[0]
                 for choice in choice_data:
                     if command == choice:
                         if choice_data[choice]['branching'] is not False:

@@ -1,6 +1,6 @@
 scene_id	scene_type	choice_id	eng	ru
 test_scene_01	reading	Null	Test Chan::Hello World!	Тестовая Тян::Привет Мир!
-test_scene_02	choice	Choice_01	Go to Scene 01	Перейти к сцене 01
-test_scene_02	choice	Choice_02	ERROR!	ОШИБКА!
-test_scene_02	choice	Choice_03	Go to Scene 03	Перейти к сцене 03
+test_scene_02	choice	choice_01	Go to Scene 01	Перейти к сцене 01
+test_scene_02	choice	choice_02	ERROR!	ОШИБКА!
+test_scene_02	choice	choice_03	Go to Scene 03	Перейти к сцене 03
 test_scene_03	reading	Null	Test Chan::New Scene!	Тестовая Тян::Новая Сцена!

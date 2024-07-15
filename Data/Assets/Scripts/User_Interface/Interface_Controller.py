@@ -105,7 +105,7 @@ class InterfaceController(SingletonPattern):
         if self.gameplay_interface_hidden_status is False:
             gameplay_ui_dict: dict = self.get_ui_buttons_dict()
             for button in gameplay_ui_dict:
-                click_status = gameplay_ui_dict[button].button_clicked_status(event)
+                click_status: bool = gameplay_ui_dict[button].button_clicked_status(event)
                 if click_status is True:
                     return button, True
         return None, False
@@ -119,7 +119,7 @@ class InterfaceController(SingletonPattern):
         if self.gameplay_interface_hidden_status is False:
             gameplay_ui_dict: dict[str, BaseButton] = self.get_ui_buttons_dict()
             for button in gameplay_ui_dict:
-                click_status = gameplay_ui_dict[button].button_click_hold()
+                click_status: bool = gameplay_ui_dict[button].button_click_hold()
                 if click_status is True:
                     return button, True
         return None, False
@@ -132,7 +132,7 @@ class InterfaceController(SingletonPattern):
         """
         gameplay_ui_dict: dict = self.get_ui_buttons_dict()
         for button in gameplay_ui_dict:
-            cursor_position_status = gameplay_ui_dict[button].button_cursor_position_status()
+            cursor_position_status: bool = gameplay_ui_dict[button].button_cursor_position_status()
             if cursor_position_status is True:
                 return True
             else:
