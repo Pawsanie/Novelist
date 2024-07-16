@@ -134,7 +134,11 @@ class AssetLoader(SingletonPattern):
                 encoding="utf-8"
         ) as csvfile:
             return tuple(
-                dict(row)
+                {
+                    column_name: (
+                        lambda row_cell: row_cell.replace('\\n', '\n')
+                    )(row_cell) for column_name, row_cell in row.items()
+                }
                 for (row) in DictReader(
                     f=csvfile,
                     delimiter=delimiter
