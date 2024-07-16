@@ -241,17 +241,19 @@ def menus_text_generator() -> dict[str, dict[str]]:
     result: dict = {}
     asset_loader: AssetLoader = AssetLoader()
 
-    # localizations instructions from 'ui_menu_text_localizations_data.json': menu`s text files and localisation`s data.
-    localizations_data: dict[str] = asset_loader.json_load(
-        ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', 'Localization', 'ui_menu_text_localizations_data']
+    # Menu`s text files instructions:
+    ui_menus_text_files: dict[str] = asset_loader.json_load(
+        ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', 'ui_menu_text_data']
     )
 
     # localizations data:
-    ui_menus_text_files: tuple[str] = (
-        localizations_data['ui_menus_text_files']
+    localizations_data: tuple[dict] = asset_loader.csv_load(
+        file_name="text_menu_localization"
     )
-    localizations: tuple[str] = (
-        localizations_data['localizations']
+    localizations: tuple = tuple(
+        flag
+        for flag in localizations_data[0]
+        if flag != "text_id"
     )
 
     # All menus text localizations:
@@ -259,16 +261,20 @@ def menus_text_generator() -> dict[str, dict[str]]:
     for language in localizations:
         all_menus_text_localizations_dict.update(
             {
-                language: asset_loader.json_load(
-                    ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', 'Localization', language]
-                )
+                language: {}
             }
         )
+        for row in localizations_data:
+            all_menus_text_localizations_dict[language].update(
+                {
+                    row["text_id"]: row[language]
+                }
+            )
 
     # Menu`s texts:
     for file_name in ui_menus_text_files:
         ui_menus_texts_json: dict[str] = asset_loader.json_load(
-            ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', file_name]
+            ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', "Text_config_files", file_name]
         )
         ui_menus_texts: dict = {}
 
