@@ -1,8 +1,10 @@
 from random import randint
+from typing import Callable
 
 from pygame import time
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from .Sprite import Sprite
 """
 Responsible for the code of a pauses between sprite animations.
 """
@@ -13,20 +15,20 @@ class SpriteAnimationPause(SingletonPattern):
     Decorator class which hold self time for animation pause animation tipe switch.
     """
     def __init__(self):
-        self.scene_name: str = ""
+        self._scene_name: str = ""
         self.sprite_collection: dict = {}
 
-    def __call__(self, func):
+    def __call__(self, func: Callable):
         """
         Control animation frame to hold "0" frame between sprite animations.
         """
         def decorated(*args, **kwargs):
             # class method`s 'self.' for in class decorator:
-            decorated_self = args[0]
-            scene_name: str = self.get_scene_name()
+            decorated_self: Sprite = args[0]
+            scene_name: str = self._get_scene_name()
 
-            if self.scene_name != scene_name:
-                self.scene_name = scene_name
+            if self._scene_name != scene_name:
+                self._scene_name = scene_name
                 self.sprite_collection.clear()
                 return func(*args, **kwargs)
 
@@ -44,7 +46,7 @@ class SpriteAnimationPause(SingletonPattern):
                         decorated_self.name,
                         str(decorated_self)
                 )) not in self.sprite_collection.keys():
-                    self.update_scene_sprites(
+                    self._update_scene_sprites(
                         sprite=decorated_self,
                         sprite_name=sprite_name
                     )
@@ -63,14 +65,14 @@ class SpriteAnimationPause(SingletonPattern):
         return decorated
 
     @staticmethod
-    def get_scene_name() -> str:
+    def _get_scene_name() -> str:
         """
         Get scene name.
         """
         from ..GamePlay.Scene_Validator import SceneValidator
         return SceneValidator().get_current_scene_name()
 
-    def update_scene_sprites(self, *, sprite, sprite_name: str):
+    def _update_scene_sprites(self, *, sprite: Sprite, sprite_name: str):
         """
         Update scene animation sprite`s data.
 
