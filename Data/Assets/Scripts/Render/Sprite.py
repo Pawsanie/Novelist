@@ -140,12 +140,14 @@ class Sprite:
                 animation_sprite_sheet.append(
                     frame_image
                 )
-            result.update({
-                animation: {
-                    self.frames: animation_sprite_sheet,
-                    self.time_duration: sprite_sheet_data[animation][self.time_duration]
+            result.update(
+                {
+                    animation: {
+                        self.frames: animation_sprite_sheet,
+                        self.time_duration: sprite_sheet_data[animation][self.time_duration]
+                    }
                 }
-            })
+            )
         return result
 
     def play_animation(self, animation_name: str):
