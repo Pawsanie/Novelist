@@ -1,0 +1,15 @@
+{
+  "sprite_sheet": false,
+  "frames": {
+     "default": {
+       "top_left_corner": {
+         "x": 0,
+         "y": 0
+          },
+       "bottom_right_corner": {
+         "x": 1916,
+         "y": 865
+       }
+     }
+  }
+}
