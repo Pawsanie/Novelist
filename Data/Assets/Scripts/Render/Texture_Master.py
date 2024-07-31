@@ -1,7 +1,8 @@
-from pygame import Surface, transform, SRCALPHA
+from pygame import Surface, SRCALPHA
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Universal_computing.Assets_load import AssetLoader
+from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contains code responsible for collecting and storing textures.
 """
@@ -14,6 +15,7 @@ class TexturesMaster(SingletonPattern):
     def __init__(self):
         # Program layers settings:
         self._asset_loader: AssetLoader = AssetLoader()
+        self._settings_keeper: SettingsKeeper = SettingsKeeper()
 
         # TexturesMaster attributes:
         self._texture_sources: dict = {
@@ -40,9 +42,6 @@ class TexturesMaster(SingletonPattern):
         self._raw_images_catalog.clear()
         # Create gameplay data:
         self.scale()
-
-    def scale(self):
-        ...
 
     def get_texture(self, *, texture_type: str, texture_name: str,
                     animation: str | None = None, frame: int | str) -> Surface:
@@ -208,3 +207,39 @@ class TexturesMaster(SingletonPattern):
                             )
                         }
                     )
+
+    def set_new_scale_frame(self, *, texture_name: str, texture_type: str, frame: int, surface: Surface):
+        """
+        Cash new frame size.
+        :param texture_name: Name of texture image frame.
+        :type texture_type: str
+        :param texture_type: Type of texture image.
+        :type texture_type: str
+        :param frame: Number of frame or statick frame name.
+        :type frame: int | str
+        :param surface: Frame image surface.
+        :type surface: Surface
+        """
+        self._texture_catalog[
+            texture_type
+        ][
+            texture_name
+        ][
+            str(frame)
+        ]: Surface = surface
+
+    def get_texture_size(self, *, texture_name: str, texture_type: str, frame: int) -> tuple[int, int]:
+        """
+        Get texture size from catalog.
+        :param texture_name: Name of texture image frame.
+        :type texture_type: str
+        :param texture_type: Type of texture image.
+        :type texture_type: str
+        :param frame: Number of frame or statick frame name.
+        :type frame: int | str
+        """
+        return self._texture_catalog[texture_type][texture_name][frame].get_width(), \
+            self._texture_catalog[texture_type][texture_name][frame].get_height()
+
+    def scale(self):
+        ...
