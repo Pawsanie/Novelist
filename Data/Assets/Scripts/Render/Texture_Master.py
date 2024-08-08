@@ -54,7 +54,7 @@ class TexturesMaster(SingletonPattern):
         self._create_texture_catalog()
 
     def _create_void_background(self):
-        void_surface: Surface = Surface()
+        void_surface: Surface = Surface((720, 480))
         void_surface.fill((0, 0, 0))
         self._raw_textures_catalog["Backgrounds"].update(
             {
