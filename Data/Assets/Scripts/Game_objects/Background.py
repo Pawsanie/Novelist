@@ -1,114 +1,107 @@
-from pygame import transform, Surface
+from pygame import Surface
 
-from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..Render.Sprite import Sprite
+from ..Universal_computing.Assets_load import AssetLoader
+from ..Render.Texture_Master import TexturesMaster
 """
 Contains code responsible for rendering scenes.
 """
 
 
-class Background:
+class Background(SingletonPattern):
     """
     Load scene image by name and update the scene.
     Can scale scene size to display size.
     """
-    def __init__(self, *, scene_image: Surface):
-        """
-        Set background image.
-        :param scene_image: Image for background.
-        :type scene_image: Surface
-        """
+    def __init__(self):
         # Program layers settings:
         self._settings_keeper: SettingsKeeper = SettingsKeeper()
+        self._asset_loader: AssetLoader = AssetLoader()
+        self._texture_master: TexturesMaster = TexturesMaster()
+        self._display_surface: Surface = self._settings_keeper.get_windows_settings()
+
+        # Background attributes:
+        self._background_name: str | None = None
+        self._background_coordinates: tuple[int, int] = (0, 0)
+        self._background_size: tuple[int, int] = (0, 0)
+        self._sprite: Sprite | None = None
 
         # Background settings:
-        self._display_surface: Surface = self._settings_keeper.get_windows_settings()
-        self.scene_image: Surface = scene_image
-        self.background_coordinates: tuple[int, int] = (0, 0)
+        self._backgrounds_sprites_settings: dict = self._asset_loader.json_load(
+            ["Scripts", "Json_data", "backgrounds_sprites"]
+        )
+        for background_name in self._backgrounds_sprites_settings:
+            self._backgrounds_sprites_settings[background_name].update(
+                {
+                    "sprite_sheet_configuration": self._texture_master.get_texture_configs_data(
+                        texture_type="Backgrounds",
+                        texture_name=self._backgrounds_sprites_settings[background_name]["texture"]
+                    ),
+                    "texture_type": "Backgrounds"
+                }
+            )
 
-        # hold standard image for rescale:
-        self.scene_image_safe: Surface = scene_image
+    def set_background(self, new_background_name: str):
+        """
+        Set new animated ot statick Sprite name for TexturesMaster.
+        :param new_background_name: Name of background for search texture in TexturesMaster.
+        :type new_background_name: str
+        """
+        self._background_name: str = new_background_name
+        self._sprite: Sprite = Sprite(
+            name=self._background_name,
+            texture_mame=self._backgrounds_sprites_settings[self._background_name]["texture_mame"],
+            sprite_sheet_data=self._backgrounds_sprites_settings[
+                self._background_name
+            ]["sprite_sheet_configuration"]
+        )
+
+    def kill(self):
+        self._background_name: str = "void"
+
+    def get_sprite(self) -> Sprite:
+        return self._sprite
+
+    def get_coordinates(self) -> tuple[int, int]:
+        return self._background_coordinates
+
+    def get_size(self) -> tuple[int, int]:
+        return self._background_size
 
     def scale(self):
         """
         Sets the size and coordinates of the background.
         Call from StageDirector.
         """
+        background_texture_size: tuple[int, int] = self._texture_master.get_texture_size(
+            texture_name=self._backgrounds_sprites_settings[self._background_name],
+            texture_type="Backgrounds",
+            frame=self._sprite.get_frame_number()
+        )
+        if self._background_size == background_texture_size:
+            return
+        background_texture_size_width, background_texture_size_height = background_texture_size
+
         # Calculate scale coefficient:
         coefficient: int | float = min(
-            self._display_surface.get_width() / self.scene_image_safe.get_width(),
-            self._display_surface.get_height() / self.scene_image_safe.get_height()
+            self._display_surface.get_width() / background_texture_size_width,
+            self._display_surface.get_height() / background_texture_size_height
         )
         # Set background sprite size:
-        scene_image: Surface = self.scene_image_safe
-        self.scene_image: Surface = transform.scale(
-            scene_image,
-            (
-                int(self.scene_image_safe.get_width() * coefficient),
-                int(self.scene_image_safe.get_height() * coefficient)
+        self._background_size: tuple[int, int] = (
+                int(background_texture_size_width * coefficient),
+                int(background_texture_size_height * coefficient)
             )
+        self._texture_master.set_new_scale_frame(
+            texture_name=self._backgrounds_sprites_settings[self._background_name],
+            texture_type="Backgrounds",
+            frame=self._sprite.get_frame_number(),
+            image_size=self._background_size
         )
         # Calculate coordinates:
-        render_coordinates: tuple[int, int] = (
-            (self._display_surface.get_width() - self.scene_image.get_width()) // 2,
-            (self._display_surface.get_height() - self.scene_image.get_height()) // 2
+        self._background_coordinates: tuple[int, int] = (
+            (self._display_surface.get_width() - self._background_size[0]) // 2,
+            (self._display_surface.get_height() - self._background_size[1]) // 2
         )
-        # Set background sprite coordinates:
-        self.background_coordinates: tuple[int, int] = render_coordinates
-
-
-def backgrounds_generator() -> dict[str, Background]:
-    """
-    Generate dict with names of backgrounds and their sprites, for StageDirector.
-    :return: Dict wth names of backgrounds and their sprites.
-    """
-    asset_loader: AssetLoader = AssetLoader()
-    result: dict = {}
-    backgrounds_list: dict = asset_loader.json_load(
-        ['Scripts', 'Json_data', 'backgrounds_sprites']
-    )
-    for location in backgrounds_list:
-        sprite: Surface = asset_loader.image_load(
-            art_name=backgrounds_list[location],
-            asset_type='Backgrounds'
-        )
-        result.update(
-            {
-                location: Background(
-                    scene_image=sprite
-                )
-            }
-        )
-    return result
-
-
-class BackgroundProxy(Background, SingletonPattern):
-    """
-    Proxy Pattern object:
-    Blank for images surface scale.
-    """
-    def __init__(self):
-        super().__init__(
-            scene_image=Surface((100, 100))
-        )
-
-    def get_data(self) -> tuple[Surface, tuple[int, int]]:
-        """
-        Calculation background size and return it Surface object.
-        Calculation background coordinates and return it too.
-        Call from StageDirector.
-        :return: Background surface and coordinates.
-        """
-        self.scale()
-        return self.scene_image, self.background_coordinates
-
-    def set_new_image(self, *, new_image: Surface):
-        """
-        Set new image to safe place for scale.
-        Call from StageDirector.
-        :param new_image: Surface with image.
-        :type new_image: Surface
-        """
-        self.scene_image_safe: Surface = new_image
-        self.scene_image: Surface = new_image

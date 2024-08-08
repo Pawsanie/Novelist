@@ -2,7 +2,7 @@ from pygame import font, Surface
 
 from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Surface_size import surface_size
-from .Background import BackgroundProxy
+from .Background import Background
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
@@ -25,7 +25,7 @@ class DialoguesWords(SingletonPattern):
         :type font_name: str | None
         """
         # Program layers settings:
-        self.background_surface: BackgroundProxy = BackgroundProxy()
+        self.background_surface: Background = Background()
         self.screen: Surface = SettingsKeeper().screen
         self.text_canvas: TextCanvas = TextCanvas()
         self._asset_loader: AssetLoader = AssetLoader()
@@ -66,14 +66,15 @@ class DialoguesWords(SingletonPattern):
         :type text_type: str
         :return: tuple[pygame.Rect, tuple[int, int]]
         """
-        backgrounds_surface: Surface = self.background_surface.get_data()[0]
+        background_size: tuple[int, int] = self.background_surface.get_size()
+        background_height: int = background_size[1]
         if text_type == 'speaker':
-            self.font_size: int = backgrounds_surface.get_height() // 40
+            self.font_size: int = background_height // 40
             self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(
                 text_type='name'
             )
         if text_type == 'words':
-            self.font_size: int = backgrounds_surface.get_height() // 50
+            self.font_size: int = background_height // 50
             self.font_coordinates: tuple[int, int] = self.character_speech_text_coordinates(
                 text_type='speech'
             )
@@ -98,7 +99,7 @@ class DialoguesWords(SingletonPattern):
 
         x_result: int = (
                 (text_canvas_size_x // 100) * 30
-                + self.background_surface.background_coordinates[0]
+                + self.background_surface.get_coordinates()[0]
         )
         if text_type == 'speech':
             y_result: int = (

@@ -1,5 +1,4 @@
 from .UI_Base_Button import BaseButton
-from ...Universal_computing.Surface_size import surface_size
 """
 Contents code for user interface 'gameplay reading' buttons.
 """
@@ -81,9 +80,7 @@ class GamePlayReadingButton(BaseButton):
 
         :return: Tuple with x and y sizes of button`s surface.
         """
-        background_surface_size: tuple[int, int] = surface_size(
-            interested_surface=self.background.get_data()[0]
-        )
+        background_surface_size: tuple[int, int] = self.background.get_size()
         background_size_x, background_size_y = background_surface_size
 
         side_of_the_square: int = int(background_size_y / 100 * 4.17)

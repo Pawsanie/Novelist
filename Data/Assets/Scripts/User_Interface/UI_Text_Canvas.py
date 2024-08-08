@@ -2,7 +2,7 @@ from pygame import Surface, SRCALPHA, transform
 
 from ..Universal_computing.Assets_load import AssetLoader
 from ..Universal_computing.Surface_size import surface_size
-from ..Game_objects.Background import BackgroundProxy
+from ..Game_objects.Background import Background
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 """
@@ -16,7 +16,7 @@ class TextCanvas(SingletonPattern):
     """
     def __init__(self):
         # Program layers settings:
-        self.background_surface: BackgroundProxy = BackgroundProxy()
+        self._background: Background = Background()
         self.screen: Surface = SettingsKeeper().screen
 
         # Text canvas settings:
@@ -32,10 +32,11 @@ class TextCanvas(SingletonPattern):
         """
         Generate text canvas surface with coordinates.
         """
-        background_surface: Surface = self.background_surface.get_data()[0]
+        background_size: tuple[int, int] = self._background.get_size()
+        background_width, background_height = background_size
         # Text canvas surface:
         self.text_canvas_surface: Surface = Surface(
-            (background_surface.get_width(), background_surface.get_height() // 5), SRCALPHA
+            (background_width, background_height // 5), SRCALPHA
         )
         canvas_sprite: Surface = transform.scale(
             self.canvas_safe, surface_size(self.text_canvas_surface)
@@ -44,9 +45,9 @@ class TextCanvas(SingletonPattern):
 
         # Text canvas coordinates:
         self.text_canvas_coordinates: tuple[int, int] = (
-            self.background_surface.background_coordinates[0],
+            self.background_surface.get_coordinates()[0],
 
             (self.screen.get_height() // 2)
-            + (background_surface.get_height() // 2)
+            + (background_height // 2)
             - surface_size(self.text_canvas_surface)[1]
         )

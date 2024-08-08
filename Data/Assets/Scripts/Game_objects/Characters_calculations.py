@@ -1,7 +1,7 @@
 from pygame import Surface
 
 from ..Universal_computing.Surface_size import surface_size
-from .Background import BackgroundProxy
+from .Background import Background
 """
 Contains the code for characters computing.
 """
@@ -25,9 +25,9 @@ def character_sprite_size(character_surface: Surface) -> tuple[int, int]:
     :return: Tuple with x and y sizes for character`s images.
              These sizes depends of main frame size.
     """
-    background_surface: BackgroundProxy = BackgroundProxy()
+    background_surface: Background = Background()
     result_size_x, result_size_y = (0, 0)
-    screen_size: tuple[int, int] = surface_size(background_surface.get_data()[0])
+    screen_size: tuple[int, int] = background_surface.get_size()
     sprite_size: tuple[int, int] = surface_size(character_surface)
 
     if sprite_size[1] != screen_size[1]:

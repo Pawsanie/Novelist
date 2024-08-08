@@ -1,7 +1,6 @@
 from pygame import Surface
 
 from .UI_Base_Button import BaseButton
-from ...Universal_computing.Surface_size import surface_size
 """
 Contents code for user interface 'Save | Load cell`s' buttons.
 """
@@ -88,9 +87,7 @@ class SaveLoadCellButton(BaseButton):
 
         :return: Tuple with x and y sizes of button`s surface.
         """
-        background_surface_size: tuple[int, int] = surface_size(
-            interested_surface=self.background.get_data()[0]
-        )
+        background_surface_size: tuple[int, int] = self.background.get_size()
         background_size_x, background_size_y = background_surface_size
 
         # X:

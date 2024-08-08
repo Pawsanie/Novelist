@@ -2,7 +2,7 @@ from pygame import Surface, font, SRCALPHA, transform
 
 from ..Universal_computing.Assets_load import AssetLoader
 from ..Application_layer.Settings_Keeper import SettingsKeeper
-from ..Game_objects.Background import BackgroundProxy
+from ..Game_objects.Background import Background
 """
 Contents code for menus text keeper.
 """
@@ -52,7 +52,7 @@ class MenuText:
         """
         # Program layers settings:
         self._asset_loader: AssetLoader = AssetLoader()
-        self.background: BackgroundProxy = BackgroundProxy()
+        self.background: Background = Background()
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
 
         # Arguments processing:
@@ -98,10 +98,12 @@ class MenuText:
         """
         Set text Surface size.
         """
-        background_surface = self.background.get_data()[0]
+        background_size: tuple[int, int] = self.background.get_size()
+        background_width, background_height = background_size
+
         self.menu_text_surface_size: tuple[int, int] = (
-            (background_surface.get_width() // 3),
-            (background_surface.get_height() // 3)
+            (background_width // 3),
+            (background_height // 3)
         )
 
     def yes_no_menu_text_coordinates(self):
@@ -185,7 +187,7 @@ class MenuText:
         # Localization menu text:
         self.localization_menu_text()
         self.font_size: int = int(
-            self.background.get_data()[0].get_height() // 50
+            self.background.get_size()[1] // 50
             * self.menu_text_factor
         )
 

@@ -1,6 +1,6 @@
 {
   "sprite_sheet": false,
-  "frames": {
+  "statick_frames": {
      "black": {
        "top_left_corner": {
          "x": 25,

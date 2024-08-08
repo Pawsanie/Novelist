@@ -1,8 +1,7 @@
-from pygame import Surface, SRCALPHA
+from pygame import Surface, SRCALPHA, transform
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Universal_computing.Assets_load import AssetLoader
-from ..Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contains code responsible for collecting and storing textures.
 """
@@ -15,7 +14,6 @@ class TexturesMaster(SingletonPattern):
     def __init__(self):
         # Program layers settings:
         self._asset_loader: AssetLoader = AssetLoader()
-        self._settings_keeper: SettingsKeeper = SettingsKeeper()
 
         # TexturesMaster attributes:
         self._texture_sources: dict = {
@@ -31,17 +29,42 @@ class TexturesMaster(SingletonPattern):
         # TexturesMaster settings:
         self.__initialisation()
 
+    def get_texture_configs_data(self, *, texture_name: str, texture_type: str) -> dict:
+        """
+        Get texture configuration data.
+        Use in Sprites.
+        :param texture_name: Name of texture which data you want to get.
+        :type texture_name: str
+        :param texture_type: Type of texture which data you want to get.
+        :type texture_type: str
+        :return: Texture data dictionary.
+        """
+        return self._texture_configs_catalog[texture_type][texture_name]
+
     def __initialisation(self):
         """
         Collect raw texture data and create sprite sheets.
         """
-        # Collect raw data:
         self._collect_texture_configurations()
         self._collect_raw_images()
         self._create_raw_sprite_sheet_frames()
         self._raw_images_catalog.clear()
-        # Create gameplay data:
-        self.scale()
+        self._create_void_background()
+
+        self._create_texture_catalog()
+
+    def _create_void_background(self):
+        void_surface: Surface = Surface()
+        void_surface.fill((0, 0, 0))
+        self._raw_textures_catalog["Backgrounds"].update(
+            {
+                "void": void_surface
+            }
+        )
+
+    def _create_texture_catalog(self):
+        # TODO: optimisation_scale
+        self._texture_catalog: dict = self._raw_textures_catalog.copy()
 
     def get_texture(self, *, texture_type: str, texture_name: str,
                     animation: str | None = None, frame: int | str) -> Surface:
@@ -203,12 +226,12 @@ class TexturesMaster(SingletonPattern):
                         {
                             "frames": __get_frames(
                                 texture_type_name=texture_type,
-                                frames=texture_data["frames"]
+                                frames=texture_data["statick_frames"]
                             )
                         }
                     )
 
-    def set_new_scale_frame(self, *, texture_name: str, texture_type: str, frame: int, surface: Surface):
+    def set_new_scale_frame(self, *, texture_name: str, texture_type: str, frame: int, image_size: tuple[int, int]):
         """
         Cash new frame size.
         :param texture_name: Name of texture image frame.
@@ -217,16 +240,27 @@ class TexturesMaster(SingletonPattern):
         :type texture_type: str
         :param frame: Number of frame or statick frame name.
         :type frame: int | str
-        :param surface: Frame image surface.
-        :type surface: Surface
+        :param image_size: Frame image surface.
+        :type image_size: tuple[int, int]
         """
+        image_surface: Surface = transform.scale(
+            self._texture_catalog[
+                texture_type
+            ][
+                texture_name
+            ][
+                str(frame)
+            ],
+            image_size
+        )
+
         self._texture_catalog[
             texture_type
         ][
             texture_name
         ][
             str(frame)
-        ]: Surface = surface
+        ]: Surface = image_surface
 
     def get_texture_size(self, *, texture_name: str, texture_type: str, frame: int) -> tuple[int, int]:
         """
@@ -240,6 +274,3 @@ class TexturesMaster(SingletonPattern):
         """
         return self._texture_catalog[texture_type][texture_name][frame].get_width(), \
             self._texture_catalog[texture_type][texture_name][frame].get_height()
-
-    def scale(self):
-        ...

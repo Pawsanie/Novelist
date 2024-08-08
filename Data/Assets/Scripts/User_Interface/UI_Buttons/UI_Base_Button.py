@@ -5,7 +5,7 @@ from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP, dra
 
 from ...Universal_computing.Assets_load import AssetLoader
 from ...Universal_computing.Surface_size import surface_size
-from ...Game_objects.Background import BackgroundProxy
+from ...Game_objects.Background import Background
 from ...Application_layer.Settings_Keeper import SettingsKeeper
 """
 Contents code for user interface buttons.
@@ -59,7 +59,7 @@ class BaseButton(ABC):
         self._assets_loader: AssetLoader = AssetLoader()
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
 
-        self.background: BackgroundProxy = BackgroundProxy()
+        self.background: Background = Background()
         self.button_name: str = button_name
         self.button_text: str | None = button_text
         self.language_flag: str = self.settings_keeper.text_language
@@ -128,7 +128,7 @@ class BaseButton(ABC):
         Scale button surface, with background context.
         """
         # Arg parse:
-        background_surface: Surface = self.background.get_data()[0]
+        # background_surface: Surface = self.background.get_data()[0]
         select_frame_fatness: int = max(
             int(
                 min(
@@ -208,11 +208,7 @@ class BaseButton(ABC):
         """
         Calculate background surface size.
         """
-        background_data = self.background.get_data()
-        background_surface: Surface = background_data[0]
-
-        background_surface_size: list[int, int] = surface_size(interested_surface=background_surface)
-        return background_surface_size
+        return list(self.background.get_size())
 
     def localization_button_text(self):
         """
@@ -230,7 +226,7 @@ class BaseButton(ABC):
         if self.button_text_localization_dict is not None:
             self.localization_button_text()
 
-        self.font_size: int = self.background.get_data()[0].get_height() // 50
+        self.font_size: int = self.background.get_size()[1] // 50
 
         # Font reload for size scale:
         if self.font_name is None:
