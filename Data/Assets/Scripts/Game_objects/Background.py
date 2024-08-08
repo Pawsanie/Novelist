@@ -58,8 +58,8 @@ class Background(SingletonPattern):
             ]["sprite_sheet_configuration"]
         )
 
-    def kill(self):
-        self._background_name: str = "void"
+    def devnull(self):
+        self._background_name: None = None
 
     def get_sprite(self) -> Sprite:
         return self._sprite

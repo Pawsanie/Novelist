@@ -58,13 +58,18 @@ class TexturesMaster(SingletonPattern):
         void_surface.fill((0, 0, 0))
         self._raw_textures_catalog["Backgrounds"].update(
             {
-                "void": void_surface
+                None: {
+                    "frames": {
+                        None: void_surface
+                    }
+                }
             }
         )
 
     def _create_texture_catalog(self):
         # TODO: optimisation_scale
         self._texture_catalog: dict = self._raw_textures_catalog.copy()
+        print(self._texture_catalog)
 
     def get_texture(self, *, texture_type: str, texture_name: str,
                     animation: str | None = None, frame: int | str) -> Surface:
