@@ -69,7 +69,6 @@ class TexturesMaster(SingletonPattern):
     def _create_texture_catalog(self):
         # TODO: optimisation_scale
         self._texture_catalog: dict = self._raw_textures_catalog.copy()
-        print(self._texture_catalog)
 
     def get_texture(self, *, texture_type: str, texture_name: str,
                     animation: str | None = None, frame: int | str) -> Surface:
@@ -236,7 +235,8 @@ class TexturesMaster(SingletonPattern):
                         }
                     )
 
-    def set_new_scale_frame(self, *, texture_name: str, texture_type: str, frame: int, image_size: tuple[int, int]):
+    def set_new_scale_frame(self, *, texture_name: str, texture_type: str, frame: int,
+                            image_size: tuple[int, int], animation_name: str = "statick_frames"):
         """
         Cash new frame size.
         :param texture_name: Name of texture image frame.
@@ -247,12 +247,16 @@ class TexturesMaster(SingletonPattern):
         :type frame: int | str
         :param image_size: Frame image surface.
         :type image_size: tuple[int, int]
+        :param animation_name: Name of animation for non statick textures.
+        :type animation_name: str
         """
         image_surface: Surface = transform.scale(
             self._texture_catalog[
                 texture_type
             ][
                 texture_name
+            ][
+                animation_name
             ][
                 str(frame)
             ],
@@ -264,10 +268,13 @@ class TexturesMaster(SingletonPattern):
         ][
             texture_name
         ][
+            animation_name
+        ][
             str(frame)
         ]: Surface = image_surface
 
-    def get_texture_size(self, *, texture_name: str, texture_type: str, frame: int) -> tuple[int, int]:
+    def get_texture_size(self, *, texture_name: str, texture_type: str,
+                         frame: int, animation_name: str = "statick_frames") -> tuple[int, int]:
         """
         Get texture size from catalog.
         :param texture_name: Name of texture image frame.
@@ -276,6 +283,8 @@ class TexturesMaster(SingletonPattern):
         :type texture_type: str
         :param frame: Number of frame or statick frame name.
         :type frame: int | str
+        :param animation_name: Name of animation for non statick textures.
+        :type animation_name: str
         """
-        return self._texture_catalog[texture_type][texture_name][frame].get_width(), \
-            self._texture_catalog[texture_type][texture_name][frame].get_height()
+        return self._texture_catalog[texture_type][texture_name][animation_name][str(frame)].get_width(), \
+            self._texture_catalog[texture_type][texture_name][animation_name][str(frame)].get_height()

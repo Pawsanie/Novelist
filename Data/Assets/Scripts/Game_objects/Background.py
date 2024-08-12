@@ -78,6 +78,7 @@ class Background(SingletonPattern):
         background_texture_size: tuple[int, int] = self._texture_master.get_texture_size(
             texture_name=self._backgrounds_sprites_settings[self._background_name],
             texture_type="Backgrounds",
+            animation_name=self._sprite.get_animation_name(),
             frame=self._sprite.get_frame_number()
         )
         if self._background_size == background_texture_size:
@@ -97,6 +98,7 @@ class Background(SingletonPattern):
         self._texture_master.set_new_scale_frame(
             texture_name=self._backgrounds_sprites_settings[self._background_name],
             texture_type="Backgrounds",
+            animation_name=self._sprite.get_animation_name(),
             frame=self._sprite.get_frame_number(),
             image_size=self._background_size
         )

@@ -1,6 +1,7 @@
+from random import randint
+
 from pygame import Surface, time
 
-from .Sprite_animation_pause import SpriteAnimationPause
 from .Texture_Master import TexturesMaster
 """
 Responsible for the code of a sprites used in rendering.
@@ -40,10 +41,14 @@ class Sprite:
         self._image_size: tuple[int, int] = (0, 0)
 
         # Sprite sheet animation data:
-        self._animation_name: str | None = None
-        self._statick_frame_key: int | None = None
-        self._last_frame_number: int = -1
-        self._sprite_sheet_frame: int = 0
+        self._animation_name: str = list(
+                self._sprite_sheet_data.keys()
+            )[0]
+        self._sprite_sheet_frame: int = 1
+        self._pause_duration: int = 0
+
+        # Render settings:
+        self._scene_name: str | None = None
 
     def blit(self, any_surface: Surface):
         """
@@ -52,23 +57,22 @@ class Sprite:
         :type any_surface: Surface
         """
         self._sprite_sheet_next_frame()
+        universal_parameters: dict = {
+            "texture_type": self._sprite_sheet_data["texture_type"],
+            "texture_name": self._texture_id,
+            "animation_name": self._animation_name,
+            "frame": self._sprite_sheet_frame
+        }
         if self._texture_master.get_texture_size(
-                texture_type=self._sprite_sheet_data["texture_type"],
-                texture_name=self._texture_id,
-                frame=self._sprite_sheet_frame
+                **universal_parameters
         ) != self._image_size:
             self._texture_master.set_new_scale_frame(
-                texture_type=self._sprite_sheet_data["texture_type"],
-                texture_name=self._texture_id,
-                frame=self._sprite_sheet_frame,
+                **universal_parameters,
                 image_size=self._image_size
             )
 
         self._texture_master.get_texture(
-            texture_type=self._sprite_sheet_data["texture_type"],
-            texture_name=self._texture_id,
-            animation=self._animation_name,
-            frame=self._sprite_sheet_frame
+            **universal_parameters
         ).blit(any_surface, self._coordinates)
 
     def _sprite_sheet_next_frame(self):
@@ -83,35 +87,51 @@ class Sprite:
                 self._sprite_sheet_data.keys()
             )[0]
 
-        if self._statick_frame_key is None:
+        if self._animation_name != "statick_frames":
             self._sprite_sheet_frame: int = self.get_frame_number()
         else:
-            self._sprite_sheet_frame: int = self._statick_frame_key - 1
+            self._sprite_sheet_frame: int = self._sprite_sheet_frame - 1
 
-    @SpriteAnimationPause()
+    @staticmethod
+    def _get_scene_name() -> str:
+        """
+        Get scene name.
+        """
+        from ..GamePlay.Scene_Validator import SceneValidator
+        return SceneValidator().get_current_scene_name()
+
+    def get_animation_name(self):
+        return self._animation_name
+
     def get_frame_number(self) -> int:
         """
         Get step for sprite sheet frame swap.
         :result: int
         """
-        if (time.get_ticks() - self._frame_time) / 1000 >= (
+        # Statick frame:
+        if self._animation_name == "statick_frames":
+            return self._sprite_sheet_frame
+
+        # Animation frame:
+        current_time_frame: int = time.get_ticks()
+
+        if (current_time_frame - self._frame_time) / 1000 >= self._pause_duration:
+            self._frame_time: int = current_time_frame
+            return self._sprite_sheet_frame
+
+        if (current_time_frame - self._frame_time) / 1000 >= (
                 self._sprite_sheet_data[self._animation_name]["time_duration"]
                 / len(self._sprite_sheet_data[self._animation_name]["frames"])
         ):
-            self._frame_time: int = time.get_ticks()
-            if self._last_frame_number + 1 <= len(
-                    self._sprite_sheet_data[self._animation_name]["frames"]
-            ) - 1:
-                self._last_frame_number += 1
+            self._frame_time: int = current_time_frame
+            if self._sprite_sheet_frame + 1 <= len(
+                        self._sprite_sheet_data[self._animation_name]["frames"]
+            ):
+                self._sprite_sheet_frame += 1
             else:
-                self._last_frame_number: int = 0
-
-        # TODO: SpriteAnimationPause call "-1" frame stabilisation:
-        # TODO: Think about how to move it to SpriteAnimationPause class...
-        if self._last_frame_number < 0:
-            self._last_frame_number: int = 0
-
-        return self._last_frame_number
+                self._sprite_sheet_frame: int = 1
+                self._pause_duration: int = randint(2, 5)
+        return self._sprite_sheet_frame
 
     def scale(self, size: tuple[int, int]):
         """
