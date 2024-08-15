@@ -228,7 +228,7 @@ class TexturesMaster(SingletonPattern):
                 else:
                     self._raw_textures_catalog[texture_type][texture_name].update(
                         {
-                            "frames": __get_frames(
+                            "statick_frames": __get_frames(
                                 texture_type_name=texture_type,
                                 frames=texture_data["statick_frames"]
                             )

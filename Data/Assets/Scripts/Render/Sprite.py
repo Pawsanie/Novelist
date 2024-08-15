@@ -33,22 +33,36 @@ class Sprite:
         self._layer: int = layer
         self._coordinates: tuple[int, int] = coordinates
         self._texture_id: str = texture_mame
+        self._sprite_sheet_data: dict | None = sprite_sheet_data
 
         # Other settings:
         self._frame_time: int = time.get_ticks()
-
-        self._sprite_sheet_data: dict | None = sprite_sheet_data
         self._image_size: tuple[int, int] = (0, 0)
 
         # Sprite sheet animation data:
-        self._animation_name: str = list(
-                self._sprite_sheet_data.keys()
-            )[0]
-        self._sprite_sheet_frame: int = 1
+        self._animation_name: str = self._get_default_animation_name()
+        self._sprite_sheet_frame: int | str = self._get_sprite_frame_name()
         self._pause_duration: int = 0
 
         # Render settings:
         self._scene_name: str | None = None
+
+    def _get_default_animation_name(self) -> str:
+        if self._sprite_sheet_data["sprite_sheet"] is False:
+            return "statick_frames"
+        else:
+            return list(
+                    self._sprite_sheet_data["animations"].keys()
+                )[0]
+
+    def _get_sprite_frame_name(self) -> int | str:
+        if self._animation_name == "statick_frames":
+            result: str = list(self._sprite_sheet_data[
+                "statick_frames"
+            ].keys())[0]
+        else:
+            result: int = 1
+        return result
 
     def blit(self, any_surface: Surface):
         """
@@ -87,10 +101,10 @@ class Sprite:
                 self._sprite_sheet_data.keys()
             )[0]
 
-        if self._animation_name != "statick_frames":
-            self._sprite_sheet_frame: int = self.get_frame_number()
-        else:
-            self._sprite_sheet_frame: int = self._sprite_sheet_frame - 1
+        if self._animation_name == "statick_frames":
+            return
+
+        self._sprite_sheet_frame: int = self.get_frame_number()
 
     @staticmethod
     def _get_scene_name() -> str:

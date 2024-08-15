@@ -258,37 +258,15 @@ def characters_generator() -> dict[str, Character]:
                 character["texture"]
             ]
         )
-
-        # Animated Sprite:
-        if "sprite_sheet" in sprite_sheet_data and sprite_sheet_data['sprite_sheet'] is True:
-            result.update(
-                {
-                    str(character_name): Character(
-                        character_texture_mame=character['texture'],
-                        sprite_sheet_data=sprite_sheet_data['animations'],
-                        poses=character['animations'],
-                        animation=True,
-                        name=character_name
-                    )
-                }
-            )
-
-        # Statick Sprite:
-        else:
-            result.update(
-                {
-                    str(character_name): Character(
-                        character_texture_mame=character['texture'],
-                        sprite_sheet_data={
-                                'statick_frames': {
-                                    "frames": character['texture'],
-                                    "time_duration": None
-                                }
-                        },
-                        poses=character['animations'],
-                        name=character_name
-                    )
-                }
-            )
-
+        result.update(
+            {
+                str(character_name): Character(
+                    character_texture_mame=character['texture'],
+                    sprite_sheet_data=sprite_sheet_data,
+                    poses=character['animations'],
+                    animation=sprite_sheet_data["sprite_sheet"],
+                    name=character_name
+                )
+            }
+        )
     return result
