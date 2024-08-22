@@ -57,10 +57,9 @@ class SaveLoadCellButton(BaseButton):
         """
         Coordinates for save menu and load menu Save Cells buttons.
         """
-        row, column = self.button_image_data['index_number']
-        background: tuple[Surface, tuple[int, int]] = self.background.get_data()
-        background_width, background_x = background[0].get_width(), background[1][0]
-        background_height, background_y = background[0].get_height(), background[1][1]
+        row, column = self._button_sprite_data['index_number']
+        background_width, background_height = self._background.get_size()
+        background_x, background_y = self._background.get_coordinates()
 
         # X:
         button_coordinates_x: int = int(
@@ -79,7 +78,7 @@ class SaveLoadCellButton(BaseButton):
                 - (self.button_size[1] * 2.5)
         )
 
-        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+        self._button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def get_button_size(self) -> tuple[int, int]:
         """
@@ -87,7 +86,7 @@ class SaveLoadCellButton(BaseButton):
 
         :return: Tuple with x and y sizes of button`s surface.
         """
-        background_surface_size: tuple[int, int] = self.background.get_size()
+        background_surface_size: tuple[int, int] = self._background.get_size()
         background_size_x, background_size_y = background_surface_size
 
         # X:

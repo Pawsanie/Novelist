@@ -7,6 +7,7 @@ from ...Universal_computing.Assets_load import AssetLoader
 from ...Universal_computing.Surface_size import surface_size
 from ...Game_objects.Background import Background
 from ...Application_layer.Settings_Keeper import SettingsKeeper
+from ...Render.Sprite import Sprite
 """
 Contents code for user interface buttons.
 Path of code of user interface buttons in 'UI_buttons_calculations.py' file...
@@ -16,12 +17,11 @@ Path of code of user interface buttons in 'UI_buttons_calculations.py' file...
 class BaseButton(ABC):
     """
     Generate interface button surface and coordinates for render.
-
     Instances are created from button_generator function by InterfaceController class.
     """
     # Tuple with RBG for button select render:
-    button_selected_color: tuple[int] = (100, 0, 0)
-    select_frame_color: tuple[int] = (48, 213, 200)
+    _button_selected_color: tuple[int] = (100, 0, 0)
+    _select_frame_color: tuple[int] = (48, 213, 200)
 
     def __init__(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],
                  button_text_localization_dict: dict[str] | None = None, have_real_path: bool = False,
@@ -57,71 +57,80 @@ class BaseButton(ABC):
         """
         # Program layers settings:
         self._assets_loader: AssetLoader = AssetLoader()
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
+        self._settings_keeper: SettingsKeeper = SettingsKeeper()
 
-        self.background: Background = Background()
-        self.button_name: str = button_name
-        self.button_text: str | None = button_text
-        self.language_flag: str = self.settings_keeper.text_language
-        self.button_text_localization_dict: dict[str] | None = button_text_localization_dict
-        if self.button_text_localization_dict is not None:
-            self.localization_button_text()
-        self.button_image_data: dict[str | int] = button_image_data
+        # Game scene objects settings:
+        self._background: Background = Background()
 
-        self.text_offset_x: int | float = text_offset_x
-        self.text_offset_y: int | float = text_offset_y
-
+        # Button settings:
+        self._button_name: str = button_name
         self.select: bool = False
 
-        # Generate button image:
+        # Button Sprite:
+        self._button_sprite_data: dict[str | int] = button_image_data
+        self._button_coordinates: tuple[int, int] = (0, 0)
+        self.button_size: tuple[int, int] = self.get_button_size()
+
         if have_real_path is False:
             self.button_sprite_standard: Surface = self._assets_loader.image_load(
-                art_name=str(self.button_image_data['sprite_name']),
+                art_name=str(self._button_sprite_data['sprite_name']),
                 asset_type='User_Interface',
                 file_catalog='Buttons'
             )
         else:  # TODO: Simplify this block...
             self.button_sprite_standard: Surface = self._assets_loader.image_load(
-                art_name=str(self.button_image_data['sprite_name']),
-                asset_type=str(self.button_image_data['sprite_name']).split(sep)[-3],
+                art_name=str(self._button_sprite_data['sprite_name']),
+                asset_type=str(self._button_sprite_data['sprite_name']).split(sep)[-3],
                 art_name_is_path=True
 
             )
-        self.button_sprite: Surface = self.button_sprite_standard
+        # self.button_sprite: Sprite = Sprite(
+        #     layer=,
+        #     coordinates=
+        # )
 
-        # Generate button surface:
-        self.button_size: tuple[int, int] = self.get_button_size()
-        self.button_surface: Surface = Surface(self.button_size, SRCALPHA)
+        # Button text settings:
+        self._language_flag: str = self._settings_keeper.text_language
+        self._button_text_localization_dict: dict[str] | None = button_text_localization_dict
 
-        # Generate button coordinates:
-        self.button_coordinates: tuple[int, int] = (0, 0)
+        if self._button_text_localization_dict is not None:
+            self._localization_button_text()
+        self._button_text: str | None = button_text
+        self._text_offset_x: int | float = text_offset_x
+        self._text_offset_y: int | float = text_offset_y
 
-        # Button image render:
-        self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
-        self.button_surface.blit(self.button_sprite, (0, 0))
-
-        # Button text:
-        if self.button_text is not None:
-            self.font_size: int = 0
-            self.text_color: str = str(self.button_image_data['color'])
-            if self.button_image_data['font'] is not None:
-                self.font_name: str = str(self.button_image_data['font'])
-                self.set_button_font: font.Font = self._assets_loader.font_load(
-                    font_name=self.font_name,
-                    font_size=self.font_size
+        if self._button_text is not None:
+            self._font_size: int = 0
+            self._text_color: str = str(self._button_sprite_data['color'])
+            if self._button_sprite_data['font'] is not None:
+                self._font_name: str = str(self._button_sprite_data['font'])
+                self._set_button_font: font.Font = self._assets_loader.font_load(
+                    font_name=self._font_name,
+                    font_size=self._font_size
                 )
             else:
-                self.font_name: None = None
-                self.set_button_font: font.Font = font.Font(
+                self._font_name: None = None
+                self._set_button_font: font.Font = font.Font(
                     font.get_default_font(),
-                    self.font_size
+                    self._font_size
                 )
+
+    # self.button_surface: Surface = Surface(self.button_size, SRCALPHA)
+    # Button image render:
+    # self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
+    # self.button_surface.blit(self.button_sprite, (0, 0))
+
+    def get_coordinates(self) -> tuple[int, int]:
+        """
+        Get Button coordinates.
+        """
+        return self._button_coordinates
 
     def generator(self) -> tuple[Surface, tuple[int, int]]:
         """
         Generate button surface and coordinates for render.
         """
-        return self.button_surface, self.button_coordinates
+        return self.button_surface, self._button_coordinates
 
     def scale(self):
         """
@@ -132,8 +141,8 @@ class BaseButton(ABC):
         select_frame_fatness: int = max(
             int(
                 min(
-                    self.settings_keeper.screen.get_width(),
-                    self.settings_keeper.screen.get_height()
+                    self._settings_keeper.screen.get_width(),
+                    self._settings_keeper.screen.get_height()
                     ) / 500
                 ) * 4,
             1
@@ -152,7 +161,7 @@ class BaseButton(ABC):
         self.coordinates()
 
         # Button text scale and render:
-        if self.button_text is not None:
+        if self._button_text is not None:
             self.button_text_render()
 
         # Default button render:
@@ -164,7 +173,7 @@ class BaseButton(ABC):
             screen_mask: Surface = Surface(
                 [self.button_surface.get_width(), self.button_surface.get_height()]
             )
-            screen_mask.fill(self.button_selected_color)
+            screen_mask.fill(self._button_selected_color)
             screen_mask.set_alpha(150)
             # Button render:
             self.button_surface.blit(self.button_sprite, (0, 0))
@@ -172,7 +181,7 @@ class BaseButton(ABC):
         if self.select is True:
             draw.rect(
                 surface=self.button_surface,
-                color=self.select_frame_color,
+                color=self._select_frame_color,
                 rect=Rect(
                     0, 0,
                     self.button_size[0],
@@ -181,23 +190,12 @@ class BaseButton(ABC):
                 width=select_frame_fatness
             )
 
-    def reflect(self):
-        """
-        Reflect button sprite surface.
-        Reflect methode must be after scale methode in prerender loop.
-        """
-        self.button_surface: Surface = transform.flip(
-            self.button_surface,
-            flip_x=True,
-            flip_y=False
-        )
-
     def button_middle_point_coordinates(self) -> tuple[int, int]:
         """
         Calculate button middle points coordinates.
         """
-        screen_x = self.settings_keeper.screen.get_width()
-        screen_y = self.settings_keeper.screen.get_height()
+        screen_x = self._settings_keeper.screen.get_width()
+        screen_y = self._settings_keeper.screen.get_height()
 
         button_middle_x: int = screen_x // 2
         button_middle_y: int = screen_y // 2
@@ -208,38 +206,38 @@ class BaseButton(ABC):
         """
         Calculate background surface size.
         """
-        return list(self.background.get_size())
+        return list(self._background.get_size())
 
-    def localization_button_text(self):
+    def _localization_button_text(self):
         """
         Localization text of button if it's necessary.
         """
-        if self.button_text is not None:
-            self.language_flag: str = self.settings_keeper.text_language
-            self.button_text: str = self.button_text_localization_dict[self.language_flag]
+        if self._button_text is not None:
+            self._language_flag: str = self._settings_keeper.text_language
+            self._button_text: str = self._button_text_localization_dict[self._language_flag]
 
     def button_text_render(self):
         """
         Generate text on button if it's necessary.
         """
         # Localization button text:
-        if self.button_text_localization_dict is not None:
-            self.localization_button_text()
+        if self._button_text_localization_dict is not None:
+            self._localization_button_text()
 
-        self.font_size: int = self.background.get_size()[1] // 50
+        self._font_size: int = self._background.get_size()[1] // 50
 
         # Font reload for size scale:
-        if self.font_name is None:
-            self.set_button_font: font.Font = font.Font(
+        if self._font_name is None:
+            self._set_button_font: font.Font = font.Font(
                 font.get_default_font(),
-                self.font_size
+                self._font_size
             )
         else:
-            self.set_button_font: font.Font = self._assets_loader.font_load(
-                font_name=self.font_name,
-                font_size=self.font_size
+            self._set_button_font: font.Font = self._assets_loader.font_load(
+                font_name=self._font_name,
+                font_size=self._font_size
             )
-        text_surface: Surface = self.set_button_font.render(self.button_text, True, self.text_color)
+        text_surface: Surface = self._set_button_font.render(self._button_text, True, self._text_color)
 
         # Button text coordinates:
         button_text_coordinates: tuple[int, int] = self.button_text_coordinates(text_surface)
@@ -253,20 +251,20 @@ class BaseButton(ABC):
         :type text_surface: Surface
         :return: tuple[int, int]
         """
-        if self.text_offset_x is None and self.text_offset_y is None:
+        if self._text_offset_x is None and self._text_offset_y is None:
             result: tuple[int, int] = (
                 (self.button_surface.get_width() // 2) - (text_surface.get_width() // 2),
                 (self.button_surface.get_height() // 2) - (text_surface.get_height() // 2)
             )
         else:
-            if self.text_offset_x is None:
+            if self._text_offset_x is None:
                 text_offset_x: int = 0
             else:
-                text_offset_x: int = self.text_offset_x
-            if self.text_offset_y is None:
+                text_offset_x: int = self._text_offset_x
+            if self._text_offset_y is None:
                 text_offset_y: int = 0
             else:
-                text_offset_y: int = self.text_offset_y
+                text_offset_y: int = self._text_offset_y
 
             result: tuple[int, int] = (
                 int(
@@ -291,11 +289,13 @@ class BaseButton(ABC):
         cursor_position: tuple[int, int] = mouse.get_pos()
         # Button processing:
         button_x_size, button_y_size = surface_size(self.button_surface)
-        button_coordinates_x, button_coordinates_y = self.button_coordinates
+        button_coordinates_x, button_coordinates_y = self._button_coordinates
 
         # Drawing a button while hovering over:
-        if button_coordinates_x < cursor_position[0] < button_coordinates_x + button_x_size \
-                and button_coordinates_y < cursor_position[1] < button_coordinates_y + button_y_size:
+        if button_coordinates_x < cursor_position[0] \
+                < button_coordinates_x + button_x_size \
+                and button_coordinates_y < cursor_position[1] \
+                < button_coordinates_y + button_y_size:
             return True
         # Default Button Rendering:
         else:

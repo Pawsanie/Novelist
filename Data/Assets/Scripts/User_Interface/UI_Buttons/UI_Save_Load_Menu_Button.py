@@ -55,7 +55,7 @@ class SaveLoadMenuButton(BaseButton):
         """
         Generate coordinates for save|load menu buttons.
         """
-        place_flag: int = self.button_image_data['index_number']
+        place_flag: int = self._button_sprite_data['index_number']
         button_middle_x, button_middle_y = self.button_middle_point_coordinates()
         background_y: int = self.background_surface_size()[1]
 
@@ -70,15 +70,14 @@ class SaveLoadMenuButton(BaseButton):
                 button_middle_y
                 + (background_y // 4)
         )
-        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+        self._button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
     def get_button_size(self) -> tuple[int, int]:
         """
         Calculate button size.
-
         :return: Tuple with x and y sizes of button`s surface.
         """
-        background_surface_size: tuple[int, int] = self.background.get_size()
+        background_surface_size: tuple[int, int] = self._background.get_size()
         background_size_x, background_size_y = background_surface_size
 
         # X:

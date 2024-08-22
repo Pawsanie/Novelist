@@ -72,14 +72,17 @@ class SettingsKeeper(SingletonPattern):
         :return: pygame.display.Surface
         """
         if self.screen_type == 'full_screen':
-            screen_size = Tk()
+            screen_size: Tk = Tk()
             screen_size_x, screen_size_y = \
                 screen_size.winfo_screenwidth(), \
                 screen_size.winfo_screenheight()
-            screen: Surface = display.set_mode((screen_size_x, screen_size_y), FULLSCREEN)
+            screen: Surface = display.set_mode(
+                (screen_size_x, screen_size_y),
+                FULLSCREEN
+            )
             return screen
 
-        if self.screen_type == 'windowed':
+        elif self.screen_type == 'windowed':
             screen: Surface = display.set_mode(self.screen_size, RESIZABLE)
             return screen
 
