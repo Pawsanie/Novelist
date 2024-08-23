@@ -69,7 +69,7 @@ class BaseButton(ABC):
         # Button Sprite:
         self._button_sprite_data: dict[str | int] = button_image_data
         self._button_coordinates: tuple[int, int] = (0, 0)
-        self.button_size: tuple[int, int] = self.get_button_size()
+        self._button_size: tuple[int, int] = self._get_button_size()
 
         if have_real_path is False:
             self.button_sprite_standard: Surface = self._assets_loader.image_load(
@@ -148,21 +148,15 @@ class BaseButton(ABC):
             1
         )
 
-        # Devnull button_surface for new render:
-        self.button_surface = Surface((0, 0), SRCALPHA)
-
         # Button size scale:
-        self.button_sprite: Surface = self.button_sprite_standard
-        self.button_size: tuple[int, int] = self.get_button_size()
-        self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
-        self.button_surface: Surface = transform.scale(self.button_surface, self.button_size)
+        self._button_size: tuple[int, int] = self._get_button_size()
 
         # Scale coordinates:
-        self.coordinates()
+        self._calculate_coordinates()
 
         # Button text scale and render:
         if self._button_text is not None:
-            self.button_text_render()
+            self._button_text_render()
 
         # Default button render:
         if self.button_cursor_position_status() is False:
@@ -184,13 +178,13 @@ class BaseButton(ABC):
                 color=self._select_frame_color,
                 rect=Rect(
                     0, 0,
-                    self.button_size[0],
-                    self.button_size[1]
+                    self._button_size[0],
+                    self._button_size[1]
                 ),
                 width=select_frame_fatness
             )
 
-    def button_middle_point_coordinates(self) -> tuple[int, int]:
+    def _button_middle_point_coordinates(self) -> tuple[int, int]:
         """
         Calculate button middle points coordinates.
         """
@@ -202,11 +196,11 @@ class BaseButton(ABC):
 
         return button_middle_x, button_middle_y
 
-    def background_surface_size(self) -> list[int, int]:
+    def _background_surface_size(self) -> tuple[int, int]:
         """
         Calculate background surface size.
         """
-        return list(self._background.get_size())
+        return self._background.get_size()
 
     def _localization_button_text(self):
         """
@@ -216,7 +210,7 @@ class BaseButton(ABC):
             self._language_flag: str = self._settings_keeper.text_language
             self._button_text: str = self._button_text_localization_dict[self._language_flag]
 
-    def button_text_render(self):
+    def _button_text_render(self):
         """
         Generate text on button if it's necessary.
         """
@@ -240,11 +234,11 @@ class BaseButton(ABC):
         text_surface: Surface = self._set_button_font.render(self._button_text, True, self._text_color)
 
         # Button text coordinates:
-        button_text_coordinates: tuple[int, int] = self.button_text_coordinates(text_surface)
+        button_text_coordinates: tuple[int, int] = self._button_text_coordinates(text_surface)
         # Button text render:
         self.button_sprite.blit(text_surface, button_text_coordinates)
 
-    def button_text_coordinates(self, text_surface: Surface) -> tuple[int, int]:
+    def _button_text_coordinates(self, text_surface: Surface) -> tuple[int, int]:
         """
         Calculates the coordinates of the text on the button sprite.
         :param text_surface: Text Surface.
@@ -283,6 +277,7 @@ class BaseButton(ABC):
     def button_cursor_position_status(self) -> bool:
         """
         Checking the cursor position above the button.
+        Use in InterfaceController and another button calculation.
         :return: True | False
         """
         # Mouse processing:
@@ -304,6 +299,7 @@ class BaseButton(ABC):
     def button_click_hold(self) -> bool:
         """
         Check left click of mouse to button status.
+        Use in InterfaceController.
         :return: True | False
         """
         if self.button_cursor_position_status() is True:
@@ -314,6 +310,7 @@ class BaseButton(ABC):
     def button_clicked_status(self, event) -> bool:
         """
         Check left push out mouse left button status.
+        Use in InterfaceController.
         :param event: pygame.event element.
         :return: True | False
         """
@@ -322,14 +319,14 @@ class BaseButton(ABC):
                 return True
 
     @abstractmethod
-    def coordinates(self):
+    def _calculate_coordinates(self):
         """
         Generate coordinates for menu`s buttons.
         """
         pass
 
     @abstractmethod
-    def get_button_size(self) -> tuple[int, int]:
+    def _get_button_size(self) -> tuple[int, int]:
         """
         Calculate button size.
         :return: Tuple with x and y sizes of button`s surface.

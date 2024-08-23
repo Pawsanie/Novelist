@@ -55,32 +55,32 @@ class LongButton(BaseButton):
             text_offset_y=text_offset_y
         )
 
-    def coordinates(self, *, multiplier: int = 3):
+    def _calculate_coordinates(self, *, multiplier: int = 3):
         """
         Coordinates for start menu, in game menu and settings menu buttons.
         """
         place_flag: int = self._button_sprite_data['index_number']
-        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
+        button_middle_x, button_middle_y = self._button_middle_point_coordinates()
 
         # X:
         button_coordinates_x: int = (
                 button_middle_x
-                - (self.button_size[0] // 2)
+                - (self._button_size[0] // 2)
         )
         # Y:
         button_coordinates_y: int = (
                 button_middle_y
-                - (self.button_size[1] // 2)
-                + (self.button_size[1] * place_flag)
+                - (self._button_size[1] // 2)
+                + (self._button_size[1] * place_flag)
         )
         if multiplier != 0:
             button_coordinates_y: int = (
                 button_coordinates_y
-                - (self.button_size[1] * multiplier)
+                - (self._button_size[1] * multiplier)
                 )
         self._button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def get_button_size(self) -> tuple[int, int]:
+    def _get_button_size(self) -> tuple[int, int]:
         """
         Calculate button size.
         :return: Tuple with x and y sizes of button`s surface.

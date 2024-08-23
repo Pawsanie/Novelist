@@ -51,30 +51,30 @@ class GamePlayReadingButton(BaseButton):
             text_offset_y=text_offset_y
         )
 
-    def coordinates(self):
+    def _calculate_coordinates(self):
         """
         Coordinates for reading gameplay buttons.
         """
         place_flag: int = self._button_sprite_data['index_number']
-        button_middle_x, button_middle_y = self.button_middle_point_coordinates()
-        background_y = self.background_surface_size()[1]
+        button_middle_x, button_middle_y = self._button_middle_point_coordinates()
+        background_y = self._background_surface_size()[1]
 
         # X:
         button_coordinates_x: int = (
                 button_middle_x
-                - (self.button_size[0] // 2)
-                + (self.button_size[0] * place_flag)
+                - (self._button_size[0] // 2)
+                + (self._button_size[0] * place_flag)
                 )
         # Y:
         button_coordinates_y: int = (
                 button_middle_y
                 + (background_y // 2)
-                - self.button_size[1]
+                - self._button_size[1]
         )
         # Result:
         self._button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def get_button_size(self) -> tuple[int, int]:
+    def _get_button_size(self) -> tuple[int, int]:
         """
         Calculate button size.
         :return: Tuple with x and y sizes of button`s surface.

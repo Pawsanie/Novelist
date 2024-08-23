@@ -53,7 +53,7 @@ class SaveLoadCellButton(BaseButton):
             text_offset_y=text_offset_y
         )
 
-    def coordinates(self):
+    def _calculate_coordinates(self):
         """
         Coordinates for save menu and load menu Save Cells buttons.
         """
@@ -65,22 +65,22 @@ class SaveLoadCellButton(BaseButton):
         button_coordinates_x: int = int(
             + background_x
             + (background_width // 4)
-            + ((self.button_size[0] * 1.5) * column)
-            - (self.button_size[0] // 2)
-            - (self.button_size[0] * 2)
+            + ((self._button_size[0] * 1.5) * column)
+            - (self._button_size[0] // 2)
+            - (self._button_size[0] * 2)
         )
         # Y:
         button_coordinates_y: int = int(
                 + background_y
                 + (background_height // 3)
-                + ((self.button_size[1] * 1.5) * row)
-                - (self.button_size[1] // 2)
-                - (self.button_size[1] * 2.5)
+                + ((self._button_size[1] * 1.5) * row)
+                - (self._button_size[1] // 2)
+                - (self._button_size[1] * 2.5)
         )
 
         self._button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def get_button_size(self) -> tuple[int, int]:
+    def _get_button_size(self) -> tuple[int, int]:
         """
         Calculate button size.
 
