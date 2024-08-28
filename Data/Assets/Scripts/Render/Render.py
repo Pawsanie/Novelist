@@ -106,7 +106,7 @@ class Render(SingletonPattern):
 
             self.sprite_collection.append(
                 Sprite(
-                    image=screen_mask,
+                    texture_mame="ui#screen_mask",
                     layer=3
                 )
             )

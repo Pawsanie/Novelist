@@ -142,11 +142,7 @@ class InterfaceController(SingletonPattern):
             for button_name in menus_dict:
                 button: BaseButton = menus_dict[button_name]
                 result.append(
-                    Sprite(
-                        image=button.button_surface,
-                        layer=4,
-                        coordinates=button.button_coordinates
-                    )
+                    button.get_sprite()
                 )
 
         # Generate text:

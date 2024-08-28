@@ -1,0 +1,24 @@
+{
+  "Buttons": [
+    "dialogues_choice_button",
+    "exit_menu_buttons",
+    "fast_forward",
+    "game_menu",
+    "game_menu_buttons",
+    "hide_interface",
+    "next_scene",
+    "past_scene"
+  ],
+
+  "Menu_Substrate": [
+    "blank_big"
+  ],
+
+  "Save_System": [
+    "screen_preview_empty"
+  ],
+
+  "Text_Canvas": [
+    "text_canvas"
+  ]
+}

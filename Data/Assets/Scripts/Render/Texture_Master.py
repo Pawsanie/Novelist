@@ -22,7 +22,9 @@ class TexturesMaster(SingletonPattern):
         }
         self._texture_configs_catalog: dict = {}
         self._raw_images_catalog: dict = {}
-        self._raw_textures_catalog: dict = {}
+        self._raw_textures_catalog: dict = {
+            "User_Interface": {}
+        }
         self._texture_catalog: dict = {}
         self._image_memory_pool_bytes: int = 262144000  # 250mb as default
 
@@ -45,22 +47,85 @@ class TexturesMaster(SingletonPattern):
         """
         Collect raw texture data and create sprite sheets.
         """
+        # Collect raw textures:
         self._collect_texture_configurations()
         self._collect_raw_images()
         self._create_raw_sprite_sheet_frames()
         self._raw_images_catalog.clear()
-        self._create_void_background()
 
+        # Create technical textures:
+        self._create_void_background()
+        self._create_screen_mask_for_background_in_menu()
+
+        # Collect raw UI textures:
+        self._collect_raw_ui_images()
+
+        # Create texture catalog:s
         self._create_texture_catalog()
 
+    def _collect_raw_ui_images(self):
+        """
+        Collect raw User Interface texture image surfaces for _raw_textures_catalog.
+        """
+        raw_ui_data: dict = self._asset_loader.json_load(
+            [
+                "Scripts", "Json_data", "User_Interface", "ui_sprites"
+            ]
+        )
+        for catalog_name in raw_ui_data:
+            for texture_image_name in raw_ui_data[catalog_name]:
+                raw_image_surface: Surface = self._asset_loader.image_load(
+                    art_name=texture_image_name,
+                    asset_type="User_Interface",
+                    file_catalog=catalog_name
+                )
+                self._raw_textures_catalog["User_Interface"].update(
+                    {
+                        texture_image_name: {
+                            "frames": {
+                                None: raw_image_surface
+                            }
+                        }
+                    }
+                )
+
     def _create_void_background(self):
-        void_surface: Surface = Surface((720, 480))
-        void_surface.fill((0, 0, 0))
+        """
+        generate Void for screen cleaning.
+        """
+        void_surface: Surface = Surface(
+            (720, 480)
+        )
+        void_surface.fill(
+            (0, 0, 0)
+        )
         self._raw_textures_catalog["Backgrounds"].update(
             {
                 None: {
                     "frames": {
                         None: void_surface
+                    }
+                }
+            }
+        )
+
+    def _create_screen_mask_for_background_in_menu(self):
+        """
+        Generate filter for backgrounds when the in-game menu is called.
+        """
+        screen_mask: Surface = Surface(
+            (720, 480),
+            SRCALPHA
+        )
+        screen_mask.fill(
+            (0, 0, 0)
+        )
+        screen_mask.set_alpha(210)
+        self._raw_textures_catalog["Backgrounds"].update(
+            {
+                "ui#screen_mask": {
+                    "frames": {
+                        None: screen_mask
                     }
                 }
             }

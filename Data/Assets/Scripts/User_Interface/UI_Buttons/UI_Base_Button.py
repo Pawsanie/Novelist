@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from os.path import sep
 
-from pygame import Surface, SRCALPHA, transform, mouse, font, MOUSEBUTTONUP, draw, Rect
+from pygame import Surface, mouse, font, MOUSEBUTTONUP, draw, Rect
+from pygame.event import Event
 
 from ...Universal_computing.Assets_load import AssetLoader
-from ...Universal_computing.Surface_size import surface_size
 from ...Game_objects.Background import Background
 from ...Application_layer.Settings_Keeper import SettingsKeeper
 from ...Render.Sprite import Sprite
@@ -22,6 +22,8 @@ class BaseButton(ABC):
     # Tuple with RBG for button select render:
     _button_selected_color: tuple[int] = (100, 0, 0)
     _select_frame_color: tuple[int] = (48, 213, 200)
+    # Other settings:
+    _button_layer: int = 4
 
     def __init__(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],
                  button_text_localization_dict: dict[str] | None = None, have_real_path: bool = False,
@@ -84,10 +86,12 @@ class BaseButton(ABC):
                 art_name_is_path=True
 
             )
-        # self.button_sprite: Sprite = Sprite(
-        #     layer=,
-        #     coordinates=
-        # )
+        self._button_sprite: Sprite = Sprite(
+            layer=self._button_layer,
+            coordinates=self._button_coordinates,
+            texture_mame=self._button_sprite_data["sprite_name"],
+            name=self._button_name
+        )
 
         # Button text settings:
         self._language_flag: str = self._settings_keeper.text_language
@@ -125,6 +129,12 @@ class BaseButton(ABC):
         Get Button coordinates.
         """
         return self._button_coordinates
+
+    def get_sprite(self) -> Sprite:
+        """
+        Use in InterfaceController.
+        """
+        return self._button_sprite
 
     def generator(self) -> tuple[Surface, tuple[int, int]]:
         """
@@ -283,7 +293,7 @@ class BaseButton(ABC):
         # Mouse processing:
         cursor_position: tuple[int, int] = mouse.get_pos()
         # Button processing:
-        button_x_size, button_y_size = surface_size(self.button_surface)
+        button_x_size, button_y_size = self._button_size
         button_coordinates_x, button_coordinates_y = self._button_coordinates
 
         # Drawing a button while hovering over:
@@ -307,11 +317,12 @@ class BaseButton(ABC):
             if button_clicked[0] is True:
                 return True
 
-    def button_clicked_status(self, event) -> bool:
+    def button_clicked_status(self, event: Event) -> bool:
         """
         Check left push out mouse left button status.
         Use in InterfaceController.
         :param event: pygame.event element.
+        :type event: Event
         :return: True | False
         """
         if self.button_cursor_position_status() is True:
