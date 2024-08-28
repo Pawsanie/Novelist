@@ -48,8 +48,6 @@ class Sprite:
         self._scene_name: str | None = None
 
     def _get_default_animation_name(self) -> str | None:
-        if self._sprite_sheet_data is None:
-            return None
         if self._sprite_sheet_data["sprite_sheet"] is False:
             return "statick_frames"
         else:
@@ -58,8 +56,6 @@ class Sprite:
                 )[0]
 
     def _get_sprite_frame_name(self) -> int | str | None:
-        if self._animation_name is None:
-            return None
         if self._animation_name == "statick_frames":
             result: str = list(self._sprite_sheet_data[
                 "statick_frames"
@@ -67,6 +63,9 @@ class Sprite:
         else:
             result: int = 1
         return result
+
+    def get_layer(self):
+        return self._layer
 
     def blit_to(self, any_surface: Surface):
         """
@@ -114,9 +113,12 @@ class Sprite:
                 image_size=self._image_size
             )
 
-        any_surface.blit(self._texture_master.get_texture(
-            **universal_parameters
-        ), coordinates)
+        any_surface.blit(
+            self._texture_master.get_texture(
+                **universal_parameters
+            ),
+            coordinates
+        )
 
     def _sprite_sheet_next_frame(self):
         """

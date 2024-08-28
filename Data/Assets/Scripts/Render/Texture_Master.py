@@ -82,8 +82,8 @@ class TexturesMaster(SingletonPattern):
                 self._raw_textures_catalog["User_Interface"].update(
                     {
                         texture_image_name: {
-                            "frames": {
-                                None: raw_image_surface
+                            "statick_frames": {
+                                texture_image_name: raw_image_surface
                             }
                         }
                     }
@@ -102,8 +102,8 @@ class TexturesMaster(SingletonPattern):
         self._raw_textures_catalog["Backgrounds"].update(
             {
                 None: {
-                    "frames": {
-                        None: void_surface
+                    "statick_frames": {
+                        "void_texture": void_surface
                     }
                 }
             }
@@ -124,8 +124,8 @@ class TexturesMaster(SingletonPattern):
         self._raw_textures_catalog["Backgrounds"].update(
             {
                 "ui#screen_mask": {
-                    "frames": {
-                        None: screen_mask
+                    "statick_frames": {
+                        "screen_mask": screen_mask
                     }
                 }
             }
@@ -136,21 +136,21 @@ class TexturesMaster(SingletonPattern):
         self._texture_catalog: dict = self._raw_textures_catalog.copy()
 
     def get_texture(self, *, texture_type: str, texture_name: str,
-                    animation: str | None = None, frame: int | str) -> Surface:
+                    animation_name: str | None = None, frame: int | str) -> Surface:
         """
         Get texture Surface from TexturesMaster storage.
         :param texture_type: Characters|Backgrounds
         :type texture_type: str
         :param texture_name: Name of texture.
         :type texture_name: str
-        :param animation: Animation name of sprite sheet. For statick images is None as default.
-        :type animation: str | None
+        :param animation_name: Animation name of sprite sheet. For statick images is None as default.
+        :type animation_name: str | None
         :param frame: Animation frame number, or frame name for statick images.
         :type frame: int | str
         :return: Texture frame Surface
         """
-        if animation is not None:
-            return self._texture_catalog[texture_type][texture_name][animation][str(frame)]
+        if animation_name is not None:
+            return self._texture_catalog[texture_type][texture_name][animation_name][str(frame)]
         else:
             return self._texture_catalog[texture_type][texture_name][str(frame)]
 
@@ -339,7 +339,7 @@ class TexturesMaster(SingletonPattern):
         ]: Surface = image_surface
 
     def get_texture_size(self, *, texture_name: str, texture_type: str,
-                         frame: int, animation_name: str = "statick_frames") -> tuple[int, int]:
+                         frame: int | str, animation_name: str = "statick_frames") -> tuple[int, int]:
         """
         Get texture size from catalog.
         :param texture_name: Name of texture image frame.

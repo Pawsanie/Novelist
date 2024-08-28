@@ -74,17 +74,27 @@ class BaseButton(ABC):
         sprite_attributes: dict = {
             "layer": self._button_layer,
             "coordinates": self._button_coordinates,
-            "name": self._button_name
+            "name": self._button_name,
+            "sprite_sheet_data": {
+                "texture_type": "User_Interface",
+                "sprite_sheet": False
+            }
         }
-        if have_real_path is not False:
+        if have_real_path is False:
             sprite_attributes.update(
                 {
                     "texture_mame": self._button_sprite_data["sprite_name"]
                 }
             )
+            sprite_attributes["sprite_sheet_data"].update(
+                {
+                    "statick_frames": {
+                        self._button_sprite_data["sprite_name"]: {}
+                    }
+                }
+            )
         else:
             ...
-        self._button_sprite_standard: Sprite = Sprite(**sprite_attributes)
         self._button_sprite: Sprite = Sprite(**sprite_attributes)
 
         # Button text settings:
@@ -123,48 +133,42 @@ class BaseButton(ABC):
         """
         Use in InterfaceController.
         """
-        return self._button_sprite
-
-    def scale(self):
-        """
-        Scale button surface, with background context.
-        """
-        # Arg parse:
-        select_frame_fatness: int = max(
-            int(
-                min(
-                    self._settings_keeper.screen.get_width(),
-                    self._settings_keeper.screen.get_height()
-                    ) / 500
-                ) * 4,
-            1
+        # Button text scale and render:
+        sprite_copy: Sprite = Sprite(
+            layer=self._button_layer,
+            coordinates=self._button_coordinates,
+            texture_mame=self._button_sprite._texture_id,
+            name=self._button_name,
+            sprite_sheet_data=self._button_sprite._sprite_sheet_data
         )
-
-        # Button size scale:
-        self._button_size: tuple[int, int] = self._get_button_size()
-
-        # Scale coordinates:
-        self._calculate_coordinates()
 
         # Button text scale and render:
         if self._button_text is not None:
-            self._button_text_render()
+            sprite_copy: Sprite = self._button_text_render(sprite_copy)
 
-        # Default button render:
-        if self.button_cursor_position_status() is False:
-            self.button_surface.blit(self.button_sprite, (0, 0))
         # Button ready to be pressed:
-        else:
+        if self.button_cursor_position_status() is True:
             # Mask settings:
-            screen_mask: Surface = Surface(
-                [self.button_surface.get_width(), self.button_surface.get_height()]
-            )
+            screen_mask: Surface = Surface(self._button_size)
             screen_mask.fill(self._button_selected_color)
             screen_mask.set_alpha(150)
             # Button render:
-            self.button_surface.blit(self.button_sprite, (0, 0))
-            self.button_surface.blit(screen_mask, (0, 0))
+            sprite_copy.blit(
+                any_surface=screen_mask,
+                coordinates=(0, 0)
+            )
+
+        # Button selected after pressed:
         if self.select is True:
+            select_frame_fatness: int = max(
+                int(
+                    min(
+                        self._settings_keeper.screen.get_width(),
+                        self._settings_keeper.screen.get_height()
+                    ) / 500
+                ) * 4,
+                1
+            )
             draw.rect(
                 surface=self.button_surface,
                 color=self._select_frame_color,
@@ -175,6 +179,21 @@ class BaseButton(ABC):
                 ),
                 width=select_frame_fatness
             )
+
+        return sprite_copy
+
+    def scale(self):
+        """
+        Scale button surface, with background context.
+        """
+        # Button size scale:
+        self._button_size: tuple[int, int] = self._get_button_size()
+        self._button_sprite.scale(
+            self._button_size
+        )
+
+        # Scale coordinates:
+        self._calculate_coordinates()
 
     def _button_middle_point_coordinates(self) -> tuple[int, int]:
         """
@@ -202,7 +221,7 @@ class BaseButton(ABC):
             self._language_flag: str = self._settings_keeper.text_language
             self._button_text: str = self._button_text_localization_dict[self._language_flag]
 
-    def _button_text_render(self):
+    def _button_text_render(self, input_sprite) -> Sprite:
         """
         Generate text on button if it's necessary.
         """
@@ -230,10 +249,11 @@ class BaseButton(ABC):
         # Button text coordinates:
         button_text_coordinates: tuple[int, int] = self._button_text_coordinates(text_surface)
         # Button text render:
-        self._button_sprite.blit(
+        input_sprite.blit(
             text_surface,
             button_text_coordinates
         )
+        return input_sprite
 
     def _button_text_coordinates(self, text_surface: Surface) -> tuple[int, int]:
         """
@@ -242,10 +262,11 @@ class BaseButton(ABC):
         :type text_surface: Surface
         :return: tuple[int, int]
         """
+        button_sprite_width, button_sprite_height = self._button_size
         if self._text_offset_x is None and self._text_offset_y is None:
             result: tuple[int, int] = (
-                (self.button_surface.get_width() // 2) - (text_surface.get_width() // 2),
-                (self.button_surface.get_height() // 2) - (text_surface.get_height() // 2)
+                (button_sprite_width // 2) - (text_surface.get_width() // 2),
+                (button_sprite_height // 2) - (text_surface.get_height() // 2)
             )
         else:
             if self._text_offset_x is None:
@@ -259,14 +280,16 @@ class BaseButton(ABC):
 
             result: tuple[int, int] = (
                 int(
-                 (self.button_surface.get_width() // 2)
+                 (button_sprite_width // 2)
                  - (text_surface.get_width() // 2)
-                 + ((self.button_surface.get_width() // 10) * text_offset_x)
+                 + (
+                         (button_sprite_width // 10) * text_offset_x)
                 ),
                 int(
-                    (self.button_surface.get_height() // 2)
+                    (button_sprite_height // 2)
                     - (text_surface.get_height() // 2)
-                    + ((self.button_surface.get_height() // 10) * text_offset_y)
+                    + (
+                            (button_sprite_height // 10) * text_offset_y)
                 )
             )
         return result
