@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from os.path import sep
 
 from pygame import Surface, mouse, font, MOUSEBUTTONUP, draw, Rect
 from pygame.event import Event
@@ -72,34 +71,29 @@ class BaseButton(ABC):
         self._button_sprite_data: dict[str | int] = button_image_data
         self._button_coordinates: tuple[int, int] = (0, 0)
         self._button_size: tuple[int, int] = self._get_button_size()
-
-        if have_real_path is False:
-            self.button_sprite_standard: Surface = self._assets_loader.image_load(
-                art_name=str(self._button_sprite_data['sprite_name']),
-                asset_type='User_Interface',
-                file_catalog='Buttons'
+        sprite_attributes: dict = {
+            "layer": self._button_layer,
+            "coordinates": self._button_coordinates,
+            "name": self._button_name
+        }
+        if have_real_path is not False:
+            sprite_attributes.update(
+                {
+                    "texture_mame": self._button_sprite_data["sprite_name"]
+                }
             )
-        else:  # TODO: Simplify this block...
-            self.button_sprite_standard: Surface = self._assets_loader.image_load(
-                art_name=str(self._button_sprite_data['sprite_name']),
-                asset_type=str(self._button_sprite_data['sprite_name']).split(sep)[-3],
-                art_name_is_path=True
-
-            )
-        self._button_sprite: Sprite = Sprite(
-            layer=self._button_layer,
-            coordinates=self._button_coordinates,
-            texture_mame=self._button_sprite_data["sprite_name"],
-            name=self._button_name
-        )
+        else:
+            ...
+        self._button_sprite_standard: Sprite = Sprite(**sprite_attributes)
+        self._button_sprite: Sprite = Sprite(**sprite_attributes)
 
         # Button text settings:
         self._language_flag: str = self._settings_keeper.text_language
         self._button_text_localization_dict: dict[str] | None = button_text_localization_dict
+        self._button_text: str | None = button_text
 
         if self._button_text_localization_dict is not None:
             self._localization_button_text()
-        self._button_text: str | None = button_text
         self._text_offset_x: int | float = text_offset_x
         self._text_offset_y: int | float = text_offset_y
 
@@ -119,11 +113,6 @@ class BaseButton(ABC):
                     self._font_size
                 )
 
-    # self.button_surface: Surface = Surface(self.button_size, SRCALPHA)
-    # Button image render:
-    # self.button_sprite: Surface = transform.scale(self.button_sprite, self.button_size)
-    # self.button_surface.blit(self.button_sprite, (0, 0))
-
     def get_coordinates(self) -> tuple[int, int]:
         """
         Get Button coordinates.
@@ -136,18 +125,11 @@ class BaseButton(ABC):
         """
         return self._button_sprite
 
-    def generator(self) -> tuple[Surface, tuple[int, int]]:
-        """
-        Generate button surface and coordinates for render.
-        """
-        return self.button_surface, self._button_coordinates
-
     def scale(self):
         """
         Scale button surface, with background context.
         """
         # Arg parse:
-        # background_surface: Surface = self.background.get_data()[0]
         select_frame_fatness: int = max(
             int(
                 min(
@@ -241,12 +223,17 @@ class BaseButton(ABC):
                 font_name=self._font_name,
                 font_size=self._font_size
             )
-        text_surface: Surface = self._set_button_font.render(self._button_text, True, self._text_color)
+        text_surface: Surface = self._set_button_font.render(
+            self._button_text, True, self._text_color
+        )
 
         # Button text coordinates:
         button_text_coordinates: tuple[int, int] = self._button_text_coordinates(text_surface)
         # Button text render:
-        self.button_sprite.blit(text_surface, button_text_coordinates)
+        self._button_sprite.blit(
+            text_surface,
+            button_text_coordinates
+        )
 
     def _button_text_coordinates(self, text_surface: Surface) -> tuple[int, int]:
         """

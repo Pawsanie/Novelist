@@ -22,7 +22,8 @@ class TextCanvas(SingletonPattern):
         # Text canvas settings:
         self.canvas_safe: Surface = AssetLoader().image_load(
             art_name='text_canvas',
-            asset_type='User_Interface'
+            asset_type='User_Interface',
+            file_catalog="Text_Canvas"
         )
         self.text_canvas_surface: Surface = Surface((0, 0))
         self.text_canvas_coordinates: tuple[int, int] = (0, 0)

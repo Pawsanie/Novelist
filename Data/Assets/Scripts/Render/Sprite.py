@@ -47,7 +47,9 @@ class Sprite:
         # Render settings:
         self._scene_name: str | None = None
 
-    def _get_default_animation_name(self) -> str:
+    def _get_default_animation_name(self) -> str | None:
+        if self._sprite_sheet_data is None:
+            return None
         if self._sprite_sheet_data["sprite_sheet"] is False:
             return "statick_frames"
         else:
@@ -55,7 +57,9 @@ class Sprite:
                     self._sprite_sheet_data["animations"].keys()
                 )[0]
 
-    def _get_sprite_frame_name(self) -> int | str:
+    def _get_sprite_frame_name(self) -> int | str | None:
+        if self._animation_name is None:
+            return None
         if self._animation_name == "statick_frames":
             result: str = list(self._sprite_sheet_data[
                 "statick_frames"
@@ -64,13 +68,12 @@ class Sprite:
             result: int = 1
         return result
 
-    def blit(self, any_surface: Surface):
+    def blit_to(self, any_surface: Surface):
         """
         Draw sprite on surface.
         :param any_surface: Any Surface.
         :type any_surface: Surface
         """
-        self._sprite_sheet_next_frame()
         universal_parameters: dict = {
             "texture_type": self._sprite_sheet_data["texture_type"],
             "texture_name": self._texture_id,
@@ -88,6 +91,32 @@ class Sprite:
         self._texture_master.get_texture(
             **universal_parameters
         ).blit(any_surface, self._coordinates)
+
+    def blit(self, any_surface: Surface, coordinates: tuple[int, int]):
+        """
+        Draw sprite on surface.
+        :param any_surface: Any Surface.
+        :type any_surface: Surface
+        :param coordinates: Render coordinates.
+        :type coordinates: tuple[int, int]
+        """
+        universal_parameters: dict = {
+            "texture_type": self._sprite_sheet_data["texture_type"],
+            "texture_name": self._texture_id,
+            "animation_name": self._animation_name,
+            "frame": self._sprite_sheet_frame
+        }
+        if self._texture_master.get_texture_size(
+                **universal_parameters
+        ) != self._image_size:
+            self._texture_master.set_new_scale_frame(
+                **universal_parameters,
+                image_size=self._image_size
+            )
+
+        any_surface.blit(self._texture_master.get_texture(
+            **universal_parameters
+        ), coordinates)
 
     def _sprite_sheet_next_frame(self):
         """
