@@ -48,6 +48,14 @@ class Sprite:
         self._scene_name: str | None = None
 
     def _get_default_animation_name(self) -> str | None:
+        """
+        {
+            "sprite_sheet": bool,
+            "animation_name": {  # For statick is "statick_frames"
+                any: dict
+            }
+        }
+        """
         if self._sprite_sheet_data["sprite_sheet"] is False:
             return "statick_frames"
         else:
@@ -65,6 +73,9 @@ class Sprite:
         return result
 
     def get_layer(self):
+        """
+        Use in Batch.
+        """
         return self._layer
 
     def blit_to(self, any_surface: Surface):
@@ -146,6 +157,9 @@ class Sprite:
         return SceneValidator().get_current_scene_name()
 
     def get_animation_name(self):
+        """
+        Use in Character and Backgrounds.
+        """
         return self._animation_name
 
     def get_frame_number(self) -> int:

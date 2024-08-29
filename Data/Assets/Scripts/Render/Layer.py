@@ -27,8 +27,8 @@ class Layer:
         )
 
         for sprite in self.sprite_collection:
-            self.layer_canvas.blit(
-                sprite.image, sprite.coordinates
+            sprite.blit_to(
+                self.layer_canvas
             )
 
     def append(self, sprite: Sprite):
