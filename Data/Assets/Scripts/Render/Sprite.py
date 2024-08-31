@@ -90,13 +90,13 @@ class Sprite:
             "animation_name": self._animation_name,
             "frame": self._sprite_sheet_frame
         }
-        if self._texture_master.get_texture_size(
-                **universal_parameters
-        ) != self._image_size:
-            self._texture_master.set_new_scale_frame(
-                **universal_parameters,
-                image_size=self._image_size
-            )
+        # if self._texture_master.get_texture_size(
+        #         **universal_parameters
+        # ) != self._image_size:
+        #     self._texture_master.set_new_scale_frame(
+        #         **universal_parameters,
+        #         image_size=self._image_size
+        #     )
 
         self._texture_master.get_texture(
             **universal_parameters
@@ -116,13 +116,13 @@ class Sprite:
             "animation_name": self._animation_name,
             "frame": self._sprite_sheet_frame
         }
-        if self._texture_master.get_texture_size(
-                **universal_parameters
-        ) != self._image_size:
-            self._texture_master.set_new_scale_frame(
-                **universal_parameters,
-                image_size=self._image_size
-            )
+        # if self._texture_master.get_texture_size(
+        #         **universal_parameters
+        # ) != self._image_size:
+        #     self._texture_master.set_new_scale_frame(
+        #         **universal_parameters,
+        #         image_size=self._image_size
+        #     )
 
         any_surface.blit(
             self._texture_master.get_texture(

@@ -27,6 +27,7 @@ class TexturesMaster(SingletonPattern):
         }
         self._texture_catalog: dict = {}
         self._image_memory_pool_bytes: int = 262144000  # 250mb as default
+        self._temporary_textures: dict = {}
 
         # TexturesMaster settings:
         self.__initialisation()
@@ -305,7 +306,7 @@ class TexturesMaster(SingletonPattern):
         """
         Cash new frame size.
         :param texture_name: Name of texture image frame.
-        :type texture_type: str
+        :type texture_name: str
         :param texture_type: Type of texture image.
         :type texture_type: str
         :param frame: Number of frame or statick frame name.
@@ -338,12 +339,39 @@ class TexturesMaster(SingletonPattern):
             str(frame)
         ]: Surface = image_surface
 
+    def set_temporary_texture(self, texture_type: str, texture_name: str, surface: Surface):
+        """
+        Set temporary texture.
+        These are specific textures generated using on-the-fly calculations.
+        :param texture_name: Name of texture image frame.
+        :type texture_name: str
+        :param texture_type: Type of texture image.
+        :type texture_type: str
+        :param surface: Pygame.Surface object.
+        :type surface: Surface
+        """
+        if texture_type not in self._temporary_textures:
+            self._temporary_textures.update(
+                {
+                    texture_type: {}
+                }
+            )
+        if texture_name not in self._temporary_textures[texture_type]:
+            self._temporary_textures[texture_type].update(
+                {
+                    texture_name: surface
+                }
+            )
+
+    def get_temporary_texture(self, texture_type: str, texture_name: str) -> Surface:
+        return self._temporary_textures[texture_type][texture_name]
+
     def get_texture_size(self, *, texture_name: str, texture_type: str,
                          frame: int | str, animation_name: str = "statick_frames") -> tuple[int, int]:
         """
         Get texture size from catalog.
         :param texture_name: Name of texture image frame.
-        :type texture_type: str
+        :type texture_name: str
         :param texture_type: Type of texture image.
         :type texture_type: str
         :param frame: Number of frame or statick frame name.

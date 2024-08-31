@@ -33,7 +33,9 @@ class Character:
         self._background: Background = Background()
 
         # Sprite settings:
-        self._sprite_sheet_data: dict[str, dict[str, dict[str, list[int, int]]]] = sprite_sheet_data
+        self._sprite_sheet_data: dict[str, dict[str, dict[str, list[int, int]]]] = sprite_sheet_data | {
+            "texture_type": "Characters"
+        }
         self._texture_name: str = character_texture_mame
         self._sprite: Sprite = Sprite(
             texture_mame=self._texture_name,
@@ -41,7 +43,7 @@ class Character:
             sprite_sheet_data=self._sprite_sheet_data,
             name=name
         )
-        self._character_sprite_size: tuple[int, int] = (0, 0)# self._get_character_sprite_size()
+        self._character_sprite_size: tuple[int, int] = (0, 0)  # self._get_character_sprite_size()
 
         # Character settings:
         self._sprite_coordinates: list[int, int] = [0, 0]

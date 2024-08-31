@@ -55,7 +55,9 @@ class Background(SingletonPattern):
             texture_mame=self._all_backgrounds_sprites_settings[self._background_name]["texture"],
             sprite_sheet_data=self._all_backgrounds_sprites_settings[
                 self._background_name
-            ]["sprite_sheet_configuration"]
+            ]["sprite_sheet_configuration"] | {
+                "texture_type": "Backgrounds"
+            }
         )
 
     def devnull(self):
