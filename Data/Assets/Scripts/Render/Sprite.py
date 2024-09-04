@@ -110,10 +110,12 @@ class Sprite:
         #         **universal_parameters,
         #         image_size=self._image_size
         #     )
-
-        self._texture_master.get_texture(
-            **universal_parameters
-        ).blit(any_surface, self._coordinates)
+        any_surface.blit(
+            self._texture_master.get_texture(
+                **universal_parameters
+            ),
+            self._coordinates
+        )
 
     def blit(self, any_surface: Surface, coordinates: tuple[int, int]):
         """
@@ -137,10 +139,10 @@ class Sprite:
         #         image_size=self._image_size
         #     )
 
-        any_surface.blit(
-            self._texture_master.get_texture(
-                **universal_parameters
-            ),
+        self._texture_master.get_texture(
+            **universal_parameters
+        ).blit(
+            any_surface,
             coordinates
         )
 
