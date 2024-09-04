@@ -51,6 +51,7 @@ class Background(SingletonPattern):
         """
         self._background_name: str = new_background_name
         self._sprite: Sprite = Sprite(
+            coordinates=self._background_coordinates,
             name=self._background_name,
             texture_mame=self._all_backgrounds_sprites_settings[self._background_name]["texture"],
             sprite_sheet_data=self._all_backgrounds_sprites_settings[
@@ -110,3 +111,4 @@ class Background(SingletonPattern):
             (self._display_surface.get_width() - self._background_size[0]) // 2,
             (self._display_surface.get_height() - self._background_size[1]) // 2
         )
+        self._sprite.set_coordinates(self._background_coordinates)

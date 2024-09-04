@@ -220,3 +220,6 @@ class Sprite:
         Set new animation to play.
         """
         self._animation_name: str = animation_name
+
+    def set_coordinates(self, current_coordinates):
+        self._coordinates: tuple[int, int] = current_coordinates
