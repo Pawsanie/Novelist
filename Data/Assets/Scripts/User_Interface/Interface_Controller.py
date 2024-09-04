@@ -2,7 +2,6 @@ from ..User_Interface.UI_Button_Factory import button_generator
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 from ..User_Interface.UI_Buttons.UI_Base_Button import BaseButton
-from ..Render.Sprite import Sprite
 """
 Contents code for user interface controller.
 """
@@ -149,13 +148,8 @@ class InterfaceController(SingletonPattern):
         text_dict: dict[str, MenuText] = self.get_menus_text_dict()
         if text_dict is not None:
             for text_name in text_dict:
-                text_surface, text_coordinates = text_dict[text_name].get_text()
                 result.append(
-                    Sprite(
-                        image=text_surface,
-                        layer=6,
-                        coordinates=text_coordinates
-                    )
+                    text_dict[text_name].get_sprite()
                 )
 
         return result

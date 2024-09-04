@@ -90,6 +90,47 @@ class TexturesMaster(SingletonPattern):
                     }
                 )
 
+    def load_static_texture_from_path(self, *, texture_path: str, texture_type: str, asset_type: str):
+        """
+        Load texture without configuration.
+        Use in BaseButton.
+        :param texture_path: Path to image file.
+        :type texture_path: str
+        :param texture_type: Characters|Backgrounds|User_Interface
+        :type texture_type: str
+        :param asset_type: As example - "Characters":
+                {
+                    "file_format": "png",
+                    "alpha_chanel": True
+                },
+            "User_Interface": {
+                    "file_format": "png",
+                    "alpha_chanel": True
+                },
+            "Backgrounds": {
+                    "file_format": "jpg",
+                    "alpha_chanel": False
+                },
+            "Saves": {
+                "file_format": "png",
+                "alpha_chanel": False
+                }
+        :type asset_type: str
+        """
+        self._raw_textures_catalog[texture_type].update(
+            {
+                texture_path: {
+                    "statick_frames": {
+                        texture_path: self._asset_loader.image_load(
+                            art_name=texture_path,
+                            asset_type=asset_type,
+                            art_name_is_path=True
+                        )
+                    }
+                }
+            }
+        )
+
     def _create_void_background(self):
         """
         generate Void for screen cleaning.
@@ -140,7 +181,7 @@ class TexturesMaster(SingletonPattern):
                     animation_name: str | None = None, frame: int | str) -> Surface:
         """
         Get texture Surface from TexturesMaster storage.
-        :param texture_type: Characters|Backgrounds
+        :param texture_type: Characters|Backgrounds|User_Interface
         :type texture_type: str
         :param texture_name: Name of texture.
         :type texture_name: str
@@ -307,7 +348,7 @@ class TexturesMaster(SingletonPattern):
         Cash new frame size.
         :param texture_name: Name of texture image frame.
         :type texture_name: str
-        :param texture_type: Type of texture image.
+        :param texture_type: Characters|Backgrounds|User_Interface
         :type texture_type: str
         :param frame: Number of frame or statick frame name.
         :type frame: int | str
@@ -339,7 +380,7 @@ class TexturesMaster(SingletonPattern):
             str(frame)
         ]: Surface = image_surface
 
-    def set_temporary_texture(self, texture_type: str, texture_name: str, surface: Surface):
+    def set_temporary_texture(self, *, texture_type: str, texture_name: str, surface: Surface):
         """
         Set temporary texture.
         These are specific textures generated using on-the-fly calculations.
@@ -372,7 +413,7 @@ class TexturesMaster(SingletonPattern):
         Get texture size from catalog.
         :param texture_name: Name of texture image frame.
         :type texture_name: str
-        :param texture_type: Type of texture image.
+        :param texture_type: Characters|Backgrounds|User_Interface
         :type texture_type: str
         :param frame: Number of frame or statick frame name.
         :type frame: int | str

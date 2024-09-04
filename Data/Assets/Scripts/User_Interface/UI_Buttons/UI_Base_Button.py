@@ -7,6 +7,7 @@ from ...Universal_computing.Assets_load import AssetLoader
 from ...Game_objects.Background import Background
 from ...Application_layer.Settings_Keeper import SettingsKeeper
 from ...Render.Sprite import Sprite
+from ...Render.Texture_Master import TexturesMaster
 """
 Contents code for user interface buttons.
 Path of code of user interface buttons in 'UI_buttons_calculations.py' file...
@@ -75,26 +76,17 @@ class BaseButton(ABC):
             "layer": self._button_layer,
             "coordinates": self._button_coordinates,
             "name": self._button_name,
+            "texture_mame": self._button_sprite_data["sprite_name"],
             "sprite_sheet_data": {
                 "texture_type": "User_Interface",
-                "sprite_sheet": False
+                "sprite_sheet": False,
+                "statick_frames": {
+                    self._button_sprite_data["sprite_name"]: {}
+                }
             }
         }
-        if have_real_path is False:
-            sprite_attributes.update(
-                {
-                    "texture_mame": self._button_sprite_data["sprite_name"]
-                }
-            )
-            sprite_attributes["sprite_sheet_data"].update(
-                {
-                    "statick_frames": {
-                        self._button_sprite_data["sprite_name"]: {}
-                    }
-                }
-            )
-        else:
-            ...
+        if have_real_path is None:
+            self._load_real_path_button_static_texture()
         self._button_sprite: Sprite = Sprite(**sprite_attributes)
 
         # Button text settings:
@@ -122,6 +114,13 @@ class BaseButton(ABC):
                     font.get_default_font(),
                     self._font_size
                 )
+
+    def _load_real_path_button_static_texture(self):
+        TexturesMaster().load_static_texture_from_path(
+            texture_path=self._button_sprite_data["sprite_name"],
+            texture_type="User_Interface",
+            asset_type="Saves"
+        )
 
     def get_coordinates(self) -> tuple[int, int]:
         """

@@ -24,6 +24,19 @@ class Sprite:
         :param name: Sprite name.
                      None as default.
         :type name: str | None
+        :param sprite_sheet_data: As exemple:
+                                  {
+                                    "texture_type": "Characters"|"Backgrounds"|"User_Interface",
+                                    "sprite_sheet": bool,
+                                    "statick_frames"|"animations": {
+                                        "any_animation_name": {  # The animation name only matters for animated sprites,
+                                                                 # in the context of switching.
+                                            {...},  # The data inside is irrelevant for statick sprites.
+                                            "time_duration": float  # The only important value for animation sprites.
+                                        }
+                                    }
+                                  }
+        :type sprite_sheet_data: dict
         """
         # Program layers settings:
         self._texture_master: TexturesMaster = TexturesMaster()
