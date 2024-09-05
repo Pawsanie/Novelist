@@ -191,10 +191,13 @@ class TexturesMaster(SingletonPattern):
         :type frame: int | str
         :return: Texture frame Surface
         """
-        if animation_name is not None:
-            return self._texture_catalog[texture_type][texture_name][animation_name][str(frame)]
-        else:
-            return self._texture_catalog[texture_type][texture_name][str(frame)]
+        try:
+            return self._temporary_textures[texture_type][texture_name]
+        except KeyError:
+            if animation_name is not None:
+                return self._texture_catalog[texture_type][texture_name][animation_name][str(frame)]
+            else:
+                return self._texture_catalog[texture_type][texture_name][str(frame)]
 
     def _collect_texture_configurations(self):
         """
@@ -357,7 +360,27 @@ class TexturesMaster(SingletonPattern):
         :param animation_name: Name of animation for non statick textures.
         :type animation_name: str
         """
-        image_surface: Surface = transform.scale(
+        try:
+            image_surface: Surface = transform.scale(
+                self._temporary_textures[texture_type][texture_name],
+                image_size
+            )
+            self._temporary_textures[texture_type][texture_name]: Surface = image_surface
+        except KeyError:
+
+            image_surface: Surface = transform.scale(
+                self._texture_catalog[
+                    texture_type
+                ][
+                    texture_name
+                ][
+                    animation_name
+                ][
+                    str(frame)
+                ],
+                image_size
+            )
+
             self._texture_catalog[
                 texture_type
             ][
@@ -366,19 +389,7 @@ class TexturesMaster(SingletonPattern):
                 animation_name
             ][
                 str(frame)
-            ],
-            image_size
-        )
-
-        self._texture_catalog[
-            texture_type
-        ][
-            texture_name
-        ][
-            animation_name
-        ][
-            str(frame)
-        ]: Surface = image_surface
+            ]: Surface = image_surface
 
     def set_temporary_texture(self, *, texture_type: str, texture_name: str, surface: Surface):
         """
