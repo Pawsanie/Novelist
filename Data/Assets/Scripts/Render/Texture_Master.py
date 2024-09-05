@@ -405,6 +405,21 @@ class TexturesMaster(SingletonPattern):
                 }
             )
 
+    def devnull_temporary_texture(self, *, texture_type: str, texture_name: str):
+        """
+        Devnull temporary texture.
+        These are specific textures generated using on-the-fly calculations.
+        Can be used for UI buttons as exemple.
+        :param texture_name: Name of texture image frame.
+        :type texture_name: str
+        :param texture_type: Type of texture image.
+        :type texture_type: str
+        """
+        try:
+            del self._temporary_textures[texture_type][texture_name]
+        except KeyError:
+            pass
+
     def get_temporary_texture(self, texture_type: str, texture_name: str) -> Surface:
         """
         Get cyclically recache texture.

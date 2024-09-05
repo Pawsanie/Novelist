@@ -49,17 +49,19 @@ class Background(SingletonPattern):
         :param new_background_name: Name of background for search texture in TexturesMaster.
         :type new_background_name: str
         """
-        self._background_name: str = new_background_name
-        self._sprite: Sprite = Sprite(
-            coordinates=self._background_coordinates,
-            name=self._background_name,
-            texture_mame=self._all_backgrounds_sprites_settings[self._background_name]["texture"],
-            sprite_sheet_data=self._all_backgrounds_sprites_settings[
-                self._background_name
-            ]["sprite_sheet_configuration"] | {
-                "texture_type": "Backgrounds"
-            }
-        )
+        if self._background_name != new_background_name:
+            self._background_name: str = new_background_name
+            self._sprite: Sprite = Sprite(
+                coordinates=self._background_coordinates,
+                name=self._background_name,
+                texture_mame=self._all_backgrounds_sprites_settings[self._background_name]["texture"],
+                sprite_sheet_data=self._all_backgrounds_sprites_settings[
+                    self._background_name
+                ]["sprite_sheet_configuration"] | {
+                    "texture_type": "Backgrounds"
+                },
+                sprite_size=self._background_size
+            )
 
     def devnull(self):
         self._background_name: None = None

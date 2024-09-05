@@ -83,7 +83,8 @@ class BaseButton(ABC):
                 "statick_frames": {
                     self._button_sprite_data["sprite_name"]: {}
                 }
-            }
+            },
+            "sprite_size": self._button_size
         }
         if have_real_path is None:
             self._load_real_path_button_static_texture()
@@ -122,6 +123,17 @@ class BaseButton(ABC):
             asset_type="Saves"
         )
 
+    def _cache_temporary_image(self, surface: Surface):
+        """
+        Used for specific button states.
+        For example, mouse cursor hover.
+        """
+        TexturesMaster().set_temporary_texture(
+            texture_type="User_Interface",
+            texture_name=self._button_name,
+            surface=surface
+        )
+
     def get_coordinates(self) -> tuple[int, int]:
         """
         Get Button coordinates.
@@ -132,18 +144,26 @@ class BaseButton(ABC):
         """
         Use in InterfaceController.
         """
-        # Button text scale and render:
-        sprite_copy: Sprite = Sprite(
-            layer=self._button_layer,
-            coordinates=self._button_coordinates,
-            texture_mame=self._button_sprite._texture_id,
-            name=self._button_name,
-            sprite_sheet_data=self._button_sprite._sprite_sheet_data
+        TexturesMaster().devnull_temporary_texture(
+            texture_type="User_Interface",
+            texture_name=self._button_name
+        )
+
+        # Standard UI button:
+        if self._button_text is None and self.select is False:
+            return self._button_sprite
+
+        # Surface for specific buttons:
+        button_surface: Surface = TexturesMaster().get_texture(
+            texture_type="User_Interface",
+            texture_name=self._button_sprite._texture_id,
+            animation_name=self._button_sprite.get_animation_name(),
+            frame=self._button_sprite._sprite_sheet_frame
         )
 
         # Button text scale and render:
         if self._button_text is not None:
-            sprite_copy: Sprite = self._button_text_render(sprite_copy)
+            button_surface: Surface = self._button_text_render(button_surface)
 
         # Button ready to be pressed:
         if self.button_cursor_position_status() is True:
@@ -152,9 +172,9 @@ class BaseButton(ABC):
             screen_mask.fill(self._button_selected_color)
             screen_mask.set_alpha(150)
             # Button render:
-            sprite_copy.blit(
-                any_surface=screen_mask,
-                coordinates=(0, 0)
+            button_surface.blit(
+                screen_mask,
+                (0, 0)
             )
 
         # Button selected after pressed:
@@ -169,7 +189,7 @@ class BaseButton(ABC):
                 1
             )
             draw.rect(
-                surface=self.button_surface,
+                surface=button_surface,
                 color=self._select_frame_color,
                 rect=Rect(
                     0, 0,
@@ -179,7 +199,15 @@ class BaseButton(ABC):
                 width=select_frame_fatness
             )
 
-        return sprite_copy
+        self._cache_temporary_image(button_surface)
+        return Sprite(
+            layer=self._button_layer,
+            coordinates=self._button_coordinates,
+            texture_mame=self._button_name,
+            name=self._button_name,
+            sprite_sheet_data=self._button_sprite._sprite_sheet_data,
+            sprite_size=self._button_size
+        )
 
     def scale(self):
         """
@@ -193,6 +221,9 @@ class BaseButton(ABC):
 
         # Scale coordinates:
         self._calculate_coordinates()
+        self._button_sprite.set_coordinates(
+            self._button_coordinates
+        )
 
     def _button_middle_point_coordinates(self) -> tuple[int, int]:
         """
@@ -220,7 +251,7 @@ class BaseButton(ABC):
             self._language_flag: str = self._settings_keeper.text_language
             self._button_text: str = self._button_text_localization_dict[self._language_flag]
 
-    def _button_text_render(self, input_sprite) -> Sprite:
+    def _button_text_render(self, input_surface) -> Surface:
         """
         Generate text on button if it's necessary.
         """
@@ -248,11 +279,11 @@ class BaseButton(ABC):
         # Button text coordinates:
         button_text_coordinates: tuple[int, int] = self._button_text_coordinates(text_surface)
         # Button text render:
-        input_sprite.blit(
+        input_surface.blit(
             text_surface,
             button_text_coordinates
         )
-        return input_sprite
+        return input_surface
 
     def _button_text_coordinates(self, text_surface: Surface) -> tuple[int, int]:
         """

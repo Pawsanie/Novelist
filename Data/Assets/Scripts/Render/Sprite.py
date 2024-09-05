@@ -12,8 +12,14 @@ class Sprite:
     """
     Spites uses in batch rendering.
     """
-    def __init__(self, *, layer: int = 1, coordinates: tuple[int, int] = (0, 0), texture_mame: str,
-                 name: str | None = None, sprite_sheet_data: dict | None = None):
+    def __init__(
+            self, *, layer: int = 1,
+            coordinates: tuple[int, int] = (0, 0),
+            texture_mame: str,
+            name: str | None = None,
+            sprite_sheet_data: dict | None = None,
+            sprite_size: tuple[int, int] = (0, 0)
+    ):
         """
         :param layer: Layer for sprite render.
                       1 as default.
@@ -37,6 +43,8 @@ class Sprite:
                                     }
                                   }
         :type sprite_sheet_data: dict
+        :param sprite_size: Sprite image Surface size.
+        :type sprite_size: tuple[int, int]
         """
         # Program layers settings:
         self._texture_master: TexturesMaster = TexturesMaster()
@@ -50,7 +58,7 @@ class Sprite:
 
         # Other settings:
         self._frame_time: int = time.get_ticks()
-        self._image_size: tuple[int, int] = (0, 0)
+        self._image_size: tuple[int, int] = sprite_size
 
         # Sprite sheet animation data:
         self._animation_name: str = self._get_default_animation_name()
