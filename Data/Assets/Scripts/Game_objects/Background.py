@@ -98,6 +98,7 @@ class Background(SingletonPattern):
                 int(background_texture_size_width * coefficient),
                 int(background_texture_size_height * coefficient)
             )
+        self._sprite.scale(self._background_size)
 
         self._texture_master.set_new_scale_frame(
             texture_name=self._all_backgrounds_sprites_settings[self._background_name]['texture'],

@@ -198,8 +198,8 @@ class BaseButton(ABC):
         """
         Calculate button middle points coordinates.
         """
-        screen_x = self._settings_keeper.screen.get_width()
-        screen_y = self._settings_keeper.screen.get_height()
+        screen_x: int = self._settings_keeper.screen.get_width()
+        screen_y: int = self._settings_keeper.screen.get_height()
 
         button_middle_x: int = screen_x // 2
         button_middle_y: int = screen_y // 2
@@ -282,13 +282,15 @@ class BaseButton(ABC):
                  (button_sprite_width // 2)
                  - (text_surface.get_width() // 2)
                  + (
-                         (button_sprite_width // 10) * text_offset_x)
+                         (button_sprite_width // 10) * text_offset_x
+                 )
                 ),
                 int(
                     (button_sprite_height // 2)
                     - (text_surface.get_height() // 2)
                     + (
-                            (button_sprite_height // 10) * text_offset_y)
+                            (button_sprite_height // 10) * text_offset_y
+                    )
                 )
             )
         return result

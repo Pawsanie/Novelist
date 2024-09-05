@@ -91,11 +91,9 @@ class Sprite:
         """
         return self._layer
 
-    def blit_to(self, any_surface: Surface):
+    def _recache_sprite(self):
         """
-        Draw sprite on surface.
-        :param any_surface: Any Surface.
-        :type any_surface: Surface
+        Recache sprite in TextureMaster if necessary.
         """
         universal_parameters: dict = {
             "texture_type": self._sprite_sheet_data["texture_type"],
@@ -103,47 +101,56 @@ class Sprite:
             "animation_name": self._animation_name,
             "frame": self._sprite_sheet_frame
         }
-        # if self._texture_master.get_texture_size(
-        #         **universal_parameters
-        # ) != self._image_size:
-        #     self._texture_master.set_new_scale_frame(
-        #         **universal_parameters,
-        #         image_size=self._image_size
-        #     )
+        if self._texture_master.get_texture_size(
+                **universal_parameters
+        ) != self._image_size:
+            self._texture_master.set_new_scale_frame(
+                **universal_parameters,
+                image_size=self._image_size
+            )
+
+    def blit_to(self, any_surface: Surface):
+        """
+        Draw sprite image on surface.
+        Can be used in Render, Layer classes in context of render pipline.
+        :param any_surface: Any Surface.
+        :type any_surface: Surface
+        """
+        self._recache_sprite()
         any_surface.blit(
             self._texture_master.get_texture(
-                **universal_parameters
+                texture_type=self._sprite_sheet_data["texture_type"],
+                texture_name=self._texture_id,
+                animation_name=self._animation_name,
+                frame=self._sprite_sheet_frame
             ),
             self._coordinates
         )
 
     def blit(self, any_surface: Surface, coordinates: tuple[int, int]):
         """
-        Draw sprite on surface.
+        Draw surface image on Sprite texture and crate temporary texture for TextureMaster.
+        Can be use in Buttons in context of UI image Render pipline.
         :param any_surface: Any Surface.
         :type any_surface: Surface
         :param coordinates: Render coordinates.
         :type coordinates: tuple[int, int]
         """
-        universal_parameters: dict = {
-            "texture_type": self._sprite_sheet_data["texture_type"],
-            "texture_name": self._texture_id,
-            "animation_name": self._animation_name,
-            "frame": self._sprite_sheet_frame
-        }
-        # if self._texture_master.get_texture_size(
-        #         **universal_parameters
-        # ) != self._image_size:
-        #     self._texture_master.set_new_scale_frame(
-        #         **universal_parameters,
-        #         image_size=self._image_size
-        #     )
-
-        self._texture_master.get_texture(
-            **universal_parameters
-        ).blit(
+        self._recache_sprite()
+        temporary_texture: Surface = self._texture_master.get_texture(
+            texture_type=self._sprite_sheet_data["texture_type"],
+            texture_name=self._texture_id,
+            animation_name=self._animation_name,
+            frame=self._sprite_sheet_frame
+        )
+        temporary_texture.blit(
             any_surface,
             coordinates
+        )
+        self._texture_master.set_temporary_texture(
+            texture_type=self._sprite_sheet_data["texture_type"],
+            texture_name=self._texture_id,
+            surface=temporary_texture
         )
 
     def _sprite_sheet_next_frame(self):

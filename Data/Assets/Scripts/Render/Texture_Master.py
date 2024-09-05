@@ -384,6 +384,7 @@ class TexturesMaster(SingletonPattern):
         """
         Set temporary texture.
         These are specific textures generated using on-the-fly calculations.
+        Can be used for UI buttons as exemple.
         :param texture_name: Name of texture image frame.
         :type texture_name: str
         :param texture_type: Type of texture image.
@@ -405,10 +406,14 @@ class TexturesMaster(SingletonPattern):
             )
 
     def get_temporary_texture(self, texture_type: str, texture_name: str) -> Surface:
+        """
+        Get cyclically recache texture.
+        Can be used for UI buttons.
+        """
         return self._temporary_textures[texture_type][texture_name]
 
     def get_texture_size(self, *, texture_name: str, texture_type: str,
-                         frame: int | str, animation_name: str = "statick_frames") -> tuple[int, int]:
+                         frame: int | str = 0, animation_name: str = "statick_frames") -> tuple[int, int]:
         """
         Get texture size from catalog.
         :param texture_name: Name of texture image frame.
@@ -420,5 +425,12 @@ class TexturesMaster(SingletonPattern):
         :param animation_name: Name of animation for non statick textures.
         :type animation_name: str
         """
-        return self._texture_catalog[texture_type][texture_name][animation_name][str(frame)].get_width(), \
-            self._texture_catalog[texture_type][texture_name][animation_name][str(frame)].get_height()
+        try:
+            texture_surface: Surface = self.get_temporary_texture(
+                texture_type=texture_type,
+                texture_name=texture_name
+            )
+            return texture_surface.get_width(), texture_surface.get_height()
+        except KeyError:
+            return self._texture_catalog[texture_type][texture_name][animation_name][str(frame)].get_width(), \
+                self._texture_catalog[texture_type][texture_name][animation_name][str(frame)].get_height()
