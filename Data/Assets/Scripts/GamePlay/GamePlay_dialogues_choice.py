@@ -47,7 +47,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                     language: localizations_data[language]
                 }
             )
-        choice_buttons_text: dict[str] = all_buttons_text_localizations_dict[self._stage_director.language_flag]
+        choice_buttons_text: dict[str] = all_buttons_text_localizations_dict[self._stage_director.current_language]
         # Generate dialogues choice buttons:
         for scene in choice_buttons_text:
             dialogues_buttons: dict = {}

@@ -152,7 +152,9 @@ class Character:
         elif self._position == 'left':
             self._move_to_left()
 
-        self._sprite.coordinates = self._sprite_coordinates
+        self._sprite.set_coordinates(
+            self._sprite_coordinates
+        )
 
     def kill(self):
         """

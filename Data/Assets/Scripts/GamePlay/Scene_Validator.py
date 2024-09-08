@@ -73,7 +73,9 @@ class SceneValidator(SingletonPattern):
         """
         Used in GamePlayDialoguesChoice, GamePlayReading, StageDirector.
         """
-        return self._screenplay[self._current_scene_name]
+        return self._screenplay[self._current_scene_name] | {
+            "current_scene_name": self._current_scene_name
+        }
 
     def get_current_scene_name(self) -> str:
         """
@@ -106,7 +108,9 @@ class SceneValidator(SingletonPattern):
         self._scene_update_status: bool = False
 
         # Build a scene:
-        self._stage_director.build_a_scene()
+        self._stage_director.build_a_scene(
+            self.get_current_scene_data()
+        )
 
         # Autosave:
         if self._scene_data['gameplay_type'] == 'reading':
@@ -118,4 +122,6 @@ class SceneValidator(SingletonPattern):
         If current scene type is reading autosave it.
         """
         from ..Application_layer.Save_Keeper import SaveKeeper
-        SaveKeeper().save(auto_save=True)
+        SaveKeeper().save(
+            auto_save=True
+        )

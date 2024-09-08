@@ -1,7 +1,7 @@
 from pygame import Surface
 
 from ..Game_objects.Character import characters_generator
-from ..Game_objects.Background import backgrounds_generator, Background, BackgroundProxy
+from ..Game_objects.Background import Background
 from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Game_objects.Dialogues import DialogueKeeper, DialoguesWords
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
@@ -26,28 +26,19 @@ class StageDirector(SingletonPattern):
         self._settings_keeper: SettingsKeeper = SettingsKeeper()
         self._sound_director: SoundDirector = SoundDirector()
 
-        # Make background surface:
-        self._background_mock: BackgroundProxy = BackgroundProxy()
-        self.background_surface: Surface = self._background_mock.get_data()[0]
-        self.background_coordinates: tuple[int, int] = self._background_mock.get_data()[1]
+        # Game scene objects settings:
+        self._background: Background = Background()
+        self._characters_collection: dict[str, Character] = characters_generator()
+        self._location: str | None = None
 
-        """Assets loading:"""
-        # Characters load:
-        self.characters_dict: dict[str, Character] = characters_generator()
-        # Backgrounds load:
-        self.backgrounds_dict: dict[str, Background] = backgrounds_generator()
-        self.location: Background | None = None
+        # Text Reading gameplay settings:
+        self.current_language: str = self._settings_keeper.text_language
+        self._text_canvas: TextCanvas = TextCanvas()
+        self._dialog_controller: DialoguesWords = DialoguesWords()
+        self._text_dialogues_data: dict[str] = DialogueKeeper().get_dialogues_data()
 
-        """Make UI:"""
-        # Set language:
-        self.language_flag: str = self._settings_keeper.text_language
-        # Text canvas:
-        self.text_canvas: TextCanvas = TextCanvas()
-        # Text generation:
-        self.text_controller = DialoguesWords()
-        self.text_dict_all: dict[str] = DialogueKeeper().get_dialogues_data()
         # Text Reading gameplay:
-        self.text_dict_reading: dict[str] = self.text_dict_all['reading']
+        self._text_reading_dialogues_gameplay_data: dict[str] = self._text_dialogues_data['reading']
         self.text_string_reading: str = ''  # Blank as default.
         self.text_speaker_reading: str = ''  # Blank as default.
         self.speech: tuple[Surface, tuple[int, int]] = (Surface((0, 0)), (0, 0))
@@ -57,57 +48,37 @@ class StageDirector(SingletonPattern):
     def set_scene(self, *, location: str) -> Surface.blit:
         """
         Update background Image, for scene render.
+        Use in StateMachine and Self.
         :param location: String with background location name.
         :return: Background for scene render.
         """
         if location is not None:  # In game menu.
-            scene: Background = self.backgrounds_dict.get(location)
-            self.location: Background = scene
-        else:
-            scene: Background = self.location
-
-        scene.scale()
-        scene_image: Surface = scene.scene_image
-        # Update background surface:
-        self._background_mock.set_new_image(new_image=scene_image)
-        self.background_surface: Surface = self._background_mock.get_data()[0]
-        self.background_surface.blit(scene_image, (0, 0))
-
-    def set_actor(self, *, character: str) -> Surface.blit:
-        """
-        :param character: String with character name.
-        :return: pygame.Surface of character.
-        """
-        self.characters_dict.get(character).hidden = False
-        return self.characters_dict.get(character)
+            self._background.set_background(location)
 
     def scale(self):
         """
         Render image scale.
         """
         # Scale:
-        self.location.scale()
-        self.text_canvas.scale()
-        for character in self.characters_dict.values():
+        self._background.scale()
+        self._text_canvas.scale()
+        for character in self._characters_collection.values():
             character.scale()
 
         # Set words again (cant be scaled):
-        if self.text_controller.status is True:
+        if self._dialog_controller.status is True:
             self.set_reading_words(script=self.text_dict_reading_cash)
 
     def vanishing_scene(self):
         """
         Delete all characters and background from scene.
         """
-        background_data: tuple = self._background_mock.get_data()
-        self.background_surface: Surface = background_data[0]
-        self.background_surface.fill((0, 0, 0))
-        self.background_coordinates: tuple[int, int] = background_data[1]
-        for character in self.characters_dict.values():
+        self._background.devnull()
+        for character in self._characters_collection.values():
             character.kill()
 
-        self.text_canvas.status = False
-        self.text_controller.status = False
+        self._text_canvas.status = False
+        self._dialog_controller.status = False
 
     def set_reading_words(self, *, script: dict):
         """
@@ -127,17 +98,17 @@ class StageDirector(SingletonPattern):
         self.text_dict_reading_cash: dict[str] = script
 
         # TODO: Refactor?:
-        self.text_canvas.status = True
-        self.text_controller.status = True
+        self._text_canvas.status = True
+        self._dialog_controller.status = True
 
         self.speech: tuple[Surface, tuple[int, int]] = \
-            self.text_controller.make_words(
+            self._dialog_controller.make_words(
                 text_string=self.text_string_reading,
                 text_color=text_color,
                 text_type='words'
             )
         self.speaker: tuple[Surface, tuple[int, int]] = \
-            self.text_controller.make_words(
+            self._dialog_controller.make_words(
                 text_string=self.text_speaker_reading,
                 text_color=speaker_color,
                 text_type='speaker'
@@ -152,9 +123,9 @@ class StageDirector(SingletonPattern):
         from ..Render.Batch import Batch
         result: Batch = Batch()
 
-        for character in self.characters_dict.values():
+        for character in self._characters_collection.values():
             if character.hidden is False:
-                result.append(character.sprite)
+                result.append(character.get_sprite())
 
         return result
 
@@ -167,11 +138,7 @@ class StageDirector(SingletonPattern):
         from ..Render.Batch import Batch
         result: Batch = Batch()
         result.append(
-            Sprite(
-                image=self.background_surface,
-                layer=1,
-                coordinates=self.background_coordinates,
-            )
+            self._background.get_sprite()
         )
         return result
 
@@ -184,69 +151,71 @@ class StageDirector(SingletonPattern):
         from ..Render.Batch import Batch
         result: Batch = Batch()
 
-        # Text canvas:
-        if self.text_canvas.status is True:
-            result.append(
-                Sprite(
-                    image=self.text_canvas.text_canvas_surface,
-                    layer=3,
-                    coordinates=self.text_canvas.text_canvas_coordinates,
-                )
-            )
-        if self.text_controller.status is True:
-            # Speech:
-            result.append(
-                Sprite(
-                    image=self.speech[0],
-                    layer=4,
-                    coordinates=self.speech[1],
-                )
-            )
-            # Speaker:
-            result.append(
-                Sprite(
-                    image=self.speaker[0],
-                    layer=4,
-                    coordinates=self.speaker[1],
-                )
-            )
+        # # Text canvas:
+        # if self._text_canvas.status is True:
+        #     result.append(
+        #         Sprite(
+        #             image=self._text_canvas.text_canvas_surface,
+        #             layer=3,
+        #             coordinates=self._text_canvas.text_canvas_coordinates,
+        #         )
+        #     )
+        # if self._dialog_controller.status is True:
+        #     # Speech:
+        #     result.append(
+        #         Sprite(
+        #             image=self.speech[0],
+        #             layer=4,
+        #             coordinates=self.speech[1],
+        #         )
+        #     )
+        #     # Speaker:
+        #     result.append(
+        #         Sprite(
+        #             image=self.speaker[0],
+        #             layer=4,
+        #             coordinates=self.speaker[1],
+        #         )
+        #     )
         return result
 
-    def build_a_scene(self):
+    def build_a_scene(self, scene_data: dict):
         """
         Call from SceneValidator.
         """
-        from ..GamePlay.Scene_Validator import SceneValidator
-        scene_validator: SceneValidator = SceneValidator()
-        scene_data: dict = scene_validator.get_current_scene_data()
         self.vanishing_scene()
 
-        # Set new background:
+        # Set a new background:
         self.set_scene(
             location=scene_data['background']['background_sprite_sheet']
         )
 
         # Set new actors:
         for name in scene_data['actors']:
-            character: dict[str, dict] = scene_data['actors'][name]
+            character_scene_data: dict = scene_data['actors'][name]
+            character: Character = self._characters_collection.get(name)
 
-            self.set_actor(character=name)\
-                .set_pose(pose_number=character['character_animation'])
-            self.set_actor(character=name)\
-                .set_plan(plan=character['character_plan'])
-            self.set_actor(character=name).position = \
-                character['character_start_position']
+            character.hidden = False
+            character.set_pose(
+                pose_number=character_scene_data['character_animation']
+            )
+            character.set_plan(
+                plan=character_scene_data['character_plan']
+            )
+            character.set_position(
+                position=character_scene_data['character_start_position']
+            )
 
         # Scene text settings:
         if scene_data['gameplay_type'] == 'reading':
-            self.text_canvas.text_canvas_status = True
+            self._text_canvas.text_canvas_status = True
             self.set_reading_words(
-                script=self.text_dict_reading.get(
-                    self.language_flag
-                )[scene_validator.get_current_scene_name()]
+                script=self._text_reading_dialogues_gameplay_data.get(
+                    self.current_language
+                )[scene_data["current_scene_name"]]
             )
         elif scene_data['gameplay_type'] == 'choice':
-            self.text_canvas.text_canvas_status = False
+            self._text_canvas.text_canvas_status = False
 
         # Special effects:
         if scene_data['special_effects'] is not False:
