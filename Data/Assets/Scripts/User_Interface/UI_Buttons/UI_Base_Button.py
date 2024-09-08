@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from pygame import Surface, mouse, font, MOUSEBUTTONUP, draw, Rect
+from pygame import Surface, mouse, font, MOUSEBUTTONUP, draw, Rect, transform
 from pygame.event import Event
 
 from ...Universal_computing.Assets_load import AssetLoader
@@ -117,6 +117,9 @@ class BaseButton(ABC):
                 )
 
     def _load_real_path_button_static_texture(self):
+        """
+        Load texture for SaveLoad buttons.
+        """
         TexturesMaster().load_static_texture_from_path(
             texture_path=self._button_sprite_data["sprite_name"],
             texture_type="User_Interface",
@@ -154,11 +157,14 @@ class BaseButton(ABC):
             return self._button_sprite
 
         # Surface for specific buttons:
-        button_surface: Surface = TexturesMaster().get_texture(
-            texture_type="User_Interface",
-            texture_name=self._button_sprite._texture_id,
-            animation_name=self._button_sprite.get_animation_name(),
-            frame=self._button_sprite._sprite_sheet_frame
+        button_surface: Surface = transform.scale(
+            TexturesMaster().get_texture(
+                texture_type="User_Interface",
+                texture_name=self._button_sprite._texture_id,
+                animation_name=self._button_sprite.get_animation_name(),
+                frame=self._button_sprite._sprite_sheet_frame
+            ),
+            self._button_size
         )
 
         # Button text scale and render:
