@@ -182,6 +182,7 @@ class MenuText:
 
     def get_sprite(self) -> Sprite:
         """
+        Used in InterfaceController.
         :return: Sprite
         """
         self._text_render()
@@ -239,7 +240,9 @@ class MenuText:
         # Generate text:
         rows_list: list = []
         for index, row in enumerate(self._menu_text.split('\n')):
-            text_surface: Surface = self._set_text_font.render(row, True, self._text_color)
+            text_surface: Surface = self._set_text_font.render(
+                row, True, self._text_color
+            )
             # Menu surface text coordinates:
             text_coordinates: tuple[int, int] = (
                 (
