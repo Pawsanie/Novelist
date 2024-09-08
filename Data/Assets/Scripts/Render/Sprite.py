@@ -21,6 +21,7 @@ class Sprite:
             sprite_size: tuple[int, int] = (0, 0)
     ):
         """
+        Don't forget to specify the size of the "sprite_size" argument if it is not set in the loop by "scale" method!
         :param layer: Layer for sprite render.
                       1 as default.
         :type layer: int
