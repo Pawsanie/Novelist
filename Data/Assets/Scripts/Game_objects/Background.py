@@ -27,6 +27,7 @@ class Background(SingletonPattern):
         self._background_coordinates: tuple[int, int] = (0, 0)
         self._background_size: tuple[int, int] = (0, 0)
         self._sprite: Sprite | None = None
+        self._last_screen_size: tuple[int, int] = (0, 0)
 
         # Background settings:
         self._all_backgrounds_sprites_settings: dict = self._asset_loader.json_load(
@@ -86,14 +87,22 @@ class Background(SingletonPattern):
             animation_name=self._sprite.get_animation_name(),
             frame=self._sprite.get_frame_number()
         )
-        if self._background_size == background_texture_size:
+        if self._background_size == background_texture_size \
+                and self._last_screen_size == (
+                    self._display_surface.get_width(),
+                    self._display_surface.get_height()
+                ):
             return
         background_texture_size_width, background_texture_size_height = background_texture_size
+        self._last_screen_size: tuple[int, int] = (
+                    self._display_surface.get_width(),
+                    self._display_surface.get_height()
+        )
 
         # Calculate scale coefficient:
         coefficient: int | float = min(
-            self._display_surface.get_width() / background_texture_size_width,
-            self._display_surface.get_height() / background_texture_size_height
+            self._last_screen_size[0] / background_texture_size_width,
+            self._last_screen_size[1] / background_texture_size_height
         )
         # Set background sprite size:
         self._background_size: tuple[int, int] = (
@@ -111,7 +120,7 @@ class Background(SingletonPattern):
         )
         # Calculate coordinates:
         self._background_coordinates: tuple[int, int] = (
-            (self._display_surface.get_width() - self._background_size[0]) // 2,
-            (self._display_surface.get_height() - self._background_size[1]) // 2
+            (self._last_screen_size[0] - self._background_size[0]) // 2,
+            (self._last_screen_size[1] - self._background_size[1]) // 2
         )
         self._sprite.set_coordinates(self._background_coordinates)
