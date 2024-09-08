@@ -160,7 +160,13 @@ class BaseButton(ABC):
         )
 
         # Standard UI button:
-        if self._button_text is None and self.select is False:
+        if all(
+                (
+                        self._button_text is None,
+                        self.select is False,
+                        self.button_cursor_position_status() is False
+                )
+        ):
             return self._button_sprite
 
         # Surface for specific buttons:
