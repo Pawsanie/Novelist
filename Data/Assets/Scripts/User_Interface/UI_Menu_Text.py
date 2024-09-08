@@ -95,9 +95,9 @@ class MenuText:
                 asset_type="User_Interface",
                 file_catalog='Menu_Substrate'
             )
-            self.menu_text_substrate_sprite: Surface = self._menu_text_substrate_standard
+            self._menu_text_substrate_sprite: Surface = self._menu_text_substrate_standard
         else:
-            self.menu_text_substrate_sprite: None = None
+            self._menu_text_substrate_sprite: None = None
 
         self._menu_text_coordinates: tuple[int, int] = (0, 0)
         self._menu_text_surface_size: tuple[int, int] = (0, 0)
@@ -167,15 +167,15 @@ class MenuText:
             self._save_and_load_menu_text_coordinates()
 
         # Surface scale:
-        if self.menu_text_substrate_sprite is not None:
+        if self._menu_text_substrate_sprite is not None:
             menu_text_substrate_standard: Surface = self._menu_text_substrate_standard
             menu_text_substrate_standard: Surface = transform.scale(
                 menu_text_substrate_standard, self._menu_text_surface_size
             )
-            self.menu_text_substrate_sprite: Surface = Surface(
+            self._menu_text_substrate_sprite: Surface = Surface(
                 self._menu_text_surface_size, SRCALPHA
             )
-            self.menu_text_substrate_sprite.blit(
+            self._menu_text_substrate_sprite.blit(
                 menu_text_substrate_standard, (0, 0)
             )
         self._menu_text_surface: Surface = Surface(self._menu_text_surface_size, SRCALPHA)
@@ -185,6 +185,11 @@ class MenuText:
         Used in InterfaceController.
         :return: Sprite
         """
+        self._texture_master.devnull_temporary_texture(
+            texture_type="User_Interface",
+            texture_name="Menu_Text"
+        )
+
         self._text_render()
 
         self._texture_master.set_temporary_texture(
@@ -194,9 +199,11 @@ class MenuText:
         )
 
         return Sprite(
+            name="Menu_Text",
             texture_mame="Menu_Text",
             layer=6,
             coordinates=self._menu_text_coordinates,
+            sprite_size=self._menu_text_surface_size,
             sprite_sheet_data={
                 "texture_type": "User_Interface",
                 "sprite_sheet": False,
@@ -265,14 +272,14 @@ class MenuText:
             )
 
         # Render text on substrate if it`s possible:
-        if self.menu_text_substrate_sprite is not None:
+        if self._menu_text_substrate_sprite is not None:
             for text_surface, text_coordinates in rows_list:
-                self.menu_text_substrate_sprite.blit(
+                self._menu_text_substrate_sprite.blit(
                     text_surface,
                     text_coordinates
                 )
             self._menu_text_surface.blit(
-                self.menu_text_substrate_sprite,
+                self._menu_text_substrate_sprite,
                 (0, 0)
             )
         else:
