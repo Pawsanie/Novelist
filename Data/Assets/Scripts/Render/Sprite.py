@@ -86,9 +86,11 @@ class Sprite:
 
     def _get_sprite_frame_name(self) -> int | str | None:
         if self._animation_name == "statick_frames":
-            result: str = list(self._sprite_sheet_data[
-                "statick_frames"
-            ].keys())[0]
+            result: str = list(
+                self._sprite_sheet_data[
+                    "statick_frames"
+                ].keys()
+            )[0]
         else:
             result: int = 1
         return result

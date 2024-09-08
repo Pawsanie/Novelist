@@ -13,7 +13,6 @@ Contents code for menus text keeper.
 class MenuText:
     """
     Generate menus text surface and coordinates for render.
-
     Instances are created from menus_text_generator function by InterfaceController class.
     """
     # Set menu lists:
@@ -173,8 +172,12 @@ class MenuText:
             menu_text_substrate_standard: Surface = transform.scale(
                 menu_text_substrate_standard, self._menu_text_surface_size
             )
-            self.menu_text_substrate_sprite: Surface = Surface(self._menu_text_surface_size, SRCALPHA)
-            self.menu_text_substrate_sprite.blit(menu_text_substrate_standard, (0, 0))
+            self.menu_text_substrate_sprite: Surface = Surface(
+                self._menu_text_surface_size, SRCALPHA
+            )
+            self.menu_text_substrate_sprite.blit(
+                menu_text_substrate_standard, (0, 0)
+            )
         self._menu_text_surface: Surface = Surface(self._menu_text_surface_size, SRCALPHA)
 
     def get_sprite(self) -> Sprite:
@@ -183,12 +186,6 @@ class MenuText:
         """
         self._text_render()
 
-        # menu_text_substrate_sprite: Surface = self._texture_master.get_texture(
-        #     texture_type="User_Interface",
-        #     texture_name=...,
-        #     animation_name=...,
-        #     frame=...
-        # )
         self._texture_master.set_temporary_texture(
             texture_type="User_Interface",
             texture_name="Menu_Text",
@@ -202,7 +199,9 @@ class MenuText:
             sprite_sheet_data={
                 "texture_type": "User_Interface",
                 "sprite_sheet": False,
-                "statick_frames": {}
+                "statick_frames": {
+                    "Menu_Text": {}
+                }
             }
         )
 
@@ -243,23 +242,42 @@ class MenuText:
             text_surface: Surface = self._set_text_font.render(row, True, self._text_color)
             # Menu surface text coordinates:
             text_coordinates: tuple[int, int] = (
-                ((self._menu_text_surface.get_width() // 2) - (text_surface.get_width() // 2))
+                (
+                        (self._menu_text_surface.get_width() // 2)
+                        - (text_surface.get_width() // 2)
+                )
                 * self._menu_text_coordinates_x,
 
-                (((self._menu_text_surface.get_height() // 2) - (text_surface.get_height() // 2))
-                 - ((text_surface.get_height() // 2) * (index - 1) * 2))
+                (
+                        (
+                                (self._menu_text_surface.get_height() // 2)
+                                - (text_surface.get_height() // 2)
+                         )
+                        - ((text_surface.get_height() // 2) * (index - 1) * 2)
+                )
                 * self._menu_text_coordinates_y
             )
-            rows_list.append((text_surface, text_coordinates))
+            rows_list.append(
+                (text_surface, text_coordinates)
+            )
 
         # Render text on substrate if it`s possible:
         if self.menu_text_substrate_sprite is not None:
-            for row in rows_list:
-                self.menu_text_substrate_sprite.blit(row[0], row[1])
-            self._menu_text_surface.blit(self.menu_text_substrate_sprite, (0, 0))
+            for text_surface, text_coordinates in rows_list:
+                self.menu_text_substrate_sprite.blit(
+                    text_surface,
+                    text_coordinates
+                )
+            self._menu_text_surface.blit(
+                self.menu_text_substrate_sprite,
+                (0, 0)
+            )
         else:
-            for row in rows_list:
-                self._menu_text_surface.blit(row[0], row[1])
+            for text_surface, text_coordinates in rows_list:
+                self._menu_text_surface.blit(
+                    text_surface,
+                    text_coordinates
+                )
 
 
 def menus_text_generator() -> dict[str, dict[str]]:

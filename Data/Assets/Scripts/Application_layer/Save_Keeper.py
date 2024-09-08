@@ -101,7 +101,10 @@ class SaveKeeper(SingletonPattern):
             save_cell_buttons: dict = self._save_load_collections[save_type]
             for key, value in save_cell_buttons.items():
                 if value['save_page'] == menu_data["menu_object"].menu_page:
-                    menu_data["menu_buttons"].setdefault(key, value['button'])
+                    menu_data["menu_buttons"].setdefault(
+                        key,
+                        value['button']
+                    )
 
     def _save_cells_sort(self):
         """
@@ -439,7 +442,8 @@ class SaveKeeper(SingletonPattern):
                         f"\n{'-' * 30}"
                         f"\nSaves list: \n{corrupted_data}",
                         log_error=error
-                    ))
+                    )
+                )
                 return False
 
     def _vanish_game_collections(self):
@@ -544,5 +548,6 @@ class SaveKeeper(SingletonPattern):
                 rmdir(save_path)
             except OSError:
                 raise OSError(
-                    f"Not only game save data are inside folder:\nDelete root path: {save_path}"
+                    f"Not only game save data are inside folder!\n"
+                    f"Directory to be deleted: {save_path}"
                 )

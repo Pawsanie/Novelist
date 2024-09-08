@@ -25,9 +25,16 @@ class BaseButton(ABC):
     # Other settings:
     _button_layer: int = 4
 
-    def __init__(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],
-                 button_text_localization_dict: dict[str] | None = None, have_real_path: bool = False,
-                 text_offset_x: int | float | None = None, text_offset_y: int | float | None = None):
+    def __init__(
+            self, *,
+            button_name: str,
+            button_text: str | None = None,
+            button_image_data: dict[str, int],
+            button_text_localization_dict: dict[str] | None = None,
+            have_real_path: bool = False,
+            text_offset_x: int | float | None = None,
+            text_offset_y: int | float | None = None
+    ):
         """
         :param button_name: String with button image file name.
         :type button_name: str
@@ -86,7 +93,7 @@ class BaseButton(ABC):
             },
             "sprite_size": self._button_size
         }
-        if have_real_path is None:
+        if have_real_path is True:
             self._load_real_path_button_static_texture()
         self._button_sprite: Sprite = Sprite(**sprite_attributes)
 
