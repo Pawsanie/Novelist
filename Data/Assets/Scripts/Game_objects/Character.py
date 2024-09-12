@@ -77,22 +77,34 @@ class Character:
         )
 
     def _scale_character_sprite_size(self):
-        result_size_x, result_size_y = (0, 0)
-        screen_size: tuple[int, int] = self._background.get_size()
-        sprite_size: tuple[int, int] = self._get_character_sprite_size()
+        """
+        Scale size for screen image.
+        """
+        screen_size_x, screen_size_y = self._background.get_size()
+        sprite_size_x, sprite_size_y = self._get_character_sprite_size()
 
-        if sprite_size[1] != screen_size[1]:
-            result_size_y: int = screen_size[1]
-            if sprite_size[1] < screen_size[1]:
-                percent_size_sprite_difference = int(sprite_size[1] / screen_size[1] * 100)
-                coefficient: int | float = sprite_size[0] / 100
-                percent_integer: int | float = coefficient * (100 - percent_size_sprite_difference)
-                result_size_x = int(sprite_size[0] + percent_integer)
-            if sprite_size[1] > screen_size[1]:
-                percent_size_sprite_difference = int(screen_size[1] / sprite_size[1] * 100)
-                result_size_x = int(sprite_size[0] * (1 - ((100 - percent_size_sprite_difference) / 100)))
-        else:
-            self._character_sprite_size: tuple[int, int] = sprite_size
+        if sprite_size_y == screen_size_y:
+            self._character_sprite_size: tuple[int, int] = (
+                sprite_size_x,
+                sprite_size_y
+            )
+            return
+        result_size_y: int = screen_size_y
+        result_size_x: int = 0
+        if sprite_size_y < screen_size_y:
+            percent_size_sprite_difference: int = int(
+                sprite_size_y / screen_size_y * 100
+            )
+            coefficient: int | float = sprite_size_x / 100
+            percent_integer: int | float = coefficient * (100 - percent_size_sprite_difference)
+            result_size_x: int = int(
+                sprite_size_x + percent_integer
+            )
+        elif sprite_size_y > screen_size_y:
+            percent_size_sprite_difference: int = int(screen_size_y / sprite_size_y * 100)
+            result_size_x: int = int(
+                sprite_size_x * (1 - ((100 - percent_size_sprite_difference) / 100))
+            )
         self._character_sprite_size: tuple[int, int] = result_size_x, result_size_y
 
     def get_sprite(self) -> Sprite:
