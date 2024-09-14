@@ -46,7 +46,7 @@ class Character:
         self._character_sprite_size: tuple[int, int] = (0, 0)  # self._get_character_sprite_size()
 
         # Character settings:
-        self._sprite_coordinates: list[int, int] = [0, 0]
+        self._sprite_coordinates: tuple[int, int] = (0, 0)
         self._poses: dict = poses
         self.animation: bool = animation
 
@@ -80,6 +80,10 @@ class Character:
         """
         Scale size for screen image.
         """
+        self._texture_master.devnull_temporary_texture(
+            texture_type="Characters",
+            texture_name=self._texture_name
+        )
         screen_size_x, screen_size_y = self._background.get_size()
         sprite_size_x, sprite_size_y = self._get_character_sprite_size()
 
@@ -144,6 +148,7 @@ class Character:
                 int(size[1] * 0.8)
             )
             self._sprite.scale(self._character_sprite_size)
+            self._sprite.set_recache_status(False)
 
         if self._plan == 'first_plan':
             background_surface: tuple[int, int] = self._background.get_size()
@@ -155,6 +160,7 @@ class Character:
                 self._character_sprite_size[1] - coordinates_difference
             )
             self._sprite.scale(fp_size)
+            self._sprite.set_recache_status(False)
 
         # Position correction:
         if self._position == 'middle':
@@ -182,41 +188,41 @@ class Character:
         """
         self._plan: str = plan
 
-    def _middle_point_for_character_render(self) -> list[int, int]:
+    def _middle_point_for_character_render(self) -> tuple[int, int]:
         """
         Calculation middle coordinates for character render.
         :return: List with coordinates of meddle point for character render.
         """
-        screen_size: tuple[int, int] = self._background.get_size()
-        sprite_size: tuple[int, int] = self._get_character_sprite_size()
+        screen_size_x, screen_size_y = self._background.get_size()
+        sprite_size_x, sprite_size_y = self._sprite._image_size
         background_y_coordinate: int = self._background.get_coordinates()[1]
 
         # X:
         x_coordinate: int = int(
-            (screen_size[0] // 2)
-            - (sprite_size[0] // 2)
+            (screen_size_x // 2)
+            - (sprite_size_x // 2)
         )
 
         # Y:
         y_coordinate: int = int(
-            (screen_size[1] - sprite_size[1])
+            (screen_size_y - sprite_size_y)
             + background_y_coordinate
         )
 
-        return [x_coordinate, y_coordinate]
+        return x_coordinate, y_coordinate
 
     def _move_to_middle(self):
         """
         Move character to middle of scene.
         """
         x_coordinate, y_coordinate = self._middle_point_for_character_render()
-        self._sprite_coordinates: list[int, int] = [
+        self._sprite_coordinates: tuple[int, int] = (
             int(
                 x_coordinate
                 + self._background.get_coordinates()[0]
             ),
             y_coordinate
-        ]
+        )
         self._position: str = 'middle'
 
     def _move_to_left(self):
@@ -224,13 +230,13 @@ class Character:
         Move character to right of scene.
         """
         x_coordinate, y_coordinate = self._middle_point_for_character_render()
-        self._sprite_coordinates: list[int, int] = [
+        self._sprite_coordinates: tuple[int, int] = (
             int(
                 x_coordinate // 3
                 + self._background.get_coordinates()[0]
             ),
             y_coordinate
-        ]
+        )
         self._position: str = 'left'
 
     def _move_to_right(self):
@@ -238,13 +244,13 @@ class Character:
         Move character to right of scene.
         """
         x_coordinate, y_coordinate = self._middle_point_for_character_render()
-        self._sprite_coordinates: list[int, int] = [
+        self._sprite_coordinates: tuple[int, int] = (
             int(
                 x_coordinate * 1.64
                 + self._background.get_coordinates()[0]
             ),
             y_coordinate
-        ]
+        )
         self._position: str = 'right'
 
 

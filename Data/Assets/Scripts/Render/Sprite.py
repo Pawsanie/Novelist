@@ -1,6 +1,6 @@
 from random import randint
 
-from pygame import Surface, time
+from pygame import Surface, time, transform
 
 from .Texture_Master import TexturesMaster
 """
@@ -68,6 +68,7 @@ class Sprite:
 
         # Render settings:
         self._scene_name: str | None = None
+        self._recache_status: bool = True
 
     def _get_default_animation_name(self) -> str | None:
         """
@@ -86,6 +87,9 @@ class Sprite:
                 )[0]
 
     def _get_sprite_frame_name(self) -> int | str | None:
+        """
+        Sprite frame name can be any data types and values which can be keys in dictionaries.
+        """
         if self._animation_name == "statick_frames":
             result: str = list(
                 self._sprite_sheet_data[
@@ -96,7 +100,7 @@ class Sprite:
             result: int = 1
         return result
 
-    def get_layer(self):
+    def get_layer(self) -> int | str:
         """
         Use in Batch.
         """
@@ -115,6 +119,21 @@ class Sprite:
         if self._texture_master.get_texture_size(
                 **universal_parameters
         ) != self._image_size:
+            if self._recache_status is False:
+                temporary_texture: Surface = Surface(self._image_size)
+                temporary_texture.blit(
+                    transform.scale(
+                        surface=self._texture_master.get_texture(**universal_parameters),
+                        size=self._image_size
+                    ),
+                    (0, 0)
+                )
+                self._texture_master.set_temporary_texture(
+                    texture_type=self._sprite_sheet_data["texture_type"],
+                    texture_name=self._texture_id,
+                    surface=temporary_texture
+                )
+                return
             self._texture_master.set_new_scale_frame(
                 **universal_parameters,
                 image_size=self._image_size
@@ -189,7 +208,7 @@ class Sprite:
         from ..GamePlay.Scene_Validator import SceneValidator
         return SceneValidator().get_current_scene_name()
 
-    def get_animation_name(self):
+    def get_animation_name(self) -> str:
         """
         Use in Character and Backgrounds.
         """
@@ -225,6 +244,13 @@ class Sprite:
                 self._pause_duration: int = randint(2, 5)
         return self._sprite_sheet_frame
 
+    def set_recache_status(self, recache_status: bool = True):
+        """
+        :param recache_status: If there is no need to cache the sprite texture, a temporary image will be created.
+        :type recache_status: bool
+        """
+        self._recache_status: bool = recache_status
+
     def scale(self, size: tuple[int, int]):
         """
         Scale Sprite image to size.
@@ -239,5 +265,5 @@ class Sprite:
         """
         self._animation_name: str = animation_name
 
-    def set_coordinates(self, current_coordinates):
+    def set_coordinates(self, current_coordinates: tuple[int, int]):
         self._coordinates: tuple[int, int] = current_coordinates
