@@ -38,7 +38,8 @@ class Sprite:
                                     "statick_frames"|"animations": {
                                         "any_animation_name": {  # The animation name only matters for animated sprites,
                                                                  # in the context of switching.
-                                            {...},  # The data inside is irrelevant for statick sprites.
+                                            animation_name_str: {...},  # The data inside is irrelevant for
+                                                                        # statick sprites.
                                             "time_duration": float  # The only important value for animation sprites.
                                         }
                                     }

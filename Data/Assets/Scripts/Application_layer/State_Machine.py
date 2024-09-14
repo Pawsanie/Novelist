@@ -31,12 +31,13 @@ class MenuState(SingletonPattern):
     def __call__(self):
         # Scene settings:
         menu_name: str | None = self._interface_controller.menu_name
-        self._stage_director.vanishing_scene()
-        self._stage_director.set_scene(
-            location=menu_name
-        )
         if menu_name is None:
             menu_name: str = self._game_menu_name
+        else:
+            self._stage_director.vanishing_scene()
+            self._stage_director.set_scene(
+                location=menu_name
+            )
 
         # Sound data:
         menu_data: dict = self._menu_music_data[menu_name]

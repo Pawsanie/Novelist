@@ -1,4 +1,4 @@
-from pygame import display, Surface, SRCALPHA
+from pygame import display, Surface
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Application_layer.Settings_Keeper import SettingsKeeper
@@ -97,17 +97,18 @@ class Render(SingletonPattern):
         if self.interface_controller.gameplay_type_reading is True \
                 and self.interface_controller.menu_name is None\
                 and GameMenu().status is True:
-            screen_mask: Surface = Surface(
-                [self.screen.get_width(), self.screen.get_height()],
-                SRCALPHA
-            )
-            screen_mask.fill((0, 0, 0))
-            screen_mask.set_alpha(210)
-
             self.sprite_collection.append(
                 Sprite(
                     texture_mame="ui#screen_mask",
-                    layer=3
+                    layer=3,
+                    sprite_size=(self.screen.get_width(), self.screen.get_height()),
+                    sprite_sheet_data={
+                        "texture_type": "Backgrounds",
+                        "sprite_sheet": False,
+                        "statick_frames": {
+                            "screen_mask": {}
+                        }
+                    }
                 )
             )
 
@@ -128,7 +129,7 @@ class Render(SingletonPattern):
         Add single sprites to layers.
         """
         for sprite in self.sprite_collection:
-            sprite_layer: int = sprite.layer
+            sprite_layer: int = sprite.get_layer()
 
             if sprite_layer not in self.layers_collection:
                 layer_object: Layer = Layer(sprite_layer)
