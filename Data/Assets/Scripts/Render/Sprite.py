@@ -65,7 +65,7 @@ class Sprite:
         # Sprite sheet animation data:
         self._animation_name: str = self._get_default_animation_name()
         self._sprite_sheet_frame: int | str = self._get_sprite_frame_name()
-        self._pause_duration: int = 0
+        self._pause_duration: int = randint(2, 5)
 
         # Render settings:
         self._scene_name: str | None = None
@@ -124,7 +124,9 @@ class Sprite:
                 temporary_texture: Surface = Surface(self._image_size)
                 temporary_texture.blit(
                     transform.scale(
-                        surface=self._texture_master.get_texture(**universal_parameters),
+                        surface=self._texture_master.get_texture(
+                            **universal_parameters
+                        ),
                         size=self._image_size
                     ),
                     (0, 0)
@@ -147,6 +149,7 @@ class Sprite:
         :param any_surface: Any Surface.
         :type any_surface: Surface
         """
+        self._sprite_sheet_next_frame()
         self._recache_sprite()
         any_surface.blit(
             self._texture_master.get_texture(
@@ -167,6 +170,7 @@ class Sprite:
         :param coordinates: Render coordinates.
         :type coordinates: tuple[int, int]
         """
+        self._sprite_sheet_next_frame()
         self._recache_sprite()
         temporary_texture: Surface = self._texture_master.get_texture(
             texture_type=self._sprite_sheet_data["texture_type"],
@@ -232,12 +236,12 @@ class Sprite:
             return self._sprite_sheet_frame
 
         if (current_time_frame - self._frame_time) / 1000 >= (
-                self._sprite_sheet_data[self._animation_name]["time_duration"]
-                / len(self._sprite_sheet_data[self._animation_name]["frames"])
+                self._sprite_sheet_data["animations"][self._animation_name]["time_duration"]
+                / len(self._sprite_sheet_data["animations"][self._animation_name]["frames"])
         ):
             self._frame_time: int = current_time_frame
             if self._sprite_sheet_frame + 1 <= len(
-                        self._sprite_sheet_data[self._animation_name]["frames"]
+                        self._sprite_sheet_data["animations"][self._animation_name]["frames"]
             ):
                 self._sprite_sheet_frame += 1
             else:

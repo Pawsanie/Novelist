@@ -148,7 +148,6 @@ class Character:
                 int(size[1] * 0.8)
             )
             self._sprite.scale(self._character_sprite_size)
-            self._sprite.set_recache_status(False)
 
         if self._plan == 'first_plan':
             background_surface: tuple[int, int] = self._background.get_size()
@@ -160,7 +159,7 @@ class Character:
                 self._character_sprite_size[1] - coordinates_difference
             )
             self._sprite.scale(fp_size)
-            self._sprite.set_recache_status(False)
+        self._sprite.set_recache_status(False)
 
         # Position correction:
         if self._position == 'middle':
