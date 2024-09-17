@@ -271,4 +271,7 @@ class Sprite:
         self._animation_name: str = animation_name
 
     def set_coordinates(self, current_coordinates: tuple[int, int]):
+        """
+        Used in Buttons, Backgrounds and Characters.
+        """
         self._coordinates: tuple[int, int] = current_coordinates
