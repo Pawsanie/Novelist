@@ -117,30 +117,36 @@ class Sprite:
             "animation_name": self._animation_name,
             "frame": self._sprite_sheet_frame
         }
+        # No scaling required:
         if self._texture_master.get_texture_size(
                 **universal_parameters
-        ) != self._image_size:
-            if self._recache_status is False:
-                temporary_texture: Surface = Surface(self._image_size)
-                temporary_texture.blit(
-                    transform.scale(
-                        surface=self._texture_master.get_texture(
-                            **universal_parameters
-                        ),
-                        size=self._image_size
+        ) == self._image_size:
+            return
+
+        # Temporary texture:
+        if self._recache_status is False:
+            temporary_texture: Surface = Surface(self._image_size)
+            temporary_texture.blit(
+                transform.scale(
+                    surface=self._texture_master.get_texture(
+                        **universal_parameters
                     ),
-                    (0, 0)
-                )
-                self._texture_master.set_temporary_texture(
-                    texture_type=self._sprite_sheet_data["texture_type"],
-                    texture_name=self._texture_id,
-                    surface=temporary_texture
-                )
-                return
-            self._texture_master.set_new_scale_frame(
-                **universal_parameters,
-                image_size=self._image_size
+                    size=self._image_size
+                ),
+                (0, 0)
             )
+            self._texture_master.set_temporary_texture(
+                texture_type=self._sprite_sheet_data["texture_type"],
+                texture_name=self._texture_id,
+                surface=temporary_texture
+            )
+            return
+
+        # Texture caching:
+        self._texture_master.set_new_scale_frame(
+            **universal_parameters,
+            image_size=self._image_size
+        )
 
     def blit_to(self, any_surface: Surface):
         """
@@ -231,22 +237,28 @@ class Sprite:
         # Animation frame:
         current_time_frame: int = time.get_ticks()
 
+        # Animation pause:
         if (current_time_frame - self._frame_time) / 1000 >= self._pause_duration:
             self._frame_time: int = current_time_frame
             return self._sprite_sheet_frame
 
+        # Switch animation frame:
         if (current_time_frame - self._frame_time) / 1000 >= (
                 self._sprite_sheet_data["animations"][self._animation_name]["time_duration"]
                 / len(self._sprite_sheet_data["animations"][self._animation_name]["frames"])
         ):
-            self._frame_time: int = current_time_frame
+            # Next frame of animation:
             if self._sprite_sheet_frame + 1 <= len(
                         self._sprite_sheet_data["animations"][self._animation_name]["frames"]
             ):
                 self._sprite_sheet_frame += 1
+                self._frame_time: int = current_time_frame
+            # End of animation sprite sheet:
             else:
                 self._sprite_sheet_frame: int = 1
                 self._pause_duration: int = randint(2, 5)
+                self._frame_time: int = current_time_frame + self._pause_duration * 1000  # TODO: Crutch
+
         return self._sprite_sheet_frame
 
     def set_recache_status(self, recache_status: bool = True):
