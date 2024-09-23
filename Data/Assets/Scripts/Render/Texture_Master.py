@@ -1,3 +1,5 @@
+from typing import Callable
+
 from pygame import Surface, SRCALPHA, transform
 
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
@@ -61,8 +63,16 @@ class TexturesMaster(SingletonPattern):
         # Collect raw UI textures:
         self._collect_raw_ui_images()
 
-        # Create texture catalog:s
-        self._create_texture_catalog()
+        # Create texture catalog:
+        deep_copy_surfaces: Callable = lambda dict_to_copy: {
+            key: (
+                value.copy() if isinstance(value, Surface)
+                else deep_copy_surfaces(value) if isinstance(value, dict)
+                else value
+            )
+            for key, value in dict_to_copy.items()
+        }
+        self._texture_catalog: dict = deep_copy_surfaces(self._raw_textures_catalog)
 
     def _collect_raw_ui_images(self):
         """
@@ -172,10 +182,6 @@ class TexturesMaster(SingletonPattern):
                 }
             }
         )
-
-    def _create_texture_catalog(self):
-        # TODO: optimisation_scale
-        self._texture_catalog: dict = self._raw_textures_catalog.copy()
 
     def get_texture(self, *, texture_type: str, texture_name: str,
                     animation_name: str | None = None, frame: int | str) -> Surface:
@@ -366,21 +372,8 @@ class TexturesMaster(SingletonPattern):
                 image_size
             )
             self._temporary_textures[texture_type][texture_name]: Surface = image_surface
+
         except KeyError:
-
-            image_surface: Surface = transform.scale(
-                self._texture_catalog[
-                    texture_type
-                ][
-                    texture_name
-                ][
-                    animation_name
-                ][
-                    str(frame)
-                ],
-                image_size
-            )
-
             self._texture_catalog[
                 texture_type
             ][
@@ -389,7 +382,19 @@ class TexturesMaster(SingletonPattern):
                 animation_name
             ][
                 str(frame)
-            ]: Surface = image_surface
+            ]: Surface = \
+                transform.scale(
+                self._raw_textures_catalog[
+                    texture_type
+                ][
+                    texture_name
+                ][
+                    animation_name
+                ][
+                    str(frame)
+                ].copy(),
+                image_size
+            )
 
     def set_temporary_texture(self, *, texture_type: str, texture_name: str, surface: Surface):
         """
