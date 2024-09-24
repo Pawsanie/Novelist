@@ -176,7 +176,6 @@ class Sprite:
         :param coordinates: Render coordinates.
         :type coordinates: tuple[int, int]
         """
-        self._sprite_sheet_next_frame()
         self._recache_sprite()
         temporary_texture: Surface = self._texture_master.get_texture(
             texture_type=self._sprite_sheet_data["texture_type"],
@@ -287,3 +286,21 @@ class Sprite:
         Used in Buttons, Backgrounds and Characters.
         """
         self._coordinates: tuple[int, int] = current_coordinates
+
+    def get_texture_id(self) -> str:
+        """
+        Used in BaseButton.
+        """
+        return self._texture_id
+
+    def get_current_animation_frame(self) -> int | str:
+        """
+        Used in BaseButton.
+        """
+        return self._sprite_sheet_frame
+
+    def get_sprite_sheet_data(self) -> dict:
+        """
+        Used in BaseButtons.
+        """
+        return self._sprite_sheet_data

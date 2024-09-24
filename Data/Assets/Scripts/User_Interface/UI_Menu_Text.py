@@ -178,7 +178,10 @@ class MenuText:
             self._menu_text_substrate_sprite.blit(
                 menu_text_substrate_standard, (0, 0)
             )
-        self._menu_text_surface: Surface = Surface(self._menu_text_surface_size, SRCALPHA)
+        self._menu_text_surface: Surface = Surface(
+            self._menu_text_surface_size,
+            SRCALPHA
+        )
 
     def get_sprite(self) -> Sprite:
         """

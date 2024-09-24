@@ -173,9 +173,9 @@ class BaseButton(ABC):
         button_surface: Surface = transform.scale(
             TexturesMaster().get_texture(
                 texture_type="User_Interface",
-                texture_name=self._button_sprite._texture_id,
+                texture_name=self._button_sprite.get_texture_id(),
                 animation_name=self._button_sprite.get_animation_name(),
-                frame=self._button_sprite._sprite_sheet_frame
+                frame=self._button_sprite.get_current_animation_frame()
             ),
             self._button_size
         )
@@ -224,7 +224,7 @@ class BaseButton(ABC):
             coordinates=self._button_coordinates,
             texture_mame=self._button_name,
             name=self._button_name,
-            sprite_sheet_data=self._button_sprite._sprite_sheet_data,
+            sprite_sheet_data=self._button_sprite.get_sprite_sheet_data(),
             sprite_size=self._button_size
         )
 
