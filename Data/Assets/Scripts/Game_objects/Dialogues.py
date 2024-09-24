@@ -89,7 +89,9 @@ class DialoguesWords(SingletonPattern):
 
         universal_texture_data: dict = {
             "texture_type": text_type,
-            "texture_name": text_type
+            "texture_name": text_type,
+            "animation_name": "statick_frames",
+            "frame": text_type
         }
         self._texture_master.devnull_temporary_texture(
             **universal_texture_data

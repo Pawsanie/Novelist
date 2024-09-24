@@ -184,26 +184,23 @@ class TexturesMaster(SingletonPattern):
         )
 
     def get_texture(self, *, texture_type: str, texture_name: str,
-                    animation_name: str | None = None, frame: int | str) -> Surface:
+                    animation_name: str, frame: int | str) -> Surface:
         """
         Get texture Surface from TexturesMaster storage.
         :param texture_type: Characters|Backgrounds|User_Interface
         :type texture_type: str
         :param texture_name: Name of texture.
         :type texture_name: str
-        :param animation_name: Animation name of sprite sheet. For statick images is None as default.
-        :type animation_name: str | None
+        :param animation_name: Animation name of sprite sheet.
+        :type animation_name: str
         :param frame: Animation frame number, or frame name for statick images.
         :type frame: int | str
         :return: Texture frame Surface
         """
         try:
-            return self._temporary_textures[texture_type][texture_name]
+            return self._temporary_textures[texture_type][texture_name][animation_name][str(frame)]
         except KeyError:
-            if animation_name is not None:
-                return self._texture_catalog[texture_type][texture_name][animation_name][str(frame)]
-            else:
-                return self._texture_catalog[texture_type][texture_name][str(frame)]
+            return self._texture_catalog[texture_type][texture_name][animation_name][str(frame)]
 
     def _collect_texture_configurations(self):
         """
@@ -351,7 +348,7 @@ class TexturesMaster(SingletonPattern):
                         }
                     )
 
-    def set_new_scale_frame(self, *, texture_name: str, texture_type: str, frame: int,
+    def set_new_scale_frame(self, *, texture_name: str, texture_type: str, frame: int | str,
                             image_size: tuple[int, int], animation_name: str = "statick_frames"):
         """
         Cash new frame size.
@@ -368,10 +365,10 @@ class TexturesMaster(SingletonPattern):
         """
         try:
             image_surface: Surface = transform.scale(
-                self._temporary_textures[texture_type][texture_name],
+                self._temporary_textures[texture_type][texture_name][animation_name][str(frame)],
                 image_size
             )
-            self._temporary_textures[texture_type][texture_name]: Surface = image_surface
+            self._temporary_textures[texture_type][texture_name][animation_name][str(frame)]: Surface = image_surface
 
         except KeyError:
             self._texture_catalog[
@@ -396,7 +393,8 @@ class TexturesMaster(SingletonPattern):
                 image_size
             )
 
-    def set_temporary_texture(self, *, texture_type: str, texture_name: str, surface: Surface):
+    def set_temporary_texture(self, *, texture_type: str, texture_name: str,
+                              surface: Surface, animation_name: str, frame: int | str):
         """
         Set temporary texture.
         These are specific textures generated using on-the-fly calculations.
@@ -405,6 +403,10 @@ class TexturesMaster(SingletonPattern):
         :type texture_name: str
         :param texture_type: Type of texture image.
         :type texture_type: str
+        :param animation_name: Name of animation for non statick textures.
+        :type animation_name: str
+        :param frame: Number of frame or statick frame name.
+        :type frame: int | str
         :param surface: Pygame.Surface object.
         :type surface: Surface
         """
@@ -417,11 +419,26 @@ class TexturesMaster(SingletonPattern):
         if texture_name not in self._temporary_textures[texture_type]:
             self._temporary_textures[texture_type].update(
                 {
-                    texture_name: surface
+                    texture_name: {}
                 }
             )
+        if animation_name not in self._temporary_textures[texture_type][texture_name]:
+            self._temporary_textures[texture_type][texture_name].update(
+                {
+                    animation_name: {}
+                }
+            )
+        if str(frame) not in self._temporary_textures[texture_type][texture_name][animation_name]:
+            self._temporary_textures[texture_type][texture_name][animation_name].update(
+                {
+                    str(frame): surface
+                }
+            )
+        else:
+            self._temporary_textures[texture_type][texture_name][animation_name][str(frame)]: Surface = surface
 
-    def devnull_temporary_texture(self, *, texture_type: str, texture_name: str):
+    def devnull_temporary_texture(self, *, texture_type: str, texture_name: str,
+                                  animation_name: str, frame: int | str):
         """
         Devnull temporary texture.
         These are specific textures generated using on-the-fly calculations.
@@ -430,21 +447,39 @@ class TexturesMaster(SingletonPattern):
         :type texture_name: str
         :param texture_type: Type of texture image.
         :type texture_type: str
+        :param frame: Number of frame or statick frame name.
+        :type frame: int | str
+        :param animation_name: Name of animation for non statick textures.
+        :type animation_name: str
         """
         try:
-            del self._temporary_textures[texture_type][texture_name]
+            del self._temporary_textures[texture_type][texture_name][animation_name][str(frame)]
         except KeyError:
             pass
 
-    def get_temporary_texture(self, texture_type: str, texture_name: str) -> Surface:
+    def get_temporary_texture(self, texture_type: str, texture_name: str,
+                              animation_name: str, frame: int | str) -> Surface:
         """
         Get cyclically recache texture.
         Can be used for UI buttons.
+        :param texture_name: Name of texture image frame.
+        :type texture_name: str
+        :param texture_type: Type of texture image.
+        :type texture_type: str
+        :param frame: Number of frame or statick frame name.
+        :type frame: int | str
+        :param animation_name: Name of animation for non statick textures.
+        :type animation_name: str
         """
-        return self._temporary_textures[texture_type][texture_name]
+        return self._temporary_textures[texture_type][texture_name][animation_name][str(frame)]
 
-    def get_texture_size(self, *, texture_name: str, texture_type: str,
-                         frame: int | str = 0, animation_name: str = "statick_frames") -> tuple[int, int]:
+    def get_texture_size(
+            self, *,
+            texture_type: str,
+            texture_name: str,
+            animation_name: str = "statick_frames",
+            frame: int | str = 0
+    ) -> tuple[int, int]:
         """
         Get texture size from catalog.
         :param texture_name: Name of texture image frame.
@@ -459,7 +494,9 @@ class TexturesMaster(SingletonPattern):
         try:
             texture_surface: Surface = self.get_temporary_texture(
                 texture_type=texture_type,
-                texture_name=texture_name
+                texture_name=texture_name,
+                animation_name=animation_name,
+                frame=str(frame)
             )
             return texture_surface.get_width(), texture_surface.get_height()
         except KeyError:

@@ -160,13 +160,17 @@ class MenuText:
         Used in InterfaceController.
         :return: Sprite
         """
+        universal_parameters: dict = {
+            "texture_type": "User_Interface",
+            "texture_name": "Menu_Text",
+            "animation_name": "statick_frames",
+            "frame": "Menu_Text"
+        }
         self._texture_master.devnull_temporary_texture(
-            texture_type="User_Interface",
-            texture_name="Menu_Text"
+            **universal_parameters
         )
         self._texture_master.set_temporary_texture(
-            texture_type="User_Interface",
-            texture_name="Menu_Text",
+            **universal_parameters,
             surface=self._text_render()
         )
 
@@ -262,7 +266,7 @@ class MenuText:
                         texture_name=self._menu_text_substrate,
                         animation_name="statick_frames",
                         frame=self._menu_text_substrate
-                    ).copy(),
+                    ),
                     self._menu_text_surface_size
                 ),
                 (0, 0)

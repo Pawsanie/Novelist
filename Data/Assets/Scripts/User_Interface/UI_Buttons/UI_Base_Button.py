@@ -141,6 +141,8 @@ class BaseButton(ABC):
         TexturesMaster().set_temporary_texture(
             texture_type="User_Interface",
             texture_name=self._button_name,
+            animation_name="statick_frames",
+            frame=self._button_sprite.get_current_animation_frame(),
             surface=surface
         )
 
@@ -156,7 +158,9 @@ class BaseButton(ABC):
         """
         TexturesMaster().devnull_temporary_texture(
             texture_type="User_Interface",
-            texture_name=self._button_name
+            texture_name=self._button_name,
+            animation_name="statick_frames",
+            frame=self._button_sprite.get_current_animation_frame(),
         )
 
         # Standard UI button:

@@ -82,7 +82,9 @@ class Character:
         """
         self._texture_master.devnull_temporary_texture(
             texture_type="Characters",
-            texture_name=self._texture_name
+            texture_name=self._texture_name,
+            animation_name=self._sprite.get_animation_name(),
+            frame=self._sprite.get_frame_number()
         )
         screen_size_x, screen_size_y = self._background.get_size()
         sprite_size_x, sprite_size_y = self._get_character_sprite_size()

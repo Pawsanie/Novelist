@@ -136,8 +136,7 @@ class Sprite:
                 (0, 0)
             )
             self._texture_master.set_temporary_texture(
-                texture_type=self._sprite_sheet_data["texture_type"],
-                texture_name=self._texture_id,
+                **universal_parameters,
                 surface=temporary_texture
             )
             return
