@@ -3,7 +3,7 @@
     "gameplay_type": "reading",
     "background": {
       "background_sprite_sheet": "back_ground_01",
-      "background_animation": "animation_01"
+      "background_animation": "default"
     },
     "past_scene": "START",
     "actors": {
@@ -35,7 +35,7 @@
     "gameplay_type": "choice",
     "background": {
       "background_sprite_sheet": "back_ground_01",
-      "background_animation": "animation_01"
+      "background_animation": "default"
     },
     "past_scene": "test_scene_01",
     "actors": {
@@ -75,7 +75,7 @@
     "gameplay_type": "reading",
     "background": {
       "background_sprite_sheet": "back_ground_01",
-      "background_animation": "animation_01"
+      "background_animation": "default"
     },
     "past_scene": "test_scene_02",
     "actors": {
