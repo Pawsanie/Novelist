@@ -61,9 +61,8 @@ python -B Visual_novel_game.py
 
 ### Scene order:
 To adjust the scene order, you need to change the json file **'screenplay.json'**.<br>
-At the same time, the first scene **must** be named **scene_01**!<br>
-And the 'past_scene' key of 'scene_01' **must** be **'START'**.<br>
-In the last scene next_scene key **must** be **'FINISH'**.<br>
+At the same time, the first scene **must** have the 'past_scene' key value as **'START'**.<br>
+In the last scene 'next_scene' key **must** be **'FINISH'**.<br>
 
 **File location:**<br>
 ./:open_file_folder:Data<br>
@@ -72,106 +71,91 @@ In the last scene next_scene key **must** be **'FINISH'**.<br>
                      └── :file_folder:Json_data<br>
                               └── :page_facing_up:screenplay.json<br>
 
-**Example of one scene in screenplay.json file:**
+**Example of screenplay.json file:**
 ```json
 {
-  "scene_01": {
-    "background": "back_ground_01",
+  "test_scene_01": {
+    "gameplay_type": "reading",
+    "background": {
+      "background_sprite_sheet": "back_ground_01",
+      "background_animation": "default"
+    },
+    "past_scene": "START",
     "actors": {
-      "Character_01": {
-        "character_start_position": "right",
-        "character_pose": "3",
-        "character_plan": "background_plan"
-      },
       "Character_02": {
-        "character_start_position": "middle",
-        "character_pose": "2",
-        "character_plan": "first_plan"
+        "character_animation": "1",
+        "character_plan": "first_plan",
+        "character_start_position": "middle"
+      },
+      "Character_01": {
+        "character_animation": "3",
+        "character_plan": "background_plan",
+        "character_start_position": "right"
       }
     },
-    "special_effects": false,
-    "gameplay_type": "reading",
-    "past_scene": "START",
     "next_scene": "test_scene_02",
+    "speaker_name_color": "#00ffff",
+    "speech_text_color": "#ffffff",
+    "special_effects": [
+      "rain",
+      "noise_artifacts"
+    ],
     "sounds": {
       "music_channel": false,
       "sound_channel": "blank",
       "voice_channel": false
-     }
-   }
+    }
+  },
+  "test_scene_02": {
+    ...
+    "choices": {
+      "choice_01": {
+        "branching": "test_scene_01",
+        "text_color": "#ffffff"
+      },
+      "choice_02": {
+        "branching": false,
+        "text_color": "#ff0000"
+      },
+      "choice_03": {
+        "branching": "test_scene_03",
+        "text_color": "#ffffff"
+      }
+    },
+    ...
 }
 ```
-In this case, the keys indicate which scene was before 'scene_01' and which should be after (scene_02).<br>
-Scenes 'START' or 'FINISH' do not exist.<br>
-But the game focuses on its flags.<br>
-Please note that a '**gameplay_type**' key value must be **reading/choice/false** where the first two options are strings.<br>
+The '**past_scene**' key contains information about the previous scene.<br>
+The **first scene** must have the '**START**' key value.<br>><br>
+
+The '**background**' key have information about background sprite.<br>
+The '**background_sprite_sheet**' key must have backgrounds name keys from 'backgrounds_sprites.json' as a value.<br>
+The '**background_animation**' key must have a relevant animation name from background texture json file data.<br>
+More about this further in '**Backgrounds and its sprites**' paragraph.<br><br>
+
+The '**next_scene**' key value contains information about the next scene to be switched to.<br>
+Last scene must have the '**FINISH**' key value.<br>
+Please note that this only switches the reading gameplay scene.<br>
+As example 'test_scene_01' scene.<br><br>
+
+The '**choices**' key value contains links to text localisation as keys.<br>
+The '**branching**' work like 'next_scene' key for reading gameplay.<br>
+Please note that this only switches the choice gameplay scene.<br>
+The '**text_color**' key control color of text on choice button.<br>
+As example 'test_scene_02' scene.<br>
+More information about reading and choice gameplay text is specified in the localization paragraph.<br><br>
+
+Please note that a '**gameplay_type**' key value must be **reading|choice** strings.<br><br>
+
 Please note that an **actors** characters keys must match certain values:<br>
-**character_start_position** - may have values **right/middle/left**.<br>
-**character_pose** - can be any key from the dictionary 'characters_sprites.json'. <br>
+**character_animation** - can be any key from the dictionary 'characters_sprites.json'. <br>
 More about this further in **"Characters and their sprites"** paragraph.<br>
-**character_plan** - may have values **background_plan/first_plan**.<br>
+**character_plan** - may have values **background_plan|first_plan**.<br>
+**character_start_position** - may have values **right|middle|left**.<br><br>
+
 The nested dictionary of the **"sounds"** key contains the keys and values of the sound effects and music<br>
 that will be played at the start of the scene and will be interrupted at the transition to the next one.<br>
 Please note that the keys **"voice_channel"**, **"sound_channel"** and **"music_channel"** can contain either a string with a name, without a file extension, or **false** as values.<br>
-
-### Dialogues:
-Game dialogues have to be writen in **lang_tag.json** file... **eng.json** as example...<br>
-And this tag must be writen in **dialogues_localizations_data.json** file.<br>
-You need to name localization language tags for translation in the game settings.
-
-**Files location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :file_folder:Dialogues<br>
-                                       ├── :file_folder:Choice<br>
-                                       │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                       ├── :file_folder:Reading<br>
-                                       │       └── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                       └── :page_facing_up:dialogues_localizations_data.json<br>
-
-**Example of one scene in 'eng.json' file in 'Reading' folder':**
-```json
-{
-   "scene_01": {
-    "who": {
-      "text": "Test Chan",
-      "color": "#00ffff"
-    },
-    "what": {
-      "text": "Hello World!",
-      "color": "#ffffff"
-    }
-  }
-}
-```
-**Example of 'eng.json' file in 'Choice' folder':**
-```json
-{
-  "scene_01": false,
-
-  "test_scene_02": {
-    "choice_01": "Got to Scene 01",
-    "choice_02": "ERROR!",
-    "choice_03": "Go to Scene 03"
-  },
-
-  "test_scene_03": false
-
-}
-```
-Scenes with '**false**' keys can be omitted.
-
-**Example of 'dialogues_localizations_data.json' file:**
-```json
-{
-  "language_flags": [
-    "eng",
-    "ru"
-  ]
-}
-```
 
 ## Characters and their sprites:
 Information about the characters is stored in a 'characters_sprites.json 'file.<br>
@@ -197,7 +181,9 @@ Sprite file name. And the x|y coordinates for sprite animations.<br>
         "2": {
           "x": [330, 594],
           "y": [49, 618]
-        }}},  
+        }
+      }
+  },  
   
     "Character_02": {
     "sprite": "blank_pink",
@@ -207,6 +193,7 @@ Sprite file name. And the x|y coordinates for sprite animations.<br>
       "2": "animation_2",
       "3": "animation_3"
     }
+  }
 }
 ```
 In this case, two options for implementing a character sprite are indicated:<br>
@@ -286,17 +273,36 @@ The names that will be given here are used to create scenes in 'screenplay.json'
 **Example of 'backgrounds_sprites.json' file:**
 ```json
 {
-  "back_ground_01": "blank",
-
-  "exit_menu": "blank",
-  "settings_menu": "blank",
-  "load_menu": "blank",
-  "save_menu": "blank",
-  "settings_status_menu": "blank",
-  "start_menu": "blank"
+  "back_ground_01": {
+    "texture": "blank",
+    "animation": "default"
+  },
+  "settings_menu": {
+    "texture": "blank",
+    "animation": "default"
+  }
 }
 ```
 As you can see from the example, names are also used for static menus.
+
+**Example of background_sprite_sheet_texture_data.json file:**
+```json
+{
+  "sprite_sheet": false,
+  "statick_frames": {
+     "default": {
+       "top_left_corner": {
+         "x": 0,
+         "y": 0
+          },
+       "bottom_right_corner": {
+         "x": 1916,
+         "y": 865
+       }
+     }
+  }
+}
+```
 
 Sprites must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
