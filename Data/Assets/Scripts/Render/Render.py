@@ -22,13 +22,13 @@ class Render(SingletonPattern):
         self.interface_controller: InterfaceController = InterfaceController()
 
         # Render settings:
-        self.screen: Surface = self.settings_keeper.get_windows_settings()
+        self.screen: Surface = self.settings_keeper.get_window()
         self.layers_collection: dict = {}
         self.batch_collection: list = []
         self.sprite_collection: list = []
 
         self.reset: bool = True
-        self.save_screen: Surface = self.settings_keeper.screen
+        self.save_screen: Surface = self.settings_keeper._screen
 
     def screen_clear(self):
         """
@@ -86,7 +86,7 @@ class Render(SingletonPattern):
         if self.interface_controller.gameplay_type_reading is True \
                 and self.interface_controller.menu_name is None\
                 and GameMenu().status is False:
-            self.save_screen: Surface = self.settings_keeper.screen.convert()
+            self.save_screen: Surface = self.settings_keeper.get_window().convert()
 
     def menu_screen_mask(self):
         """

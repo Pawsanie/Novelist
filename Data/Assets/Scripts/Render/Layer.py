@@ -12,7 +12,7 @@ class Layer:
     Layer keep sprites and draw it on oneself.
     """
     def __init__(self, key: int):
-        self._screen = SettingsKeeper().screen
+        self._screen = SettingsKeeper().get_window()
         self._name: str | int = key
         self.sprite_collection: list = []
         self._layer_canvas: Surface | None = None

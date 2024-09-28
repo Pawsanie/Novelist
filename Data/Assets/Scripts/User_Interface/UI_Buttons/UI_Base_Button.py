@@ -205,8 +205,8 @@ class BaseButton(ABC):
             select_frame_fatness: int = max(
                 int(
                     min(
-                        self._settings_keeper.screen.get_width(),
-                        self._settings_keeper.screen.get_height()
+                        self._settings_keeper.get_window().get_width(),
+                        self._settings_keeper.get_window().get_height()
                     ) / 500
                 ) * 4,
                 1
@@ -252,8 +252,8 @@ class BaseButton(ABC):
         """
         Calculate button middle points coordinates.
         """
-        screen_x: int = self._settings_keeper.screen.get_width()
-        screen_y: int = self._settings_keeper.screen.get_height()
+        screen_x: int = self._settings_keeper.get_window().get_width()
+        screen_y: int = self._settings_keeper.get_window().get_height()
 
         button_middle_x: int = screen_x // 2
         button_middle_y: int = screen_y // 2

@@ -20,10 +20,10 @@ class SettingsKeeper(SingletonPattern):
             .replace(path.join(*[
                 'Scripts', 'Application_layer', 'Settings_Keeper.py'
             ]), '')
-        self.user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
+        self._user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
 
         # Read settings configuration file:
-        with open(self.user_settings_path, 'r', encoding='utf-8') as game_settings:
+        with open(self._user_settings_path, 'r', encoding='utf-8') as game_settings:
             for row in game_settings:
                 setting_type: list[str] = row.replace('\n', '').split('=')
 
@@ -54,19 +54,31 @@ class SettingsKeeper(SingletonPattern):
                     self.voice_acting_language: str = setting_type[1]
 
         # Get system type:
-        self.system_type: str = self.system_type()
+        self._system_type: str = self._system_type()
         # Display settings:
-        self.screen: Surface = self.set_windows_settings()
-        self.frames_per_second: int = 60
+        self._screen: Surface = self._set_windows_settings()
+        self._frames_per_second: int = 60
 
-    def get_windows_settings(self) -> Surface:
+    def get_frames_per_second(self) -> int:
+        """
+        Used in GameMaster.
+        """
+        return self._frames_per_second
+
+    def get_system_type(self) -> str:
+        """
+        Used in program entry point.
+        """
+        return self._system_type
+
+    def get_window(self) -> Surface:
         """
         Get "display.set_mode(...)" pygame.Surface with actual settings.
         :return: pygame.Surface
         """
-        return self.screen
+        return self._screen
 
-    def set_windows_settings(self) -> Surface:
+    def _set_windows_settings(self) -> Surface:
         """
         Generate or set new display mode.
         :return: pygame.display.Surface
@@ -90,14 +102,14 @@ class SettingsKeeper(SingletonPattern):
         """
         Update game settings.
         """
-        self.screen: Surface = self.set_windows_settings()
-        self.save_settings()
+        self._screen: Surface = self._set_windows_settings()
+        self._save_settings()
 
-    def save_settings(self):
+    def _save_settings(self):
         """
         Save new settings to "user_settings" file.
         """
-        with open(self.user_settings_path, 'w', encoding='utf-8') as settings_file:
+        with open(self._user_settings_path, 'w', encoding='utf-8') as settings_file:
             settings_file.write(
                 f"# game_settings:\n"
                 f"screen_size={self.screen_size[0]}x{self.screen_size[1]}\n"
@@ -110,7 +122,7 @@ class SettingsKeeper(SingletonPattern):
             )
 
     @staticmethod
-    def system_type() -> str:
+    def _system_type() -> str:
         """
         Return String with system type.
         :return: str

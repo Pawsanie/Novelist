@@ -44,7 +44,7 @@ class GameMaster(SingletonPattern):
         MVC pattern Model and View parts.
         """
         main_cycle_fps_clock: Clock = time.Clock()
-        main_cycle_fps: int = SettingsKeeper().frames_per_second
+        main_cycle_fps: int = SettingsKeeper().get_frames_per_second()
 
         while True:
             # Build scene:

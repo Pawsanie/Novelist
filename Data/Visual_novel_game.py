@@ -25,7 +25,7 @@ def run():
 
     # Set game settings:
     start_settings: SettingsKeeper = SettingsKeeper()
-    type_of_system: str = start_settings.system_type
+    type_of_system: str = start_settings.get_system_type()
     # Application name in window:
     display.set_caption(app_name)
     # Icon settings:

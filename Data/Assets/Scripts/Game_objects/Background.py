@@ -20,7 +20,7 @@ class Background(SingletonPattern):
         self._settings_keeper: SettingsKeeper = SettingsKeeper()
         self._asset_loader: AssetLoader = AssetLoader()
         self._texture_master: TexturesMaster = TexturesMaster()
-        self._display_surface: Surface = self._settings_keeper.get_windows_settings()
+        self._display_surface: Surface = self._settings_keeper.get_window()
 
         # Background attributes:
         self._background_name: str | None = None

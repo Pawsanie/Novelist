@@ -112,8 +112,8 @@ class MenuText:
         """
         self._set_text_surface_size()
         self._menu_text_coordinates: tuple[int, int] = (
-            (self._settings_keeper.screen.get_width() // 2) - (self._menu_text_surface_size[0] // 2),
-            (self._settings_keeper.screen.get_height() // 2) - (self._menu_text_surface_size[1] // 2)
+            (self._settings_keeper.get_windows().get_width() // 2) - (self._menu_text_surface_size[0] // 2),
+            (self._settings_keeper.get_windows().get_height() // 2) - (self._menu_text_surface_size[1] // 2)
         )
 
     def _back_menu_text_coordinates(self):
@@ -122,8 +122,8 @@ class MenuText:
         """
         self._set_text_surface_size()
         self._menu_text_coordinates: tuple[int, int] = (
-            (self._settings_keeper.screen.get_width() // 2) - (self._menu_text_surface_size[0] // 2),
-            (self._settings_keeper.screen.get_height() // 2) - self._menu_text_surface_size[1]
+            (self._settings_keeper.get_window().get_width() // 2) - (self._menu_text_surface_size[0] // 2),
+            (self._settings_keeper.get_window().get_height() // 2) - self._menu_text_surface_size[1]
         )
 
     def _save_and_load_menu_text_coordinates(self):
@@ -134,10 +134,10 @@ class MenuText:
         self._set_text_surface_size()
         self._menu_text_coordinates: tuple[int, int] = (
 
-            + (self._settings_keeper.screen.get_width() // 2)
+            + (self._settings_keeper.get_window().get_width() // 2)
             - (self._menu_text_surface_size[0] // 2),
 
-            + (self._settings_keeper.screen.get_height() // 2)
+            + (self._settings_keeper.get_window().get_height() // 2)
             + (self._menu_text_surface_size[1])
             - (self._menu_text_surface_size[1] // 5)
 

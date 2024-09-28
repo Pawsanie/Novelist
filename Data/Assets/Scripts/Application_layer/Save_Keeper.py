@@ -389,8 +389,8 @@ class SaveKeeper(SingletonPattern):
         # Saving game scene image preview:
         x_screen_size: int = 720
         y_screen_size: int = int(
-            self._settings_keeper.screen.get_height()
-            * (x_screen_size / self._settings_keeper.screen.get_width())
+            self._settings_keeper.get_window().get_height()
+            * (x_screen_size / self._settings_keeper.get_window().get_width())
         )
         screen_preview: Surface = transform.scale(
             surface=self._render.save_screen,

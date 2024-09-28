@@ -16,7 +16,7 @@ class TextCanvas(SingletonPattern):
     def __init__(self):
         # Program layers settings:
         self._background: Background = Background()
-        self._screen: Surface = SettingsKeeper().screen
+        self._screen: Surface = SettingsKeeper().get_window()
 
         # Text canvas settings:
         self._sprite_size: tuple[int, int] = (0, 0)

@@ -26,7 +26,7 @@ class DialoguesWords(SingletonPattern):
         """
         # Program layers settings:
         self._background_surface: Background = Background()
-        self._screen: Surface = SettingsKeeper().screen
+        self._screen: Surface = SettingsKeeper().get_window()
         self._text_canvas: TextCanvas = TextCanvas()
         self._asset_loader: AssetLoader = AssetLoader()
         self._texture_master: TexturesMaster = TexturesMaster()
