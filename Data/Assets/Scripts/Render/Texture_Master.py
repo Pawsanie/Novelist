@@ -141,6 +141,36 @@ class TexturesMaster(SingletonPattern):
             }
         )
 
+        if texture_type not in self._texture_catalog:
+            self._texture_catalog.update(
+                {
+                    texture_type: {}
+                }
+            )
+
+        if texture_path not in self._texture_catalog[texture_type]:
+            self._texture_catalog[texture_type].update(
+                {
+                    texture_path: {}
+                }
+            )
+
+        self._texture_catalog[texture_type][texture_path].update(
+            {
+                "statick_frames": {
+                    texture_path: self._raw_textures_catalog[
+                        texture_type
+                    ][
+                        texture_path
+                    ][
+                        "statick_frames"
+                    ][
+                        texture_path
+                    ].copy()
+                }
+            }
+        )
+
     def _create_void_background(self):
         """
         generate Void for screen cleaning.
