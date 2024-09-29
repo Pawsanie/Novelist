@@ -8,10 +8,6 @@ As well as not wanting to learn RenPy scripting language.
 
 In addition, writing your own game, almost from scratch, is quite interesting.
 
-:warning::warning::warning::warning::warning:<br>
-The code is in a state of refactoring.<br>
-Therefore, some information in the readme may not be relevant.<br>
-:warning::warning::warning::warning::warning: <br>
 :warning:Please note that some non-game features are not fully implemented.:warning:
 
 ## Disclaimer:
@@ -65,7 +61,7 @@ At the same time, the first scene **must** have the 'past_scene' key value as **
 In the last scene 'next_scene' key **must** be **'FINISH'**.<br>
 
 **File location:**<br>
-./:open_file_folder:Data<br>
+**./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
@@ -254,7 +250,7 @@ The **poses** key values must match the animation names from the sprite sheet fi
 
 Sprite images must be in **png** format and stored in a 'Characters' folder.<br>
 **Folder location:**<br>
-./:open_file_folder:Data<br>
+**./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:Characters<br>
@@ -306,7 +302,7 @@ As you can see from the example, names are also used for static menus.
 
 Sprites must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
-./:open_file_folder:Data<br>
+**./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:Backgrounds<br>
@@ -400,7 +396,7 @@ If you want to add your own menus, please note that the key values are **hardcod
 Please note that the '**sprite_name**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
 **Folder location:**<br>
-./:open_file_folder:Data<br>
+**./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:User_Interface<br>
@@ -458,7 +454,7 @@ Note that you can use the line break '\n' character for text.
 Please note that the '**substrate**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 **Folder location:**<br>
-./:open_file_folder:Data<br>
+**./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:User_Interface<br>
@@ -582,7 +578,7 @@ app_name: str = "Visual Novel"
 In order to change the program window icons, please replace the icon files in the '**Icons**' folder.<br>
 Icons images must be in **png** format and have the default size and titles.<br>
 **Folder location:**<br>
-./:open_file_folder:Data<br>
+**./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:User_Interface<br>
@@ -606,7 +602,7 @@ The default settings are stored in a file **'user_settings'**.<br>
 The game reads them at startup and saves them there, with the consent to change by the user, after setting.
 
 **File location:**<br>
-./:open_file_folder:Data<br>
+**./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :page_facing_up:user_settings<br>
 
@@ -752,8 +748,30 @@ libpng warning: iCCP: known incorrect sRGB profile
 ```
 Appears due to extra information in the sRGB profile when converting to PNG.<br>
 Because of this, after the program ends, a warning message appears in the terminal.<br>
-Actually this warning is not an error. I'm just too lazy to re-save the sprite blanks correctly...<br>
-Don't be like me and save your sprites correctly!
+Actually this warning is not an error.<br>
+
+To avoid this behavior, resave your sprites using the correct settings.<br>
+As an example of resaving in Photoshop:<br>
+* Open your *png* image.
+* Select the "*file*" in the upper left corner.
+* Select the "*save as*" in the drop-down list that appears.
+* In the file saving window that opens uncheck the box opposite *ICC Profile: sRGB IEC61966-2.1*
+* Resave your png image.
+
+As an example of resaving in Krita:<br>
+* Open your *png* image.
+* Around the middle of the menu at the top of the program window, select an *image*.
+* Select the "*Properties*" in the drop-down list that appears.
+* In the menu that opens, select the *Image Color Space*.
+* Switch profile to **sRGB-elle-V2-srgbtrс.icc**.<br>
+Usually it is marked as **Default**.
+* Select the "*file*" in the upper left corner.
+* Select the "*save as*" in the drop-down list that appears.
+* Resave your png image.
+
+There are other solutions to this problem using the operating system terminal and various console utilities.<br>
+:warning:**Using** the solutions suggested below, **You** assume **responsibility for any consequences!**:warning:<br>
+As an example these [solutions from stackoverflow](https://stackoverflow.com/questions/22745076/libpng-warning-iccp-known-incorrect-srgb-profile/22747902#22747902).
 
 ***
 
