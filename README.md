@@ -751,6 +751,7 @@ Because of this, after the program ends, a warning message appears in the termin
 Actually this warning is not an error.<br>
 
 To avoid this behavior, resave your sprites using the correct settings.<br>
+
 As an example of resaving in Photoshop:
 * Open your *png* image.
 * Select the "*file*" in the upper left corner.
