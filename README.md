@@ -751,14 +751,14 @@ Because of this, after the program ends, a warning message appears in the termin
 Actually this warning is not an error.<br>
 
 To avoid this behavior, resave your sprites using the correct settings.<br>
-As an example of resaving in Photoshop:<br>
+As an example of resaving in Photoshop:
 * Open your *png* image.
 * Select the "*file*" in the upper left corner.
 * Select the "*save as*" in the drop-down list that appears.
 * In the file saving window that opens uncheck the box opposite *ICC Profile: sRGB IEC61966-2.1*
 * Resave your png image.
 
-As an example of resaving in Krita:<br>
+As an example of resaving in Krita:
 * Open your *png* image.
 * Around the middle of the menu at the top of the program window, select an *image*.
 * Select the "*Properties*" in the drop-down list that appears.
