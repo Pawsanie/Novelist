@@ -98,7 +98,7 @@ class BaseButton(ABC):
         self._button_sprite: Sprite = Sprite(**sprite_attributes)
 
         # Button text settings:
-        self._language_flag: str = self._settings_keeper.text_language
+        self._language_flag: str = self._settings_keeper.get_text_language()
         self._button_text_localization_dict: dict[str] | None = button_text_localization_dict
         self._button_text: str | None = button_text
 
@@ -271,7 +271,7 @@ class BaseButton(ABC):
         Localization text of button if it's necessary.
         """
         if self._button_text is not None:
-            self._language_flag: str = self._settings_keeper.text_language
+            self._language_flag: str = self._settings_keeper.get_text_language()
             self._button_text: str = self._button_text_localization_dict[self._language_flag]
 
     def _button_text_render(self, input_surface) -> Surface:

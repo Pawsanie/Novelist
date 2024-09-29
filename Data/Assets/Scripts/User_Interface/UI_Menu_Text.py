@@ -67,7 +67,7 @@ class MenuText:
 
         # Arguments processing:
         self._menu_name: str = menu_name
-        self._language_flag: str = self._settings_keeper.text_language
+        self._language_flag: str = self._settings_keeper.get_text_language()
         self._menu_text: str = menu_text
         self._localisation_menu_text: dict[str] = menu_text_localization_dict
         self._menu_text_coordinates_x: int = menu_text_coordinates['x']
@@ -112,8 +112,8 @@ class MenuText:
         """
         self._set_text_surface_size()
         self._menu_text_coordinates: tuple[int, int] = (
-            (self._settings_keeper.get_windows().get_width() // 2) - (self._menu_text_surface_size[0] // 2),
-            (self._settings_keeper.get_windows().get_height() // 2) - (self._menu_text_surface_size[1] // 2)
+            (self._settings_keeper.get_window().get_width() // 2) - (self._menu_text_surface_size[0] // 2),
+            (self._settings_keeper.get_window().get_height() // 2) - (self._menu_text_surface_size[1] // 2)
         )
 
     def _back_menu_text_coordinates(self):
@@ -194,7 +194,7 @@ class MenuText:
         Localization menu text if it's necessary.
         """
         if self._localisation_menu_text is not None:
-            self._language_flag: str = self._settings_keeper.text_language
+            self._language_flag: str = self._settings_keeper.get_text_language()
             self._menu_text: str = self._localisation_menu_text[self._language_flag]
 
     def _text_render(self) -> Surface:
@@ -297,7 +297,7 @@ def menus_text_generator() -> dict[str, dict[str]]:
     Generate all menus text for MenusTextKeeper.
     :return: dict with text.
     """
-    language_flag = SettingsKeeper().text_language
+    language_flag = SettingsKeeper().get_text_language()
     result: dict = {}
     asset_loader: AssetLoader = AssetLoader()
 

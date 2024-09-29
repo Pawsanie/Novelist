@@ -110,7 +110,7 @@ def button_generator() -> dict[str, dict[str, BaseButton]]:
     Use by InterfaceController.
     :return: A nested dictionary of button`s group and an instance of the Button class.
     """
-    language_flag: str = SettingsKeeper().text_language
+    language_flag: str = SettingsKeeper().get_text_language()
     result: dict = {}
     factory: ButtonFactory = ButtonFactory()
     asset_loader: AssetLoader = AssetLoader()

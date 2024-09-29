@@ -26,21 +26,21 @@ class SoundDirector(SingletonPattern):
             "music_channel": {
                 "sound_channel": Channel(0),
                 "sound_file": None,
-                "sound_type_volume": self._settings_keeper.music_volume,
+                "sound_type_volume": self._settings_keeper.get_music_volume(),
                 "devnull_status": False,
                 "sound_file_name": None
             },
             "sound_channel": {
                 "sound_channel": Channel(1),
                 "sound_file": None,
-                "sound_type_volume": self._settings_keeper.sound_volume,
+                "sound_type_volume": self._settings_keeper.get_sound_volume(),
                 "devnull_status": False,
                 "sound_file_name": None
             },
             "voice_channel": {
                 "sound_channel": Channel(2),
                 "sound_file": None,
-                "sound_type_volume": self._settings_keeper.sound_volume,
+                "sound_type_volume": self._settings_keeper.get_sound_volume(),
                 "devnull_status": False,
                 "sound_file_name": None
             }
@@ -93,7 +93,7 @@ class SoundDirector(SingletonPattern):
         """
         sound_file.set_volume(
             float(
-                self._settings_keeper.general_volume
+                self._settings_keeper.get_general_volume()
                 / sound_type_volume
             )
         )
@@ -156,7 +156,7 @@ class SoundDirector(SingletonPattern):
                 if self._single_voiceover_language is True:
                     asset_type: str = 'Voice'
                 else:
-                    asset_type: str = f"Voice{sep}{self._settings_keeper.voice_acting_language}"
+                    asset_type: str = f"Voice{sep}{self._settings_keeper.get_voice_acting_language()}"
 
             # Install sound in chanel:
             sound_file = self._asset_loader.sound_load(

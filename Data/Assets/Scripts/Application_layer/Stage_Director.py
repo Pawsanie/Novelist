@@ -31,7 +31,7 @@ class StageDirector(SingletonPattern):
         self._location: str | None = None
 
         # Text Reading gameplay settings:
-        self.current_language: str = self._settings_keeper.text_language
+        self.current_language: str = self._settings_keeper.get_text_language()
         self._text_canvas: TextCanvas = TextCanvas()
         self._dialog_controller: DialoguesWords = DialoguesWords()
         self._text_dialogues_data: dict[str] = DialogueKeeper().get_dialogues_data()
