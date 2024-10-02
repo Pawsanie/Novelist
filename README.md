@@ -399,16 +399,15 @@ Localization of the standard interface is stored in the appropriate files: 'eng.
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
                               └── :file_folder:User_Interface<br>
+                                       ├── :page_facing_up:ui_sprites.json<br>
                                        ├── :file_folder:UI_Buttons<br>
-                                       │       ├── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
-                                       │       └── :file_folder:Localization<br>
-                                       │                ├── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                       │                └── :page_facing_up:ui_buttons_localizations_data.json<br>
+                                       │       ├── :page_facing_up:ui_buttons_data.json<br>
+                                       │       └── :file_folder:Buttons_config_files<br>
+                                       │                └── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
                                        └── :file_folder:UI_Menu_texts<br>
-                                                ├── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
-                                                └── :file_folder:Localization<br>
-                                                         ├── :page_facing_up:eng.json **(Can be your localization)**<br>
-                                                         └── :page_facing_up:ui_menu_texts_localizations_data.json<br>
+                                                ├── :page_facing_up:ui_menu_text_data.json<br>
+                                                └── :file_folder:Text_config_files<br>
+                                                         └── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
 
 **Json interface settings files:**<br>
 
