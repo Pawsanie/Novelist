@@ -229,6 +229,7 @@ For static sprites, the following settings are typical:<br>
 * **sprite_sheet** value is **False**.<br>
 * **statick_frames** simply contains the name of the frames with their x|y coordinates.<br>
 The coordinates for each frame are specified as the top left corner and the bottom right corner, respectively.<br>
+
 **Example of such a 'statick_sprite_sheet.json' file:**
 ```json
 {
@@ -264,6 +265,7 @@ For animation sprites, the following settings are typical:<br>
 * * **time_duration** -animation playback time as float.
 * * **frames** - list of frames with their x|y coordinates.<br>
 The coordinates for each frame are specified as the top left corner and the bottom right corner, respectively.<br>
+
 **Example of such a 'animation_sprite_sheet.json' file:**
 ```json
 {
