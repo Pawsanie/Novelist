@@ -753,21 +753,21 @@ Actually this warning is not an error.<br>
 To avoid this behavior, resave your sprites using the correct settings.<br>
 
 As an example of resaving in Photoshop:
-* Open your *png* image.
-* Select the "*file*" in the upper left corner.
-* Select the "*save as*" in the drop-down list that appears.
-* In the file saving window that opens uncheck the box opposite *ICC Profile: sRGB IEC61966-2.1*
+* Open your **png** image.
+* Select the "**file**" in the upper left corner.
+* Select the "**save as**" in the drop-down list that appears.
+* In the file saving window that opens uncheck the box opposite **ICC Profile: sRGB IEC61966-2.1**
 * Resave your png image.
 
 As an example of resaving in Krita:
-* Open your *png* image.
-* Around the middle of the menu at the top of the program window, select an *image*.
-* Select the "*Properties*" in the drop-down list that appears.
-* In the menu that opens, select the *Image Color Space*.
+* Open your **png** image.
+* Around the middle of the menu at the top of the program window, select an **image**.
+* Select the "**Properties**" in the drop-down list that appears.
+* In the menu that opens, select the **Image Color Space**.
 * Switch profile to **sRGB-elle-V2-srgbtrс.icc**.<br>
 Usually it is marked as **Default**.
-* Select the "*file*" in the upper left corner.
-* Select the "*save as*" in the drop-down list that appears.
+* Select the "**file**" in the upper left corner.
+* Select the "**save as**" in the drop-down list that appears.
 * Resave your png image.
 
 There are other solutions to this problem using the operating system terminal and various console utilities.<br>
