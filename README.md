@@ -164,7 +164,7 @@ As example 'test_scene_02' scene.<br>
 More information about reading and choice gameplay text is specified in the localization paragraph.<br><br>
 
 **Special Effects:**<br>
-Currently under development<br><br>
+Currently under development.<br><br>
 
 **Sounds:**<br>
 The nested dictionary of the **"sounds"** key contains the keys and values of the sound effects and music<br>
@@ -374,7 +374,7 @@ And you also need to set the name of the animation from the settings file.<br>
   }
 }
 ```
-You can read more about how the texture files are arranged in the **Characters and their sprites** paragraph<br>
+You can read more about how the texture files are arranged in the "**Characters and their sprites**" paragraph.<br>
 
 Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
