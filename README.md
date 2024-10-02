@@ -163,7 +163,7 @@ The '**text_color**' key control color of text on choice button.<br>
 As example 'test_scene_02' scene.<br>
 More information about reading and choice gameplay text is specified in the localization paragraph.<br><br>
 
-**special_effects**<br>
+**Special Effects:**<br>
 Currently under development<br><br>
 
 **Sounds:**<br>
@@ -173,95 +173,135 @@ Please note that the keys **"voice_channel"**, **"sound_channel"** and **"music_
 
 ## Characters and their sprites:
 Information about the characters is stored in a 'characters_sprites.json 'file.<br>
-It needs to list the names by which the game will look for characters. <br>
-Sprite file name. And the x|y coordinates for sprite animations.<br>
+It needs to list the names by which the game will look for characters.<br>
+**Please note** that the name specified here is how the key is used in the **actors** key in **'screenplay.json'** file!<br>
+And this name is in no way related to the one you can set in the dialogs!<br>
+Texture data file name and animations available to the character from this file.<br>
 **File location:**<br>
 **./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
-                              └── :page_facing_up:characters_sprites.json
+                              └── :page_facing_up:characters_sprites.json<br>
 **Example of 'characters_sprites.json' file:**
 ```json
 {
   "Character_01": {
-      "sprite": "blank",
-      "sprite_sheet": false,
-      "poses": {
-        "1": {
-          "x": [25, 280],
-          "y": [49, 618]
-        },
-        "2": {
-          "x": [330, 594],
-          "y": [49, 618]
-        }
-      }
-  },  
-  
-    "Character_02": {
-    "sprite": "blank_pink",
-    "sprite_sheet": true,
-    "poses": {
+    "texture": "blank_pink",
+    "animations": {
       "1": "animation_1",
       "2": "animation_2",
       "3": "animation_3"
+    }
+  },
+  
+  "Character_02": {
+    "texture": "blank",
+    "animations": {
+       "1": "black",
+       "2": "pink",
+       "3": "blue",
+       "4": "green"
     }
   }
 }
 ```
 In this case, two options for implementing a character sprite are indicated:<br>
-**Character_01** is the character without animations.<br>
-A static Sprite does not require filling out a separate file and the coordinates of each pose are set right here.
+**Character_01** is the character with an animated sprite.<br>
+**Character_02** is the character without animations.<br>
+The difference is that in the **animation** key for a static sprite, static poses are actually specified, not animations that will be played frame by frame.<br><br>
 
-Please note that the name of the sprite is indicated without the file extension.<br>
-The coordinates are in pixels.<br>
-**Please note** that the name specified here is how the key is used in the **'screenplay.json'** file!<br>
-And this name is in no way related to the one you can set in the dialogs!<br>
-As example 'eng.json' file from 'Dialogues' folder.
+Regardless of the type of animations the character has.<br>
+You must set the **texture** key value to the name of the texture image and the texture storyboard settings.<br>
+Please note the names of these two files must match!<br><br>
 
-**Character_02** is the character with an animated sprite.<br>
-It is distinguished by the presence of an animation sprite sheet, which must be filled out separately in the **json** file in directory **Sprite_Sheet_data/Characters**.<br>
-The file name must match the name specified in the **sprite** key.<br>
-The **poses** key values must match the animation names from the sprite sheet file.<br>
-
-**File location:**<br>
+Let's first discuss the sprite texture settings sprite sheet files.<br>
+**Files location:**<br>
 **./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
-                              └── :file_folder:Sprite_Sheet_data<br>
+                              └── :file_folder:Texture_data<br>
                                         └── :file_folder:Characters<br>
                                                 └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
-**Example of such a 'sprite sheet .json' file:**
+
+For static sprites, the following settings are typical:<br>
+* **sprite_sheet** value is **False**.<br>
+* **statick_frames** simply contains the name of the frames with their x|y coordinates.<br>
+The coordinates for each frame are specified as the top left corner and the bottom right corner, respectively.<br>
+**Example of such a 'statick_sprite_sheet.json' file:**
 ```json
 {
-  "animation_1": {
-    "frames": {
-      "1": {
-        "y": [20, 940],
-        "x": [21, 342]
-      },
-      "2": {
-        "y": [20, 940],
-        "x": [400, 721]
-      }
-    },
-    "time_duration": 1.0
-  },
+  "sprite_sheet": false,
+  "statick_frames": {
+     "black": {
+       "top_left_corner": {
+         "x": 25,
+         "y": 49
+          },
+       "bottom_right_corner": {
+         "x": 280,
+         "y": 618
+       }
+     },
+     "pink": {
+       "top_left_corner": {
+         "x": 344,
+         "y": 49
+          },
+       "bottom_right_corner": {
+         "x": 568,
+         "y": 618
+       }
+     }
+  }
+}
+```
 
-  "animation_2": {
-    "frames":{
-      "1": {
-        "y": [1000, 1919],
-        "x": [21, 342]
-      },
-      "2": {
-        "y": [1000, 1919],
-        "x": [400, 721]
+For animation sprites, the following settings are typical:<br>
+* **sprite_sheet** value is **True**.<br>
+* **animations** value contains not just frames but settings for each animation.
+* * **time_duration** -animation playback time as float.
+* * **frames** - list of frames with their x|y coordinates.<br>
+The coordinates for each frame are specified as the top left corner and the bottom right corner, respectively.<br>
+**Example of such a 'animation_sprite_sheet.json' file:**
+```json
+{
+  "sprite_sheet": true,
+  "animations": {
+    "animation_1": {
+      "time_duration": 1.0,
+      "frames": {
+        "1": {
+          "top_left_corner": {
+            "x": 21,
+            "y": 21
+          },
+          "bottom_right_corner": {
+            "x": 342,
+            "y": 940
+          }
+        }
       }
     },
-    "time_duration": 2.0
+
+    "animation_2": {
+      "time_duration": 1.0,
+      "frames":{
+        "1": {
+          "top_left_corner": {
+            "x": 21,
+            "y": 1000
+          },
+          "bottom_right_corner": {
+            "x": 342,
+            "y": 1919
+          }
+        }
+
+      }
+    }
+
   }
 }
 ```
