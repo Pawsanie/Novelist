@@ -121,19 +121,41 @@ In the last scene 'next_scene' key **must** be **'FINISH'**.<br>
     ...
 }
 ```
-The '**past_scene**' key contains information about the previous scene.<br>
-The **first scene** must have the '**START**' key value.<br>><br>
+**Gameplay Type:**<br>
+Please note that a '**gameplay_type**' key value must be **reading|choice** strings.<br><br>
 
+**Background:**<br>
 The '**background**' key have information about background sprite.<br>
 The '**background_sprite_sheet**' key must have backgrounds name keys from 'backgrounds_sprites.json' as a value.<br>
 The '**background_animation**' key must have a relevant animation name from background texture json file data.<br>
 More about this further in '**Backgrounds and its sprites**' paragraph.<br><br>
 
+**Past Scene:**<br>
+The '**past_scene**' key contains information about the previous scene.<br>
+The **first scene** must have the '**START**' key value.<br><br>
+
+**Actors:**<br>
+Please note that an **actors** characters keys must match certain values:<br>
+**character_animation** - can be any key from the dictionary 'characters_sprites.json'. <br>
+More about this further in **"Characters and their sprites"** paragraph.<br>
+**character_plan** - may have values **background_plan|first_plan**.<br>
+**character_start_position** - may have values **right|middle|left**.<br><br>
+
+:eyes:**Specific for Reading GamePlay:**<br>
+* **Next Scene:**<br>
 The '**next_scene**' key value contains information about the next scene to be switched to.<br>
 Last scene must have the '**FINISH**' key value.<br>
 Please note that this only switches the reading gameplay scene.<br>
 As example 'test_scene_01' scene.<br><br>
 
+* **Speaker Name Color:**<br>
+The **hex-code** value of the **speaker_name_color** key obviously contains a color setting that will be assigned to the speaker's name while scene rendered.<br><br>
+
+* **Speech Text Color:**<br>
+The **hex-code** value of the **speech_text_color** key obviously contains a color setting that will be assigned to the speach text while scene rendered.<br><br>
+
+:speech_balloon:**Specific for Choice GamePlay:**<br>
+* **Choices:**<br>
 The '**choices**' key value contains links to text localisation as keys.<br>
 The '**branching**' work like 'next_scene' key for reading gameplay.<br>
 Please note that this only switches the choice gameplay scene.<br>
@@ -141,14 +163,10 @@ The '**text_color**' key control color of text on choice button.<br>
 As example 'test_scene_02' scene.<br>
 More information about reading and choice gameplay text is specified in the localization paragraph.<br><br>
 
-Please note that a '**gameplay_type**' key value must be **reading|choice** strings.<br><br>
+**special_effects**<br>
+Currently under development<br><br>
 
-Please note that an **actors** characters keys must match certain values:<br>
-**character_animation** - can be any key from the dictionary 'characters_sprites.json'. <br>
-More about this further in **"Characters and their sprites"** paragraph.<br>
-**character_plan** - may have values **background_plan|first_plan**.<br>
-**character_start_position** - may have values **right|middle|left**.<br><br>
-
+**Sounds:**<br>
 The nested dictionary of the **"sounds"** key contains the keys and values of the sound effects and music<br>
 that will be played at the start of the scene and will be interrupted at the transition to the next one.<br>
 Please note that the keys **"voice_channel"**, **"sound_channel"** and **"music_channel"** can contain either a string with a name, without a file extension, or **false** as values.<br>
@@ -764,7 +782,7 @@ As an example of resaving in Krita:
 * Around the middle of the menu at the top of the program window, select an **image**.
 * Select the "**Properties**" in the drop-down list that appears.
 * In the menu that opens, select the **Image Color Space**.
-* Switch profile to **sRGB-elle-V2-srgbtrс.icc**.<br>
+* Switch profile to **sRGB-elle-V2-srgbtrс.icc**<br>
 Usually it is marked as **Default**.
 * Select the "**file**" in the upper left corner.
 * Select the "**save as**" in the drop-down list that appears.
