@@ -707,12 +707,12 @@ This means that you **cannot use this combination of characters** in either text
 **Text menu localization:**<br>
 Example:
 
-| text_id                             | eng                                                                                          | ru                                                                                                          |
-|-------------------------------------|----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| back_to_start_menu_status_menu_text | Would you like to return to the main menu?\nAll unsaved progress will be lost!               | Вы хотите вернутся в главное меню?\nВесь несохраненный прогресс будет потерян!                              |
-| exit_menu_text                      | Would you like to exit the game?\nAll unsaved progress will be lost!                         | Вы хотите выйти из игры?\nВесь несохраненный прогресс будет потерян!                                        |
-| settings_status_menu_text           | Would you like to change the game settings?                                                  | Вы желаете изменить настройки игры?                                                                         |
-| creators_menu_text                  | Character artist - ...\nBackground artist - Alexander Progun\nProgramming - Alexander Progun | Художник по персонажам - ...\nХудожник задних планов: Алексндор Прогун\nПрограммирование - Александо Прогун |
+| text_id                             | eng                                                                            | ru                                                                                |
+|-------------------------------------|--------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| back_to_start_menu_status_menu_text | Would you like to return to the main menu?\nAll unsaved progress will be lost! | Вы хотите вернутся в главное меню?\nВесь несохраненный прогресс будет потерян!    |
+| exit_menu_text                      | Would you like to exit the game?\nAll unsaved progress will be lost!           | Вы хотите выйти из игры?\nВесь несохраненный прогресс будет потерян!              |
+| settings_status_menu_text           | Would you like to change the game settings?                                    | Вы желаете изменить настройки игры?                                               |
+| creators_menu_text                  | Character artist - ...\nBackground artist - ...\nProgramming - ...             | Художник по персонажам - ...\nХудожник задних планов- ...\nПрограммирование - ... |
 
 * **text_id** - id for "**text**" key in 'ui_*_menu_text.json' file.
 * **eng** and **ru** are examples of string values which will be displayed depending on the language settings.<br>
