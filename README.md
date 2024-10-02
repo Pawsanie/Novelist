@@ -215,7 +215,7 @@ Regardless of the type of animations the character has.<br>
 You must set the **texture** key value to the name of the texture image and the texture storyboard settings.<br>
 Please note the names of these two files must match!<br><br>
 
-Let's first discuss the sprite texture settings sprite sheet files.<br>
+Let's first discuss the sprite **texture settings sprite sheet files**.<br>
 **Files location:**<br>
 **./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
@@ -333,15 +333,30 @@ The names that will be given here are used to create scenes in 'screenplay.json'
     "texture": "blank",
     "animation": "default"
   },
+  
   "settings_menu": {
     "texture": "blank",
     "animation": "default"
   }
 }
 ```
-As you can see from the example, names are also used for static menus.
+As you can see from the example, names are also used for game menus.<br>
+All menu, except for gameplay, have their background plans.<br>
 
-**Example of background_sprite_sheet_texture_data.json file:**
+All settings are similar to the settings described above for the characters.<br>
+You also need to specify the path to the file with the settings and the image of the texture.<br>
+Their names should also match.<br>
+And you also need to set the name of the animation from the settings file.<br>
+
+**Files location:**<br>
+**./**:open_file_folder:Data<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Scripts<br>
+                     └── :file_folder:Json_data<br>
+                              └── :file_folder:Texture_data<br>
+                                        └── :file_folder:Backgrounds<br>
+                                                └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
+**Example of statick background_sprite_sheet_texture_data.json file:**
 ```json
 {
   "sprite_sheet": false,
@@ -359,8 +374,9 @@ As you can see from the example, names are also used for static menus.
   }
 }
 ```
+You can read more about how the texture files are arranged in the **Characters and their sprites** paragraph<br>
 
-Sprites must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
+Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
 **./**:open_file_folder:Data<br>
    └── :file_folder:Assets<br>
