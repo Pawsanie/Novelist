@@ -161,7 +161,8 @@ The '**branching**' work like 'next_scene' key for reading gameplay.<br>
 Please note that this only switches the choice gameplay scene.<br>
 The '**text_color**' key control color of text on choice button.<br>
 As example 'test_scene_02' scene.<br>
-More information about reading and choice gameplay text is specified in the localization paragraph.<br><br>
+
+More information about reading and choice gameplay text is specified in the **"Text and Localization"** paragraph.<br><br>
 
 **Special Effects:**<br>
 Currently under development.<br><br>
@@ -599,16 +600,17 @@ Add a new item with menu settings to the dictionary.<br>
 **Example:**
 ```python
 menus_collection: dict = {
-'exit_menu': {
-    'object': ExitMenu(),
-    'menu_file': 'ui_exit_menu_buttons',
-    'text_file': 'ui_exit_menu_text'
-},
-'settings_menu': {
-    'object': SettingsMenu(),
-    'menu_file': 'ui_settings_menu_buttons',
-    'text_file': None
-}}
+    'exit_menu': {
+        'object': ExitMenu(),
+        'menu_file': 'ui_exit_menu_buttons',
+        'text_file': 'ui_exit_menu_text'
+    },
+    'settings_menu': {
+        'object': SettingsMenu(),
+        'menu_file': 'ui_settings_menu_buttons',
+        'text_file': None
+    }
+}
 ```
 As a key for your menu collection element will act **"type"** key in your menus json file.<br>
 Please note that **None** key is reserved for reading gameplay UI.<br>
@@ -639,6 +641,82 @@ back_menu_text_list: list[str] = [
     'creators_menu'
 ]
 ```
+
+## Text and Localization:
+
+For convenience, all text localizations are made in the form of files with tables in CSV format.<br>
+This approach allows you to simply add a column for each new language.<br>
+Due to the specific nature of game text, tabulation is used as a separator.<br>
+Please pay **attention** to this fact.<br>
+This means that you **cannot** use the **Tab** character in any text, names or titles.<br><br>
+
+**Files locations:**<br>
+**./**:open_file_folder:Data<br>
+   └── :file_folder:Assets<br>
+            └── :file_folder:Localisation<br>
+                     └── :file_folder:Main<br>
+                              ├── :page_facing_up:button_menu_localization.csv<br>
+                              ├── :page_facing_up:screenplay_localization.csv<br>
+                              └── :page_facing_up:text_menu_localization.csv<br>
+
+**Button menu localization:**<br>
+Example:
+
+| button_id           | eng      | ru         |
+|---------------------|----------|------------|
+| start_menu_new_game | New game | Новая игра |
+| start_menu_continue | Continue | Продолжить |
+| start_menu_load     | Load     | Загрузить  |
+| start_menu_settings | Settings | Настройки  |
+| start_menu_creators | Creators | Создатели  |
+| start_menu_exit     | Exit     | Выйти      |
+
+* **button_id** keep button id from ui_*menu_buttons.json files.<br>
+* **eng** and **ru** are examples of string values which will be displayed on the buttons depending on the language settings.<br>
+
+**Screenplay localization:**<br>
+Example:
+
+| scene_id      | scene_type | choice_id | eng                     | ru                         |
+|---------------|------------|-----------|-------------------------|----------------------------|
+| test_scene_01 | reading    | Null      | Test Chan::Hello World! | Тестовая Тян::Привет Мир!  |
+| test_scene_02 | choice     | choice_01 | Go to Scene 01          | Перейти к сцене 01         |
+| test_scene_02 | choice     | choice_02 | ERROR!                  | ОШИБКА!                    |
+| test_scene_02 | choice     | choice_03 | Go to Scene 03          | Перейти к сцене 03         |
+| test_scene_03 | reading    | Null      | Test Chan::New Scene!   | Тестовая Тян::Новая Сцена! |
+
+* **scene_id**<br>
+Keep the scene names for 'screenplay.json' file.<br>
+Please note that the values in this column may be repeated depending on the gameplay.
+
+* **scene_type**<br>
+Can have value reading|choice.<br>
+Scenes with "**reading**" type have only one line.<br>
+Scenes with "**choice**" can have multiple lines.<br>
+Their number depends on the number of options to choose from.<br>
+It is not recommended to make the selection text too large to avoid bugs.
+
+* **choice_id**<br>
+Value can be Null or choice id from 'screenplay.json' file.<br>
+**Null** for reading gameplay type scenes. **Choice id** name for choice gameplay scenes.
+
+* **eng** and **ru** are examples of string values which will be displayed on the choice buttons or text canvas depending on the language settings.<br>
+Please note the combination of symbols "**::**" in this case is a separator for the name and text that the character says in the **Reading** gameplay type scene.<br>
+This means that you **cannot use this combination of characters** in either text or character names for reading gameplay.
+
+**Text menu localization:**<br>
+Example:
+
+| text_id                             | eng                                                                                          | ru                                                                                                          |
+|-------------------------------------|----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| back_to_start_menu_status_menu_text | Would you like to return to the main menu?\nAll unsaved progress will be lost!               | Вы хотите вернутся в главное меню?\nВесь несохраненный прогресс будет потерян!                              |
+| exit_menu_text                      | Would you like to exit the game?\nAll unsaved progress will be lost!                         | Вы хотите выйти из игры?\nВесь несохраненный прогресс будет потерян!                                        |
+| settings_status_menu_text           | Would you like to change the game settings?                                                  | Вы желаете изменить настройки игры?                                                                         |
+| creators_menu_text                  | Character artist - ...\nBackground artist - Alexander Progun\nProgramming - Alexander Progun | Художник по персонажам - ...\nХудожник задних планов: Алексндор Прогун\nПрограммирование - Александо Прогун |
+
+* **text_id** - id for "**text**" key in 'ui_*_menu_text.json' file.
+* **eng** and **ru** are examples of string values which will be displayed depending on the language settings.<br>
+Please note that the standard line break character "**\n**" is used here and is written together between lines.
 
 ## The name and icon of the game window:
 In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>
