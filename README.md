@@ -893,6 +893,9 @@ It must be used for business logic that will work in the menu.<br>
 The **'SettingsMenu'** class and its menu can be used as an external wrapper, or modified.<br>
 I planned to use it as a wrapper and make a separate menu for each type of setting.
 
+### Special Effects:
+It is planned to create template special effects for display on scenes.
+
 # Known Bugs:
 
 * **Incorrect sRGB profile:**
