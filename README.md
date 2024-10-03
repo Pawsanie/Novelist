@@ -172,6 +172,18 @@ This file plays once per scene, a moment after the switch is made.
 This file plays once per scene, a moment after the switch is made.
 
 ### How to assemble a game screenplay from scene configurations:
+In order to use this utility, you need to call it directly, or through a shell **ScreenplaySourceParser_execute** script that simplifies working with it.<br>
+As an argument, you can pass the absolute path to the folder with your scene settings, if it differs from the default one.<br>
+As example:
+```shell
+./ScreenplaySourceParser_execute.sh /home/User/Example_Path
+```
+If the folder is standard you can simply call the script.
+```shell
+powershell -File ScreenplaySourceParser_execute.ps1
+```
+Below is a detailed description of how to run the utility on different operating systems:
+
 * **Windows:**
 * * Hold down '**Win**' and '**R**' keys on your keyboard.
 * * Enter '**cmd**' in the window that opens and press '**Enter**'.
@@ -190,7 +202,7 @@ cd D:\Git\Novelist\Utilities\Screenplay_parser
 powershell -File ScreenplaySourceParser_execute.ps1
 ```
 
-* **MacOS**
+* **MacOS:**
 * * Hold down '**Command**' and '**Space**' keys on your keyboard.
 * * Enter '**Terminal**' in the window that opens and press '**Enter**'.
 * * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
@@ -201,6 +213,27 @@ cd /home/User/Git/Novelist/Utilities/Screenplay_parser
 * * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
 ```shell
 chmod +x ./ScreenplaySourceParser_execute.sh
+```
+* * Run "**ScreenplaySourceParser_execute**" Bash script.
+```shell
+./ScreenplaySourceParser_execute.sh
+```
+
+* **Other Unix type OS:** - Ubuntu, Fedora, etc.
+* * Open the Terminal of your operating system.
+* * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
+As example for downloaded path '/home/User/Git/Novelist':
+```shell
+cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+```
+* * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
+```shell
+chmod +x ./ScreenplaySourceParser_execute.sh
+```
+* * Depending on your security settings, you may need to enter the sudo command.<br>
+And enter the password when requested if necessary.
+```shell
+sudo +x ./ScreenplaySourceParser_execute.sh
 ```
 * * Run "**ScreenplaySourceParser_execute**" Bash script.
 ```shell
