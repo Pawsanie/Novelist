@@ -1084,4 +1084,4 @@ You can find a program that gives access to it directly on your PC using Windows
 
 ***
 
-:hearts:**Thank you** for your interest in my work!:hearts:<br><br>
+:hearts:**Thank you** for your interest in my work! :hearts:<br><br>
