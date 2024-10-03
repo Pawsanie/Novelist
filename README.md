@@ -51,6 +51,98 @@ This section contains information on solving typical problems and plans for furt
 
 # Novelist console utilities:
 ## Screenplay Parser:
+
+For convenience, this utility is equipped with shell scripts that simplify its call, and a file with an example scene.
+
+**Files location:**<br>
+**./**:open_file_folder:Utilities<br>
+   └── :file_folder:Screenplay_parser<br>
+            ├── :file_folder:Screenplay_source<br>
+            |        └── :page_facing_up:example_scene_config.ini<br>
+            ├── :page_facing_up:Screenplay_Source_Parser.py<br>
+            ├── :page_facing_up:ScreenplaySourceParser_execute.ps1<br>
+            └── :page_facing_up:ScreenplaySourceParser_execute.sh
+
+### How to create scene config:
+Let's start with how to design the scene for this script.<br>
+An example of the scene is in the 'example_scene_config.ini' file.<br>
+
+In order to create your own scene, you need to create a file with any name and ini extension, and either add it to the '**Screenplay_source folder**'.<br>
+Or to any directory in which you want to store your scenes.<br>
+You can store several scenes in one file, or just one.
+
+Let's take a closer look at the components of the scene settings:
+* **Basic Scene Settings:**
+```text
+[example_scene_name]
+
+scene_type = reading|choice
+past_scene = scene_name|START
+```
+* * **example_scene_name** - This scene name will be used inside the game.<br>
+It should be written in square brackets.<br>
+And all subsequent verses assigned to this scene must be under this title.
+
+* * **scene_type** - keep gameplay type.<br>
+Can be **reading** or **choice**.
+
+* * **past_scene** - keep name of previous scene.<br>
+This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
+For another configured scene - respectively.<br>
+The first scene in your visual novel must have '**START**' written on it.
+
+* **Background:**
+```text
+background_sprite_sheet = background_01
+background_animation = animation_01
+```
+
+* **Reading scene settings:**
+```text
+next_scene = scene_name|FINISH
+speaker_name_color = #ffffff
+speech_text_color = #ffffff
+```
+You don't have to specify colors. They will be set to #ffffff by default.
+
+* **Choice scene settings:**
+```text
+# Stores the name of the scene to be switched to as a value.
+scene_choice.choice_01 = scene_03
+scene_choice.choice_02 = scene_02
+# Stores the color of choice text.
+# You don't have to specify colors. They will be set to #ffffff by default.
+choice_text_color.choice_02 = #ffffff
+```
+You don't have to specify colors. They will be set to #ffffff by default.
+
+* **Characters settings:**
+```text
+# You can do not set any character for empty scene.
+# Or you can use one or two character actors on scene.
+# Left Character:
+left_character_animation = animation_01
+left_character_sprite_sheet = left_character
+left_character_plan = background_plan|first_plan
+# Middle Character:
+middle_character_animation = animation_01
+middle_character_sprite_sheet = middle_character
+middle_character_plan = background_plan|first_plan
+# Right Character:
+right_character_animation = animation_01
+right_character_sprite_sheet = right_character
+right_character_plan = background_plan|first_plan
+```
+
+* **Optional scene settings:**
+```text
+# Special effects can be sent like list as example: "rain,noise_artifacts,snow"...
+scene_special_effects = rain|noise_artifacts|false
+music = music_file|false
+sound = sound_file|false
+voice = voice_file|false
+```
+
 To run this utility, use the script "ScreenplaySourceParser_execute".<br>
 The script extension depends on the operating system.<br>
 * Windows - *ps1*.<br>
@@ -984,6 +1076,12 @@ As an example these [solutions from stackoverflow](https://stackoverflow.com/que
 
 ### Problems installing Python on Windows:
 
+When installing Python from the official website, you may encounter the fact that the operating system or IDE cannot find it.<br>
+There are several ways to solve this problem:
+* The easiest way to fix this problem is to install Python using the Microsoft Store.<br>
+You can find a program that gives access to it directly on your PC using Windows search.
+* 
+
 ***
 
-**Thank you** for your interest in my work.<br><br>
+:hearts:**Thank you** for your interest in my work!:hearts:<br><br>
