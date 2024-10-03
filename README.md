@@ -171,16 +171,40 @@ This file plays once per scene, a moment after the switch is made.
 * * **voice** - name of voice file or **false**<br>
 This file plays once per scene, a moment after the switch is made.
 
-To run this utility, use the script "ScreenplaySourceParser_execute".<br>
-The script extension depends on the operating system.<br>
-* Windows - *ps1*.<br>
-This is **PowerShel** scrypt format.
-* Unix type OS - *sh*.<br>
-This is **Bash** scrypt format.<br>
-This format is suitable for operating systems: MacOS, Ubuntu, Fedora etc.<br>
-Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
+### How to assemble a game screenplay from scene configurations:
+* **Windows:**
+* * Hold down '**Win**' and '**R**' keys on your keyboard.
+* * Enter '**cmd**' in the window that opens and press '**Enter**'.
+* * Enter the drive letter where the program was downloaded and '**:**'.<br>
+As example for 'D drive':
+```shell
+D:
+```
+* * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
+As example for downloaded path 'D:\Git\Novelist':
+```shell
+cd D:\Git\Novelist\Utilities\Screenplay_parser
+```
+* * Run "**ScreenplaySourceParser_execute**" powershell script.
+```shell
+powershell -File ScreenplaySourceParser_execute.ps1
+```
+
+* **MacOS**
+* * Hold down '**Command**' and '**Space**' keys on your keyboard.
+* * Enter '**Terminal**' in the window that opens and press '**Enter**'.
+* * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
+As example for downloaded path '/home/User/Git/Novelist':
+```shell
+cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+```
+* * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
 ```shell
 chmod +x ./ScreenplaySourceParser_execute.sh
+```
+* * Run "**ScreenplaySourceParser_execute**" Bash script.
+```shell
+./ScreenplaySourceParser_execute.sh
 ```
 
 # Visual Novel game application source code:
