@@ -1165,7 +1165,8 @@ When installing Python from the official website, you may encounter the fact tha
 There are several ways to solve this problem:
 * The easiest way to fix this problem is to install Python using the Microsoft Store.<br>
 You can find a program that gives access to it directly on your PC using Windows search.
-* 
+* Try to **reinstall** Python and select the checkbox "**Add Python to environment variables**".
+* Add Python to your operating system's environment variables manually.
 
 ***
 
