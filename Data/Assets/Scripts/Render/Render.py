@@ -16,27 +16,29 @@ class Render(SingletonPattern):
     Render image on display.
     """
     def __init__(self):
-        # Arguments processing:
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
-        self.stage_director: StageDirector = StageDirector()
-        self.interface_controller: InterfaceController = InterfaceController()
+        # Program layers settings:
+        self._settings_keeper: SettingsKeeper = SettingsKeeper()
+        self._stage_director: StageDirector = StageDirector()
+        self._interface_controller: InterfaceController = InterfaceController()
 
         # Render settings:
-        self.screen: Surface = self.settings_keeper.get_window()
+        self._screen: Surface = self._settings_keeper.get_window()
         self.layers_collection: dict = {}
         self.batch_collection: list = []
         self.sprite_collection: list = []
 
         self.reset: bool = True
-        self.save_screen: Surface = self.settings_keeper._screen
+        self.save_screen: Surface = self._settings_keeper.get_window()
 
-    def screen_clear(self):
+    def _screen_clear(self):
         """
         Clear scene before scene render.
         """
-        self.screen.fill((0, 0, 0))
+        self._screen.fill(
+            (0, 0, 0)
+        )
 
-    def render_devnull(self):
+    def _render_devnull(self):
         """
         Devnull sprite, batch and layers collections.
         """
@@ -44,64 +46,64 @@ class Render(SingletonPattern):
         self.batch_collection.clear()
         self.sprite_collection.clear()
 
-    def initialization(self):
+    def _initialization(self):
         """
         Prepare the scene for frame rendering.
         """
         if self.reset is True:
-            self.render_devnull()
+            self._render_devnull()
 
         # Generate background:
             self.batch_collection.append(
-                self.stage_director.generate_background_batch()
+                self._stage_director.generate_background_batch()
             )
 
         # Generate characters:
-            if self.interface_controller.start_menu_flag is False:
+            if self._interface_controller.start_menu_flag is False:
                 self.batch_collection.append(
-                    self.stage_director.generate_characters_batch()
+                    self._stage_director.generate_characters_batch()
                 )
         # Generate speech:
-                if self.interface_controller.gameplay_interface_hidden_status is False \
-                        and self.interface_controller.gameplay_interface_status is True:
+                if self._interface_controller.gameplay_interface_hidden_status is False \
+                        and self._interface_controller.gameplay_interface_status is True:
                     self.batch_collection.append(
-                        self.stage_director.generate_speech()
+                        self._stage_director.generate_speech()
                     )
 
         # Generate gameplay screen mask in game menu:
-            self.menu_screen_mask()
+            self._menu_screen_mask()
 
         # Generate UI:
-            if self.interface_controller.gameplay_interface_hidden_status is False:
+            if self._interface_controller.gameplay_interface_hidden_status is False:
                 self.batch_collection.append(
-                    self.interface_controller.generate_menus_batch()
+                    self._interface_controller.generate_menus_batch()
                 )
 
-    def save_screen_prepare(self):
+    def _save_screen_prepare(self):
         """
         Collect screen for game save.
         """
         from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
 
-        if self.interface_controller.gameplay_type_reading is True \
-                and self.interface_controller.menu_name is None\
+        if self._interface_controller.gameplay_type_reading is True \
+                and self._interface_controller.menu_name is None\
                 and GameMenu().status is False:
-            self.save_screen: Surface = self.settings_keeper.get_window().convert()
+            self.save_screen: Surface = self._settings_keeper.get_window().convert()
 
-    def menu_screen_mask(self):
+    def _menu_screen_mask(self):
         """
         Make filter for gameplay part of game menu image.
         """
         from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
 
-        if self.interface_controller.gameplay_type_reading is True \
-                and self.interface_controller.menu_name is None\
+        if self._interface_controller.gameplay_type_reading is True \
+                and self._interface_controller.menu_name is None\
                 and GameMenu().status is True:
             self.sprite_collection.append(
                 Sprite(
                     texture_mame="ui#screen_mask",
                     layer=3,
-                    sprite_size=(self.screen.get_width(), self.screen.get_height()),
+                    sprite_size=(self._screen.get_width(), self._screen.get_height()),
                     sprite_sheet_data={
                         "texture_type": "Backgrounds",
                         "sprite_sheet": False,
@@ -112,7 +114,7 @@ class Render(SingletonPattern):
                 )
             )
 
-    def layers_initialization(self):
+    def _layers_initialization(self):
         """
         Sort layers.
         """
@@ -124,7 +126,7 @@ class Render(SingletonPattern):
                 key: value for key, value in sorted_layers
             }
 
-    def single_sprites_initialization(self):
+    def _single_sprites_initialization(self):
         """
         Add single sprites to layers.
         """
@@ -147,10 +149,10 @@ class Render(SingletonPattern):
         Render image on display screen.
         """
         # Clear old screen:
-        self.screen_clear()
+        self._screen_clear()
 
         # Render initialization:
-        self.initialization()
+        self._initialization()
 
         # Batch render initialization:
         if len(self.batch_collection) > 0:
@@ -160,13 +162,13 @@ class Render(SingletonPattern):
 
         # Single sprites render initialization:
         if len(self.sprite_collection) > 0:
-            self.single_sprites_initialization()
+            self._single_sprites_initialization()
 
         # Display image render:
-        self.layers_initialization()
+        self._layers_initialization()
         for layer in self.layers_collection.values():
             layer.draw()
 
         # Flip all surfaces:
         display.update()
-        self.save_screen_prepare()
+        self._save_screen_prepare()

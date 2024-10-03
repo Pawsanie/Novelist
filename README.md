@@ -559,12 +559,12 @@ Simply update the lists under the **"Interface collections"** comment.<br>
 **Example:**
 ```python
 # Interface collections:
-yes_no_menus: tuple = (
+_yes_no_menus: tuple = (
     'exit_menu',
     'settings_status_menu',
     'back_to_start_menu_status_menu'
 )
-long_buttons_menus: tuple = (
+_long_buttons_menus: tuple = (
     'game_menu',
     'settings_menu',
     'start_menu',
@@ -579,14 +579,14 @@ You will also need to update the **"button_collections"** dictionary.<br>
 **Example:**
 ```python
 # Buttons collection:
-button_collections: dict = {
+_button_collections: dict = {
     'yes_no_menus': {
         'button_object': YesNoButton,
-        'allowable_menus': yes_no_menus
+        'allowable_menus': _yes_no_menus
     },
     'long_buttons_menus': {
         'button_object': LongButton,
-        'allowable_menus': long_buttons_menus
+        'allowable_menus': _long_buttons_menus
     }
 }
 ```
@@ -598,7 +598,7 @@ You will need to modify the menus_collection dictionary of '**InputCommandsReact
 Add a new item with menu settings to the dictionary.<br>
 **Example:**
 ```python
-menus_collection: dict = {
+_menus_collection: dict = {
     'exit_menu': {
         'object': ExitMenu(),
         'menu_file': 'ui_exit_menu_buttons',
@@ -613,7 +613,7 @@ menus_collection: dict = {
 ```
 As a key for your menu collection element will act **"type"** key in your menus json file.<br>
 Please note that **None** key is reserved for reading gameplay UI.<br>
-In a nested dictionary, the **'object'** key value is your menu object.
+In a nested dictionary, the **'object'** key value is your menu object.<br>
 If your menu does not have static text, set the value of the '**text_file**' key to 'None'.
 
 You will also need to add your buttons to 'ui_localizations_data.json', and localization.json 'eng.json' as example.<br>
@@ -623,20 +623,20 @@ Finally, you will need to program your menu to work in a new python file.<br>
 The 'UI_Start_menu.py' as example.
 
 **Informative text for new menu:**<br>
-If you need to add static text, with or without a background, to your new menu then a new menu needs to be added to 'ui_menu_text_localizations_data.json'.<br>
-In addition, you will need to create a new ui_*_menu_text.json for the new menu and fill it with correct data.
+If you need to add static text, with or without a background, to your new menu then a new menu needs to be added to 'text_menu_localization.csv'.<br>
+More information about it "Text and Localization" paragraph.
 
 You will also need to add a new menu to 'UI_Menu_Text.py' **MenuText** class '**scale**' method`s list.<br>
 Or you can use the standard coordinates by adding a list for such text at the beginning of the MenuText class.<br>
 **Example:**
 ```python
 # Set menu lists:
-yes_no_menu_text_list: list[str] = [
+_yes_no_menu_text_list: list[str] = [
     'back_to_start_menu_status_menu',
     'exit_menu',
     'settings_status_menu',
 ]
-back_menu_text_list: list[str] = [
+_back_menu_text_list: list[str] = [
     'creators_menu'
 ]
 ```

@@ -56,9 +56,16 @@ class ButtonFactory(SingletonPattern):
         }
     }
 
-    def produce(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],
-                button_text_localization_dict: dict[str] | None = None, have_real_path: bool = False,
-                text_offset_x: int | float | None = None, text_offset_y: int | float | None = None) -> BaseButton:
+    def produce(
+            self, *,
+            button_name: str,
+            button_text: str | None = None,
+            button_image_data: dict[str, int],
+            button_text_localization_dict: dict[str] | None = None,
+            have_real_path: bool = False,
+            text_offset_x: int | float | None = None,
+            text_offset_y: int | float | None = None
+    ) -> BaseButton:
         """
         Generate new Button object.
 

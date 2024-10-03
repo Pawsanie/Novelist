@@ -9,9 +9,16 @@ class SaveLoadMenuButton(BaseButton):
     Generate interface button surface and it`s coordinates for render.
     Save | Load menu buttons.
     """
-    def __init__(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],
-                 button_text_localization_dict: dict[str] | None = None, have_real_path: bool = False,
-                 text_offset_x: int | float | None = None, text_offset_y: int | float | None = None):
+    def __init__(
+            self, *,
+            button_name: str,
+            button_text: str | None = None,
+            button_image_data: dict[str, int],
+            button_text_localization_dict: dict[str] | None = None,
+            have_real_path: bool = False,
+            text_offset_x: int | float | None = None,
+            text_offset_y: int | float | None = None
+    ):
         """
         :param button_name: String with button image file name.
         :type button_name: str
