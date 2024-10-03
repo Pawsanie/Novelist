@@ -1,7 +1,9 @@
-# Pygame Visual Novel:
+# Novelist Engine:
 
 This repository contains the source code to create a Visual Novel game based on minimal edits using Python if it needed.<br/>
 And just setting up a few json files.
+
+And also elements of the basic Novelist game engine.
 
 I was inspired to develop this code by the inability to use [RenPy](https://www.renpy.org/) to create a game in the form in which I want.<br>
 As well as not wanting to learn RenPy scripting language.
@@ -17,6 +19,51 @@ In addition, writing your own game, almost from scratch, is quite interesting.
 
 ___
 <br>
+
+## Contents:
+
+### Novelist console utilities:
+This section describes step by step how to create a game using the engine, at the level of console utilities.<br>
+Just like scenes and texture data need to be described, without using any scripting languages, so that the game can be assembled.
+* [Screenplay Parser](#Screenplay-Parser)
+
+### Visual Novel game application source code:
+The paragraphs in this section describe in sufficient detail how the game is structured and how to control it at the level of the contents of the configuration files.
+* [Required](#Required)
+* [How to run the application](#How-to-run-the-application)
+* [Settings of scenes](#Settings-of-scenes)
+* [Characters and their sprites](#Characters-and-their-sprites)
+* [Backgrounds and its sprite](#Backgrounds-and-its-sprites)
+* [User Interface](#User-Interface)
+* [Text and Localization](#Text-and-Localization)
+* [The name and icon of the game window](#The-name-and-icon-of-the-game-window)
+* [GamePlay](#GamePlay)
+* [Default game settings](#Default-game-settings)
+* [Sound System](#Sound-System)
+* [How the program works](#How-the-program-works)
+* [Logging](#Logging)
+* [Save and Load system](#Save-and-Load-system)
+
+### Other paragraphs:
+This section contains information on solving typical problems and plans for further development.
+* [What needs to be completed](#What-needs-to-be-completed)
+* [Known Problems](#Known-Problems)
+
+# Novelist console utilities:
+## Screenplay Parser:
+To run this utility, use the script "ScreenplaySourceParser_execute".<br>
+The script extension depends on the operating system.<br>
+* Windows - *ps1*.<br>
+This is **PowerShel** scrypt format.
+* Unix type OS - *sh*.<br>
+This is **Bash** scrypt format.<br>
+This format is suitable for operating systems: MacOS, Ubuntu, Fedora etc.<br>
+Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
+```shell
+chmod +x ./ScreenplaySourceParser_execute.sh
+```
+
+# Visual Novel game application source code:
 
 ## Required:
 The application code is written in python and obviously depends on it.<br>
@@ -896,9 +943,14 @@ I planned to use it as a wrapper and make a separate menu for each type of setti
 ### Special Effects:
 It is planned to create template special effects for display on scenes.
 
-# Known Bugs:
+### Console utilities:
+* Utility for simplified texture data assembly
+* Localisation parser utility
+* Utility for compiling games for different operating systems.
 
-* **Incorrect sRGB profile:**
+# Known Problems:
+
+### Incorrect sRGB profile:
 ```text
 libpng warning: iCCP: known incorrect sRGB profile
 ```
@@ -929,6 +981,8 @@ Usually it is marked as **Default**.
 There are other solutions to this problem using the operating system terminal and various console utilities.<br>
 :warning:**Using** the solutions suggested below, **You** assume **responsibility for any consequences!**:warning:<br>
 As an example these [solutions from stackoverflow](https://stackoverflow.com/questions/22745076/libpng-warning-iccp-known-incorrect-srgb-profile/22747902#22747902).
+
+### Problems installing Python on Windows:
 
 ***
 
