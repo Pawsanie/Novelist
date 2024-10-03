@@ -388,8 +388,8 @@ Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 However, you can change the sprite's format requirement by modifying it in the code.
 
 ## User Interface:
-Information about the standard user interface is contained in 'ui_menu-name_buttons.json' files and 'ui_localizations_data.json'.<br>
-Localization of the standard interface is stored in the appropriate files: 'eng.json' as example.
+Information about the standard user interface is contained in 'ui_buttons_data.json' files and 'ui_menu_text_data.json'.<br>
+Information about localisation of standard interface in "Text and Localization" paragraph.
 
 **Below** examples with **json`s** describes the code that needs to be changed if you want to supplement the standard menus with your own.
 
@@ -409,40 +409,24 @@ Localization of the standard interface is stored in the appropriate files: 'eng.
                                                 └── :file_folder:Text_config_files<br>
                                                          └── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
 
-**Json interface settings files:**<br>
-
-**Example of 'ui_localizations_data.json' file:**
+**User Interface Buttons:**<br><br>
+All button configurations are initially described in the 'ui_buttons_data.json' file.<br>
+This file contains an array that lists the names of configuration files for all menu buttons.<br>
+**Example of buttons in ui_buttons_data.json file:**
 ```json
-{
-  "ui_buttons_files": [
+[
     "ui_exit_menu_buttons",
     "ui_game_menu_buttons",
-    "ui_gameplay_buttons"
-  ],
-  "localizations": [
-    "eng",
-    "ru"
-  ]
-}
+    "ui_gameplay_buttons",
+    "ui_load_menu_buttons",
+    "ui_save_menu_buttons",
+    "ui_settings_menu_buttons",
+    "ui_settings_status_buttons",
+    "ui_start_menu_buttons",
+    "ui_back_to_start_menu_status_menu_buttons",
+    "ui_creators_menu_buttons"
+]
 ```
-'ui_buttons_files' key is used in the 'Interface_Controller.py' file code.<br>
-In 'get_ui_buttons_dict' method of 'InterfaceController' class.<br>
-
-Please note that you need to write file names in ui_buttons_files key values.<br>
-Note that localization tags work similarly to scene text localization.
-
-**Example of start menu in './UI_Buttons/\*/eng.json' file:**
-```json
-{
-  "start_menu_new_game": "New game",
-  "start_menu_continue": "Continue",
-  "start_menu_load": "Load",
-  "start_menu_settings": "Settings",
-  "start_menu_creators": "Creators",
-  "start_menu_exit": "Exit"
-}
-```
-The values of these keys are written as text, on buttons that have text in them.
 
 **Example of buttons in ui\_\*\_buttons.json file:**
 ```json
@@ -478,34 +462,52 @@ Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
                     └── :file_folder:User_Interface<br>
                             └── :file_folder:Buttons<br>
 
-**Example of 'ui_menu_text_localizations_data.json' file:**
+The button sprite texture images must be described in the 'ui_sprites.json' file.<br>
+**Example of buttons in ui_sprites.json file:**
 ```json
 {
-  "ui_menus_text_files": [
-    "ui_back_to_start_menu_status_menu_text",
-    "ui_exit_menu_text",
-    "ui_settings_status_text"
+  "Buttons": [
+    "dialogues_choice_button",
+    "exit_menu_buttons",
+    "fast_forward",
+    "game_menu",
+    "game_menu_buttons",
+    "hide_interface",
+    "next_scene",
+    "past_scene"
   ],
-  "localizations": [
-    "eng",
-    "ru"
+
+  "Menu_Substrate": [
+    "blank_big"
+  ],
+
+  "Save_System": [
+    "screen_preview_empty"
+  ],
+
+  "Text_Canvas": [
+    "text_canvas"
   ]
 }
 ```
-Arranged by **analogy** with the 'ui_localizations_data.json'.<br>
-Only instead of the 'ui_buttons_files' key the 'ui_menus_text_files'.
+* **Buttons** - list of textures that can be assigned to buttons.
+* **Menu_Substrate** - list of textures on top of which text in the menu can be written.
+* **Save_System** - despite the fact that this is an array, there is only one possible texture option for empty save cells.
+* **Text_Canvas** - similar but for the text that the player reads during reading gameplay.
+They are treated as static images and are loaded as is, meaning each file should contain a complete image of the object.<br>
 
-**Example of text in './UI_Menu_texts/\*/eng.json' file:**
+**User Interface Menu Text:**<br><br>
+All text configurations are initially described in the 'ui_menu_text_data.json' file.<br>
+This file contains an array that lists the names of configuration files for all menu texts.<br>
+**Example of buttons in ui_buttons_data.json file:**
 ```json
-{
-  "back_to_start_menu_status_menu_text": "Would you like to return to the main menu?\nAll unsaved progress will be lost!",
-
-  "exit_menu_text": "Would you like to exit the game?\nAll unsaved progress will be lost!",
-
-  "settings_status_menu_text": "Would you like to change the game settings?"
-}
+[
+    "ui_back_to_start_menu_status_menu_text",
+    "ui_exit_menu_text",
+    "ui_settings_status_menu_text",
+    "ui_creators_menu_text"
+]
 ```
-Note that you can use the line break '\n' character for text.
 
 **Example of 'ui_exit_menu_text.json' file:**
 ```json
@@ -521,11 +523,9 @@ Note that you can use the line break '\n' character for text.
   "substrate": "blank_big"
 }
 ```
-**text** key contains as value link to text in localisation.
-
-**coordinates** key contains as value dictionary with multipliers for the coordinates on which the text will be positioned, from the center.
-
-**color** key contains as value color like string.
+* **text** key contains as value link to text in localisation.
+* **coordinates** key contains as value dictionary with multipliers for the coordinates on which the text will be positioned, from the center.
+* **color** key contains as value color like string.
 
 Please note that the '**substrate**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
