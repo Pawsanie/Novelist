@@ -367,7 +367,7 @@ More about this further in **"Characters and their sprites"** paragraph.<br>
 **character_plan** - may have values **background_plan|first_plan**.<br>
 **character_start_position** - may have values **right|middle|left**.<br><br>
 
-:eyes:**Specific for Reading GamePlay:**<br>
+:eye_speech_bubble:**Specific for Reading GamePlay:**<br>
 * **Next Scene:**<br>
 The '**next_scene**' key value contains information about the next scene to be switched to.<br>
 Last scene must have the '**FINISH**' key value.<br>
