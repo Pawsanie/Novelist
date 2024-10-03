@@ -82,10 +82,8 @@ past_scene = scene_name|START
 * * **example_scene_name** - This scene name will be used inside the game.<br>
 It should be written in square brackets.<br>
 And all subsequent verses assigned to this scene must be under this title.
-
 * * **scene_type** - keep gameplay type.<br>
 Can be **reading** or **choice**.
-
 * * **past_scene** - keep name of previous scene.<br>
 This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
 For another configured scene - respectively.<br>
@@ -96,6 +94,9 @@ The first scene in your visual novel must have '**START**' written on it.
 background_sprite_sheet = background_01
 background_animation = animation_01
 ```
+* * **background_sprite_sheet** - keep background sprite texture image and texture settings file.<br>
+To create a texture you can use "Texture_Source_Parser" utility.
+* * **background_animation** - here you need to specify the name of the animation or static frame.
 
 * **Reading scene settings:**
 ```text
@@ -103,36 +104,56 @@ next_scene = scene_name|FINISH
 speaker_name_color = #ffffff
 speech_text_color = #ffffff
 ```
-You don't have to specify colors. They will be set to #ffffff by default.
+* * **next_scene** - keep name of next scene for reading gameplay.<br>
+This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
+For another configured scene - respectively.<br>
+The last scene in your visual novel must have '**FINISH**' written on it.
+* * **speaker_name_color** and **speech_text_color** - keeps hex-code the color of the name of the character speaking in the scene and the color of the text that he speaks.<br>
+You don't have to specify colors.<br>
+They will be set to #ffffff by default.
 
 * **Choice scene settings:**
 ```text
-# Stores the name of the scene to be switched to as a value.
 scene_choice.choice_01 = scene_03
 scene_choice.choice_02 = scene_02
-# Stores the color of choice text.
-# You don't have to specify colors. They will be set to #ffffff by default.
 choice_text_color.choice_02 = #ffffff
 ```
+* * **scene_choice** - stores the name of the scene to be switched to as a value.<br>
+Please note that in this case the key consists of 2 parts '**scene_choice**' and choice name as example '**choice_01**' and '**choice_02**'.<br>
+This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
+For another configured scene - respectively.<br>
+* * **choice_text_color** - is designed on the same principle as '**scene_choice**'.<br>
+Keeps hex-code the color of choice text.<br>
 You don't have to specify colors. They will be set to #ffffff by default.
 
 * **Characters settings:**
 ```text
-# You can do not set any character for empty scene.
-# Or you can use one or two character actors on scene.
 # Left Character:
 left_character_animation = animation_01
 left_character_sprite_sheet = left_character
 left_character_plan = background_plan|first_plan
+
 # Middle Character:
 middle_character_animation = animation_01
 middle_character_sprite_sheet = middle_character
 middle_character_plan = background_plan|first_plan
+
 # Right Character:
 right_character_animation = animation_01
 right_character_sprite_sheet = right_character
 right_character_plan = background_plan|first_plan
 ```
+You can leave the characters unspecified if you want the scene to remain empty.<br>
+Or you can use one, two or three character type actors on scene.<br>
+At the beginning of each key you need to indicate what type of character you want to describe:<br>
+**left\_**, **middle\_** or **right\_**. As example **right_character_animation**.<br>
+Next, the keys will be listed **without** this **prefix**:
+* * **character_sprite_sheet** - keep character sprite texture image and texture settings file.<br>
+To create a texture you can use "Texture_Source_Parser" utility.
+* * **character_animation** - here you need to specify the name of the animation or static frame.
+* * **character_plan** - can only have '**background_plan**' or '**first_plan**' as value.<br>
+Obviously, the setting is responsible for how the character will be drawn.<br>
+In the foreground or background.
 
 * **Optional scene settings:**
 ```text
@@ -142,6 +163,13 @@ music = music_file|false
 sound = sound_file|false
 voice = voice_file|false
 ```
+* * **scene_special_effects** - the option is currently under development.
+* * **music** - name of music file or **false**<br>
+This file will play in a loop during this scene
+* * **sound** - name of sound file or **false**<br>
+This file plays once per scene, a moment after the switch is made.
+* * **voice** - name of voice file or **false**<br>
+This file plays once per scene, a moment after the switch is made.
 
 To run this utility, use the script "ScreenplaySourceParser_execute".<br>
 The script extension depends on the operating system.<br>
@@ -1084,4 +1112,4 @@ You can find a program that gives access to it directly on your PC using Windows
 
 ***
 
-:hearts:**Thank you** for your interest in my work! :hearts:<br><br>
+:hearts: **Thank you** for your interest in my work! :hearts:<br><br>
