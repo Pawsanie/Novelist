@@ -21,6 +21,9 @@ ___
 <br>
 
 ## Contents:
+### Required:
+Contains information about dependencies and how to install them.
+* [Required](#Required)
 
 ### Novelist console utilities:
 This section describes step by step how to create a game using the engine, at the level of console utilities.<br>
@@ -29,7 +32,6 @@ Just like scenes and texture data need to be described, without using any script
 
 ### Visual Novel game application source code:
 The paragraphs in this section describe in sufficient detail how the game is structured and how to control it at the level of the contents of the configuration files.
-* [Required](#Required)
 * [How to run the application](#How-to-run-the-application)
 * [Settings of scenes](#Settings-of-scenes)
 * [Characters and their sprites](#Characters-and-their-sprites)
@@ -49,7 +51,31 @@ This section contains information on solving typical problems and plans for furt
 * [What needs to be completed](#What-needs-to-be-completed)
 * [Known Problems](#Known-Problems)
 
+## Required:
+The application code is written in python and obviously depends on it.<br>
+**Python** version 3.6 [Python Software Foundation License / (with) Zero-Clause BSD license (after 3.8.6 version Python)]:
+* :octocat:[Python GitHub](https://github.com/python)
+* :bookmark_tabs:[Python internet page](https://www.python.org/)
+
+## Required Packages:
+**PyGame** [GNU LGPL version 2.1]:
+* :octocat:[PyGame GitHub](https://github.com/pygame/pygame)
+* :bookmark_tabs:[Pygame internet page](https://www.pygame.org/news)
+
+Used to create windows, surfaces and draw them on top of each other.<br>
+Also for flipping the screen and drawing the window icon.
+
+## Installing the Required Packages:
+```bash
+pip install pygame
+```
+If you want you can change this library by first downloading it from the repository and installing your version using the command.
+```bash
+pip install ./path/to/modified/lib
+```
+
 # Novelist console utilities:
+
 ## Screenplay Parser:
 
 For convenience, this utility is equipped with shell scripts that simplify its call, and a file with an example scene.
@@ -241,30 +267,6 @@ sudo +x ./ScreenplaySourceParser_execute.sh
 ```
 
 # Visual Novel game application source code:
-
-## Required:
-The application code is written in python and obviously depends on it.<br>
-**Python** version 3.6 [Python Software Foundation License / (with) Zero-Clause BSD license (after 3.8.6 version Python)]:
-* :octocat:[Python GitHub](https://github.com/python)
-* :bookmark_tabs:[Python internet page](https://www.python.org/)
-
-## Required Packages:
-**PyGame** [GNU LGPL version 2.1]:
-* :octocat:[PyGame GitHub](https://github.com/pygame/pygame)
-* :bookmark_tabs:[Pygame internet page](https://www.pygame.org/news)
-
-Used to create windows, surfaces and draw them on top of each other.<br>
-Also for flipping the screen and drawing the window icon.
-
-
-## Installing the Required Packages:
-```bash
-pip install pygame
-```
-If you want you can change this library by first downloading it from the repository and installing your version using the command.
-```bash
-pip install ./path/to/modified/lib
-```
 
 ## How to run the application:
 To run the application, you need to run the 'Visual_novel_game.py' script with your shell.<br>
