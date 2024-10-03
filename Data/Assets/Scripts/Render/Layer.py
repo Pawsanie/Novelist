@@ -12,23 +12,23 @@ class Layer:
     Layer keep sprites and draw it on oneself.
     """
     def __init__(self, key: int):
-        self.screen = SettingsKeeper().screen
-        self.name: str | int = key
+        self._screen = SettingsKeeper().get_window()
+        self._name: str | int = key
         self.sprite_collection: list = []
-        self.layer_canvas: Surface | None = None
+        self._layer_canvas: Surface | None = None
 
     def initialization(self):
         """
         Render sprites in layer canvas.
         """
-        self.layer_canvas: Surface = Surface(
-            (self.screen.get_width(), self.screen.get_height()),
+        self._layer_canvas: Surface = Surface(
+            (self._screen.get_width(), self._screen.get_height()),
             SRCALPHA
         )
 
         for sprite in self.sprite_collection:
-            self.layer_canvas.blit(
-                sprite.image, sprite.coordinates
+            sprite.blit_to(
+                self._layer_canvas
             )
 
     def append(self, sprite: Sprite):
@@ -48,4 +48,4 @@ class Layer:
         Render layer on display screen
         """
         self.initialization()
-        self.screen.blit(self.layer_canvas, (0, 0))
+        self._screen.blit(self._layer_canvas, (0, 0))

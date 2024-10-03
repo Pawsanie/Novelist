@@ -1,72 +1,98 @@
 {
-  "scene_01": {
-    "background": "back_ground_01",
+  "test_scene_01": {
+    "gameplay_type": "reading",
+    "background": {
+      "background_sprite_sheet": "back_ground_01",
+      "background_animation": "default"
+    },
+    "past_scene": "START",
     "actors": {
-      "Character_01": {
-        "character_start_position": "right",
-        "character_pose": "3",
-        "character_plan": "background_plan"
-      },
       "Character_02": {
-        "character_start_position": "middle",
-        "character_pose": "3",
-        "character_plan": "first_plan"
+        "character_animation": "1",
+        "character_plan": "first_plan",
+        "character_start_position": "middle"
+      },
+      "Character_01": {
+        "character_animation": "3",
+        "character_plan": "background_plan",
+        "character_start_position": "right"
       }
     },
-    "special_effects": false,
-    "gameplay_type": "reading",
-    "past_scene": "START",
     "next_scene": "test_scene_02",
+    "speaker_name_color": "#00ffff",
+    "speech_text_color": "#ffffff",
+    "special_effects": [
+      "rain",
+      "noise_artifacts"
+    ],
     "sounds": {
       "music_channel": false,
       "sound_channel": "blank",
       "voice_channel": false
     }
   },
-
-   "test_scene_02": {
-    "background": "back_ground_01",
+  "test_scene_02": {
+    "gameplay_type": "choice",
+    "background": {
+      "background_sprite_sheet": "back_ground_01",
+      "background_animation": "default"
+    },
+    "past_scene": "test_scene_01",
     "actors": {
-      "Character_01": {
-        "character_start_position": "middle",
-        "character_pose": "2",
-        "character_plan": "first_plan"
-      },
       "Character_04": {
-        "character_start_position": "left",
-        "character_pose": "3",
-        "character_plan": "first_plan"
+        "character_animation": "3",
+        "character_plan": "first_plan",
+        "character_start_position": "left"
+      },
+      "Character_01": {
+        "character_animation": "2",
+        "character_plan": "first_plan",
+        "character_start_position": "middle"
+      }
+    },
+    "choices": {
+      "choice_01": {
+        "branching": "test_scene_01",
+        "text_color": "#ffffff"
+      },
+      "choice_02": {
+        "branching": false,
+        "text_color": "#ff0000"
+      },
+      "choice_03": {
+        "branching": "test_scene_03",
+        "text_color": "#ffffff"
       }
     },
     "special_effects": false,
-    "gameplay_type": "choice",
-    "past_scene": "scene_01",
-    "next_scene": false,
     "sounds": {
       "music_channel": "blank",
       "sound_channel": false,
       "voice_channel": false
     }
   },
-
   "test_scene_03": {
-    "background": "back_ground_01",
+    "gameplay_type": "reading",
+    "background": {
+      "background_sprite_sheet": "back_ground_01",
+      "background_animation": "default"
+    },
+    "past_scene": "test_scene_02",
     "actors": {
       "Character_02": {
-        "character_start_position": "left",
-        "character_pose": "1",
-        "character_plan": "background_plan"
+        "character_animation": "1",
+        "character_plan": "background_plan",
+        "character_start_position": "left"
       }
     },
-    "special_effects": false,
-    "gameplay_type": "reading",
-    "past_scene": "test_scene_02",
     "next_scene": "FINISH",
+    "speaker_name_color": "#00ffff",
+    "speech_text_color": "#ffffff",
+    "special_effects": false,
     "sounds": {
       "music_channel": false,
       "sound_channel": false,
       "voice_channel": "blank"
     }
   }
-
 }

@@ -1,7 +1,4 @@
-from pygame import Surface
-
 from .UI_Base_Button import BaseButton
-from ...Universal_computing.Surface_size import surface_size
 """
 Contents code for user interface 'Save | Load cell`s' buttons.
 """
@@ -12,9 +9,16 @@ class SaveLoadCellButton(BaseButton):
     Generate interface button surface and it`s coordinates for render.
     Save and Load cell`s buttons.
     """
-    def __init__(self, *, button_name: str, button_text: str | None = None, button_image_data: dict[str, int],
-                 button_text_localization_dict: dict[str] | None = None, have_real_path: bool = False,
-                 text_offset_x: int | float | None = None, text_offset_y: int | float | None = None):
+    def __init__(
+            self, *,
+            button_name: str,
+            button_text: str | None = None,
+            button_image_data: dict[str, str | list[int] | None],
+            button_text_localization_dict: dict[str] | None = None,
+            have_real_path: bool = False,
+            text_offset_x: int | float | None = None,
+            text_offset_y: int | float | None = None
+    ):
         """
         :param button_name: String with button image file name.
         :type button_name: str
@@ -54,43 +58,40 @@ class SaveLoadCellButton(BaseButton):
             text_offset_y=text_offset_y
         )
 
-    def coordinates(self):
+    def _calculate_coordinates(self):
         """
         Coordinates for save menu and load menu Save Cells buttons.
         """
-        row, column = self.button_image_data['index_number']
-        background: tuple[Surface, tuple[int, int]] = self.background.get_data()
-        background_width, background_x = background[0].get_width(), background[1][0]
-        background_height, background_y = background[0].get_height(), background[1][1]
+        row, column = self._button_sprite_data['index_number']
+        background_width, background_height = self._background.get_size()
+        background_x, background_y = self._background.get_coordinates()
 
         # X:
         button_coordinates_x: int = int(
             + background_x
             + (background_width // 4)
-            + ((self.button_size[0] * 1.5) * column)
-            - (self.button_size[0] // 2)
-            - (self.button_size[0] * 2)
+            + ((self._button_size[0] * 1.5) * column)
+            - (self._button_size[0] // 2)
+            - (self._button_size[0] * 2)
         )
         # Y:
         button_coordinates_y: int = int(
                 + background_y
                 + (background_height // 3)
-                + ((self.button_size[1] * 1.5) * row)
-                - (self.button_size[1] // 2)
-                - (self.button_size[1] * 2.5)
+                + ((self._button_size[1] * 1.5) * row)
+                - (self._button_size[1] // 2)
+                - (self._button_size[1] * 2.5)
         )
 
-        self.button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
+        self._button_coordinates: tuple[int, int] = (button_coordinates_x, button_coordinates_y)
 
-    def get_button_size(self) -> tuple[int, int]:
+    def _get_button_size(self) -> tuple[int, int]:
         """
         Calculate button size.
 
         :return: Tuple with x and y sizes of button`s surface.
         """
-        background_surface_size: tuple[int, int] = surface_size(
-            interested_surface=self.background.get_data()[0]
-        )
+        background_surface_size: tuple[int, int] = self._background.get_size()
         background_size_x, background_size_y = background_surface_size
 
         # X:

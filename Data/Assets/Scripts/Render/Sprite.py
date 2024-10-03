@@ -1,6 +1,8 @@
-from pygame import Surface, time, SRCALPHA, transform
+from random import randint
 
-from .Sprite_animation_pause import SpriteAnimationPause
+from pygame import Surface, time, transform
+
+from .Texture_Master import TexturesMaster
 """
 Responsible for the code of a sprites used in rendering.
 """
@@ -10,11 +12,16 @@ class Sprite:
     """
     Spites uses in batch rendering.
     """
-    def __init__(self, *, image: Surface, layer: int = 1, coordinates: tuple[int, int] = (0, 0),
-                 name: str | None = None, sprite_sheet_data: dict[str, list[int, int]] | None = None):
+    def __init__(
+            self, *, layer: int = 1,
+            coordinates: tuple[int, int] = (0, 0),
+            texture_mame: str,
+            name: str | None = None,
+            sprite_sheet_data: dict | None = None,
+            sprite_size: tuple[int, int] = (0, 0)
+    ):
         """
-        :param image: Pygame.Surface for sprite render.
-        :type image: Surface
+        Don't forget to specify the size of the "sprite_size" argument if it is not set in the loop by "scale" method!
         :param layer: Layer for sprite render.
                       1 as default.
         :type layer: int
@@ -24,78 +31,240 @@ class Sprite:
         :param name: Sprite name.
                      None as default.
         :type name: str | None
-        :param sprite_sheet_data: Dict with sprite sheet animations coordinates.
-                                  None as default.
-        :type sprite_sheet_data: dict[str, list[int, int]] | None
+        :param sprite_sheet_data: As exemple:
+                                  {
+                                    "texture_type": "Characters"|"Backgrounds"|"User_Interface",
+                                    "sprite_sheet": bool,
+                                    "statick_frames"|"animations": {
+                                        "any_animation_name": {  # The animation name only matters for animated sprites,
+                                                                 # in the context of switching.
+                                            animation_name_str: {...},  # The data inside is irrelevant for
+                                                                        # statick sprites.
+                                            "time_duration": float  # The only important value for animation sprites.
+                                        }
+                                    }
+                                  }
+        :type sprite_sheet_data: dict
+        :param sprite_size: Sprite image Surface size.
+        :type sprite_size: tuple[int, int]
         """
         # Program layers settings:
-        self.frame_time: int = time.get_ticks()
+        self._texture_master: TexturesMaster = TexturesMaster()
 
         # Arguments processing:
-        self.name: str | None = name
-        self.image_safe: Surface = image
-        self.image: Surface = image
-        self.layer: int = layer
-        self.coordinates: tuple[int, int] = coordinates
+        self._name: str | None = name
+        self._layer: int = layer
+        self._coordinates: tuple[int, int] = coordinates
+        self._texture_id: str = texture_mame
+        self._sprite_sheet_data: dict | None = sprite_sheet_data
 
-        self.frames: str = "frames"
-        self.time_duration: str = "time_duration"
-        self.sprite_sheet: dict[str, dict[str, list[Surface] | float | None]] | None = \
-            self.make_sprite_sheet(sprite_sheet_data)
-        self.animation_name: str | None = None
+        # Other settings:
+        self._frame_time: int = time.get_ticks()
+        self._image_size: tuple[int, int] = sprite_size
 
-        self.statick_frame_key: int | None = None
-        self.last_frame_number: int = -1
+        # Sprite sheet animation data:
+        self._animation_name: str = self._get_default_animation_name()
+        self._sprite_sheet_frame: int | str = self._get_sprite_frame_name()
+        self._pause_duration: int = randint(2, 5)
 
-    def blit(self, any_surface: Surface):
+        # Render settings:
+        self._scene_name: str | None = None
+        self._recache_status: bool = True
+
+    def _get_default_animation_name(self) -> str | None:
         """
-        Draw sprite on surface.
+        {
+            "sprite_sheet": bool,
+            "animation_name": {  # For statick is "statick_frames"
+                any: dict
+            }
+        }
+        """
+        if self._sprite_sheet_data["sprite_sheet"] is False:
+            return "statick_frames"
+        else:
+            return list(
+                    self._sprite_sheet_data["animations"].keys()
+                )[0]
+
+    def _get_sprite_frame_name(self) -> int | str | None:
+        """
+        Sprite frame name can be any data types and values which can be keys in dictionaries.
+        """
+        if self._animation_name == "statick_frames":
+            result: str = list(
+                self._sprite_sheet_data[
+                    "statick_frames"
+                ].keys()
+            )[0]
+        else:
+            result: int = 1
+        return result
+
+    def get_layer(self) -> int | str:
+        """
+        Use in Batch.
+        """
+        return self._layer
+
+    def _recache_sprite(self):
+        """
+        Recache sprite in TextureMaster if necessary.
+        """
+        universal_parameters: dict = {
+            "texture_type": self._sprite_sheet_data["texture_type"],
+            "texture_name": self._texture_id,
+            "animation_name": self._animation_name,
+            "frame": self._sprite_sheet_frame
+        }
+        # No scaling required:
+        if self._texture_master.get_texture_size(
+                **universal_parameters
+        ) == self._image_size:
+            return
+
+        # Temporary texture:
+        if self._recache_status is False:
+            temporary_texture: Surface = Surface(self._image_size)
+            temporary_texture.blit(
+                transform.scale(
+                    surface=self._texture_master.get_texture(
+                        **universal_parameters
+                    ),
+                    size=self._image_size
+                ),
+                (0, 0)
+            )
+            self._texture_master.set_temporary_texture(
+                **universal_parameters,
+                surface=temporary_texture
+            )
+            return
+
+        # Texture caching:
+        self._texture_master.set_new_scale_frame(
+            **universal_parameters,
+            image_size=self._image_size
+        )
+
+    def blit_to(self, any_surface: Surface):
+        """
+        Draw sprite image on surface.
+        Can be used in Render, Layer classes in context of render pipline.
         :param any_surface: Any Surface.
         :type any_surface: Surface
         """
-        self.image.blit(any_surface, self.coordinates)
+        self._sprite_sheet_next_frame()
+        self._recache_sprite()
+        any_surface.blit(
+            self._texture_master.get_texture(
+                texture_type=self._sprite_sheet_data["texture_type"],
+                texture_name=self._texture_id,
+                animation_name=self._animation_name,
+                frame=self._sprite_sheet_frame
+            ),
+            self._coordinates
+        )
 
-    def sprite_sheet_next_frame(self):
+    def blit(self, any_surface: Surface, coordinates: tuple[int, int]):
+        """
+        Draw surface image on Sprite texture and crate temporary texture for TextureMaster.
+        Can be use in Buttons in context of UI image Render pipline.
+        :param any_surface: Any Surface.
+        :type any_surface: Surface
+        :param coordinates: Render coordinates.
+        :type coordinates: tuple[int, int]
+        """
+        self._recache_sprite()
+        temporary_texture: Surface = self._texture_master.get_texture(
+            texture_type=self._sprite_sheet_data["texture_type"],
+            texture_name=self._texture_id,
+            animation_name=self._animation_name,
+            frame=self._sprite_sheet_frame
+        )
+        temporary_texture.blit(
+            any_surface,
+            coordinates
+        )
+        self._texture_master.set_temporary_texture(
+            texture_type=self._sprite_sheet_data["texture_type"],
+            texture_name=self._texture_id,
+            surface=temporary_texture
+        )
+
+    def _sprite_sheet_next_frame(self):
         """
         Switch frames in Sprite 2d animation if possible.
         """
-        if self.sprite_sheet is None:
+        if self._sprite_sheet_data is None:
             return
 
-        if self.animation_name is None:
-            self.animation_name: str = list(self.sprite_sheet.keys())[0]
+        if self._animation_name is None:
+            self._animation_name: str = list(
+                self._sprite_sheet_data.keys()
+            )[0]
 
-        if self.statick_frame_key is None:
-            sprite_sheet_frame: int = self.get_frame_number()
-        else:
-            sprite_sheet_frame: int = self.statick_frame_key - 1
+        if self._animation_name == "statick_frames":
+            return
 
-        self.image: Surface = self.sprite_sheet[self.animation_name][self.frames][sprite_sheet_frame]
+        self._sprite_sheet_frame: int = self.get_frame_number()
 
-    @SpriteAnimationPause()
+    @staticmethod
+    def _get_scene_name() -> str:
+        """
+        Get scene name.
+        """
+        from ..GamePlay.Scene_Validator import SceneValidator
+        return SceneValidator().get_current_scene_name()
+
+    def get_animation_name(self) -> str:
+        """
+        Use in Character and Backgrounds.
+        """
+        return self._animation_name
+
     def get_frame_number(self) -> int:
         """
         Get step for sprite sheet frame swap.
         :result: int
         """
-        if (time.get_ticks() - self.frame_time) / 1000 >= (
-                self.sprite_sheet[self.animation_name][self.time_duration]
-                / len(self.sprite_sheet[self.animation_name][self.frames])
+        # Statick frame:
+        if self._animation_name == "statick_frames":
+            return self._sprite_sheet_frame
+
+        # Animation frame:
+        current_time_frame: int = time.get_ticks()
+
+        # Animation pause:
+        if (current_time_frame - self._frame_time) / 1000 >= self._pause_duration:
+            self._frame_time: int = current_time_frame
+            return self._sprite_sheet_frame
+
+        # Switch animation frame:
+        if (current_time_frame - self._frame_time) / 1000 >= (
+                self._sprite_sheet_data["animations"][self._animation_name]["time_duration"]
+                / len(self._sprite_sheet_data["animations"][self._animation_name]["frames"])
         ):
-            self.frame_time: int = time.get_ticks()
-            if self.last_frame_number + 1 <= len(
-                    self.sprite_sheet[self.animation_name][self.frames]
-            ) - 1:
-                self.last_frame_number += 1
+            # Next frame of animation:
+            if self._sprite_sheet_frame + 1 <= len(
+                        self._sprite_sheet_data["animations"][self._animation_name]["frames"]
+            ):
+                self._sprite_sheet_frame += 1
+                self._frame_time: int = current_time_frame
+            # End of animation sprite sheet:
             else:
-                self.last_frame_number: int = 0
+                self._sprite_sheet_frame: int = 1
+                self._pause_duration: int = randint(2, 5)
+                self._frame_time: int = current_time_frame + self._pause_duration * 1000  # TODO: Crutch
 
-        # TODO: SpriteAnimationPause call "-1" frame stabilisation:
-        # TODO: Think about how to move it to SpriteAnimationPause class...
-        if self.last_frame_number < 0:
-            self.last_frame_number: int = 0
+        return self._sprite_sheet_frame
 
-        return self.last_frame_number
+    def set_recache_status(self, recache_status: bool = True):
+        """
+        :param recache_status: If there is no need to cache the sprite texture, a temporary image will be created.
+        :type recache_status: bool
+        """
+        self._recache_status: bool = recache_status
 
     def scale(self, size: tuple[int, int]):
         """
@@ -103,50 +272,34 @@ class Sprite:
         :param size: Tuple with x/y size data.
         :type size: tuple[int, int]
         """
-        self.image: Surface = Surface(size, SRCALPHA)
-        self.sprite_sheet_next_frame()
-        self.image: Surface = transform.scale(self.image, size)
-
-    def make_sprite_sheet(self, sprite_sheet_data) -> dict[str, list[Surface]] | None:
-        """
-        Make sprite sheet for Sprite if it`s possible.
-        None or Dictionary with animation names as keys and Surfaces in lists as values as a result.
-        :param sprite_sheet_data: Dictionary with animation names as keys and sprite sheet frame coordinates as values.
-        :type sprite_sheet_data: dict
-        :result: dict[str, list[Surface]] | None
-        """
-        if sprite_sheet_data is None:
-            return None
-
-        result: dict = {}
-        for animation in sprite_sheet_data:
-            animation_sprite_sheet: list = []
-            for frame_name in sprite_sheet_data[animation][self.frames]:
-                frame: dict = sprite_sheet_data[animation][self.frames][frame_name]
-                frame_image: Surface = Surface(
-                    (
-                        frame['x'][1] - frame['x'][0],
-                        frame['y'][1] - frame['y'][0]
-                    ),
-                    SRCALPHA
-                )
-                frame_image.blit(
-                    self.image_safe,
-                    (
-                            - frame['x'][0],
-                            - frame['y'][0],
-                    )
-                )
-                animation_sprite_sheet.append(
-                    frame_image
-                )
-            result.update({
-                animation: {
-                    self.frames: animation_sprite_sheet,
-                    self.time_duration: sprite_sheet_data[animation][self.time_duration]
-                }
-            })
-        return result
+        self._image_size: tuple[int, int] = size
 
     def play_animation(self, animation_name: str):
-        self.animation_name: str = animation_name
+        """
+        Set new animation to play.
+        """
+        self._animation_name: str = animation_name
+
+    def set_coordinates(self, current_coordinates: tuple[int, int]):
+        """
+        Used in Buttons, Backgrounds and Characters.
+        """
+        self._coordinates: tuple[int, int] = current_coordinates
+
+    def get_texture_id(self) -> str:
+        """
+        Used in BaseButton.
+        """
+        return self._texture_id
+
+    def get_current_animation_frame(self) -> int | str:
+        """
+        Used in BaseButton.
+        """
+        return self._sprite_sheet_frame
+
+    def get_sprite_sheet_data(self) -> dict:
+        """
+        Used in BaseButtons.
+        """
+        return self._sprite_sheet_data

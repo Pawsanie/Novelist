@@ -1,8 +1,0 @@
-#####Choice#####
-#language = eng
-
-[scene_01]
-
-choice_01 =
-choice_02 =
-choice_03 =

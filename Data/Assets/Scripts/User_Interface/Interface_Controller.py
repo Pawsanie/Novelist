@@ -2,9 +2,6 @@ from ..User_Interface.UI_Button_Factory import button_generator
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 from ..User_Interface.UI_Buttons.UI_Base_Button import BaseButton
-from ..Application_layer.Stage_Director import StageDirector
-from ..Application_layer.Settings_Keeper import SettingsKeeper
-from ..Render.Sprite import Sprite
 """
 Contents code for user interface controller.
 """
@@ -17,10 +14,6 @@ class InterfaceController(SingletonPattern):
     Created in GameMaster class in Game_Master.py.
     """
     def __init__(self):
-        # Arguments processing:
-        self.stage_director: StageDirector = StageDirector()
-        self.settings_keeper: SettingsKeeper = SettingsKeeper()
-
         # Generate buttons:
         self.buttons_dict: dict = button_generator()
         self.gameplay_choice_buttons: dict = {}
@@ -48,7 +41,6 @@ class InterfaceController(SingletonPattern):
     def get_ui_buttons_dict(self) -> dict[str, BaseButton]:
         """
         Generate user interface buttons.
-
         :return: Dict with buttons names strings as values.
         """
         # In game user interface:
@@ -69,7 +61,6 @@ class InterfaceController(SingletonPattern):
     def get_menus_text_dict(self) -> dict[str, MenuText]:
         """
         Generate text for same menu.
-
         :return: Dict with menu text.
         """
         for menu_key in self.menus_collection:
@@ -99,14 +90,13 @@ class InterfaceController(SingletonPattern):
     def button_clicked_status(self, event) -> tuple[str | None, bool]:
         """
         Check left click of mouse to button status.
-
         :param event: pygame.event from main_loop.
         :return: tuple[str | None, True | False]
         """
         if self.gameplay_interface_hidden_status is False:
             gameplay_ui_dict: dict = self.get_ui_buttons_dict()
             for button in gameplay_ui_dict:
-                click_status = gameplay_ui_dict[button].button_clicked_status(event)
+                click_status: bool = gameplay_ui_dict[button].button_clicked_status(event)
                 if click_status is True:
                     return button, True
         return None, False
@@ -114,13 +104,12 @@ class InterfaceController(SingletonPattern):
     def button_push_status(self) -> tuple[str | None, bool]:
         """
         Check left click of mouse to button status.
-
         :return: tuple[str | None, True | False]
         """
         if self.gameplay_interface_hidden_status is False:
             gameplay_ui_dict: dict[str, BaseButton] = self.get_ui_buttons_dict()
             for button in gameplay_ui_dict:
-                click_status = gameplay_ui_dict[button].button_click_hold()
+                click_status: bool = gameplay_ui_dict[button].button_click_hold()
                 if click_status is True:
                     return button, True
         return None, False
@@ -128,12 +117,11 @@ class InterfaceController(SingletonPattern):
     def button_cursor_position_status(self) -> bool:
         """
         Checking the cursor position above the button.
-
         :return: True | False
         """
         gameplay_ui_dict: dict = self.get_ui_buttons_dict()
         for button in gameplay_ui_dict:
-            cursor_position_status = gameplay_ui_dict[button].button_cursor_position_status()
+            cursor_position_status: bool = gameplay_ui_dict[button].button_cursor_position_status()
             if cursor_position_status is True:
                 return True
             else:
@@ -142,7 +130,6 @@ class InterfaceController(SingletonPattern):
     def generate_menus_batch(self):
         """
         Generate UI_batch for display image render.
-
         :return: Batch
         """
         from ..Render.Batch import Batch
@@ -154,24 +141,15 @@ class InterfaceController(SingletonPattern):
             for button_name in menus_dict:
                 button: BaseButton = menus_dict[button_name]
                 result.append(
-                    Sprite(
-                        image=button.button_surface,
-                        layer=4,
-                        coordinates=button.button_coordinates
-                    )
+                    button.get_sprite()
                 )
 
         # Generate text:
         text_dict: dict[str, MenuText] = self.get_menus_text_dict()
         if text_dict is not None:
             for text_name in text_dict:
-                text_surface, text_coordinates = text_dict[text_name].get_text()
                 result.append(
-                    Sprite(
-                        image=text_surface,
-                        layer=6,
-                        coordinates=text_coordinates
-                    )
+                    text_dict[text_name].get_sprite()
                 )
 
         return result

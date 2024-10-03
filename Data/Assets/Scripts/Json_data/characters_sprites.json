@@ -1,8 +1,7 @@
 {
   "Character_01": {
-    "sprite": "blank_pink",
-    "sprite_sheet": true,
-    "poses": {
+    "texture": "blank_pink",
+    "animations": {
       "1": "animation_1",
       "2": "animation_2",
       "3": "animation_3"
@@ -10,9 +9,8 @@
   },
 
   "Character_04": {
-    "sprite": "blank_pink",
-    "sprite_sheet": true,
-    "poses": {
+    "texture": "blank_pink",
+    "animations": {
       "1": "animation_1",
       "2": "animation_2",
       "3": "animation_3"
@@ -20,48 +18,22 @@
   },
 
   "Character_02": {
-    "sprite": "blank",
-    "sprite_sheet": false,
-    "poses": {
-       "1": {
-         "x": [25,280],
-         "y": [49, 618]
-       },
-       "2": {
-         "x": [330, 594],
-         "y": [49, 618]
-       },
-       "3": {
-         "x": [630, 882],
-         "y": [49, 618]
-       },
-       "4": {
-         "x": [922,1170],
-         "y": [49, 618]
-       }
+    "texture": "blank",
+    "animations": {
+       "1": "black",
+       "2": "pink",
+       "3": "blue",
+       "4": "green"
     }
   },
 
   "Character_03": {
-    "sprite": "blank",
-    "sprite_sheet": false,
-    "poses": {
-       "1": {
-         "x": [25,280],
-         "y": [49, 618]
-       },
-       "2": {
-         "x": [330, 594],
-         "y": [49, 618]
-       },
-       "3": {
-         "x": [630, 882],
-         "y": [49, 618]
-       },
-       "4": {
-         "x": [922,1170],
-         "y": [49, 618]
-       }
+    "texture": "blank",
+    "animations": {
+       "1": "black",
+       "2": "pink",
+       "3": "blue",
+       "4": "green"
     }
   }
 

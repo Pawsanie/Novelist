@@ -1,10 +1,9 @@
-from pygame import Surface, SRCALPHA, transform
+from pygame import Surface
 
-from ..Application_layer.Assets_load import image_load
-from ..Universal_computing.Surface_size import surface_size
-from ..Game_objects.Background import BackgroundProxy
+from ..Game_objects.Background import Background
 from ..Application_layer.Settings_Keeper import SettingsKeeper
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..Render.Sprite import Sprite
 """
 Contents code for user interface text canvas.
 """
@@ -15,36 +14,65 @@ class TextCanvas(SingletonPattern):
     Generate text canvas surface and coordinates for render.
     """
     def __init__(self):
-        self.canvas_safe: Surface = image_load(
-            art_name='text_canvas',
-            file_format='png',
-            asset_type='User_Interface'
-        )
-        self.background_surface: BackgroundProxy = BackgroundProxy()
-        self.screen: Surface = SettingsKeeper().screen
-        self.text_canvas_surface: Surface = Surface((0, 0))
-        self.text_canvas_coordinates: tuple[int, int] = (0, 0)
+        # Program layers settings:
+        self._background: Background = Background()
+        self._screen: Surface = SettingsKeeper().get_window()
+
+        # Text canvas settings:
+        self._sprite_size: tuple[int, int] = (0, 0)
+        self._text_canvas_coordinates: tuple[int, int] = (0, 0)
         self.status: bool = True
 
     def scale(self):
         """
         Generate text canvas surface with coordinates.
         """
-        background_surface: Surface = self.background_surface.get_data()[0]
-        # Text canvas surface:
-        self.text_canvas_surface: Surface = Surface(
-            (background_surface.get_width(), background_surface.get_height() // 5), SRCALPHA
+        background_size: tuple[int, int] = self._background.get_size()
+        background_width, background_height = background_size
+
+        # Text canvas size:
+        self._sprite_size: tuple[int, int] = (
+            background_width,
+            background_height // 5
         )
-        canvas_sprite: Surface = transform.scale(
-            self.canvas_safe, surface_size(self.text_canvas_surface)
-        )
-        self.text_canvas_surface.blit(canvas_sprite, (0, 0))
 
         # Text canvas coordinates:
-        self.text_canvas_coordinates: tuple[int, int] = (
-            self.background_surface.background_coordinates[0],
+        self._text_canvas_coordinates: tuple[int, int] = (
+            self._background.get_coordinates()[0],
 
-            (self.screen.get_height() // 2)
-            + (background_surface.get_height() // 2)
-            - surface_size(self.text_canvas_surface)[1]
+            (self._screen.get_height() // 2)
+            + (background_height // 2)
+            - (background_height // 5)
+        )
+
+    def get_size(self) -> tuple[int, int]:
+        """
+        Used in DialoguesWords.
+        """
+        return self._sprite_size
+
+    def get_coordinates(self) -> tuple[int, int]:
+        """
+        Used in DialoguesWords.
+        """
+        return self._text_canvas_coordinates
+
+    def get_sprite(self) -> Sprite:
+        """
+        Used in StageDirector.
+        """
+        return Sprite(
+            name="Text_canvas",
+            layer=3,
+            coordinates=self._text_canvas_coordinates,
+            texture_mame="text_canvas",
+            sprite_sheet_data={
+                "texture_type": "User_Interface",
+                "sprite_sheet": False,
+                "statick_frames": {
+                    "text_canvas": {}
+                }
+
+            },
+            sprite_size=self._sprite_size
         )

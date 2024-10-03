@@ -16,20 +16,20 @@ class GameMenu(SingletonPattern, BaseMenu):
         super(GameMenu, self).__init__()
         self.save_keeper: SaveKeeper = SaveKeeper()
 
-    def input_mouse(self, event):
+    def _input_mouse(self, event):
         """
         Interface interaction in in-game menu.
         :param event: pygame.event from main_loop.
         """
-        gameplay_ui_buttons: tuple[str, bool] = self.interface_controller.button_clicked_status(event)
+        gameplay_ui_buttons: tuple[str, bool] = self._interface_controller.button_clicked_status(event)
         # Clicking a button with a mouse:
         if gameplay_ui_buttons[1] is True:
             command = gameplay_ui_buttons[0]
 
             if command == 'game_menu_continue':
                 self.status: bool = False
-                self.interface_controller.gameplay_interface_status = True
-                self.state_machine.next_state()
+                self._interface_controller.gameplay_interface_status = True
+                self._state_machine.next_state()
 
             elif command == 'game_menu_save':
                 self.status: bool = False
@@ -60,7 +60,7 @@ class GameMenu(SingletonPattern, BaseMenu):
                 from .UI_Exit_menu import ExitMenu
                 ExitMenu().status = True
 
-    def key_bord_key_down(self, event):
+    def _key_bord_key_down(self, event):
         """
         Interface interaction in in-game menu.
         :param event: pygame.event from main_loop.
@@ -68,4 +68,4 @@ class GameMenu(SingletonPattern, BaseMenu):
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 self.status: bool = False
-                self.interface_controller.gameplay_interface_status = True
+                self._interface_controller.gameplay_interface_status = True

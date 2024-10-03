@@ -1,3 +1,7 @@
+from inspect import iscoroutinefunction
+
+from pygame.event import Event
+
 from .GamePlay_Reading import GamePlayReading
 from ..User_Interface.UI_Base_menu import BaseMenu
 from .GamePlay_dialogues_choice import GamePlayDialoguesChoice
@@ -12,9 +16,8 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
     Responsible for gameplay type at the moment.
     """
     def __init__(self):
-        # Arguments processing:
         super(GamePlayAdministrator, self).__init__()
-        self.gameplay_collections: dict = {
+        self._gameplay_collections: dict = {
             'reading': {
                 "gameplay": GamePlayReading(),
                 "interface": "gameplay_type_reading"
@@ -25,13 +28,13 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
             }
         }
 
-    def devnull(self):
+    def _devnull(self):
         """
         Return interface to base state.
         """
-        for gameplay_type, gameplay_class in self.gameplay_collections.items():
+        for gameplay_type, gameplay_class in self._gameplay_collections.items():
             setattr(
-                self.interface_controller,
+                self._interface_controller,
                 gameplay_class["interface"],
                 False
             )
@@ -39,12 +42,13 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
     def set_gameplay_type(self):
         """
         Set GamePlay type.
+        Call from GameMaster _render_loop method.
         """
-        self.devnull()
-        for gameplay_type, gameplay_class in self.gameplay_collections.items():
-            if self.scene_validator.scene_gameplay_type == gameplay_type:
+        self._devnull()
+        for gameplay_type, gameplay_class in self._gameplay_collections.items():
+            if self._scene_validator.get_gameplay_type() == gameplay_type:
                 setattr(
-                    self.interface_controller,
+                    self._interface_controller,
                     gameplay_class["interface"],
                     True
                 )
@@ -53,12 +57,17 @@ class GamePlayAdministrator(BaseMenu, SingletonPattern):
                 except AttributeError:
                     pass
 
-    def gameplay_input(self, event):
+    async def gameplay_input(self, event: Event):
         """
         Gameplay interaction.
-        :param event: pygame.event from main_loop.
+        Call from InputCommandsReactions.
+        :param event: pygame.event from InputCommandsReactions input_commands_loop method.
         """
-        for gameplay_type, gameplay_class in self.gameplay_collections.items():
-            if self.scene_validator.scene_gameplay_type == gameplay_type:
-                gameplay_class["gameplay"].gameplay_input(event)
+        for gameplay_type, gameplay_class in self._gameplay_collections.items():
+            if self._scene_validator.get_gameplay_type() == gameplay_type:
+                gameplay_method = gameplay_class["gameplay"].gameplay_input
+                if iscoroutinefunction(gameplay_method):
+                    await gameplay_method(event)
+                else:
+                    gameplay_method(event)
                 return

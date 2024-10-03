@@ -28,7 +28,7 @@ class Batch:
         """
         if len(self.sprite_collection) > 0:
             for sprite in self.sprite_collection:
-                sprite_layer: int = sprite.layer
+                sprite_layer: int = sprite.get_layer()
 
                 if sprite_layer not in self.sprite_to_render:
                     layer_object: Layer = Layer(sprite_layer)
