@@ -836,14 +836,14 @@ The **StageDirector** builds a scene.<br>
                      ├── :file_folder:Application_layer<br>
                      │       ├── :page_facing_up:Game_Master.py<br>
                      │       ├── :page_facing_up:Reactions_to_input_commands.py<br>
-                     │       ├── :page_facing_up:Scene_Validator.py<br>
                      │       ├── :page_facing_up:Settings_Keeper.py<br>
                      │       ├── :page_facing_up:Sound_Director.py<br>
                      │       └── :page_facing_up:Stage_Director.py<br>
                      ├── :file_folder:Game_objects<br>
                      │       ├── :page_facing_up:Background.py<br>
                      │       ├── :page_facing_up:Character.py<br>
-                     │       └── :page_facing_up:Dialogues.py<br>
+                     │       ├── :page_facing_up:Dialogues.py<br>
+                     │       └── :page_facing_up:Scene_Validator.py<br>
                      ├── :file_folder:GamePlay<br>
                      │       └── :page_facing_up:GamePlay_Administrator.py<br>
                      ├── :file_folder:Render<br>
