@@ -107,7 +107,7 @@ past_scene = scene_name|START
 ```
 * * **example_scene_name** - This scene name will be used inside the game.<br>
 It should be written in square brackets.<br>
-And all subsequent verses assigned to this scene must be under this title.
+And all subsequent rows assigned to this scene must be under this title.
 * * **scene_type** - keep gameplay type.<br>
 Can be **reading** or **choice**.
 * * **past_scene** - keep name of previous scene.<br>
