@@ -99,16 +99,15 @@ You can store several scenes in one file, or just one.
 
 Let's take a closer look at the components of the scene settings:
 * **Basic Scene Settings:**
-```text
-[example_scene_name]
-
-scene_type = reading|choice
-past_scene = scene_name|START
-```
- 
-    * **example_scene_name** - This scene name will be used inside the game.<br>
-It should be written in square brackets.<br>
-And all subsequent rows assigned to this scene must be under this title.
+    ```text
+    [example_scene_name]
+    
+    scene_type = reading|choice
+    past_scene = scene_name|START
+    ```
+  * **example_scene_name** - This scene name will be used inside the game.<br>
+  It should be written in square brackets.<br>
+  And all subsequent rows assigned to this scene must be under this title.
   * **scene_type** - keep gameplay type.<br>
   Can be **reading** or **choice**.
   * **past_scene** - keep name of previous scene.<br>
@@ -117,22 +116,20 @@ And all subsequent rows assigned to this scene must be under this title.
   The first scene in your visual novel must have '**START**' written on it.
 
 * **Background:**
-```text
-background_sprite_sheet = background_01
-background_animation = animation_01
-```
- 
-    * **background_sprite_sheet** - keep background sprite texture image and texture settings file.<br>
-To create a texture you can use "Texture_Source_Parser" utility.
-    * **background_animation** - here you need to specify the name of the animation or static frame.
+    ```text
+    background_sprite_sheet = background_01
+    background_animation = animation_01
+    ```
+  * **background_sprite_sheet** - keep background sprite texture image and texture settings file.<br>
+  To create a texture you can use "Texture_Source_Parser" utility.
+  * **background_animation** - here you need to specify the name of the animation or static frame.
 
 * **Reading scene settings:**
-```text
-next_scene = scene_name|FINISH
-speaker_name_color = #ffffff
-speech_text_color = #ffffff
-```
- 
+    ```text
+    next_scene = scene_name|FINISH
+    speaker_name_color = #ffffff
+    speech_text_color = #ffffff
+    ```
     * **next_scene** - keep name of next scene for reading gameplay.<br>
 This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
 For another configured scene - respectively.<br>
@@ -142,42 +139,41 @@ The last scene in your visual novel must have '**FINISH**' written on it.
     They will be set to #ffffff by default.
 
 * **Choice scene settings:**
-```text
-scene_choice.choice_01 = scene_03
-scene_choice.choice_02 = scene_02
-choice_text_color.choice_02 = #ffffff
-```
- 
-    * **scene_choice** - stores the name of the scene to be switched to as a value.<br>
-Please note that in this case the key consists of 2 parts '**scene_choice**' and choice name as example '**choice_01**' and '**choice_02**'.<br>
-This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
-For another configured scene - respectively.<br>
+    ```text
+    scene_choice.choice_01 = scene_03
+    scene_choice.choice_02 = scene_02
+    choice_text_color.choice_02 = #ffffff
+    ```
+  * **scene_choice** - stores the name of the scene to be switched to as a value.<br>
+  Please note that in this case the key consists of 2 parts '**scene_choice**' and choice name as example '**choice_01**' and '**choice_02**'.<br>
+  This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
+  For another configured scene - respectively.<br>
   * **choice_text_color** - is designed on the same principle as '**scene_choice**'.<br>
   Keeps hex-code the color of choice text.<br>
   You don't have to specify colors. They will be set to #ffffff by default.
 
 * **Characters settings:**
-```text
-# Left Character:
-left_character_animation = animation_01
-left_character_sprite_sheet = left_character
-left_character_plan = background_plan|first_plan
-
-# Middle Character:
-middle_character_animation = animation_01
-middle_character_sprite_sheet = middle_character
-middle_character_plan = background_plan|first_plan
-
-# Right Character:
-right_character_animation = animation_01
-right_character_sprite_sheet = right_character
-right_character_plan = background_plan|first_plan
-```
-You can leave the characters unspecified if you want the scene to remain empty.<br>
-Or you can use one, two or three character type actors on scene.<br>
-At the beginning of each key you need to indicate what type of character you want to describe:<br>
-**left\_**, **middle\_** or **right\_**. As example **right_character_animation**.<br>
-Next, the keys will be listed **without** this **prefix**:
+    ```text
+    # Left Character:
+    left_character_animation = animation_01
+    left_character_sprite_sheet = left_character
+    left_character_plan = background_plan|first_plan
+    
+    # Middle Character:
+    middle_character_animation = animation_01
+    middle_character_sprite_sheet = middle_character
+    middle_character_plan = background_plan|first_plan
+    
+    # Right Character:
+    right_character_animation = animation_01
+    right_character_sprite_sheet = right_character
+    right_character_plan = background_plan|first_plan
+    ```
+    You can leave the characters unspecified if you want the scene to remain empty.<br>
+    Or you can use one, two or three character type actors on scene.<br>
+    At the beginning of each key you need to indicate what type of character you want to describe:<br>
+    **left\_**, **middle\_** or **right\_**. As example **right_character_animation**.<br>
+    Next, the keys will be listed **without** this **prefix**:
     * **character_sprite_sheet** - keep character sprite texture image and texture settings file.<br>
 To create a texture you can use "Texture_Source_Parser" utility.
     * **character_animation** - here you need to specify the name of the animation or static frame.
@@ -186,20 +182,20 @@ Obviously, the setting is responsible for how the character will be drawn.<br>
 In the foreground or background.
 
 * **Optional scene settings:**
-```text
-# Special effects can be sent like list as example: "rain,noise_artifacts,snow"...
-scene_special_effects = rain|noise_artifacts|false
-music = music_file|false
-sound = sound_file|false
-voice = voice_file|false
-```
+    ```text
+    # Special effects can be sent like list as example: "rain,noise_artifacts,snow"...
+    scene_special_effects = rain|noise_artifacts|false
+    music = music_file|false
+    sound = sound_file|false
+    voice = voice_file|false
+    ```
   * **scene_special_effects** - the option is currently under development.
-    * **music** - name of music file or **false**<br>
-    This file will play in a loop during this scene
-    * **sound** - name of sound file or **false**<br>
-    This file plays once per scene, a moment after the switch is made.
-    * **voice** - name of voice file or **false**<br>
-    This file plays once per scene, a moment after the switch is made.
+  * **music** - name of music file or **false**<br>
+  This file will play in a loop during this scene
+  * **sound** - name of sound file or **false**<br>
+  This file plays once per scene, a moment after the switch is made.
+  * **voice** - name of voice file or **false**<br>
+  This file plays once per scene, a moment after the switch is made.
 
 ### How to assemble a game screenplay from scene configurations:
 In order to use this utility, you need to call it directly, or through a shell **ScreenplaySourceParser_execute** script that simplifies working with it.<br>
@@ -219,63 +215,56 @@ Below is a detailed description of how to run the utility on different operating
   * Enter '**cmd**' in the window that opens and press '**Enter**'.
   * Enter the drive letter where the program was downloaded and '**:**'.<br>
   As example for 'D drive':
-```shell
-D:
-```
- 
+    ```shell
+    D:
+    ```
     * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
-As example for downloaded path 'D:\Git\Novelist':
-```shell
-cd D:\Git\Novelist\Utilities\Screenplay_parser
-```
- 
+    As example for downloaded path 'D:\Git\Novelist':
+    ```shell
+    cd D:\Git\Novelist\Utilities\Screenplay_parser
+    ```
     * Run "**ScreenplaySourceParser_execute**" powershell script.
-```shell
-powershell -File ScreenplaySourceParser_execute.ps1
-```
+    ```shell
+    powershell -File ScreenplaySourceParser_execute.ps1
+    ```
 
 * **MacOS:**
   * Hold down '**Command**' and '**Space**' keys on your keyboard.
   * Enter '**Terminal**' in the window that opens and press '**Enter**'.
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path '/home/User/Git/Novelist':
-```shell
-cd /home/User/Git/Novelist/Utilities/Screenplay_parser
-```
- 
+    ```shell
+    cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+    ```
     * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
-```shell
-chmod +x ./ScreenplaySourceParser_execute.sh
-```
- 
+    ```shell
+    chmod +x ./ScreenplaySourceParser_execute.sh
+    ```
     * Run "**ScreenplaySourceParser_execute**" Bash script.
-```shell
-./ScreenplaySourceParser_execute.sh
-```
+    ```shell
+    ./ScreenplaySourceParser_execute.sh
+    ```
 
 * **Other Unix type OS:** - Ubuntu, Fedora, etc.
   * Open the Terminal of your operating system.
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path '/home/User/Git/Novelist':
-```shell
-cd /home/User/Git/Novelist/Utilities/Screenplay_parser
-```
- 
+    ```shell
+    cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+    ```
     * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
-```shell
-chmod +x ./ScreenplaySourceParser_execute.sh
-```
- 
+    ```shell
+    chmod +x ./ScreenplaySourceParser_execute.sh
+    ```
     * Depending on your security settings, you may need to enter the sudo command.<br>
 And enter the password when requested if necessary.
-```shell
-sudo +x ./ScreenplaySourceParser_execute.sh
-```
- 
+    ```shell
+    sudo +x ./ScreenplaySourceParser_execute.sh
+    ```
     * Run "**ScreenplaySourceParser_execute**" Bash script.
-```shell
-./ScreenplaySourceParser_execute.sh
-```
+    ```shell
+    ./ScreenplaySourceParser_execute.sh
+    ```
 
 # Visual Novel game application source code:
 
