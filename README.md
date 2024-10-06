@@ -215,56 +215,56 @@ Below is a detailed description of how to run the utility on different operating
   * Enter '**cmd**' in the window that opens and press '**Enter**'.
   * Enter the drive letter where the program was downloaded and '**:**'.<br>
   As example for 'D drive':
-    ```shell
-    D:
-    ```
-    * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
-    As example for downloaded path 'D:\Git\Novelist':
-    ```shell
-    cd D:\Git\Novelist\Utilities\Screenplay_parser
-    ```
-    * Run "**ScreenplaySourceParser_execute**" powershell script.
-    ```shell
-    powershell -File ScreenplaySourceParser_execute.ps1
-    ```
+  ```shell
+  D:
+  ```
+  * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
+  As example for downloaded path 'D:\Git\Novelist':
+  ```shell
+  cd D:\Git\Novelist\Utilities\Screenplay_parser
+  ```
+  * Run "**ScreenplaySourceParser_execute**" powershell script.
+  ```shell
+  powershell -File ScreenplaySourceParser_execute.ps1
+  ```
 
 * **MacOS:**
   * Hold down '**Command**' and '**Space**' keys on your keyboard.
   * Enter '**Terminal**' in the window that opens and press '**Enter**'.
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path '/home/User/Git/Novelist':
-    ```shell
-    cd /home/User/Git/Novelist/Utilities/Screenplay_parser
-    ```
-    * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
-    ```shell
-    chmod +x ./ScreenplaySourceParser_execute.sh
-    ```
-    * Run "**ScreenplaySourceParser_execute**" Bash script.
-    ```shell
-    ./ScreenplaySourceParser_execute.sh
-    ```
+  ```shell
+  cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+  ```
+  * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
+  ```shell
+  chmod +x ./ScreenplaySourceParser_execute.sh
+  ```
+  * Run "**ScreenplaySourceParser_execute**" Bash script.
+  ```shell
+  ./ScreenplaySourceParser_execute.sh
+  ```
 
 * **Other Unix type OS:** - Ubuntu, Fedora, etc.
   * Open the Terminal of your operating system.
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path '/home/User/Git/Novelist':
-    ```shell
-    cd /home/User/Git/Novelist/Utilities/Screenplay_parser
-    ```
-    * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
-    ```shell
-    chmod +x ./ScreenplaySourceParser_execute.sh
-    ```
-    * Depending on your security settings, you may need to enter the sudo command.<br>
+  ```shell
+  cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+  ```
+  * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
+  ```shell
+  chmod +x ./ScreenplaySourceParser_execute.sh
+  ```
+  * Depending on your security settings, you may need to enter the sudo command.<br>
 And enter the password when requested if necessary.
-    ```shell
-    sudo +x ./ScreenplaySourceParser_execute.sh
-    ```
-    * Run "**ScreenplaySourceParser_execute**" Bash script.
-    ```shell
-    ./ScreenplaySourceParser_execute.sh
-    ```
+  ```shell
+  sudo +x ./ScreenplaySourceParser_execute.sh
+  ```
+  * Run "**ScreenplaySourceParser_execute**" Bash script.
+  ```shell
+  ./ScreenplaySourceParser_execute.sh
+  ```
 
 # Visual Novel game application source code:
 
