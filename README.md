@@ -17,9 +17,6 @@ In addition, writing your own game, almost from scratch, is quite interesting.
 
 :warning:The **licenses** for the technologies on which the code **depends** are subject to **change by their authors**.<br><br>
 
-___
-<br>
-
 ## Contents:
 ### Required:
 Contains information about dependencies and how to install them.
@@ -50,6 +47,9 @@ The paragraphs in this section describe in sufficient detail how the game is str
 This section contains information on solving typical problems and plans for further development.
 * [What needs to be completed](#What-needs-to-be-completed)
 * [Known Problems](#Known-Problems)
+
+___
+<br>
 
 ## Required:
 The application code is written in python and obviously depends on it.<br>
