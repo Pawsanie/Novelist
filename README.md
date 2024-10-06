@@ -105,8 +105,7 @@ Let's take a closer look at the components of the scene settings:
 scene_type = reading|choice
 past_scene = scene_name|START
 ```
-
-  * **example_scene_name** - This scene name will be used inside the game.<br>
+    * **example_scene_name** - This scene name will be used inside the game.<br>
 It should be written in square brackets.<br>
 And all subsequent rows assigned to this scene must be under this title.
   * **scene_type** - keep gameplay type.<br>
@@ -121,7 +120,7 @@ And all subsequent rows assigned to this scene must be under this title.
 background_sprite_sheet = background_01
 background_animation = animation_01
 ```
-  * **background_sprite_sheet** - keep background sprite texture image and texture settings file.<br>
+    * **background_sprite_sheet** - keep background sprite texture image and texture settings file.<br>
 To create a texture you can use "Texture_Source_Parser" utility.
     * **background_animation** - here you need to specify the name of the animation or static frame.
 
@@ -131,7 +130,7 @@ next_scene = scene_name|FINISH
 speaker_name_color = #ffffff
 speech_text_color = #ffffff
 ```
-  * **next_scene** - keep name of next scene for reading gameplay.<br>
+    * **next_scene** - keep name of next scene for reading gameplay.<br>
 This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
 For another configured scene - respectively.<br>
 The last scene in your visual novel must have '**FINISH**' written on it.
@@ -145,13 +144,13 @@ scene_choice.choice_01 = scene_03
 scene_choice.choice_02 = scene_02
 choice_text_color.choice_02 = #ffffff
 ```
-  * **scene_choice** - stores the name of the scene to be switched to as a value.<br>
+    * **scene_choice** - stores the name of the scene to be switched to as a value.<br>
 Please note that in this case the key consists of 2 parts '**scene_choice**' and choice name as example '**choice_01**' and '**choice_02**'.<br>
 This should be a name similar to what you write in square brackets at the beginning of the scene settings.<br>
 For another configured scene - respectively.<br>
-    * **choice_text_color** - is designed on the same principle as '**scene_choice**'.<br>
-    Keeps hex-code the color of choice text.<br>
-    You don't have to specify colors. They will be set to #ffffff by default.
+  * **choice_text_color** - is designed on the same principle as '**scene_choice**'.<br>
+  Keeps hex-code the color of choice text.<br>
+  You don't have to specify colors. They will be set to #ffffff by default.
 
 * **Characters settings:**
 ```text
@@ -219,12 +218,12 @@ Below is a detailed description of how to run the utility on different operating
 ```shell
 D:
 ```
-  * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
+    * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
 As example for downloaded path 'D:\Git\Novelist':
 ```shell
 cd D:\Git\Novelist\Utilities\Screenplay_parser
 ```
-  * Run "**ScreenplaySourceParser_execute**" powershell script.
+    * Run "**ScreenplaySourceParser_execute**" powershell script.
 ```shell
 powershell -File ScreenplaySourceParser_execute.ps1
 ```
@@ -237,11 +236,11 @@ powershell -File ScreenplaySourceParser_execute.ps1
 ```shell
 cd /home/User/Git/Novelist/Utilities/Screenplay_parser
 ```
-  * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
+    * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
 ```shell
 chmod +x ./ScreenplaySourceParser_execute.sh
 ```
-  * Run "**ScreenplaySourceParser_execute**" Bash script.
+    * Run "**ScreenplaySourceParser_execute**" Bash script.
 ```shell
 ./ScreenplaySourceParser_execute.sh
 ```
@@ -253,16 +252,16 @@ chmod +x ./ScreenplaySourceParser_execute.sh
 ```shell
 cd /home/User/Git/Novelist/Utilities/Screenplay_parser
 ```
-  * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
+    * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
 ```shell
 chmod +x ./ScreenplaySourceParser_execute.sh
 ```
-  * Depending on your security settings, you may need to enter the sudo command.<br>
+    * Depending on your security settings, you may need to enter the sudo command.<br>
 And enter the password when requested if necessary.
 ```shell
 sudo +x ./ScreenplaySourceParser_execute.sh
 ```
-  * Run "**ScreenplaySourceParser_execute**" Bash script.
+    * Run "**ScreenplaySourceParser_execute**" Bash script.
 ```shell
 ./ScreenplaySourceParser_execute.sh
 ```
@@ -490,9 +489,9 @@ The coordinates for each frame are specified as the top left corner and the bott
 For animation sprites, the following settings are typical:<br>
 * **sprite_sheet** value is **True**.<br>
 * **animations** value contains not just frames but settings for each animation.
-  * **time_duration** -animation playback time as float.
-  * **frames** - list of frames with their x|y coordinates.<br>
-  The coordinates for each frame are specified as the top left corner and the bottom right corner, respectively.<br>
+    * **time_duration** -animation playback time as float.
+    * **frames** - list of frames with their x|y coordinates.<br>
+    The coordinates for each frame are specified as the top left corner and the bottom right corner, respectively.<br>
 
 **Example of such a 'animation_sprite_sheet.json' file:**
 ```json
