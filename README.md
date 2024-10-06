@@ -354,7 +354,7 @@ Please note that a '**gameplay_type**' key value must be **reading|choice** stri
 The '**background**' key have information about background sprite.<br>
 The '**background_sprite_sheet**' key must have backgrounds name keys from 'backgrounds_sprites.json' as a value.<br>
 The '**background_animation**' key must have a relevant animation name from background texture json file data.<br>
-More about this further in '**Backgrounds and its sprites**' paragraph.<br><br>
+More about this further in «[Backgrounds and its sprite](#Backgrounds-and-its-sprites)» paragraph.<br><br>
 
 **Past Scene:**<br>
 The '**past_scene**' key contains information about the previous scene.<br>
@@ -363,7 +363,7 @@ The **first scene** must have the '**START**' key value.<br><br>
 **Actors:**<br>
 Please note that an **actors** characters keys must match certain values:<br>
 **character_animation** - can be any key from the dictionary 'characters_sprites.json'. <br>
-More about this further in **"Characters and their sprites"** paragraph.<br>
+More about this further in «[Characters and their sprites](#Characters-and-their-sprites)» paragraph.<br>
 **character_plan** - may have values **background_plan|first_plan**.<br>
 **character_start_position** - may have values **right|middle|left**.<br><br>
 
@@ -388,7 +388,7 @@ Please note that this only switches the choice gameplay scene.<br>
 The '**text_color**' key control color of text on choice button.<br>
 As example 'test_scene_02' scene.<br>
 
-More information about reading and choice gameplay text is specified in the **"Text and Localization"** paragraph.<br><br>
+More information about reading and choice gameplay text is specified in the «[Text and Localization](#Text-and-Localization)» paragraph.<br><br>
 
 **Special Effects:**<br>
 Currently under development.<br><br>
@@ -601,7 +601,7 @@ And you also need to set the name of the animation from the settings file.<br>
   }
 }
 ```
-You can read more about how the texture files are arranged in the "**Characters and their sprites**" paragraph.<br>
+You can read more about how the texture files are arranged in the «[Characters and their sprites](#Characters-and-their-sprites)» paragraph.<br>
 
 Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
@@ -615,7 +615,7 @@ However, you can change the sprite's format requirement by modifying it in the c
 
 ## User Interface:
 Information about the standard user interface is contained in 'ui_buttons_data.json' files and 'ui_menu_text_data.json'.<br>
-Information about localisation of standard interface in "Text and Localization" paragraph.
+Information about localisation of standard interface in «[Text and Localization](#Text-and-Localization)» paragraph.
 
 **Below** examples with **json`s** describes the code that needs to be changed if you want to supplement the standard menus with your own.
 
@@ -850,7 +850,7 @@ The 'UI_Start_menu.py' as example.
 
 **Informative text for new menu:**<br>
 If you need to add static text, with or without a background, to your new menu then a new menu needs to be added to 'text_menu_localization.csv'.<br>
-More information about it "Text and Localization" paragraph.
+More information about it «[Text and Localization](#Text-and-Localization)» paragraph.
 
 You will also need to add a new menu to 'UI_Menu_Text.py' **MenuText** class '**scale**' method`s list.<br>
 Or you can use the standard coordinates by adding a list for such text at the beginning of the MenuText class.<br>
@@ -989,7 +989,7 @@ The game reads them at startup and saves them there, with the consent to change 
 The **SoundDirector** class is responsible for working with sound.<br>
 Inside, it works with three audio channels responsible for character speech, music and sound effects.<br>
 All sounds and music files **must be** in **MP3** format.<br>
-You can read more about installing audio tracks to game scenes in paragraph **"Settings of scenes"**.<br>
+You can read more about installing audio tracks to game scenes in paragraph «[Settings of scenes](#Settings-of-scenes)».<br>
 
 Your sound files should be located in their appropriate directories.<br>
 However, there is a condition if you have multiple voice covers.<br>
