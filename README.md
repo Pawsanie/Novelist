@@ -259,7 +259,7 @@ Below is a detailed description of how to run the utility on different operating
   * Depending on your security settings, you may need to enter the sudo command.<br>
 And enter the password when requested if necessary.
   ```shell
-  sudo +x ./ScreenplaySourceParser_execute.sh
+  sudo chmod +x ./ScreenplaySourceParser_execute.sh
   ```
   * Run "**ScreenplaySourceParser_execute**" Bash script.
   ```shell
