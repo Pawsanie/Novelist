@@ -107,9 +107,13 @@ class Character:
                 sprite_size_x + percent_integer
             )
         elif sprite_size_y > screen_size_y:
-            percent_size_sprite_difference: int = int(screen_size_y / sprite_size_y * 100)
+            percent_size_sprite_difference: int = int(
+                screen_size_y / sprite_size_y * 100
+            )
             result_size_x: int = int(
-                sprite_size_x * (1 - ((100 - percent_size_sprite_difference) / 100))
+                sprite_size_x * (
+                        1 - ( (100 - percent_size_sprite_difference) / 100 )
+                )
             )
         self._character_sprite_size: tuple[int, int] = result_size_x, result_size_y
 

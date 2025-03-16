@@ -11,7 +11,11 @@ class ScreenplaySourceParser:
     """
     Parse scene configs to screenplay json.
     """
-    def __init__(self, *, source_path: str, alternative_destination_path: str | None = None):
+    def __init__(
+            self, *,
+            source_path: str,
+            alternative_destination_path: str | None = None
+    ):
         """
         :param source_path: Source path for reading ini screenplay scene files.
         :type source_path: str

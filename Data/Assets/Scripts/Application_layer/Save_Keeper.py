@@ -1,10 +1,12 @@
 import time
-from os import path, walk, makedirs, sep, remove, rmdir
+from os import walk, makedirs, sep, remove, rmdir
+from os.path import join, abspath, exists
 import json
 from time import strftime, localtime, strptime, struct_time
 from datetime import datetime, timedelta
-import logging
+from logging import error
 from math import ceil
+from typing import Any
 
 from pygame import image, transform, Surface
 
@@ -16,6 +18,9 @@ from ..GamePlay.Scene_Validator import SceneValidator
 from ..Logging_Config import text_for_logging
 from ..User_Interface.UI_Buttons.UI_Save_Load_Cell_Button import SaveLoadCellButton
 from ..Render.Render import Render
+# Lazy imports:
+# from ..User_Interface.UI_Menus.UI_Save_menu import SaveMenu
+# from ..User_Interface.UI_Menus.UI_Load_menu import LoadMenu
 """
 Contend code for save/load system.
 """
@@ -34,14 +39,17 @@ class SaveKeeper(SingletonPattern):
         self._render: Render = Render()
 
         # Path settings:
-        script_root_path: str = path.abspath(__file__) \
-            .replace(path.join(
+        script_root_path: str = abspath(__file__) \
+            .replace(
+            join(
                 *['Assets', 'Scripts', 'Application_layer', 'Save_Keeper.py']
-            ), '')
-        self._save_folder_path: str = path.join(
+            ),
+            ''
+        )
+        self._save_folder_path: str = join(
             *[script_root_path, 'Saves']
         )
-        self._save_and_load_ui_path: str = path.join(
+        self._save_and_load_ui_path: str = join(
             *[script_root_path, "Assets", "Images", "User_Interface", "Save_System"]
         )
 
@@ -49,7 +57,7 @@ class SaveKeeper(SingletonPattern):
         self._saves_dict: dict = {}
         self._save_buttons_collection: dict = {}
         self._load_buttons_collection: dict = {}
-        self._save_load_collections: dict[str, dict[str | SaveLoadCellButton | None]] = {
+        self._save_load_collections: dict[str, dict[str, SaveLoadCellButton | None]] = {
             "save": self._save_buttons_collection,
             "load": self._load_buttons_collection
         }
@@ -88,9 +96,7 @@ class SaveKeeper(SingletonPattern):
         """
         Update menu`s buttons dict in 'InterfaceController.buttons_dict'.
         :param menu_data: InterfaceController menu`s data.
-        :type menu_data: dict
         :param save_type: Save | Load
-        :type save_type: str
         """
         if menu_data["menu_object"].status is True:
             menu_data["menu_buttons"].clear()
@@ -207,14 +213,17 @@ class SaveKeeper(SingletonPattern):
             text_offset_y: float = 3.2
 
             # Cells with save data:
-            button_image_path: str = path.join(
+            button_image_path: str = join(
                 *[self._save_folder_path, save_data['file_name'], self._button_image]
             )
             save_name: str = save_data["save_data"]['save_name']
 
             if save_name == self._autosave_name:
                 save_text = self._autosave_name
-            elif save_name in (self._empty_cell, self._new_save_button_name):
+            elif save_name in (
+                    self._empty_cell,
+                    self._new_save_button_name
+            ):
                 save_text: str = save_name
                 button_image_path: str = f"{self._save_and_load_ui_path}{sep}{self._screen_preview_empty_image}"
                 text_offset_y: None = None
@@ -368,20 +377,27 @@ class SaveKeeper(SingletonPattern):
         if auto_save is True:
             save_name: str = self._autosave_name
         else:
-            time_path_part: str = strftime("%Y-%m-%d_%H-%M-%S", localtime())
+            time_path_part: str = strftime(
+                "%Y-%m-%d_%H-%M-%S",
+                localtime()
+            )
             save_name: str = f"save__{time_path_part}"
 
-        save_path: str = path.join(
+        save_path: str = join(
             *[self._save_folder_path, save_name]
         )
-        save_file: str = path.join(
+        save_file: str = join(
             *[save_path, f"{save_name}.{self._save_file_format}"]
         )
 
         # Saving game progress:
-        if path.exists(save_path) is False:
+        if exists(save_path) is False:
             makedirs(save_path)
-        with open(save_file, 'w', encoding='utf-8') as file:
+        with open(
+                file=save_file,
+                mode='w',
+                encoding='utf-8'
+        ) as file:
             file.write(
                self._get_game_progress_data_for_save()
             )
@@ -398,7 +414,7 @@ class SaveKeeper(SingletonPattern):
         )
         image.save(
             screen_preview,
-            path.join(
+            join(
                 *[save_path, f"{self._button_image}.{self._preview_file_format}"]
             )
         )
@@ -407,11 +423,14 @@ class SaveKeeper(SingletonPattern):
         """
         Get progress data for save it like json in file.
         """
-        data_to_save: dict[str] = {
+        data_to_save: dict[str, str] = {
             "scene": self._scene_validator.get_current_scene_name(),
             "date": strftime("%Y-%m-%d_%H:%M:%S", localtime())
         }
-        return json.dumps(data_to_save, indent=4)
+        return json.dumps(
+            data_to_save,
+            indent=4
+        )
 
     def continue_game(self) -> str or False:
         """
@@ -424,24 +443,27 @@ class SaveKeeper(SingletonPattern):
         if len(self._saves_dict) == 0:
             return self._scene_validator.get_default_scene_name()
         else:
-            last_save: list[str] = sorted(self._saves_dict.keys(), reverse=True)
+            last_save: list[str] = sorted(
+                self._saves_dict.keys(),
+                reverse=True
+            )
 
             try:
                 return self._saves_dict[last_save[0]]["save_data"]["scene"]
 
             # Logging errors:
-            except Exception as error:
+            except Exception as exception:
                 try:
-                    corrupted_data = self._saves_dict[last_save[0]]
+                    corrupted_data: dict | Any = self._saves_dict[last_save[0]]
                 except Exception as corrupted_data_error:
-                    corrupted_data = corrupted_data_error
-                logging.error(
+                    corrupted_data: Exception = corrupted_data_error
+                error(
                     text_for_logging(
-                        log_text=
+                        logg_text=
                         f"SaveKeeper Exception in 'continue_game' method:"
                         f"\n{'-' * 30}"
                         f"\nSaves list: \n{corrupted_data}",
-                        log_error=error
+                        logg_error=exception
                     )
                 )
                 return False
@@ -459,7 +481,7 @@ class SaveKeeper(SingletonPattern):
         Read save directory.
         """
         # Save path dos not exist:
-        if path.exists(self._save_folder_path) is False:
+        if exists(self._save_folder_path) is False:
             return
         # Check save path:
         # Path`s names is parts of file names.
@@ -471,9 +493,11 @@ class SaveKeeper(SingletonPattern):
             for file in save_files:
                 try:
                     with open(
-                            path.join(
+                            file=join(
                                 *[self._save_folder_path, file, f"{file}.{self._save_file_format}"]
-                            ), 'r') as save_file:
+                            ),
+                            mode='r'
+                    ) as save_file:
                         # Generate save frame for save collection:
                         file_data: str = save_file.read()
                         save_data: dict = json.loads(file_data)
@@ -491,22 +515,24 @@ class SaveKeeper(SingletonPattern):
                         })
 
                 # Logging Errors:
-                except Exception as error:
+                except Exception as exception:
                     try:
                         save_data: str = json.loads(file_data)
                     except Exception as save_data_error:
                         save_data: Exception = save_data_error
-                    logging.error(text_for_logging(
-                        log_text=
-                        f"SaveKeeper Exception in 'saves_read' method:"
-                        f"\nIssue with: {repr(error)}"
-                        f"\n{'-'*30}"
-                        f"\nFile name: {file}"
-                        f"\n{'-'*30}"
-                        f"\nFile data:"
-                        f"\n{save_data}",
-                        log_error=error
-                    ))
+                    error(
+                        text_for_logging(
+                            logg_text=
+                                f"SaveKeeper Exception in 'saves_read' method:"
+                                f"\nIssue with: {repr(exception)}"
+                                f"\n{'-'*30}"
+                                f"\nFile name: {file}"
+                                f"\n{'-'*30}"
+                                f"\nFile data:"
+                                f"\n{save_data}",
+                            logg_error=exception
+                        )
+                    )
 
         self._reread: bool = False
 
@@ -515,7 +541,6 @@ class SaveKeeper(SingletonPattern):
         Get save slot data.
         Call from Save/Load menus
         :param slot_name: Save Slot` button name. (save name)
-        :type slot_name: str
         """
         for save in self._saves_dict.values():
             if save['file_name'] == slot_name:
@@ -527,7 +552,7 @@ class SaveKeeper(SingletonPattern):
         Call from save menu.
         """
         if file_name is not None:
-            save_path: str = path.join(
+            save_path: str = join(
                 *[self._save_folder_path, file_name]
             )
 
@@ -537,7 +562,7 @@ class SaveKeeper(SingletonPattern):
             ]:
                 try:
                     remove(
-                        path.join(
+                        join(
                             *[save_path, file]
                         )
                     )

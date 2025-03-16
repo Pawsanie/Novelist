@@ -1,11 +1,16 @@
-import logging
+from logging import basicConfig, error
 from traceback import format_exc
+from typing import Callable
 """
 Logging configuration.
 """
 
 
-def logging_config(*, log_path: str, log_level: int):
+def logging_config(
+        *,
+        log_path: str,
+        log_level: int
+):
     """
     Get logging configuration.
     As result set logging rules.
@@ -19,7 +24,7 @@ def logging_config(*, log_path: str, log_level: int):
     DEBUG - 10
     NOTSET - 0
     """
-    logging.basicConfig(
+    basicConfig(
         filename=log_path,
         encoding='utf-8',
         level=log_level,
@@ -28,39 +33,42 @@ def logging_config(*, log_path: str, log_level: int):
     )
 
 
-def text_for_logging(*, log_text: str, log_error: Exception = None) -> str:
+def text_for_logging(
+        *,
+        logg_text: str,
+        logg_error: Exception = None
+) -> str:
     """
     Wrapper for log text.
-    :param log_text: Arbitrary text for logging.
-    :type log_text: str
-    :param log_error: Custom or standard Exception object.
-    :type log_error: Exception
+    :param logg_text: Arbitrary text for logging.
+    :param logg_error: Custom or standard Exception object.
     """
-    if log_error is not None:
-        log_error: str = f"\nRaise: {repr(log_error)}"
+    if logg_error is not None:
+        logg_error: str = f"\nRaise: {repr(logg_error)}"
     else:
-        log_error: str = ""
-    result_text: str = \
+        logg_error: str = ""
+    return \
         f"{'=' * 52}"\
-        f"{log_error}"\
-        f"\n{log_text}"\
+        f"{logg_error}"\
+        f"\n{logg_text}"\
         f"\n{'-' * 52}"\
         f"\n{format_exc()}"\
         f"\n{'=' * 52}\n\n"
-    return result_text
 
 
-def error_logger(function):
+def error_logger(function: Callable):
     """
     Error logger.
     """
     def wrapper_function(*args, **kwargs):
         try:
             function(*args, **kwargs)
-        except Exception as error:
-            logging.error(text_for_logging(
-                log_text="Raise Exception:",
-                log_error=error
-            ))
+        except Exception as exception:
+            error(
+                text_for_logging(
+                    logg_text="Raise Exception:",
+                    logg_error=exception
+                )
+            )
         return wrapper_function
     return function

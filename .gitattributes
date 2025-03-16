@@ -16,7 +16,7 @@
 # Json settings:
 *.json text eol=lf
 *.json linguist-language=JSON
-*.ini encoding=utf-8
+*.json encoding=utf-8
 
 # INI settings:
 *.ini text eol=lf

@@ -37,32 +37,25 @@ class BaseButton(ABC):
     ):
         """
         :param button_name: String with button image file name.
-        :type button_name: str
         :param button_text: String with text of button.
                             None by default.
-        :type button_text: str | None
         :param button_image_data: Nested dictionary with button name as key and dictionary with button type,
                                   index order position and sprite name as values.
-        :type button_image_data: dict[str, dict[str, int]]
         :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
                                               If this parameter is set to 'None', no localization occurs.
                                               None by default.
-        :type button_text_localization_dict: dict[str] | None
         :param have_real_path: If this flag is True button_image_data['sprite_name'] will be real path to file.
                                Is not file name.
-        :type have_real_path: bool
         :param text_offset_x: Offset of the text inside the button, along the X axis.
                               If set to None, then there will be no offset.
                               The factor to multiply by the parameter is 1/10 of the button size.
                               left -0 | Right +0
                               None by default.
-        :type text_offset_x: int | float | None
         :param text_offset_y: Offset of the text inside the button, along the Y axis.
                               If set to None, then there will be no offset.
                               The factor to multiply by the parameter is 1/10 of the button size.
                               Up -0 | Down +0
                               None by default.
-        :type text_offset_y: int | float | None
         """
         # Program layers settings:
         self._assets_loader: AssetLoader = AssetLoader()
@@ -312,8 +305,6 @@ class BaseButton(ABC):
         """
         Calculates the coordinates of the text on the button sprite.
         :param text_surface: Text Surface.
-        :type text_surface: Surface
-        :return: tuple[int, int]
         """
         button_sprite_width, button_sprite_height = self._button_size
         if self._text_offset_x is None and self._text_offset_y is None:
@@ -353,7 +344,6 @@ class BaseButton(ABC):
         """
         Checking the cursor position above the button.
         Use in InterfaceController and another button calculation.
-        :return: True | False
         """
         # Mouse processing:
         cursor_position: tuple[int, int] = mouse.get_pos()
@@ -375,7 +365,6 @@ class BaseButton(ABC):
         """
         Check left click of mouse to button status.
         Use in InterfaceController.
-        :return: True | False
         """
         if self.button_cursor_position_status() is True:
             button_clicked: tuple[bool, bool, bool] = mouse.get_pressed()
@@ -386,12 +375,10 @@ class BaseButton(ABC):
         """
         Check left push out mouse left button status.
         Use in InterfaceController.
-        :param event: pygame.event element.
-        :type event: Event
-        :return: True | False
         """
         if self.button_cursor_position_status() is True:
-            if event.type == MOUSEBUTTONUP and event.button == 1:  # event.button return int of button type.
+            if event.type == MOUSEBUTTONUP \
+                    and event.button == 1:  # event.button return int of button type.
                 return True
 
     @abstractmethod
@@ -404,7 +391,6 @@ class BaseButton(ABC):
     @abstractmethod
     def _get_button_size(self) -> tuple[int, int]:
         """
-        Calculate button size.
-        :return: Tuple with x and y sizes of button`s surface.
+        Calculate x and y sizes of button`s surface.
         """
         pass

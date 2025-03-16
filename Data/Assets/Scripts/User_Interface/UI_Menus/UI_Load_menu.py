@@ -145,5 +145,7 @@ class LoadMenu(BaseMenu, SingletonPattern):
                     self.selected_scene_name: str = get_save_slot_data['scene']
                 except KeyError:
                     pass
+                except TypeError:
+                    return
                 self.selected_save_cell: str = get_save_slot_data['select_name']
                 self._interface_controller.buttons_dict['ui_load_menu_buttons'][self.selected_save_cell].select = True
