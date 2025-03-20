@@ -11,7 +11,6 @@ class StateMachinePattern:
     def __init__(self, collection: list[object]):
         """
         :param collection: List with StateMachine state objects.
-        :type collection: list[object]
         """
         self.collection: list = collection
         self.state = collection[0]
@@ -31,7 +30,6 @@ class StateMachinePattern:
         """
         Add new object to StateMachine collections end.
         :param element: State class object.
-        :type element: object
         """
         self.collection.append(element)
 

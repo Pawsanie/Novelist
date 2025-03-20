@@ -3,6 +3,8 @@ from random import randint
 from pygame import Surface, time, transform
 
 from .Texture_Master import TexturesMaster
+# Lazy imort:
+# from ..GamePlay.Scene_Validator import SceneValidator
 """
 Responsible for the code of a sprites used in rendering.
 """
@@ -24,13 +26,10 @@ class Sprite:
         Don't forget to specify the size of the "sprite_size" argument if it is not set in the loop by "scale" method!
         :param layer: Layer for sprite render.
                       1 as default.
-        :type layer: int
         :param coordinates: Coordinates for sprite render.
                             (0, 0) as default.
-        :type coordinates: tuple[int, int]
         :param name: Sprite name.
                      None as default.
-        :type name: str | None
         :param sprite_sheet_data: As exemple:
                                   {
                                     "texture_type": "Characters"|"Backgrounds"|"User_Interface",
@@ -44,9 +43,7 @@ class Sprite:
                                         }
                                     }
                                   }
-        :type sprite_sheet_data: dict
         :param sprite_size: Sprite image Surface size.
-        :type sprite_size: tuple[int, int]
         """
         # Program layers settings:
         self._texture_master: TexturesMaster = TexturesMaster()
@@ -152,7 +149,6 @@ class Sprite:
         Draw sprite image on surface.
         Can be used in Render, Layer classes in context of render pipline.
         :param any_surface: Any Surface.
-        :type any_surface: Surface
         """
         self._sprite_sheet_next_frame()
         self._recache_sprite()
@@ -171,9 +167,7 @@ class Sprite:
         Draw surface image on Sprite texture and crate temporary texture for TextureMaster.
         Can be use in Buttons in context of UI image Render pipline.
         :param any_surface: Any Surface.
-        :type any_surface: Surface
         :param coordinates: Render coordinates.
-        :type coordinates: tuple[int, int]
         """
         self._recache_sprite()
         temporary_texture: Surface = self._texture_master.get_texture(
@@ -261,8 +255,8 @@ class Sprite:
 
     def set_recache_status(self, recache_status: bool = True):
         """
-        :param recache_status: If there is no need to cache the sprite texture, a temporary image will be created.
-        :type recache_status: bool
+        :param recache_status: If there is no need to cache the sprite texture,
+        a temporary image will be created.
         """
         self._recache_status: bool = recache_status
 
@@ -270,7 +264,6 @@ class Sprite:
         """
         Scale Sprite image to size.
         :param size: Tuple with x/y size data.
-        :type size: tuple[int, int]
         """
         self._image_size: tuple[int, int] = size
 
