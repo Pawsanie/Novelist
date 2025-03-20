@@ -59,17 +59,19 @@ class SoundDirector(SingletonPattern):
             if self._channels_collection[chanel]["devnull_status"] is True:
                 self._channels_collection[chanel]["sound_channel"].fadeout(1600)
 
-    def _play_sound(self, sound_file: Sound, sound_channel: Channel, sound_type_volume: int, sound_chanel_name: str):
+    def _play_sound(
+            self, *,
+            sound_file: Sound,
+            sound_channel: Channel,
+            sound_type_volume: int,
+            sound_chanel_name: str
+    ):
         """
         Play sound file.
         :param sound_file: Sound file.
-        :type sound_file: Sound
         :param sound_channel: Channel for soundtrack playing.
-        :type sound_channel: Channel
         :param sound_type_volume: Link to SettingsKeeper sound volume type.
-        :type sound_type_volume: int
         :param sound_chanel_name: Name of sound chanel.
-        :type sound_chanel_name: str
         """
         self._set_sound_volume(
             sound_file=sound_file,
@@ -87,9 +89,7 @@ class SoundDirector(SingletonPattern):
         """
         Set sound volume.
         :param sound_file: Sound or music for volume changing.
-        :type sound_file: Sound | music
         :param sound_type_volume: SettingsKeeper volume type.
-        :type sound_type_volume: int
         """
         sound_file.set_volume(
             float(
@@ -120,17 +120,19 @@ class SoundDirector(SingletonPattern):
 
             self._status: bool = False
 
-    def sound_chanel_controller(self, *, asset_type: str = '', sound_file_name: str | bool, sound_chanel: str):
+    def sound_chanel_controller(
+            self, *,
+            asset_type: str = '',
+            sound_file_name: str | bool,
+            sound_chanel: str
+    ):
         """
         Send soundtrack to sound chanel if necessary.
 
         :param asset_type: Asset "Sounds" sub folder.
                            Controlled by default.
-        :type asset_type: str
         :param sound_file_name: Sound file name. Must be "string" or "False".
-        :type sound_file_name: str | False
         :param sound_chanel: Sound chanel type.
-        :type sound_chanel: str
         """
         # Change soundtrack in sound chanel:
         if self._channels_collection[sound_chanel]['sound_file_name'] != sound_file_name:

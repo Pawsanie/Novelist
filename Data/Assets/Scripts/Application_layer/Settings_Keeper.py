@@ -143,14 +143,12 @@ class SettingsKeeper(SingletonPattern):
     def get_window(self) -> Surface:
         """
         Get "display.set_mode(...)" pygame.Surface with actual settings.
-        :return: pygame.Surface
         """
         return self._screen
 
     def _set_windows_settings(self) -> Surface:
         """
         Generate or set new display mode.
-        :return: pygame.display.Surface
         """
         if self._game_settings["screen_type"] == 'full_screen':
             screen_size: Tk = Tk()
@@ -207,7 +205,6 @@ class SettingsKeeper(SingletonPattern):
     def _system_type() -> str:
         """
         Return String with system type.
-        :return: str
         """
         if platform == "win32" or platform == "win64":
             return 'Windows'

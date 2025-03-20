@@ -102,9 +102,13 @@ class BaseButton(ABC):
 
         if self._button_text is not None:
             self._font_size: int = 0
-            self._text_color: str = str(self._button_sprite_data['color'])
+            self._text_color: str = str(
+                self._button_sprite_data['color']
+            )
             if self._button_sprite_data['font'] is not None:
-                self._font_name: str = str(self._button_sprite_data['font'])
+                self._font_name: str = str(
+                    self._button_sprite_data['font']
+                )
                 self._set_button_font: font.Font = self._assets_loader.font_load(
                     font_name=self._font_name,
                     font_size=self._font_size
@@ -289,11 +293,15 @@ class BaseButton(ABC):
                 font_size=self._font_size
             )
         text_surface: Surface = self._set_button_font.render(
-            self._button_text, True, self._text_color
+            self._button_text,
+            True,
+            self._text_color
         )
 
         # Button text coordinates:
-        button_text_coordinates: tuple[int, int] = self._button_text_coordinates(text_surface)
+        button_text_coordinates: tuple[int, int] = self._button_text_coordinates(
+            text_surface
+        )
         # Button text render:
         input_surface.blit(
             text_surface,

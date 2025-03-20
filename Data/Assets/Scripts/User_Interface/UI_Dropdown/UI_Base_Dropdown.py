@@ -11,7 +11,6 @@ class BaseDropdown(ABC):
     def __init__(self, buttons_collection: dict, menu_destination: str):
         """
         :param buttons_collection:
-        :type buttons_collection: dict
         """
         self.interface_controller: InterfaceController = InterfaceController()
 

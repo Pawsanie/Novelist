@@ -1,6 +1,11 @@
+from pygame.event import Event
+
 from ...Application_layer.Settings_Keeper import SettingsKeeper
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
+# Lazy import:
+# from .UI_Start_menu import StartMenu
+# from .UI_Game_menu import GameMenu
 """
 Contains settings menu code.
 """
@@ -14,7 +19,7 @@ class SettingsMenu(BaseMenu, SingletonPattern):
         super(SettingsMenu, self).__init__()
         self.settings_keeper: SettingsKeeper = SettingsKeeper()
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in in-game setting menu.
         :param event: pygame.event from main_loop.

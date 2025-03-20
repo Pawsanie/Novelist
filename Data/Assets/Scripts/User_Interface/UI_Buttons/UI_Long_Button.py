@@ -25,32 +25,25 @@ class LongButton(BaseButton):
     ):
         """
         :param button_name: String with button image file name.
-        :type button_name: str
         :param button_text: String with text of button.
                             None by default.
-        :type button_text: str | None
         :param button_image_data: Nested dictionary with button name as key and dictionary with button type,
                                   index order position and sprite name as values.
-        :type button_image_data: dict[str, dict[str, int]]
         :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
                                               If this parameter is set to 'None', no localization occurs.
                                               None by default.
-        :type button_text_localization_dict: dict[str] | None
         :param have_real_path: If this flag is True button_image_data['sprite_name'] will be real path to file.
                                Is not file name.
-        :type have_real_path: bool
         :param text_offset_x: Offset of the text inside the button, along the X axis.
                               If set to None, then there will be no offset.
                               The factor to multiply by the parameter is 1/10 of the button size.
                               left -0 | Right +0
                               None by default.
-        :type text_offset_x: int | float | None
         :param text_offset_y: Offset of the text inside the button, along the Y axis.
                               If set to None, then there will be no offset.
                               The factor to multiply by the parameter is 1/10 of the button size.
                               Up -0 | Down +0
                               None by default.
-        :type text_offset_y: int | float | None
         """
         super().__init__(
             button_name=button_name,
@@ -90,7 +83,6 @@ class LongButton(BaseButton):
     def _get_button_size(self) -> tuple[int, int]:
         """
         Calculate button size.
-        :return: Tuple with x and y sizes of button`s surface.
         """
         background_surface_size: tuple[int, int] = self._background.get_size()
         background_size_x, background_size_y = background_surface_size

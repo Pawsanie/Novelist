@@ -1,8 +1,15 @@
 from pygame import KEYDOWN, K_ESCAPE
+from pygame.event import Event
 
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
 from ...Application_layer.Save_Keeper import SaveKeeper
+# Lazy imports:
+# from .UI_Save_menu import SaveMenu
+# from .UI_Load_menu import LoadMenu
+# from .UI_Settings_menu import SettingsMenu
+# from .UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
+# from .UI_Exit_menu import ExitMenu
 """
 Contains game menu code.
 """
@@ -16,7 +23,7 @@ class GameMenu(SingletonPattern, BaseMenu):
         super(GameMenu, self).__init__()
         self.save_keeper: SaveKeeper = SaveKeeper()
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in in-game menu.
         :param event: pygame.event from main_loop.
@@ -60,7 +67,7 @@ class GameMenu(SingletonPattern, BaseMenu):
                 from .UI_Exit_menu import ExitMenu
                 ExitMenu().status = True
 
-    def _key_bord_key_down(self, event):
+    def _key_bord_key_down(self, event: Event):
         """
         Interface interaction in in-game menu.
         :param event: pygame.event from main_loop.

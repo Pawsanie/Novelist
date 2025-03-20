@@ -1,7 +1,11 @@
+from pygame.event import Event
+
 from ..User_Interface.UI_Button_Factory import button_generator
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 from ..User_Interface.UI_Buttons.UI_Base_Button import BaseButton
+# Lazy import:
+# from ..Render.Batch import Batch
 """
 Contents code for user interface controller.
 """
@@ -87,11 +91,10 @@ class InterfaceController(SingletonPattern):
                 text: MenuText = text_dict[key]
                 text.scale()
 
-    def button_clicked_status(self, event) -> tuple[str | None, bool]:
+    def button_clicked_status(self, event: Event) -> tuple[str | None, bool]:
         """
         Check left click of mouse to button status.
         :param event: pygame.event from main_loop.
-        :return: tuple[str | None, True | False]
         """
         if self.gameplay_interface_hidden_status is False:
             gameplay_ui_dict: dict = self.get_ui_buttons_dict()
@@ -104,7 +107,6 @@ class InterfaceController(SingletonPattern):
     def button_push_status(self) -> tuple[str | None, bool]:
         """
         Check left click of mouse to button status.
-        :return: tuple[str | None, True | False]
         """
         if self.gameplay_interface_hidden_status is False:
             gameplay_ui_dict: dict[str, BaseButton] = self.get_ui_buttons_dict()
@@ -117,7 +119,6 @@ class InterfaceController(SingletonPattern):
     def button_cursor_position_status(self) -> bool:
         """
         Checking the cursor position above the button.
-        :return: True | False
         """
         gameplay_ui_dict: dict = self.get_ui_buttons_dict()
         for button in gameplay_ui_dict:

@@ -1,7 +1,11 @@
+from pygame.event import Event
+
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
 from ...Application_layer.Save_Keeper import SaveKeeper
 from ..UI_Menu_Text import MenuText
+# Lazy import:
+# from .UI_Game_menu import GameMenu
 """
 Contains Save menu code.
 """
@@ -98,7 +102,7 @@ class SaveMenu(BaseMenu, SingletonPattern):
 
         self._state_machine.next_state()
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in in-game save menu.
         :param event: pygame.event from main_loop.

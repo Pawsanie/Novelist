@@ -1,7 +1,11 @@
 from pygame import KEYDOWN, K_ESCAPE, K_TAB, K_e
+from pygame.event import Event
 
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
+# Lazy import:
+# from .UI_Start_menu import StartMenu
+# from .UI_Game_menu import GameMenu
 """
 Back to start menu status menu code.
 """
@@ -31,7 +35,7 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
         from .UI_Game_menu import GameMenu
         GameMenu().status = True
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in in-game back to start menu status menu.
         :param event: pygame.event from main_loop.
@@ -47,7 +51,7 @@ class BackToStartMenuStatusMenu(BaseMenu, SingletonPattern):
             if command == 'back_to_start_menu_no':
                 self.back_to_start_menu_status_menu_no()
 
-    def _key_bord_key_down(self, event):
+    def _key_bord_key_down(self, event: Event):
         """
         Interface interaction in in-game back to start menu status menu.
         :param event: pygame.event from main_loop.

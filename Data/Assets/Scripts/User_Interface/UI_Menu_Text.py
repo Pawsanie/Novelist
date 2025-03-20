@@ -33,7 +33,7 @@ class MenuText:
             self, *,
             menu_name: str,
             menu_text: str,
-            menu_text_localization_dict: dict[str] | None,
+            menu_text_localization_dict: dict[str, str] | None,
             menu_text_font: str | None,
             menu_text_color: str,
             menu_text_coordinates: dict[str, int],
@@ -42,22 +42,14 @@ class MenuText:
     ):
         """
         :param menu_name: The name of the menu the text is for.
-        :type menu_name: str
         :param menu_text: Text of the menu.
-        :type menu_text: str
         :param menu_text_localization_dict: Dictionary with language flags as keys and localization text as values.
                                             If this parameter is None localization will not be made.
-        :type menu_text_localization_dict: dict[str] | None
         :param menu_text_font: Font name for font asset load.
-        :type menu_text_font: str | None
         :param menu_text_color: Text color.
-        :type menu_text_color: str
         :param menu_text_coordinates: Dictionary with str(x|y) as key and int as value.
-        :type menu_text_coordinates: dict[str, int]
         :param menu_text_substrate: Menu text image substrate.
-        :type menu_text_substrate: str | None
         :param menu_text_factor: Scale symbol factor. 1 as default.
-        :type menu_text_factor: int | float
         """
         # Program layers settings:
         self._asset_loader: AssetLoader = AssetLoader()
@@ -69,7 +61,7 @@ class MenuText:
         self._menu_name: str = menu_name
         self._language_flag: str = self._settings_keeper.get_text_language()
         self._menu_text: str = menu_text
-        self._localisation_menu_text: dict[str] = menu_text_localization_dict
+        self._localisation_menu_text: dict[str, str] = menu_text_localization_dict
         self._menu_text_coordinates_x: int = menu_text_coordinates['x']
         self._menu_text_coordinates_y: int = menu_text_coordinates['y']
         self._font_size: int = 0
@@ -112,8 +104,11 @@ class MenuText:
         """
         self._set_text_surface_size()
         self._menu_text_coordinates: tuple[int, int] = (
-            (self._settings_keeper.get_window().get_width() // 2) - (self._menu_text_surface_size[0] // 2),
-            (self._settings_keeper.get_window().get_height() // 2) - (self._menu_text_surface_size[1] // 2)
+            (self._settings_keeper.get_window().get_width() // 2)
+            - (self._menu_text_surface_size[0] // 2),
+
+            (self._settings_keeper.get_window().get_height() // 2)
+            - (self._menu_text_surface_size[1] // 2)
         )
 
     def _back_menu_text_coordinates(self):
@@ -122,8 +117,11 @@ class MenuText:
         """
         self._set_text_surface_size()
         self._menu_text_coordinates: tuple[int, int] = (
-            (self._settings_keeper.get_window().get_width() // 2) - (self._menu_text_surface_size[0] // 2),
-            (self._settings_keeper.get_window().get_height() // 2) - self._menu_text_surface_size[1]
+            (self._settings_keeper.get_window().get_width() // 2)
+            - (self._menu_text_surface_size[0] // 2),
+
+            (self._settings_keeper.get_window().get_height() // 2)
+            - self._menu_text_surface_size[1]
         )
 
     def _save_and_load_menu_text_coordinates(self):
@@ -302,7 +300,7 @@ def menus_text_generator() -> dict[str, dict[str]]:
     asset_loader: AssetLoader = AssetLoader()
 
     # Menu`s text files instructions:
-    ui_menus_text_files: dict[str] = asset_loader.json_load(
+    ui_menus_text_files: dict[str, str] = asset_loader.json_load(
         ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', 'ui_menu_text_data']
     )
 
@@ -333,7 +331,7 @@ def menus_text_generator() -> dict[str, dict[str]]:
 
     # Menu`s texts:
     for file_name in ui_menus_text_files:
-        ui_menus_texts_json: dict[str] = asset_loader.json_load(
+        ui_menus_texts_json: dict[str, str | int | dict] = asset_loader.json_load(
             ['Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', "Text_config_files", file_name]
         )
         ui_menus_texts: dict = {}

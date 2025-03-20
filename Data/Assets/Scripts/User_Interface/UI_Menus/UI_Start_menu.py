@@ -1,6 +1,13 @@
+from pygame.event import Event
+
 from ..UI_Base_menu import BaseMenu
 from ...Application_layer.Save_Keeper import SaveKeeper
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
+# Lazy import:
+# from .UI_Exit_menu import ExitMenu
+# from .UI_Creators_menu import CreatorsMenu
+# from .UI_Settings_menu import SettingsMenu
+# from .UI_Load_menu import LoadMenu
 """
 Contains Start menu code.
 """
@@ -32,7 +39,7 @@ class StartMenu(BaseMenu, SingletonPattern):
 
         self._state_machine.next_state()
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in in-game start menu.
         :param event: pygame.event from main_loop.

@@ -61,41 +61,33 @@ class ButtonFactory(SingletonPattern):
             button_name: str,
             button_text: str | None = None,
             button_image_data: dict[str, int],
-            button_text_localization_dict: dict[str] | None = None,
+            button_text_localization_dict: dict[str, str] | None = None,
             have_real_path: bool = False,
             text_offset_x: int | float | None = None,
             text_offset_y: int | float | None = None
     ) -> BaseButton:
         """
         Generate new Button object.
-
         :param button_name: String with button image file name.
-        :type button_name: str
         :param button_text: String with text of button.
                             None by default.
-        :type button_text: str | None
         :param button_image_data: Nested dictionary with button name as key and dictionary with button type,
                                   index order position and sprite name as values.
-        :type button_image_data: dict[str, dict[str, int]]
         :param button_text_localization_dict: Dictionary with language flags as keys and localization text as values.
                                               If this parameter is set to 'None', no localization occurs.
                                               None by default.
-        :type button_text_localization_dict: dict[str] | None
         :param have_real_path: If this flag is True button_image_data['sprite_name'] will be real path to file.
                                Is not file name.
-        :type have_real_path: bool
         :param text_offset_x: Offset of the text inside the button, along the X axis.
                               If set to None, then there will be no offset.
                               The factor to multiply by the parameter is 1/10 of the button size.
                               left -0 | Right +0
                               None by default.
-        :type text_offset_x: int | float | None
         :param text_offset_y: Offset of the text inside the button, along the Y axis.
                               If set to None, then there will be no offset.
                               The factor to multiply by the parameter is 1/10 of the button size.
                               Up -0 | Down +0
                               None by default.
-        :type text_offset_y: int | float | None
         """
         for value in self._button_collections.values():
             if button_image_data['type'] in value['allowable_menus']:
@@ -155,7 +147,7 @@ def button_generator() -> dict[str, dict[str, BaseButton]]:
 
     # User Interface buttons:
     for file_name in ui_buttons_files:
-        ui_buttons_json: dict[str] = asset_loader.json_load(
+        ui_buttons_json: dict[str, str | int | dict] = asset_loader.json_load(
             ['Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', "Buttons_config_files", file_name]
         )
         ui_buttons: dict = {}

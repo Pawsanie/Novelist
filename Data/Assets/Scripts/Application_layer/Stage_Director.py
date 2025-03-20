@@ -8,6 +8,8 @@ from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
 from ..Game_objects.Character import Character
 from ..Application_layer.Sound_Director import SoundDirector
+# Lazy import:
+# from ..Render.Batch import Batch
 """
 Contains stage director program code.
 Stage director control scenes by class methods interfaces.
@@ -34,8 +36,8 @@ class StageDirector(SingletonPattern):
         self.current_language: str = self._settings_keeper.get_text_language()
         self._text_canvas: TextCanvas = TextCanvas()
         self._dialog_controller: DialoguesWords = DialoguesWords()
-        self._text_dialogues_data: dict[str] = DialogueKeeper().get_dialogues_data()
-        self._text_reading_dialogues_gameplay_data: dict[str] = self._text_dialogues_data['reading']
+        self._text_dialogues_data: dict[str, dict[str, dict]] = DialogueKeeper().get_dialogues_data()
+        self._text_reading_dialogues_gameplay_data: dict[str, dict[str, dict]] = self._text_dialogues_data['reading']
         self._text_dict_reading_cash: dict = {}
 
     def set_scene(self, *, location: str) -> Surface.blit:
@@ -159,10 +161,12 @@ class StageDirector(SingletonPattern):
 
         # Scene text settings:
         if scene_data['gameplay_type'] == 'reading':
-            self._text_dict_reading_cash: dict[str] = \
+            self._text_dict_reading_cash: dict[str, str] = \
                 self._text_reading_dialogues_gameplay_data.get(
                     self.current_language
-                )[scene_data["current_scene_name"]]
+                )[
+                    scene_data["current_scene_name"]
+                ]
             self._text_canvas.status = True
             self._dialog_controller.status = True
 
