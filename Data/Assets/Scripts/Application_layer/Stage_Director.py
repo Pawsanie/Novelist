@@ -40,12 +40,11 @@ class StageDirector(SingletonPattern):
         self._text_reading_dialogues_gameplay_data: dict[str, dict[str, dict]] = self._text_dialogues_data['reading']
         self._text_dict_reading_cash: dict = {}
 
-    def set_scene(self, *, location: str) -> Surface.blit:
+    def set_scene(self, *, location: str):
         """
         Update background Image, for scene render.
         Use in StateMachine and Self.
         :param location: String with background location name.
-        :return: Background for scene render.
         """
         if location is not None:  # In game menu.
             self._background.set_background(location)

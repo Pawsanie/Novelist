@@ -3,7 +3,7 @@ from random import randint
 from pygame import Surface, time, transform
 
 from .Texture_Master import TexturesMaster
-# Lazy imort:
+# Lazy import:
 # from ..GamePlay.Scene_Validator import SceneValidator
 """
 Responsible for the code of a sprites used in rendering.
@@ -15,7 +15,8 @@ class Sprite:
     Spites uses in batch rendering.
     """
     def __init__(
-            self, *, layer: int = 1,
+            self, *,
+            layer: int = 1,
             coordinates: tuple[int, int] = (0, 0),
             texture_mame: str,
             name: str | None = None,
@@ -183,7 +184,9 @@ class Sprite:
         self._texture_master.set_temporary_texture(
             texture_type=self._sprite_sheet_data["texture_type"],
             texture_name=self._texture_id,
-            surface=temporary_texture
+            surface=temporary_texture,
+            animation_name=self._animation_name,
+            frame=self._sprite_sheet_frame
         )
 
     def _sprite_sheet_next_frame(self):
@@ -220,7 +223,6 @@ class Sprite:
     def get_frame_number(self) -> int:
         """
         Get step for sprite sheet frame swap.
-        :result: int
         """
         # Statick frame:
         if self._animation_name == "statick_frames":
@@ -296,3 +298,9 @@ class Sprite:
         Used in BaseButtons.
         """
         return self._sprite_sheet_data
+
+    def get_sprite_size(self) -> tuple[int, int]:
+        """
+        Used in Character.
+        """
+        return self._image_size

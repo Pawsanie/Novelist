@@ -48,7 +48,6 @@ class Background(SingletonPattern):
         """
         Set new animated ot statick Sprite name for TexturesMaster.
         :param new_background_name: Name of background for search texture in TexturesMaster.
-        :type new_background_name: str
         """
         if self._background_name != new_background_name:
             self._background_name: str = new_background_name
@@ -104,6 +103,7 @@ class Background(SingletonPattern):
             self._last_screen_size[0] / background_texture_size_width,
             self._last_screen_size[1] / background_texture_size_height
         )
+
         # Set background sprite size:
         self._background_size: tuple[int, int] = (
                 int(background_texture_size_width * coefficient),
@@ -118,6 +118,7 @@ class Background(SingletonPattern):
             frame=self._sprite.get_frame_number(),
             image_size=self._background_size
         )
+
         # Calculate coordinates:
         self._background_coordinates: tuple[int, int] = (
             (self._last_screen_size[0] - self._background_size[0]) // 2,

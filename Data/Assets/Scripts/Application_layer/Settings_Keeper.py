@@ -1,4 +1,4 @@
-from os import path
+from os.path import abspath, join
 from sys import platform
 from tkinter import Tk
 
@@ -16,11 +16,15 @@ class SettingsKeeper(SingletonPattern):
     """
     def __init__(self):
         # Path settings:
-        script_root_path: str = path.abspath(__file__)\
-            .replace(path.join(*[
-                'Scripts', 'Application_layer', 'Settings_Keeper.py'
-            ]), '')
-        self._user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
+        script_root_path: str = abspath(__file__).replace(
+            join(
+                *[
+                    'Scripts', 'Application_layer', 'Settings_Keeper.py'
+                ]
+            ),
+            ''
+        )
+        self._user_settings_path: str = f"{script_root_path}{join(*['user_settings'])}"
 
         # Default settings:
         self._game_settings: dict = {
@@ -51,7 +55,9 @@ class SettingsKeeper(SingletonPattern):
 
                         if "game_settings" in row:
                             continue
-                        setting_type_name, setting_value = row.replace('\n', '').split('=')
+                        setting_type_name, setting_value = row.replace(
+                            '\n', ''
+                        ).split('=')
 
                         # Windows settings:
                         if setting_type_name == 'screen_size':

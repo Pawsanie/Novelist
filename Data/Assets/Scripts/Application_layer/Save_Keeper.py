@@ -39,18 +39,23 @@ class SaveKeeper(SingletonPattern):
         self._render: Render = Render()
 
         # Path settings:
-        script_root_path: str = abspath(__file__) \
-            .replace(
+        script_root_path: str = abspath(__file__).replace(
             join(
-                *['Assets', 'Scripts', 'Application_layer', 'Save_Keeper.py']
+                *[
+                    'Assets', 'Scripts', 'Application_layer', 'Save_Keeper.py'
+                ]
             ),
             ''
         )
         self._save_folder_path: str = join(
-            *[script_root_path, 'Saves']
+            *[
+                script_root_path, 'Saves'
+            ]
         )
         self._save_and_load_ui_path: str = join(
-            *[script_root_path, "Assets", "Images", "User_Interface", "Save_System"]
+            *[
+                script_root_path, "Assets", "Images", "User_Interface", "Save_System"
+            ]
         )
 
         # Saves collection:
@@ -133,7 +138,10 @@ class SaveKeeper(SingletonPattern):
 
             for key, value in self._saves_dict.items():
                 # Autosave position:
-                if value['save_data']['save_name'] in (self._autosave_name, self._new_save_button_name):
+                if value['save_data']['save_name'] in (
+                        self._autosave_name,
+                        self._new_save_button_name
+                ):
                     value['save_data']['save_cell']: list[int, int] = [1, 1]
 
                 else:  # Another save position:
@@ -173,11 +181,17 @@ class SaveKeeper(SingletonPattern):
         )
         enrichment_count: int = close_value - len(self._saves_dict)
 
-        time_stamp: datetime = datetime.strptime(self._empty_time, "%Y-%m-%d_%H:%M:%S")
+        time_stamp: datetime = datetime.strptime(
+            self._empty_time,
+            "%Y-%m-%d_%H:%M:%S"
+        )
         for number in range(enrichment_count):
             time_stamp: datetime = time_stamp + timedelta(seconds=1)
             key_name: struct_time = datetime.timetuple(time_stamp)
-            time_mark_str: str = strftime("%Y-%m-%d_%H:%M:%S", key_name)
+            time_mark_str: str = strftime(
+                "%Y-%m-%d_%H:%M:%S",
+                key_name
+            )
 
             self._saves_dict.update(
                 {
@@ -214,7 +228,9 @@ class SaveKeeper(SingletonPattern):
 
             # Cells with save data:
             button_image_path: str = join(
-                *[self._save_folder_path, save_data['file_name'], self._button_image]
+                *[
+                    self._save_folder_path, save_data['file_name'], self._button_image
+                ]
             )
             save_name: str = save_data["save_data"]['save_name']
 
@@ -311,7 +327,10 @@ class SaveKeeper(SingletonPattern):
         Generate first button for Save menu.
         """
         key_name: struct_time = time.localtime()
-        time_mark_str: str = strftime("%Y-%m-%d_%H:%M:%S", key_name)
+        time_mark_str: str = strftime(
+            "%Y-%m-%d_%H:%M:%S",
+            key_name
+        )
         self._saves_dict.update(
             {
                 key_name: {
@@ -384,10 +403,14 @@ class SaveKeeper(SingletonPattern):
             save_name: str = f"save__{time_path_part}"
 
         save_path: str = join(
-            *[self._save_folder_path, save_name]
+            *[
+                self._save_folder_path, save_name
+            ]
         )
         save_file: str = join(
-            *[save_path, f"{save_name}.{self._save_file_format}"]
+            *[
+                save_path, f"{save_name}.{self._save_file_format}"
+            ]
         )
 
         # Saving game progress:
@@ -415,7 +438,9 @@ class SaveKeeper(SingletonPattern):
         image.save(
             screen_preview,
             join(
-                *[save_path, f"{self._button_image}.{self._preview_file_format}"]
+                *[
+                    save_path, f"{self._button_image}.{self._preview_file_format}"
+                ]
             )
         )
 
@@ -507,12 +532,14 @@ class SaveKeeper(SingletonPattern):
                                 'select_name': file
                             }
                         )
-                        self._saves_dict.update({
-                            strptime(save_data['date'], "%Y-%m-%d_%H:%M:%S"): {
-                                "file_name": file,
-                                "save_data": save_data
+                        self._saves_dict.update(
+                            {
+                                strptime(save_data['date'], "%Y-%m-%d_%H:%M:%S"): {
+                                    "file_name": file,
+                                    "save_data": save_data
+                                }
                             }
-                        })
+                        )
 
                 # Logging Errors:
                 except Exception as exception:
@@ -563,7 +590,9 @@ class SaveKeeper(SingletonPattern):
                 try:
                     remove(
                         join(
-                            *[save_path, file]
+                            *[
+                                save_path, file
+                            ]
                         )
                     )
                 except OSError:

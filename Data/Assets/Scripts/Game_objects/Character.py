@@ -198,7 +198,7 @@ class Character:
         :return: List with coordinates of meddle point for character render.
         """
         screen_size_x, screen_size_y = self._background.get_size()
-        sprite_size_x, sprite_size_y = self._sprite._image_size
+        sprite_size_x, sprite_size_y = self._sprite.get_sprite_size()
         background_y_coordinate: int = self._background.get_coordinates()[1]
 
         # X:
