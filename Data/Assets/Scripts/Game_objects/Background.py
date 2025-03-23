@@ -31,7 +31,9 @@ class Background(SingletonPattern):
 
         # Background settings:
         self._all_backgrounds_sprites_settings: dict = self._asset_loader.json_load(
-            ["Scripts", "Json_data", "backgrounds_sprites"]
+            [
+                "Scripts", "Json_data", "backgrounds_sprites"
+            ]
         )
         for background_name in self._all_backgrounds_sprites_settings:
             self._all_backgrounds_sprites_settings[background_name].update(
