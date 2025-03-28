@@ -1,3 +1,5 @@
+from pygame.event import Event
+
 from .Interface_Controller import InterfaceController
 from ..GamePlay.Scene_Validator import SceneValidator
 from ..Application_layer.State_Machine import StateMachine
@@ -24,14 +26,14 @@ class BaseMenu:
         """
         self._scene_validator.status = True
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in MasterClass menu.
         :param event: pygame.event from main_loop.
         """
         pass
 
-    def _key_bord_key_down(self, event):
+    def _key_bord_key_down(self, event: Event):
         """
         Interface interaction in MasterClass menu.
         :param event: pygame.event from main_loop.
@@ -44,7 +46,7 @@ class BaseMenu:
         """
         pass
 
-    def menu_input(self, event):
+    def menu_input(self, event: Event):
         """
         Menu conveyor.
         :param event: pygame.event from main_loop.

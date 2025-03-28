@@ -1,7 +1,11 @@
 from pygame import quit, KEYDOWN, K_ESCAPE, K_TAB, K_e
+from pygame.event import Event
 
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
+# Lazy imports:
+# from .UI_Start_menu import StartMenu
+# from .UI_Game_menu import GameMenu
 """
 Contains exit menu code.
 """
@@ -28,7 +32,7 @@ class ExitMenu(BaseMenu, SingletonPattern):
             from .UI_Game_menu import GameMenu
             GameMenu().status = True
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in in-game exit menu.
         :param event: pygame.event from main_loop.
@@ -45,7 +49,7 @@ class ExitMenu(BaseMenu, SingletonPattern):
             if command == 'exit_menu_no':
                 self.exit_menu_back()
 
-    def _key_bord_key_down(self, event):
+    def _key_bord_key_down(self, event: Event):
         """
         Interface interaction in in-game exit menu.
         :param event: pygame.event from main_loop.

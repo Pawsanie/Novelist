@@ -34,7 +34,9 @@ class Batch:
                     layer_object: Layer = Layer(sprite_layer)
                     layer_object.append(sprite)
                     self.sprite_to_render.update(
-                        {sprite_layer: layer_object}
+                        {
+                            sprite_layer: layer_object
+                        }
                     )
 
                 else:

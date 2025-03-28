@@ -22,7 +22,10 @@ class Layer:
         Render sprites in layer canvas.
         """
         self._layer_canvas: Surface = Surface(
-            (self._screen.get_width(), self._screen.get_height()),
+            (
+                self._screen.get_width(),
+                self._screen.get_height()
+            ),
             SRCALPHA
         )
 
@@ -48,4 +51,7 @@ class Layer:
         Render layer on display screen
         """
         self.initialization()
-        self._screen.blit(self._layer_canvas, (0, 0))
+        self._screen.blit(
+            self._layer_canvas,
+            (0, 0)
+        )

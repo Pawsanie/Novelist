@@ -11,15 +11,17 @@ class ScreenplaySourceParser:
     """
     Parse scene configs to screenplay json.
     """
-    def __init__(self, *, source_path: str, alternative_destination_path: str | None = None):
+    def __init__(
+            self, *,
+            source_path: str,
+            alternative_destination_path: str | None = None
+    ):
         """
         :param source_path: Source path for reading ini screenplay scene files.
-        :type source_path: str
         :param alternative_destination_path: Alternative destination path for screenplay.json.
                                              If you need screenplay.json specific file path.
                                              As example if the utility is not in the directory
                                              with your copy of the game.
-        :type alternative_destination_path: str
         """
         # Path Settings:
         self.__replace_path: str = path.join(

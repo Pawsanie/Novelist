@@ -1,0 +1,24 @@
+# Python settings:
+*.py text eol=lf
+*.py linguist-language=Python
+*.py encoding=utf-8
+
+# Bash settings:
+*.sh text eol=lf
+*.sh linguist-language=Shell
+*.sh encoding=utf-8
+
+# PowerShell settings:
+*.ps1 linguist-language=PowerShell
+*.ps1 text eol=crlf
+*.ps1 encoding=utf-8
+
+# Json settings:
+*.json text eol=lf
+*.json linguist-language=JSON
+*.json encoding=utf-8
+
+# INI settings:
+*.ini text eol=lf
+*.ini linguist-language=INI
+*.ini encoding=utf-8

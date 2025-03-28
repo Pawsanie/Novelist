@@ -8,11 +8,9 @@ from ...Universal_computing.Surface_size import surface_size
 
 
 class BaseDropdown(ABC):
-
     def __init__(self, buttons_collection: dict, menu_destination: str):
         """
         :param buttons_collection:
-        :type buttons_collection: dict
         """
         self.interface_controller: InterfaceController = InterfaceController()
 
@@ -46,10 +44,12 @@ class BaseDropdown(ABC):
 
         if menu_object.status is True:
             menu_buttons.clear()
-            menu_buttons.update({
-                **self.menu_buttons_reference,
-                **self.anchor_button
-            })
+            menu_buttons.update(
+                {
+                    **self.menu_buttons_reference,
+                    **self.anchor_button
+                }
+            )
 
             if self.status is True:
                 menu_buttons.update(

@@ -22,7 +22,9 @@ class MenuState(SingletonPattern):
 
         # Sound settings:
         self._menu_music_data: dict = AssetLoader().json_load(
-            ['Scripts', 'Json_data', 'menu_sound_settings']
+            [
+                'Scripts', 'Json_data', 'menu_sound_settings'
+            ]
         )
 
         # Specific name switcher:

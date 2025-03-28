@@ -12,19 +12,19 @@ class Character:
     Super class for characters.
     Control characters by a lot of methods.
     """
-    def __init__(self, *, character_texture_mame: str, sprite_sheet_data: dict | None = None,
-                 poses: dict, animation: bool = False, name: str | None = None):
+    def __init__(
+            self, *,
+            character_texture_mame: str,
+            sprite_sheet_data: dict | None = None,
+            poses: dict, animation: bool = False,
+            name: str | None = None
+    ):
         """
         :param character_texture_mame: Texture name for TextureMaster.
-        :type character_texture_mame: str
         :param sprite_sheet_data: All poses coordinates for sprite animation.
-        :type sprite_sheet_data: dict[dict[str, int]]
         :param poses: For animation sprites hold pose name. For statick sprite hold coordination for pose switch.
-        :type poses: dict[str] | dict[str, [int, int]
         :param animation: Animation status for Sprite.
-        :type animation: bool
         :param name: Character name.
-        :type name: str
         """
         # Program layers settings:
         self._texture_master: TexturesMaster = TexturesMaster()
@@ -33,7 +33,8 @@ class Character:
         self._background: Background = Background()
 
         # Sprite settings:
-        self._sprite_sheet_data: dict[str, dict[str, dict[str, list[int, int]]]] = sprite_sheet_data | {
+        self._sprite_sheet_data: dict[str, dict[str, dict[str, list[int, int]]]] | dict[str, str] \
+            = sprite_sheet_data | {
             "texture_type": "Characters"
         }
         self._texture_name: str = character_texture_mame
@@ -64,7 +65,6 @@ class Character:
         """
         Use in Stage Director.
         :param position: middle|right|left
-        :param position: str
         """
         self._position: str = position
 
@@ -107,9 +107,13 @@ class Character:
                 sprite_size_x + percent_integer
             )
         elif sprite_size_y > screen_size_y:
-            percent_size_sprite_difference: int = int(screen_size_y / sprite_size_y * 100)
+            percent_size_sprite_difference: int = int(
+                screen_size_y / sprite_size_y * 100
+            )
             result_size_x: int = int(
-                sprite_size_x * (1 - ((100 - percent_size_sprite_difference) / 100))
+                sprite_size_x * (
+                        1 - ( (100 - percent_size_sprite_difference) / 100 )
+                )
             )
         self._character_sprite_size: tuple[int, int] = result_size_x, result_size_y
 
@@ -123,7 +127,6 @@ class Character:
         """
         Set pose for character sprite sheet.
         :param pose_number: Number of pose in character sprite, from character_poses dict key.
-        :type pose_number: str
         """
         self.pose_number: str = pose_number
         if self.animation is True:
@@ -195,7 +198,7 @@ class Character:
         :return: List with coordinates of meddle point for character render.
         """
         screen_size_x, screen_size_y = self._background.get_size()
-        sprite_size_x, sprite_size_y = self._sprite._image_size
+        sprite_size_x, sprite_size_y = self._sprite.get_sprite_size()
         background_y_coordinate: int = self._background.get_coordinates()[1]
 
         # X:

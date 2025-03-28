@@ -1,4 +1,4 @@
-import logging
+from logging import critical
 
 from pygame import display
 
@@ -17,7 +17,7 @@ def run():
     """
     app_name: str = "Visual Novel"
 
-    icon_set: dict[str] = {
+    icon_set: dict[str, str] = {
         "Windows": "win_icon",
         "Mac_OS": "mac_icon",
         "linux": "nix_icon"
@@ -50,10 +50,10 @@ if __name__ == '__main__':
     try:
         run()
     except Exception as error:
-        logging.critical(
+        critical(
             text_for_logging(
-                log_text="The program launch ended with an error!",
-                log_error=error
+                logg_text="The program launch ended with an error!",
+                logg_error=error
             )
         )
         raise error

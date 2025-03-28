@@ -1,4 +1,4 @@
-from os import path
+from os.path import abspath, join
 from sys import platform
 from tkinter import Tk
 
@@ -16,11 +16,15 @@ class SettingsKeeper(SingletonPattern):
     """
     def __init__(self):
         # Path settings:
-        script_root_path: str = path.abspath(__file__)\
-            .replace(path.join(*[
-                'Scripts', 'Application_layer', 'Settings_Keeper.py'
-            ]), '')
-        self._user_settings_path: str = f"{script_root_path}{path.join(*['user_settings'])}"
+        script_root_path: str = abspath(__file__).replace(
+            join(
+                *[
+                    'Scripts', 'Application_layer', 'Settings_Keeper.py'
+                ]
+            ),
+            ''
+        )
+        self._user_settings_path: str = f"{script_root_path}{join(*['user_settings'])}"
 
         # Default settings:
         self._game_settings: dict = {
@@ -51,7 +55,9 @@ class SettingsKeeper(SingletonPattern):
 
                         if "game_settings" in row:
                             continue
-                        setting_type_name, setting_value = row.replace('\n', '').split('=')
+                        setting_type_name, setting_value = row.replace(
+                            '\n', ''
+                        ).split('=')
 
                         # Windows settings:
                         if setting_type_name == 'screen_size':
@@ -143,14 +149,12 @@ class SettingsKeeper(SingletonPattern):
     def get_window(self) -> Surface:
         """
         Get "display.set_mode(...)" pygame.Surface with actual settings.
-        :return: pygame.Surface
         """
         return self._screen
 
     def _set_windows_settings(self) -> Surface:
         """
         Generate or set new display mode.
-        :return: pygame.display.Surface
         """
         if self._game_settings["screen_type"] == 'full_screen':
             screen_size: Tk = Tk()
@@ -207,7 +211,6 @@ class SettingsKeeper(SingletonPattern):
     def _system_type() -> str:
         """
         Return String with system type.
-        :return: str
         """
         if platform == "win32" or platform == "win64":
             return 'Windows'

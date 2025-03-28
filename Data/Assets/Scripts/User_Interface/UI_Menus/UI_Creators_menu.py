@@ -1,7 +1,10 @@
 from pygame import K_e, K_TAB, KEYDOWN, K_ESCAPE
+from pygame.event import Event
 
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
+# Lazy import:
+# from .UI_Start_menu import StartMenu
 """
 Contains creators menu code.
 """
@@ -22,7 +25,7 @@ class CreatorsMenu(BaseMenu, SingletonPattern):
         self.status: bool = False
         StartMenu().status = True
 
-    def _key_bord_key_down(self, event):
+    def _key_bord_key_down(self, event: Event):
         """
         Interface interaction in creators menu.
         :param event: pygame.event from main_loop.
@@ -31,7 +34,7 @@ class CreatorsMenu(BaseMenu, SingletonPattern):
             if event.key == K_ESCAPE or event.key == K_TAB or event.key == K_e:
                 self.creators_menu_back()
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in creators menu.
         :param event: pygame.event from main_loop.

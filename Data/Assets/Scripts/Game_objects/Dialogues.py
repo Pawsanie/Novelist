@@ -7,11 +7,12 @@ from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Render.Texture_Master import TexturesMaster
 from ..Render.Sprite import Sprite
-
-font.init()
+# Lazy import:
+# from ..GamePlay.Scene_Validator import SceneValidator
 """
 Contains the code for text of dialogues.
 """
+font.init()
 
 
 class DialoguesWords(SingletonPattern):
@@ -22,7 +23,6 @@ class DialoguesWords(SingletonPattern):
     def __init__(self, *, font_name: str | None = None):
         """
         :param font_name: String with font file name.
-        :type font_name: str | None
         """
         # Program layers settings:
         self._background_surface: Background = Background()
@@ -42,7 +42,6 @@ class DialoguesWords(SingletonPattern):
     def _set_font(self, *, font_name: str | None):
         """
         :param font_name: String with font file name.
-        :type font_name: str | None
         """
         self._font_name: str = font_name
         if self._font_name is None:
@@ -56,17 +55,17 @@ class DialoguesWords(SingletonPattern):
                 font_size=self._font_size
             )
 
-    def make_words(self, *, text_string: str, text_color: str, text_type: str) -> Sprite:
+    def make_words(
+            self, *,
+            text_string: str,
+            text_color: str,
+            text_type: str
+    ) -> Sprite:
         """
         Make text for text canvas surface.
-
         :param text_string: String from StageDirector.text_dict value.
-        :type text_string: str
         :param text_color: String with HTML color format.
-        :type text_color: str
         :param text_type: String 'speaker' or 'words'
-        :type text_type: str
-        :return: tuple[Sprite, tuple[int, int]]
         """
         background_size: tuple[int, int] = self._background_surface.get_size()
         background_height: int = background_size[1]
@@ -117,7 +116,6 @@ class DialoguesWords(SingletonPattern):
     def _character_speech_text_coordinates(self, *, text_type: str) -> tuple[int, int]:
         """
         Generate coordinates of text for render.
-
         :param text_type: String: 'speech' or 'name'!
         :return: Tuple with x and y int coordinates for speech text render.
         """
@@ -134,13 +132,13 @@ class DialoguesWords(SingletonPattern):
             y_result: int = (
                     text_canvas_y
                     + (self._font_size * 2)
-                    + ((text_canvas_size_y // 100) * 5)
+                    + ( (text_canvas_size_y // 100) * 5 )
             )
             return x_result, y_result
         if text_type == 'name':
             y_result: int = (
                     text_canvas_y
-                    + ((text_canvas_size_y // 100) * 5)
+                    + ( (text_canvas_size_y // 100) * 5 )
             )
             return x_result, y_result
 

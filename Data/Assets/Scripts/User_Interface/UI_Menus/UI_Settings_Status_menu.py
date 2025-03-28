@@ -1,3 +1,5 @@
+from pygame.event import Event
+
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
 """
@@ -12,7 +14,7 @@ class SettingsStatusMenu(BaseMenu, SingletonPattern):
     def __init__(self):
         super(SettingsStatusMenu, self).__init__()
 
-    def _input_mouse(self, event):
+    def _input_mouse(self, event: Event):
         """
         Interface interaction in in-game settings menu.
         :param event: pygame.event from main_loop.

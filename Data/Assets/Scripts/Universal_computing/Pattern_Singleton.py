@@ -8,23 +8,22 @@ class SingletonPattern:
     Contain singleton design pattern code super class.
     """
     # Singleton instance flag:
-    __singleton_instance: object or None = None
+    __singleton_instance: type or None = None
     # Singleton __init__ blocker callable function:
     __devnull_init: None = lambda self, *args, **kwargs: None
 
-    def __new__(cls, *args, **kwargs) -> object:
+    def __new__(cls, *args, **kwargs) -> type:
         """
         Singleton design pattern class constructor part.
         Return Singleton instance.
         Blocking __init__ new instance dander method by callable function returning None.
-
         :result: Singleton instance.
         """
         if cls.__singleton_instance is None:
             try:
-                cls.__singleton_instance: object = super(SingletonPattern, cls).__new__(cls)
+                cls.__singleton_instance: type = super(SingletonPattern, cls).__new__(cls)
             except TypeError:
-                cls.__singleton_instance: object = super(SingletonPattern, cls).__new__(cls, *args, **kwargs)
+                cls.__singleton_instance: type = super(SingletonPattern, cls).__new__(cls, *args, **kwargs)
 
         # Check default '__init__' value... is callable result None:
         elif cls.__dict__.get('__init__', None) is not cls.__devnull_init:

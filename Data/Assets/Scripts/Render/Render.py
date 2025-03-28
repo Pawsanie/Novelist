@@ -6,6 +6,8 @@ from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.Interface_Controller import InterfaceController
 from .Layer import Layer
 from .Sprite import Sprite
+# Lazy import:
+# from ..User_Interface.UI_Menus.UI_Game_menu import GameMenu
 """
 Contains code for display image render.
 """
