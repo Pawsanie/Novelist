@@ -81,13 +81,14 @@ pip install ./path/to/modified/lib
 For convenience, this utility is equipped with shell scripts that simplify its call, and a file with an example scene.
 
 **Files location:**<br>
-**./**:open_file_folder:Utilities<br>
-   └── :file_folder:Screenplay_parser<br>
-            ├── :file_folder:Screenplay_source<br>
-            |        └── :page_facing_up:example_scene_config.ini<br>
-            ├── :page_facing_up:Screenplay_Source_Parser.py<br>
-            ├── :page_facing_up:ScreenplaySourceParser_execute.ps1<br>
-            └── :page_facing_up:ScreenplaySourceParser_execute.sh
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Utilities<br>
+            └── :file_folder:Screenplay_parser<br>
+                     ├── :file_folder:Screenplay_source<br>
+                     |        └── :page_facing_up:example_scene_config.ini<br>
+                     ├── :page_facing_up:Screenplay_Source_Parser.py<br>
+                     ├── :page_facing_up:ScreenplaySourceParser_execute.ps1<br>
+                     └── :page_facing_up:ScreenplaySourceParser_execute.sh
 
 ### How to create scene config:
 Let's start with how to design the scene for this script.<br>
@@ -221,7 +222,7 @@ Below is a detailed description of how to run the utility on different operating
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path 'D:\Git\Novelist':
   ```shell
-  cd D:\Git\Novelist\Utilities\Screenplay_parser
+  cd D:\Git\Novelist\Source_code\Utilities\Screenplay_parser
   ```
   * Run "**ScreenplaySourceParser_execute**" powershell script.
   ```shell
@@ -234,7 +235,7 @@ Below is a detailed description of how to run the utility on different operating
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path '/home/User/Git/Novelist':
   ```shell
-  cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+  cd /home/User/Git/Novelist/Source_code/Utilities/Screenplay_parser
   ```
   * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
   ```shell
@@ -250,7 +251,7 @@ Below is a detailed description of how to run the utility on different operating
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path '/home/User/Git/Novelist':
   ```shell
-  cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+  cd /home/User/Git/Novelist/Source_code/Utilities/Screenplay_parser
   ```
   * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
   ```shell
@@ -275,8 +276,9 @@ To run the application, you need to run the 'Visual_novel_game.py' script with y
 python -B Visual_novel_game.py
 ```
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :page_facing_up:Visual_novel_game.py
+**./**:open_file_folder:Source_code<br>
+   └── :page_facing_up:open_file_folder:Application<br>
+            └── :page_facing_up:Visual_novel_game.py
 
 
 ## Settings of scenes:
@@ -287,7 +289,7 @@ At the same time, the first scene **must** have the 'past_scene' key value as **
 In the last scene 'next_scene' key **must** be **'FINISH'**.<br>
 
 **File location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
@@ -405,7 +407,7 @@ It needs to list the names by which the game will look for characters.<br>
 And this name is in no way related to the one you can set in the dialogs!<br>
 Texture data file name and animations available to the character from this file.<br>
 **File location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
@@ -444,7 +446,7 @@ Please note the names of these two files must match!<br><br>
 
 Let's first discuss the sprite **texture settings sprite sheet files**.<br>
 **Files location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
@@ -537,7 +539,7 @@ For animation sprites, the following settings are typical:<br>
 
 Sprite images must be in **png** format and stored in a 'Characters' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:Characters<br>
@@ -548,7 +550,7 @@ Information about the backgrounds and its sprites must be entered into the 'back
 The names that will be given here are used to create scenes in 'screenplay.json' fie.
 
 **File location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
@@ -576,7 +578,7 @@ Their names should also match.<br>
 And you also need to set the name of the animation from the settings file.<br>
 
 **Files location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
@@ -605,7 +607,7 @@ You can read more about how the texture files are arranged in the «[Characters 
 
 Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:Backgrounds<br>
@@ -620,7 +622,7 @@ Information about localisation of standard interface in «[Text and Localization
 **Below** examples with **json`s** describes the code that needs to be changed if you want to supplement the standard menus with your own.
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Json_data<br>
@@ -682,7 +684,7 @@ If you want to add your own menus, please note that the key values are **hardcod
 Please note that the '**sprite_name**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:User_Interface<br>
@@ -756,7 +758,7 @@ This file contains an array that lists the names of configuration files for all 
 Please note that the '**substrate**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:User_Interface<br>
@@ -765,7 +767,7 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 **Learn more about coding your own interface:**<br>
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:User_Interface<br>
@@ -876,7 +878,7 @@ Please pay **attention** to this fact.<br>
 This means that you **cannot** use the **Tab** character in any text, names or titles.<br><br>
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Localisation<br>
                      └── :file_folder:Main<br>
@@ -946,7 +948,7 @@ Please note that the standard line break character "**\n**" is used here and is 
 ## The name and icon of the game window:
 In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>
 **File location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :page_facing_up:Visual_novel_game.py
 
 **Example of app_name variable:**
@@ -957,7 +959,7 @@ app_name: str = "Visual Novel"
 In order to change the program window icons, please replace the icon files in the '**Icons**' folder.<br>
 Icons images must be in **png** format and have the default size and titles.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Images<br>
                     └── :file_folder:User_Interface<br>
@@ -969,7 +971,7 @@ If you need to program your gameplay element, add it to the constructor of class
 '**gameplay_input**' method of this class control of gameplay.
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:GamePlay<br>
@@ -981,7 +983,7 @@ The default settings are stored in a file **'user_settings'**.<br>
 The game reads them at startup and saves them there, with the consent to change by the user, after setting.
 
 **File location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :page_facing_up:user_settings<br>
 
@@ -1001,7 +1003,7 @@ This attribute can be changed in the settings menu, or in the settings file.<br>
 Naturally, this voice acting does not have to be voice localization. But it is important to consider changes in the storage principle when enabling the option.
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             ├── :file_folder:Sounds<br>
              |       ├── :file_folder:Effects<br>
@@ -1055,7 +1057,7 @@ The **StageDirector** builds a scene.<br>
 **Or** the **InterfaceController** switches menu.
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    ├── :page_facing_up:Visual_novel_game.py<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
@@ -1084,7 +1086,7 @@ But according to the meaning of the names of the given files, it is still clear 
 ## Logging:
 The program creates a log file and writes messages about critical problems to it.<br>
 **File location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :page_facing_up:logg_file.txt
 
 ## Save and Load system:
@@ -1092,7 +1094,7 @@ Game saves are located in the 'Saves' folder.<br>
 The game save is a subfolder with a simple json file marked as 'save' format and a png image.<br>
 Please note that the subfolder and the save file **must have the same name**.<br>
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Saves<br>
             └── :file_folder:AutoSave<br>
                      ├── :page_facing_up:AutoSave.save<br>
@@ -1106,7 +1108,7 @@ Please note that the subfolder and the save file **must have the same name**.<br
 ```
 The **SaveKeeper** class from '**Save_Keeper.py**' file is responsible for working with saves.<br>
 **File location:**<br>
-**./**:open_file_folder:Data<br>
+**./**:open_file_folder:Application<br>
    └── :file_folder:Assets<br>
             └── :file_folder:Scripts<br>
                      └── :file_folder:Application_layer<br>

@@ -188,7 +188,6 @@ class Character:
         """
         Move character to first or background plan.
         :param plan: String [first_plan/background_plan].
-        :type plan: str
         """
         self._plan: str = plan
 

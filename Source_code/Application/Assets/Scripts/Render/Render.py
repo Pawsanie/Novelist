@@ -105,7 +105,10 @@ class Render(SingletonPattern):
                 Sprite(
                     texture_mame="ui#screen_mask",
                     layer=3,
-                    sprite_size=(self._screen.get_width(), self._screen.get_height()),
+                    sprite_size=(
+                        self._screen.get_width(),
+                        self._screen.get_height()
+                    ),
                     sprite_sheet_data={
                         "texture_type": "Backgrounds",
                         "sprite_sheet": False,
