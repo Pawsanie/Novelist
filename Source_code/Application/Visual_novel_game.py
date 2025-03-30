@@ -24,8 +24,7 @@ def run():
     }
 
     # Set game settings:
-    start_settings: SettingsKeeper = SettingsKeeper()
-    type_of_system: str = start_settings.get_system_type()
+    type_of_system: str = SettingsKeeper().get_system_type()
     # Application name in window:
     display.set_caption(app_name)
     # Icon settings:
@@ -35,7 +34,7 @@ def run():
             art_name=icon_set[type_of_system],
             asset_type="User_Interface",
             file_catalog='Icons'
-            )
+        )
     )
     # Start game:
     gameplay: GameMaster = GameMaster()
