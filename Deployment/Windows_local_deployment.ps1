@@ -4,7 +4,6 @@
 
 # Path settings:
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-Write-Host $test
 $TargetDir = @(
     $(Split-Path -Parent $ScriptDir),
     "Requirements",
@@ -93,8 +92,10 @@ function Execute {
         $Success = $false
         Write-Host "An error occurred during deployment...`n" `
             "It looks like you already had Python 3.10.11 installed and uninstalled incorrectly.`n" `
-            "Try restoring the version from the installation file:`n " `
+            "Try restoring the version from the installation file:`n" `
             "$TargetDir\python-3.10.11-amd64.exe" `
+            "After that, use the script to complete the local deployment:" `
+            "$ScriptDir\Utilities\Continue_Windows_deployment.ps1" `
             -ForegroundColor Red
     }
     if ($Success) {
