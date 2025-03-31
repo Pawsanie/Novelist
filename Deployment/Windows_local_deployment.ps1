@@ -93,9 +93,8 @@ function Execute {
         Write-Host "An error occurred during deployment...`n" `
             "It looks like you already had Python 3.10.11 installed and uninstalled incorrectly.`n" `
             "Try restoring the version from the installation file:`n" `
-            "$TargetDir\python-3.10.11-amd64.exe" `
-            "After that, use the script to complete the local deployment:" `
-            "$ScriptDir\Utilities\Continue_Windows_deployment.ps1" `
+            "$TargetDir\python-3.10.11-amd64.exe`n" `
+            "After that, re-run this script to complete the local deployment." `
             -ForegroundColor Red
     }
     if ($Success) {
