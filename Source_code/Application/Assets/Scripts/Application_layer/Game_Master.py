@@ -65,12 +65,16 @@ class GameMaster(SingletonPattern):
         """
         MVC pattern main game loop.
         """
-        await gather(
-                *[
-                    self._render_loop(),
-                    self._reactions_to_input_commands.input_commands_loop()
-                ]
-            )
+        try:
+            await gather(
+                    *[
+                        self._render_loop(),
+                        self._reactions_to_input_commands.input_commands_loop()
+                    ]
+                )
+        except SystemExit as exit_statis:
+            if exit_statis.code != 0:
+                raise exit_statis
 
     @error_logger
     def __call__(self):
