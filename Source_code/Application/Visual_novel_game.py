@@ -43,8 +43,8 @@ def run():
 
 if __name__ == '__main__':
     logging_config(
-        log_path="logg_file.txt",
-        log_level=30
+        logg_path="logg_file.txt",
+        logg_level=30
     )
     try:
         run()
