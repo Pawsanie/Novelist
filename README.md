@@ -613,11 +613,12 @@ You can read more about how the texture files are arranged in the «[Characters 
 
 Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:Backgrounds<br>
-                            └── :framed_picture:*.jpg **(Can be your image file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :Backgrounds<br>
+                                       └── :framed_picture:*.jpg **(Can be your image file)**<br>
 
 However, you can change the sprite's format requirement by modifying it in the code.
 
