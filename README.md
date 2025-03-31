@@ -277,7 +277,7 @@ python -B Visual_novel_game.py
 ```
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :page_facing_up:open_file_folder:Application<br>
+   └── :open_file_folder:Application<br>
             └── :page_facing_up:Visual_novel_game.py
 
 
@@ -289,11 +289,12 @@ At the same time, the first scene **must** have the 'past_scene' key value as **
 In the last scene 'next_scene' key **must** be **'FINISH'**.<br>
 
 **File location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :page_facing_up:screenplay.json<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :page_facing_up:screenplay.json<br>
 
 **Example of screenplay.json file:**
 ```json
