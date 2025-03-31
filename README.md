@@ -542,22 +542,24 @@ For animation sprites, the following settings are typical:<br>
 
 Sprite images must be in **png** format and stored in a 'Characters' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:Characters<br>
-                            └── :framed_picture:*.png **(Can be your image file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:Characters<br>
+                                       └── :framed_picture:*.png **(Can be your image file)**<br>
 
 ## Backgrounds and its sprites:
 Information about the backgrounds and its sprites must be entered into the 'backgrounds_sprites.json' file.<br>
 The names that will be given here are used to create scenes in 'screenplay.json' fie.
 
 **File location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :page_facing_up:backgrounds_sprites.json<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :page_facing_up:backgrounds_sprites.json<br>
 **Example of 'backgrounds_sprites.json' file:**
 ```json
 {
@@ -581,13 +583,14 @@ Their names should also match.<br>
 And you also need to set the name of the animation from the settings file.<br>
 
 **Files location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :file_folder:Texture_data<br>
-                                        └── :file_folder:Backgrounds<br>
-                                                └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :Texture_data<br>
+                                                └── :file_folder:Backgrounds<br>
+                                                         └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
 **Example of statick background_sprite_sheet_texture_data.json file:**
 ```json
 {
