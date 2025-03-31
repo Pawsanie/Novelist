@@ -408,11 +408,12 @@ It needs to list the names by which the game will look for characters.<br>
 And this name is in no way related to the one you can set in the dialogs!<br>
 Texture data file name and animations available to the character from this file.<br>
 **File location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :page_facing_up:characters_sprites.json<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :page_facing_up:characters_sprites.json<br>
 **Example of 'characters_sprites.json' file:**
 ```json
 {
@@ -447,13 +448,14 @@ Please note the names of these two files must match!<br><br>
 
 Let's first discuss the sprite **texture settings sprite sheet files**.<br>
 **Files location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :file_folder:Texture_data<br>
-                                        └── :file_folder:Characters<br>
-                                                └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :file_folder:Texture_data<br>
+                                                └── :file_folder:Characters<br>
+                                                        └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
 
 For static sprites, the following settings are typical:<br>
 * **sprite_sheet** value is **False**.<br>
