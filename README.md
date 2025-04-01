@@ -277,7 +277,7 @@ python -B Visual_novel_game.py
 ```
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :page_facing_up:Visual_novel_game.py
 
 
@@ -290,7 +290,7 @@ In the last scene 'next_scene' key **must** be **'FINISH'**.<br>
 
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:Json_data<br>
@@ -409,7 +409,7 @@ And this name is in no way related to the one you can set in the dialogs!<br>
 Texture data file name and animations available to the character from this file.<br>
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:Json_data<br>
@@ -449,7 +449,7 @@ Please note the names of these two files must match!<br><br>
 Let's first discuss the sprite **texture settings sprite sheet files**.<br>
 **Files location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:Json_data<br>
@@ -543,7 +543,7 @@ For animation sprites, the following settings are typical:<br>
 Sprite images must be in **png** format and stored in a 'Characters' folder.<br>
 **Folder location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Images<br>
                               └── :file_folder:Characters<br>
@@ -555,7 +555,7 @@ The names that will be given here are used to create scenes in 'screenplay.json'
 
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:Json_data<br>
@@ -584,7 +584,7 @@ And you also need to set the name of the animation from the settings file.<br>
 
 **Files location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:Json_data<br>
@@ -614,7 +614,7 @@ You can read more about how the texture files are arranged in the «[Characters 
 Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Images<br>
                               └── :Backgrounds<br>
@@ -630,7 +630,7 @@ Information about localisation of standard interface in «[Text and Localization
 
 **Files locations:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:Json_data<br>
@@ -693,7 +693,7 @@ Please note that the '**sprite_name**' key contains the name of the sprite, as t
 Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
 **Folder location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Images<br>
                               └── :file_folder:User_Interface<br>
@@ -768,7 +768,7 @@ Please note that the '**substrate**' key contains the name of the sprite, as the
 Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 **Folder location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Images<br>
                               └── :file_folder:User_Interface<br>
@@ -778,7 +778,7 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 
 **Files locations:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:User_Interface<br>
@@ -890,7 +890,7 @@ This means that you **cannot** use the **Tab** character in any text, names or t
 
 **Files locations:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :Assets<br>
                      └── :file_folder:Localisation<br>
                               └── :file_folder:Main<br>
@@ -961,7 +961,7 @@ Please note that the standard line break character "**\n**" is used here and is 
 In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :page_facing_up:Visual_novel_game.py
 
 **Example of app_name variable:**
@@ -973,7 +973,7 @@ In order to change the program window icons, please replace the icon files in th
 Icons images must be in **png** format and have the default size and titles.<br>
 **Folder location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Images<br>
                               └── :file_folder:User_Interface<br>
@@ -986,7 +986,7 @@ If you need to program your gameplay element, add it to the constructor of class
 
 **Files locations:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:GamePlay<br>
@@ -999,7 +999,7 @@ The game reads them at startup and saves them there, with the consent to change 
 
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
-   └── :open_file_folder:Application<br>
+   └── :file_folder:Application<br>
             └── :Assets<br>
                      └── :page_facing_up:user_settings<br>
 
@@ -1102,19 +1102,21 @@ But according to the meaning of the names of the given files, it is still clear 
 ## Logging:
 The program creates a log file and writes messages about critical problems to it.<br>
 **File location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :page_facing_up:logg_file.txt
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :page_facing_up:logg_file.txt
 
 ## Save and Load system:
 Game saves are located in the 'Saves' folder.<br>
 The game save is a subfolder with a simple json file marked as 'save' format and a png image.<br>
 Please note that the subfolder and the save file **must have the same name**.<br>
 **Files locations:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Saves<br>
-            └── :file_folder:AutoSave<br>
-                     ├── :page_facing_up:AutoSave.save<br>
-                     └── :framed_picture:screen_preview.png<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Saves<br>
+                     └── :file_folder:AutoSave<br>
+                              ├── :page_facing_up:AutoSave.save<br>
+                              └── :framed_picture:screen_preview.png<br>
 **Example of 'AutoSave.save' file:**
 ```json
 {
@@ -1124,11 +1126,12 @@ Please note that the subfolder and the save file **must have the same name**.<br
 ```
 The **SaveKeeper** class from '**Save_Keeper.py**' file is responsible for working with saves.<br>
 **File location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Application_layer<br>
-                              └─── :page_facing_up:Save_Keeper.py<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Application_layer<br>
+                                       └─── :page_facing_up:Save_Keeper.py<br>
 
 # What needs to be completed:
 ### Settings Menu:
