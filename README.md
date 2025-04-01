@@ -891,7 +891,7 @@ This means that you **cannot** use the **Tab** character in any text, names or t
 **Files locations:**<br>
 **./**:open_file_folder:Source_code<br>
    └── :file_folder:Application<br>
-            └── :Assets<br>
+            └── :file_folder:Assets<br>
                      └── :file_folder:Localisation<br>
                               └── :file_folder:Main<br>
                                        ├── :page_facing_up:button_menu_localization.csv<br>
