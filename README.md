@@ -972,11 +972,12 @@ app_name: str = "Visual Novel"
 In order to change the program window icons, please replace the icon files in the '**Icons**' folder.<br>
 Icons images must be in **png** format and have the default size and titles.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:User_Interface<br>
-                            └── :file_folder:Icons<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:User_Interface<br>
+                                       └── :file_folder:Icons<br>
 
 ## GamePlay:
 All gameplay code is stored in the folder 'GamePlay'.<br>
@@ -984,21 +985,23 @@ If you need to program your gameplay element, add it to the constructor of class
 '**gameplay_input**' method of this class control of gameplay.
 
 **Files locations:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:GamePlay<br>
-                              ├── :page_facing_up:GamePlay_Administrator.py<br>
-                              └── :page_facing_up:GamePlay_*.py **(Can be your gameplay file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:GamePlay<br>
+                                       ├── :page_facing_up:GamePlay_Administrator.py<br>
+                                       └── :page_facing_up:GamePlay_*.py **(Can be your gameplay file)**<br>
 
 ## Default game settings:
 The default settings are stored in a file **'user_settings'**.<br>
 The game reads them at startup and saves them there, with the consent to change by the user, after setting.
 
 **File location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :page_facing_up:user_settings<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :Assets<br>
+                     └── :page_facing_up:user_settings<br>
 
 ## Sound System:
 The **SoundDirector** class is responsible for working with sound.<br>
