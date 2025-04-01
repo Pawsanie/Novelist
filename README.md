@@ -692,11 +692,12 @@ If you want to add your own menus, please note that the key values are **hardcod
 Please note that the '**sprite_name**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:User_Interface<br>
-                            └── :file_folder:Buttons<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:User_Interface<br>
+                                       └── :file_folder:Buttons<br>
 
 The button sprite texture images must be described in the 'ui_sprites.json' file.<br>
 **Example of buttons in ui_sprites.json file:**
@@ -767,10 +768,12 @@ Please note that the '**substrate**' key contains the name of the sprite, as the
 Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 **Folder location:**<br>
 **./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:User_Interface<br>
-                            └── :file_folder:Menu_Substrate<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:User_Interface<br>
+                                       └── :file_folder:Menu_Substrate<br>
 
 **Learn more about coding your own interface:**<br>
 
