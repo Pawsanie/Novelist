@@ -767,7 +767,6 @@ This file contains an array that lists the names of configuration files for all 
 Please note that the '**substrate**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Application<br>
 **./**:open_file_folder:Source_code<br>
    └── :open_file_folder:Application<br>
             └── :file_folder:Assets<br>
