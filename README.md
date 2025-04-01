@@ -1000,7 +1000,7 @@ The game reads them at startup and saves them there, with the consent to change 
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
    └── :file_folder:Application<br>
-            └── :Assets<br>
+            └── :file_folder:Assets<br>
                      └── :page_facing_up:user_settings<br>
 
 ## Sound System:
@@ -1019,22 +1019,23 @@ This attribute can be changed in the settings menu, or in the settings file.<br>
 Naturally, this voice acting does not have to be voice localization. But it is important to consider changes in the storage principle when enabling the option.
 
 **Files locations:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            ├── :file_folder:Sounds<br>
-             |       ├── :file_folder:Effects<br>
-             |        |       └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
-             |       ├── :file_folder:Music<br>
-             |        |       └── :musical_note:\*.mp3 **(Can be your music file)**<br>
-             |       └── :file_folder:Voice<br>
-             |                ├── :musical_note:\*.mp3 **(Can be your sound file)**<br>
-             |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
-             |                        └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
-            └── :file_folder:Scripts<br>
-                     ├── :file_folder:Application_layer<br>
-                      |       └── :page_facing_up:Sound_Director.py<br>
-                     └── :file_folder:Json_data<br>
-                              └── :page_facing_up:menu_sound_settings.json
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     ├── :file_folder:Sounds<br>
+                      |       ├── :file_folder:Effects<br>
+                      |        |       └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
+                      |       ├── :file_folder:Music<br>
+                      |        |       └── :musical_note:\*.mp3 **(Can be your music file)**<br>
+                      |       └── :file_folder:Voice<br>
+                      |                ├── :musical_note:\*.mp3 **(Can be your sound file)**<br>
+                      |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
+                      |                        └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
+                     └── :file_folder:Scripts<br>
+                              ├── :file_folder:Application_layer<br>
+                               |       └── :page_facing_up:Sound_Director.py<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :page_facing_up:menu_sound_settings.json
 
 To install sounds and music in the menus, you need to modify the "*menu_sound_settings.json*" file.<br>
 **Example of menu sound settings.:**<br>
