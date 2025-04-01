@@ -455,7 +455,7 @@ Let's first discuss the sprite **texture settings sprite sheet files**.<br>
                               └── :file_folder:Json_data<br>
                                        └── :file_folder:Texture_data<br>
                                                 └── :file_folder:Characters<br>
-                                                        └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
+                                                         └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
 
 For static sprites, the following settings are typical:<br>
 * **sprite_sheet** value is **False**.<br>
@@ -617,7 +617,7 @@ Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
    └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Images<br>
-                              └── :Backgrounds<br>
+                              └── :file_folder:Backgrounds<br>
                                        └── :framed_picture:*.jpg **(Can be your image file)**<br>
 
 However, you can change the sprite's format requirement by modifying it in the code.
