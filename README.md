@@ -777,18 +777,19 @@ Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 **Learn more about coding your own interface:**<br>
 
 **Files locations:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:User_Interface<br>
-                              ├── :page_facing_up:Interface_Controller.py<br>
-                              ├── :page_facing_up:UI_Menu_Text.py<br>
-                              ├── :page_facing_up:UI_Button_Factory.py<br>
-                              ├── :file_folder:UI_Buttons<br>
-                               |       ├── :page_facing_up:UI_Base_Button.py<br>
-                               |       └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
-                              └── :file_folder:UI_Menus<br>
-                                       └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:User_Interface<br>
+                                       ├── :page_facing_up:Interface_Controller.py<br>
+                                       ├── :page_facing_up:UI_Menu_Text.py<br>
+                                       ├── :page_facing_up:UI_Button_Factory.py<br>
+                                       ├── :file_folder:UI_Buttons<br>
+                                        |       ├── :page_facing_up:UI_Base_Button.py<br>
+                                        |       └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
+                                       └── :file_folder:UI_Menus<br>
+                                                └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
 **Buttons for new menu:**<br>
 To create new buttons, in any case, you need to update the collections of the **ButtonFactory** class from 'UI_Button_Factory.py' file.<br>
