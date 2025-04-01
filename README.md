@@ -1074,28 +1074,28 @@ The **StageDirector** builds a scene.<br>
 **Or** the **InterfaceController** switches menu.
 
 **Files locations:**<br>
-**./**:open_file_folder:Application<br>
-   ├── :page_facing_up:Visual_novel_game.py<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     ├── :file_folder:Application_layer<br>
-                     │       ├── :page_facing_up:Game_Master.py<br>
-                     │       ├── :page_facing_up:Reactions_to_input_commands.py<br>
-                     │       ├── :page_facing_up:Settings_Keeper.py<br>
-                     │       ├── :page_facing_up:Sound_Director.py<br>
-                     │       └── :page_facing_up:Stage_Director.py<br>
-                     ├── :file_folder:Game_objects<br>
-                     │       ├── :page_facing_up:Background.py<br>
-                     │       ├── :page_facing_up:Character.py<br>
-                     │       ├── :page_facing_up:Dialogues.py<br>
-                     │       └── :page_facing_up:Scene_Validator.py<br>
-                     ├── :file_folder:GamePlay<br>
-                     │       └── :page_facing_up:GamePlay_Administrator.py<br>
-                     ├── :file_folder:Render<br>
-                     │       └── :page_facing_up:Render.py<br>
-                     └── :file_folder:User_Interface<br>
-                              ├── :page_facing_up:Interface_Controller.py<br>
-                              └── :page_facing_up:UI_Button_Factory.py<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              ├── :file_folder:Application_layer<br>
+                              │       ├── :page_facing_up:Game_Master.py<br>
+                              │       ├── :page_facing_up:Reactions_to_input_commands.py<br>
+                              │       ├── :page_facing_up:Settings_Keeper.py<br>
+                              │       ├── :page_facing_up:Sound_Director.py<br>
+                              │       └── :page_facing_up:Stage_Director.py<br>
+                              ├── :file_folder:Game_objects<br>
+                              │       ├── :page_facing_up:Background.py<br>
+                              │       ├── :page_facing_up:Character.py<br>
+                              │       ├── :page_facing_up:Dialogues.py<br>
+                              │       └── :page_facing_up:Scene_Validator.py<br>
+                              ├── :file_folder:GamePlay<br>
+                              │       └── :page_facing_up:GamePlay_Administrator.py<br>
+                              ├── :file_folder:Render<br>
+                              │       └── :page_facing_up:Render.py<br>
+                              └── :file_folder:User_Interface<br>
+                                       ├── :page_facing_up:Interface_Controller.py<br>
+                                       └── :page_facing_up:UI_Button_Factory.py<br>
 
 Please note that the name of some classes does not correspond to the files where they are contained.<br>
 But according to the meaning of the names of the given files, it is still clear where they are.
