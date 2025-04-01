@@ -629,20 +629,21 @@ Information about localisation of standard interface in «[Text and Localization
 **Below** examples with **json`s** describes the code that needs to be changed if you want to supplement the standard menus with your own.
 
 **Files locations:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :file_folder:User_Interface<br>
-                                       ├── :page_facing_up:ui_sprites.json<br>
-                                       ├── :file_folder:UI_Buttons<br>
-                                       │       ├── :page_facing_up:ui_buttons_data.json<br>
-                                       │       └── :file_folder:Buttons_config_files<br>
-                                       │                └── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
-                                       └── :file_folder:UI_Menu_texts<br>
-                                                ├── :page_facing_up:ui_menu_text_data.json<br>
-                                                └── :file_folder:Text_config_files<br>
-                                                         └── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :file_folder:User_Interface<br>
+                                                 ├── :page_facing_up:ui_sprites.json<br>
+                                                 ├── :file_folder:UI_Buttons<br>
+                                                 │       ├── :page_facing_up:ui_buttons_data.json<br>
+                                                 │       └── :file_folder:Buttons_config_files<br>
+                                                 │                └── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
+                                                 └── :file_folder:UI_Menu_texts<br>
+                                                          ├── :page_facing_up:ui_menu_text_data.json<br>
+                                                          └── :file_folder:Text_config_files<br>
+                                                                   └── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
 
 **User Interface Buttons:**<br><br>
 All button configurations are initially described in the 'ui_buttons_data.json' file.<br>
