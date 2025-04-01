@@ -1030,7 +1030,7 @@ Naturally, this voice acting does not have to be voice localization. But it is i
                       |       └── :file_folder:Voice<br>
                       |                ├── :musical_note:\*.mp3 **(Can be your sound file)**<br>
                       |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
-                      |                        └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
+                      |                         └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
                      └── :file_folder:Scripts<br>
                               ├── :file_folder:Application_layer<br>
                                |       └── :page_facing_up:Sound_Director.py<br>
