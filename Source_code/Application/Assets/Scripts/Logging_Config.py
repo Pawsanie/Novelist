@@ -8,8 +8,8 @@ Logging configuration.
 
 def logging_config(
         *,
-        log_path: str,
-        log_level: int
+        logg_path: str,
+        logg_level: int
 ):
     """
     Get logging configuration.
@@ -25,9 +25,9 @@ def logging_config(
     NOTSET - 0
     """
     basicConfig(
-        filename=log_path,
+        filename=logg_path,
         encoding='utf-8',
-        level=log_level,
+        level=logg_level,
         format='%(asctime)s - %(levelname)s:\n%(message)s',
         datefmt='%Y-%m-%d %H:%M:%S %p'
     )

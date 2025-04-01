@@ -1,3 +1,5 @@
+from pygame.event import Event
+
 from ..Application_layer.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Buttons.UI_GamePlay_Choice_Button import GamePlayChoiceButton
@@ -58,7 +60,13 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                     for language in all_buttons_text_localizations_dict:
                         buttons_text_localization.update(
                             {
-                                language: all_buttons_text_localizations_dict[language][scene][choice]
+                                language: all_buttons_text_localizations_dict[
+                                    language
+                                ][
+                                    scene
+                                ][
+                                    choice
+                                ]
                             }
                         )
                     # Generate sprite data for button:
@@ -93,7 +101,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                     )
                 self._dialogues_buttons.setdefault(scene, dialogues_buttons)
 
-    def _button_gameplay_ui_status(self, event):
+    def _button_gameplay_ui_status(self, event: Event):
         """
         Processing the gameplay choice.
         :param event: pygame.event from main_loop.
@@ -116,7 +124,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
                         # if choice_data[choice]['counter_change'] is not False:
                         #     ...  # TODO: Add reputation system?
 
-    def _key_bord_gameplay_key_down(self, event):
+    def _key_bord_gameplay_key_down(self, event: Event):
         ...
 
     def set_choice(self):

@@ -1,5 +1,6 @@
-/Data/logg_file.txt
-.gitignore
-.gitattributes
+/Source_code/Application/logg_file.txt
 .idea
-/Data/Saves
+.vscode/
+/Source_code/Application/Saves
+**/__pycache__/
+/Requirements

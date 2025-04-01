@@ -81,13 +81,14 @@ pip install ./path/to/modified/lib
 For convenience, this utility is equipped with shell scripts that simplify its call, and a file with an example scene.
 
 **Files location:**<br>
-**./**:open_file_folder:Utilities<br>
-   └── :file_folder:Screenplay_parser<br>
-            ├── :file_folder:Screenplay_source<br>
-            |        └── :page_facing_up:example_scene_config.ini<br>
-            ├── :page_facing_up:Screenplay_Source_Parser.py<br>
-            ├── :page_facing_up:ScreenplaySourceParser_execute.ps1<br>
-            └── :page_facing_up:ScreenplaySourceParser_execute.sh
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Utilities<br>
+            └── :file_folder:Screenplay_parser<br>
+                     ├── :file_folder:Screenplay_source<br>
+                     |        └── :page_facing_up:example_scene_config.ini<br>
+                     ├── :page_facing_up:Screenplay_Source_Parser.py<br>
+                     ├── :page_facing_up:ScreenplaySourceParser_execute.ps1<br>
+                     └── :page_facing_up:ScreenplaySourceParser_execute.sh
 
 ### How to create scene config:
 Let's start with how to design the scene for this script.<br>
@@ -221,7 +222,7 @@ Below is a detailed description of how to run the utility on different operating
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path 'D:\Git\Novelist':
   ```shell
-  cd D:\Git\Novelist\Utilities\Screenplay_parser
+  cd D:\Git\Novelist\Source_code\Utilities\Screenplay_parser
   ```
   * Run "**ScreenplaySourceParser_execute**" powershell script.
   ```shell
@@ -234,7 +235,7 @@ Below is a detailed description of how to run the utility on different operating
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path '/home/User/Git/Novelist':
   ```shell
-  cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+  cd /home/User/Git/Novelist/Source_code/Utilities/Screenplay_parser
   ```
   * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
   ```shell
@@ -250,7 +251,7 @@ Below is a detailed description of how to run the utility on different operating
   * Enter '**cd**' and absolute path to the script through the folder where you downloaded the program.<br>
   As example for downloaded path '/home/User/Git/Novelist':
   ```shell
-  cd /home/User/Git/Novelist/Utilities/Screenplay_parser
+  cd /home/User/Git/Novelist/Source_code/Utilities/Screenplay_parser
   ```
   * Please note that to run a script on Unix-like operating systems, you must first explicitly make it executable with the command:
   ```shell
@@ -275,8 +276,9 @@ To run the application, you need to run the 'Visual_novel_game.py' script with y
 python -B Visual_novel_game.py
 ```
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :page_facing_up:Visual_novel_game.py
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :page_facing_up:Visual_novel_game.py
 
 
 ## Settings of scenes:
@@ -287,11 +289,12 @@ At the same time, the first scene **must** have the 'past_scene' key value as **
 In the last scene 'next_scene' key **must** be **'FINISH'**.<br>
 
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :page_facing_up:screenplay.json<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :page_facing_up:screenplay.json<br>
 
 **Example of screenplay.json file:**
 ```json
@@ -405,11 +408,12 @@ It needs to list the names by which the game will look for characters.<br>
 And this name is in no way related to the one you can set in the dialogs!<br>
 Texture data file name and animations available to the character from this file.<br>
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :page_facing_up:characters_sprites.json<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :page_facing_up:characters_sprites.json<br>
 **Example of 'characters_sprites.json' file:**
 ```json
 {
@@ -444,13 +448,14 @@ Please note the names of these two files must match!<br><br>
 
 Let's first discuss the sprite **texture settings sprite sheet files**.<br>
 **Files location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :file_folder:Texture_data<br>
-                                        └── :file_folder:Characters<br>
-                                                └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :file_folder:Texture_data<br>
+                                                └── :file_folder:Characters<br>
+                                                         └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
 
 For static sprites, the following settings are typical:<br>
 * **sprite_sheet** value is **False**.<br>
@@ -537,22 +542,24 @@ For animation sprites, the following settings are typical:<br>
 
 Sprite images must be in **png** format and stored in a 'Characters' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:Characters<br>
-                            └── :framed_picture:*.png **(Can be your image file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:Characters<br>
+                                       └── :framed_picture:*.png **(Can be your image file)**<br>
 
 ## Backgrounds and its sprites:
 Information about the backgrounds and its sprites must be entered into the 'backgrounds_sprites.json' file.<br>
 The names that will be given here are used to create scenes in 'screenplay.json' fie.
 
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :page_facing_up:backgrounds_sprites.json<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :page_facing_up:backgrounds_sprites.json<br>
 **Example of 'backgrounds_sprites.json' file:**
 ```json
 {
@@ -576,13 +583,14 @@ Their names should also match.<br>
 And you also need to set the name of the animation from the settings file.<br>
 
 **Files location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :file_folder:Texture_data<br>
-                                        └── :file_folder:Backgrounds<br>
-                                                └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :Texture_data<br>
+                                                └── :file_folder:Backgrounds<br>
+                                                         └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
 **Example of statick background_sprite_sheet_texture_data.json file:**
 ```json
 {
@@ -605,11 +613,12 @@ You can read more about how the texture files are arranged in the «[Characters 
 
 Images must be in **jpg** format and stored in a 'Backgrounds' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:Backgrounds<br>
-                            └── :framed_picture:*.jpg **(Can be your image file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:Backgrounds<br>
+                                       └── :framed_picture:*.jpg **(Can be your image file)**<br>
 
 However, you can change the sprite's format requirement by modifying it in the code.
 
@@ -620,20 +629,21 @@ Information about localisation of standard interface in «[Text and Localization
 **Below** examples with **json`s** describes the code that needs to be changed if you want to supplement the standard menus with your own.
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Json_data<br>
-                              └── :file_folder:User_Interface<br>
-                                       ├── :page_facing_up:ui_sprites.json<br>
-                                       ├── :file_folder:UI_Buttons<br>
-                                       │       ├── :page_facing_up:ui_buttons_data.json<br>
-                                       │       └── :file_folder:Buttons_config_files<br>
-                                       │                └── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
-                                       └── :file_folder:UI_Menu_texts<br>
-                                                ├── :page_facing_up:ui_menu_text_data.json<br>
-                                                └── :file_folder:Text_config_files<br>
-                                                         └── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :file_folder:User_Interface<br>
+                                                 ├── :page_facing_up:ui_sprites.json<br>
+                                                 ├── :file_folder:UI_Buttons<br>
+                                                 │       ├── :page_facing_up:ui_buttons_data.json<br>
+                                                 │       └── :file_folder:Buttons_config_files<br>
+                                                 │                └── :page_facing_up:ui_\*\_buttons.json **(Can be your button file)**<br>
+                                                 └── :file_folder:UI_Menu_texts<br>
+                                                          ├── :page_facing_up:ui_menu_text_data.json<br>
+                                                          └── :file_folder:Text_config_files<br>
+                                                                   └── :page_facing_up:ui_\*_menu_text.json **(Can be your menu text file)**<br>
 
 **User Interface Buttons:**<br><br>
 All button configurations are initially described in the 'ui_buttons_data.json' file.<br>
@@ -682,11 +692,12 @@ If you want to add your own menus, please note that the key values are **hardcod
 Please note that the '**sprite_name**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Buttons' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:User_Interface<br>
-                            └── :file_folder:Buttons<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:User_Interface<br>
+                                       └── :file_folder:Buttons<br>
 
 The button sprite texture images must be described in the 'ui_sprites.json' file.<br>
 **Example of buttons in ui_sprites.json file:**
@@ -756,27 +767,29 @@ This file contains an array that lists the names of configuration files for all 
 Please note that the '**substrate**' key contains the name of the sprite, as the value.<br>
 Sprites must be in **png** format and stored in a 'Menu_Substrate' folder.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:User_Interface<br>
-                            └── :file_folder:Menu_Substrate<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:User_Interface<br>
+                                       └── :file_folder:Menu_Substrate<br>
 
 **Learn more about coding your own interface:**<br>
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:User_Interface<br>
-                              ├── :page_facing_up:Interface_Controller.py<br>
-                              ├── :page_facing_up:UI_Menu_Text.py<br>
-                              ├── :page_facing_up:UI_Button_Factory.py<br>
-                              ├── :file_folder:UI_Buttons<br>
-                               |       ├── :page_facing_up:UI_Base_Button.py<br>
-                               |       └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
-                              └── :file_folder:UI_Menus<br>
-                                       └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:User_Interface<br>
+                                       ├── :page_facing_up:Interface_Controller.py<br>
+                                       ├── :page_facing_up:UI_Menu_Text.py<br>
+                                       ├── :page_facing_up:UI_Button_Factory.py<br>
+                                       ├── :file_folder:UI_Buttons<br>
+                                        |       ├── :page_facing_up:UI_Base_Button.py<br>
+                                        |       └── :page_facing_up:UI_\*\_Button.py **(Can be your button file)**<br>
+                                       └── :file_folder:UI_Menus<br>
+                                                └── :page_facing_up:UI_*_menu.py **(Can be your menu file)**<br>
 
 **Buttons for new menu:**<br>
 To create new buttons, in any case, you need to update the collections of the **ButtonFactory** class from 'UI_Button_Factory.py' file.<br>
@@ -876,13 +889,14 @@ Please pay **attention** to this fact.<br>
 This means that you **cannot** use the **Tab** character in any text, names or titles.<br><br>
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Localisation<br>
-                     └── :file_folder:Main<br>
-                              ├── :page_facing_up:button_menu_localization.csv<br>
-                              ├── :page_facing_up:screenplay_localization.csv<br>
-                              └── :page_facing_up:text_menu_localization.csv<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Localisation<br>
+                              └── :file_folder:Main<br>
+                                       ├── :page_facing_up:button_menu_localization.csv<br>
+                                       ├── :page_facing_up:screenplay_localization.csv<br>
+                                       └── :page_facing_up:text_menu_localization.csv<br>
 
 **Button menu localization:**<br>
 Example:
@@ -946,8 +960,9 @@ Please note that the standard line break character "**\n**" is used here and is 
 ## The name and icon of the game window:
 In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :page_facing_up:Visual_novel_game.py
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :page_facing_up:Visual_novel_game.py
 
 **Example of app_name variable:**
 ```python
@@ -957,11 +972,12 @@ app_name: str = "Visual Novel"
 In order to change the program window icons, please replace the icon files in the '**Icons**' folder.<br>
 Icons images must be in **png** format and have the default size and titles.<br>
 **Folder location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Images<br>
-                    └── :file_folder:User_Interface<br>
-                            └── :file_folder:Icons<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Images<br>
+                              └── :file_folder:User_Interface<br>
+                                       └── :file_folder:Icons<br>
 
 ## GamePlay:
 All gameplay code is stored in the folder 'GamePlay'.<br>
@@ -969,21 +985,23 @@ If you need to program your gameplay element, add it to the constructor of class
 '**gameplay_input**' method of this class control of gameplay.
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:GamePlay<br>
-                              ├── :page_facing_up:GamePlay_Administrator.py<br>
-                              └── :page_facing_up:GamePlay_*.py **(Can be your gameplay file)**<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:GamePlay<br>
+                                       ├── :page_facing_up:GamePlay_Administrator.py<br>
+                                       └── :page_facing_up:GamePlay_*.py **(Can be your gameplay file)**<br>
 
 ## Default game settings:
 The default settings are stored in a file **'user_settings'**.<br>
 The game reads them at startup and saves them there, with the consent to change by the user, after setting.
 
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :page_facing_up:user_settings<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :page_facing_up:user_settings<br>
 
 ## Sound System:
 The **SoundDirector** class is responsible for working with sound.<br>
@@ -1001,22 +1019,23 @@ This attribute can be changed in the settings menu, or in the settings file.<br>
 Naturally, this voice acting does not have to be voice localization. But it is important to consider changes in the storage principle when enabling the option.
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            ├── :file_folder:Sounds<br>
-             |       ├── :file_folder:Effects<br>
-             |        |       └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
-             |       ├── :file_folder:Music<br>
-             |        |       └── :musical_note:\*.mp3 **(Can be your music file)**<br>
-             |       └── :file_folder:Voice<br>
-             |                ├── :musical_note:\*.mp3 **(Can be your sound file)**<br>
-             |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
-             |                        └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
-            └── :file_folder:Scripts<br>
-                     ├── :file_folder:Application_layer<br>
-                      |       └── :page_facing_up:Sound_Director.py<br>
-                     └── :file_folder:Json_data<br>
-                              └── :page_facing_up:menu_sound_settings.json
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     ├── :file_folder:Sounds<br>
+                      |       ├── :file_folder:Effects<br>
+                      |        |       └── :musical_note:\*.mp3 **(Can be your sound file)**<br>
+                      |       ├── :file_folder:Music<br>
+                      |        |       └── :musical_note:\*.mp3 **(Can be your music file)**<br>
+                      |       └── :file_folder:Voice<br>
+                      |                ├── :musical_note:\*.mp3 **(Can be your sound file)**<br>
+                      |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
+                      |                         └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
+                     └── :file_folder:Scripts<br>
+                              ├── :file_folder:Application_layer<br>
+                               |       └── :page_facing_up:Sound_Director.py<br>
+                              └── :file_folder:Json_data<br>
+                                       └── :page_facing_up:menu_sound_settings.json
 
 To install sounds and music in the menus, you need to modify the "*menu_sound_settings.json*" file.<br>
 **Example of menu sound settings.:**<br>
@@ -1055,28 +1074,28 @@ The **StageDirector** builds a scene.<br>
 **Or** the **InterfaceController** switches menu.
 
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
-   ├── :page_facing_up:Visual_novel_game.py<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     ├── :file_folder:Application_layer<br>
-                     │       ├── :page_facing_up:Game_Master.py<br>
-                     │       ├── :page_facing_up:Reactions_to_input_commands.py<br>
-                     │       ├── :page_facing_up:Settings_Keeper.py<br>
-                     │       ├── :page_facing_up:Sound_Director.py<br>
-                     │       └── :page_facing_up:Stage_Director.py<br>
-                     ├── :file_folder:Game_objects<br>
-                     │       ├── :page_facing_up:Background.py<br>
-                     │       ├── :page_facing_up:Character.py<br>
-                     │       ├── :page_facing_up:Dialogues.py<br>
-                     │       └── :page_facing_up:Scene_Validator.py<br>
-                     ├── :file_folder:GamePlay<br>
-                     │       └── :page_facing_up:GamePlay_Administrator.py<br>
-                     ├── :file_folder:Render<br>
-                     │       └── :page_facing_up:Render.py<br>
-                     └── :file_folder:User_Interface<br>
-                              ├── :page_facing_up:Interface_Controller.py<br>
-                              └── :page_facing_up:UI_Button_Factory.py<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              ├── :file_folder:Application_layer<br>
+                              │       ├── :page_facing_up:Game_Master.py<br>
+                              │       ├── :page_facing_up:Reactions_to_input_commands.py<br>
+                              │       ├── :page_facing_up:Settings_Keeper.py<br>
+                              │       ├── :page_facing_up:Sound_Director.py<br>
+                              │       └── :page_facing_up:Stage_Director.py<br>
+                              ├── :file_folder:Game_objects<br>
+                              │       ├── :page_facing_up:Background.py<br>
+                              │       ├── :page_facing_up:Character.py<br>
+                              │       ├── :page_facing_up:Dialogues.py<br>
+                              │       └── :page_facing_up:Scene_Validator.py<br>
+                              ├── :file_folder:GamePlay<br>
+                              │       └── :page_facing_up:GamePlay_Administrator.py<br>
+                              ├── :file_folder:Render<br>
+                              │       └── :page_facing_up:Render.py<br>
+                              └── :file_folder:User_Interface<br>
+                                       ├── :page_facing_up:Interface_Controller.py<br>
+                                       └── :page_facing_up:UI_Button_Factory.py<br>
 
 Please note that the name of some classes does not correspond to the files where they are contained.<br>
 But according to the meaning of the names of the given files, it is still clear where they are.
@@ -1084,19 +1103,21 @@ But according to the meaning of the names of the given files, it is still clear 
 ## Logging:
 The program creates a log file and writes messages about critical problems to it.<br>
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :page_facing_up:logg_file.txt
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :page_facing_up:logg_file.txt
 
 ## Save and Load system:
 Game saves are located in the 'Saves' folder.<br>
 The game save is a subfolder with a simple json file marked as 'save' format and a png image.<br>
 Please note that the subfolder and the save file **must have the same name**.<br>
 **Files locations:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Saves<br>
-            └── :file_folder:AutoSave<br>
-                     ├── :page_facing_up:AutoSave.save<br>
-                     └── :framed_picture:screen_preview.png<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Saves<br>
+                     └── :file_folder:AutoSave<br>
+                              ├── :page_facing_up:AutoSave.save<br>
+                              └── :framed_picture:screen_preview.png<br>
 **Example of 'AutoSave.save' file:**
 ```json
 {
@@ -1106,11 +1127,12 @@ Please note that the subfolder and the save file **must have the same name**.<br
 ```
 The **SaveKeeper** class from '**Save_Keeper.py**' file is responsible for working with saves.<br>
 **File location:**<br>
-**./**:open_file_folder:Data<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Scripts<br>
-                     └── :file_folder:Application_layer<br>
-                              └─── :page_facing_up:Save_Keeper.py<br>
+**./**:open_file_folder:Source_code<br>
+   └── :file_folder:Application<br>
+            └── :file_folder:Assets<br>
+                     └── :file_folder:Scripts<br>
+                              └── :file_folder:Application_layer<br>
+                                       └─── :page_facing_up:Save_Keeper.py<br>
 
 # What needs to be completed:
 ### Settings Menu:

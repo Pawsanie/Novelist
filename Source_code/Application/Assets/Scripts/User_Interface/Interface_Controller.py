@@ -25,11 +25,9 @@ class InterfaceController(SingletonPattern):
         self.menus_text_dict: dict = menus_text_generator()
 
         # In game user interface:
-        # "True/False" and "False" as default.
         self.gameplay_interface_hidden_status: bool = False
         self.gameplay_interface_status: bool = False
         # GamePlay type:
-        # "True/False" and "False" as default.
         self.gameplay_type_reading: bool = False
         self.gameplay_type_choice: bool = False
 
@@ -39,7 +37,6 @@ class InterfaceController(SingletonPattern):
         self.menus_collection: dict | None = None
         self.game_menu_status: bool = False
         # In game or start menu flag:
-        # "True/False" and "True" as default.
         self.start_menu_flag: bool = True
 
     def get_ui_buttons_dict(self) -> dict[str, BaseButton]:
@@ -60,7 +57,9 @@ class InterfaceController(SingletonPattern):
             menu: dict = self.menus_collection[menu_key]
             if menu['object'].status is True:
                 self.menu_name: str | None = menu_key
-                return self.buttons_dict[menu['menu_file']]
+                return self.buttons_dict[
+                    menu['menu_file']
+                ]
 
     def get_menus_text_dict(self) -> dict[str, MenuText]:
         """
@@ -70,7 +69,9 @@ class InterfaceController(SingletonPattern):
             menu: dict = self.menus_collection[menu_key]
             if menu['object'].status is True:
                 if menu['text_file'] is not None:
-                    return self.menus_text_dict[menu['text_file']]
+                    return self.menus_text_dict[
+                        menu['text_file']
+                    ]
 
     def scale(self):
         """

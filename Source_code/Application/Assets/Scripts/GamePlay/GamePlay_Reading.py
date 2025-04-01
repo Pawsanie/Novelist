@@ -98,7 +98,7 @@ class GamePlayReading(BaseMenu, SingletonPattern):
             if button_clicked[0] is True:
                 self._interface_controller.gameplay_interface_hidden_status = False
 
-    def _key_bord_gameplay_key_down(self, event):
+    def _key_bord_gameplay_key_down(self, event: Event):
         """
         Checking pressed keys.
         Runs the functions associated with the desired keys.
