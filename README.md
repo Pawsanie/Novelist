@@ -889,13 +889,14 @@ Please pay **attention** to this fact.<br>
 This means that you **cannot** use the **Tab** character in any text, names or titles.<br><br>
 
 **Files locations:**<br>
-**./**:open_file_folder:Application<br>
-   └── :file_folder:Assets<br>
-            └── :file_folder:Localisation<br>
-                     └── :file_folder:Main<br>
-                              ├── :page_facing_up:button_menu_localization.csv<br>
-                              ├── :page_facing_up:screenplay_localization.csv<br>
-                              └── :page_facing_up:text_menu_localization.csv<br>
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :Assets<br>
+                     └── :file_folder:Localisation<br>
+                              └── :file_folder:Main<br>
+                                       ├── :page_facing_up:button_menu_localization.csv<br>
+                                       ├── :page_facing_up:screenplay_localization.csv<br>
+                                       └── :page_facing_up:text_menu_localization.csv<br>
 
 **Button menu localization:**<br>
 Example:
@@ -959,8 +960,9 @@ Please note that the standard line break character "**\n**" is used here and is 
 ## The name and icon of the game window:
 In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>
 **File location:**<br>
-**./**:open_file_folder:Application<br>
-   └── :page_facing_up:Visual_novel_game.py
+**./**:open_file_folder:Source_code<br>
+   └── :open_file_folder:Application<br>
+            └── :page_facing_up:Visual_novel_game.py
 
 **Example of app_name variable:**
 ```python
