@@ -1101,7 +1101,7 @@ Please note that the name of some classes does not correspond to the files where
 But according to the meaning of the names of the given files, it is still clear where they are.
 
 ## Logging:
-The program creates a log file and writes messages about critical problems to it.<br>
+The program creates a logg file and writes messages about critical problems to it.<br>
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
    └── :file_folder:Application<br>
