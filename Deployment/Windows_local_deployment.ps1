@@ -75,7 +75,7 @@ function Execute {
         Get-Python
         & "$TargetDir\python.exe" `
             -m venv `
-            --copies $TargetDir `
+            --copies `
             $TargetDir
     }
 
