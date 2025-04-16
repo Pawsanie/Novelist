@@ -1,4 +1,5 @@
 # Novelist Engine:
+<small>Cloning without to give it a :star:? Nah, I’m not that lazy.:wink:</small>
 
 This repository contains the source code to create a Visual Novel game based on minimal edits using Python if it needed.<br/>
 And just setting up a few json files.
@@ -85,7 +86,7 @@ For convenience, this utility is equipped with shell scripts that simplify its c
    └── :file_folder:Utilities<br>
             └── :file_folder:Screenplay_parser<br>
                      ├── :file_folder:Screenplay_source<br>
-                     |        └── :page_facing_up:example_scene_config.ini<br>
+                      |       └── :page_facing_up:example_scene_config.ini<br>
                      ├── :page_facing_up:Screenplay_Source_Parser.py<br>
                      ├── :page_facing_up:ScreenplaySourceParser_execute.ps1<br>
                      └── :page_facing_up:ScreenplaySourceParser_execute.sh
