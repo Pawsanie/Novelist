@@ -11,8 +11,8 @@ $TargetDir = @(
 ) -join "\"
 $PythonExe = "$TargetDir\python-3.10.11-amd64.exe"
 
+# Checks that the required version of Python is installed.
 function Check-Python-Existence {
-    # Checks that the required version of Python is installed.
     $Instance = $false
     foreach (
     $Path in @(
@@ -29,8 +29,8 @@ function Check-Python-Existence {
     return $Instance
 }
 
+# Download Python from the official website and install it.
 function Get-Python {
-    # Download Python from the official website and install it.
     Write-Host "Getting Python from the official website..." `
         -ForegroundColor Blue
     Invoke-WebRequest `
