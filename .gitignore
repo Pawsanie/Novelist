@@ -1,6 +1,11 @@
-/Source_code/Application/logg_file.txt
-.idea
+# IDE settings:
+.idea/
 .vscode/
+
+# Artifacts settings:
 /Source_code/Application/Saves
+/Source_code/Application/logg_file.txt
+
+# Python settings:
 **/__pycache__/
 /Requirements
