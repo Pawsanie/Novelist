@@ -589,7 +589,7 @@ And you also need to set the name of the animation from the settings file.<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
                               └── :file_folder:Json_data<br>
-                                       └── :Texture_data<br>
+                                       └── :file_folder:Texture_data<br>
                                                 └── :file_folder:Backgrounds<br>
                                                          └── :page_facing_up:*.json **(Can be your sprite sheet json)**<br>
 **Example of statick background_sprite_sheet_texture_data.json file:**
