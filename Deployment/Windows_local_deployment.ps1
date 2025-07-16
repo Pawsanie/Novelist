@@ -12,7 +12,7 @@ $TargetDir = @(
 $PythonExe = "$TargetDir\python-3.10.11-amd64.exe"
 
 # Checks that the required version of Python is installed.
-function Check-Python-Existence {
+function Test-Python-Existence {
     $Instance = $false
     foreach (
     $Path in @(
@@ -65,7 +65,7 @@ function Execute {
             | Out-Null
     }
 
-    $PythonEntity = Check-Python-Existence
+    $PythonEntity = Test-Python-Existence
     if ($PythonEntity) {
         Write-Host "Creating a virtual environment from a local version of Python.3.10..." `
             -ForegroundColor Blue

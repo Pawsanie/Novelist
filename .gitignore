@@ -2,6 +2,9 @@
 .idea/
 .vscode/
 
+# macOS settings:
+.DS_Store
+
 # Artifacts settings:
 /Source_code/Application/Saves
 /Source_code/Application/logg_file.txt

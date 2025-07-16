@@ -22,7 +22,7 @@ declare -a OS_PACKEGE_MANAGERS_COMMANDS=(
   "apk add --no-cache"
   # FreeBSD:
   "pkg install -y"
-  # macOS=Darvin:
+  # macOS|Darvin:
   "brew install"
 )
 
