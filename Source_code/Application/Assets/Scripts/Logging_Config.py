@@ -8,8 +8,8 @@ Logging configuration.
 
 def logging_config(
         *,
-        logg_path: str,
-        logg_level: int
+        log_path: str,
+        log_level: int
 ):
     """
     Get logging configuration.
@@ -25,9 +25,9 @@ def logging_config(
     NOTSET - 0
     """
     basicConfig(
-        filename=logg_path,
+        filename=log_path,
         encoding='utf-8',
-        level=logg_level,
+        level=log_level,
         format='%(asctime)s - %(levelname)s:\n%(message)s',
         datefmt='%Y-%m-%d %H:%M:%S %p'
     )
@@ -35,22 +35,22 @@ def logging_config(
 
 def text_for_logging(
         *,
-        logg_text: str,
-        logg_error: Exception = None
+        log_text: str,
+        log_error: Exception = None
 ) -> str:
     """
     Wrapper for log text.
-    :param logg_text: Arbitrary text for logging.
-    :param logg_error: Custom or standard Exception object.
+    :param log_text: Arbitrary text for logging.
+    :param log_error: Custom or standard Exception object.
     """
-    if logg_error is not None:
-        logg_error: str = f"\nRaise: {repr(logg_error)}"
+    if log_error is not None:
+        log_error: str = f"\nRaise: {repr(log_error)}"
     else:
-        logg_error: str = ""
+        log_error: str = ""
     return \
         f"{'=' * 52}"\
-        f"{logg_error}"\
-        f"\n{logg_text}"\
+        f"{log_error}"\
+        f"\n{log_text}"\
         f"\n{'-' * 52}"\
         f"\n{format_exc()}"\
         f"\n{'=' * 52}\n\n"
@@ -66,8 +66,8 @@ def error_logger(function: Callable):
         except Exception as exception:
             error(
                 text_for_logging(
-                    logg_text="Raise Exception:",
-                    logg_error=exception
+                    log_text="Raise Exception:",
+                    log_error=exception
                 )
             )
         return wrapper_function

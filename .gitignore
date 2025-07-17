@@ -7,7 +7,7 @@
 
 # Artifacts settings:
 /Source_code/Application/Saves
-/Source_code/Application/logg_file.txt
+/Source_code/Application/log_file.txt
 
 # Python settings:
 **/__pycache__/

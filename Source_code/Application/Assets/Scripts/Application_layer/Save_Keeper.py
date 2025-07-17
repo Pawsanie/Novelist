@@ -484,11 +484,11 @@ class SaveKeeper(SingletonPattern):
                     corrupted_data: Exception = corrupted_data_error
                 error(
                     text_for_logging(
-                        logg_text=
+                        log_text=
                         f"SaveKeeper Exception in 'continue_game' method:"
                         f"\n{'-' * 30}"
                         f"\nSaves list: \n{corrupted_data}",
-                        logg_error=exception
+                        log_error=exception
                     )
                 )
                 return False
@@ -549,7 +549,7 @@ class SaveKeeper(SingletonPattern):
                         save_data: Exception = save_data_error
                     error(
                         text_for_logging(
-                            logg_text=
+                            log_text=
                                 f"SaveKeeper Exception in 'saves_read' method:"
                                 f"\nIssue with: {repr(exception)}"
                                 f"\n{'-'*30}"
@@ -557,7 +557,7 @@ class SaveKeeper(SingletonPattern):
                                 f"\n{'-'*30}"
                                 f"\nFile data:"
                                 f"\n{save_data}",
-                            logg_error=exception
+                            log_error=exception
                         )
                     )
 
