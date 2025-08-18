@@ -12,3 +12,6 @@
 # Python settings:
 **/__pycache__/
 /Requirements
+
+# Logs settings:
+log_file.txt
