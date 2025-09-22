@@ -2,7 +2,7 @@ from pygame import font, Surface
 
 from ..Universal_computing.Assets_load import AssetLoader
 from .Background import Background
-from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..Core.Settings_Keeper import SettingsKeeper
 from ..User_Interface.UI_Text_Canvas import TextCanvas
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Render.Texture_Master import TexturesMaster

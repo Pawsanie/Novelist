@@ -271,15 +271,15 @@ And enter the password when requested if necessary.
 # Visual Novel game application source code:
 
 ## How to run the application:
-To run the application, you need to run the 'Visual_novel_game.py' script with your shell.<br>
+To run the application, you need to run the 'main.py' script with your shell.<br>
 **Example of shell command:**<br>
 ```shell
-python -B Visual_novel_game.py
+python -B main.py
 ```
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
    └── :file_folder:Application<br>
-            └── :page_facing_up:Visual_novel_game.py
+            └── :page_facing_up:main.py
 
 
 ## Settings of scenes:
@@ -959,11 +959,11 @@ Example:
 Please note that the standard line break character "**\n**" is used here and is written together between lines.
 
 ## The name and icon of the game window:
-In order to change the program name, you need to change the value of the variable '**app_name**' in 'Visual_novel_game.py'.<br>
+In order to change the program name, you need to change the value of the variable '**app_name**' in 'main.py'.<br>
 **File location:**<br>
 **./**:open_file_folder:Source_code<br>
    └── :file_folder:Application<br>
-            └── :page_facing_up:Visual_novel_game.py
+            └── :page_facing_up:main.py
 
 **Example of app_name variable:**
 ```python
@@ -1033,7 +1033,7 @@ Naturally, this voice acting does not have to be voice localization. But it is i
                       |                └── :file_folder:eng **(Optional!!!: Can be your localization folder)**<br>
                       |                         └── :musical_note:\*.mp3 **(Optional!!!:Can be your sound file)**<br>
                      └── :file_folder:Scripts<br>
-                              ├── :file_folder:Application_layer<br>
+                              ├── :file_folder:Core<br>
                                |       └── :page_facing_up:Sound_Director.py<br>
                               └── :file_folder:Json_data<br>
                                        └── :page_facing_up:menu_sound_settings.json
@@ -1053,7 +1053,7 @@ If you add a sound effect, it will only play once.
 
 ## How the program works:
 
-'Visual_novel_game.py' initializes game and call 'GameMaster' class.<br>
+'main.py' initializes game and call 'GameMaster' class.<br>
 During the initiation process, the script creates the '**SettingsKeeper**' object that is responsible for the game settings.<br>
 The **GameMaster** class control game loop and generates lower-level entities that control the gameplay.<br>
 * **StageDirector** - Controls the actions on the stage.<br>
@@ -1079,7 +1079,7 @@ The **StageDirector** builds a scene.<br>
    └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
-                              ├── :file_folder:Application_layer<br>
+                              ├── :file_folder:Core<br>
                               │       ├── :page_facing_up:Game_Master.py<br>
                               │       ├── :page_facing_up:Reactions_to_input_commands.py<br>
                               │       ├── :page_facing_up:Settings_Keeper.py<br>
@@ -1132,7 +1132,7 @@ The **SaveKeeper** class from '**Save_Keeper.py**' file is responsible for worki
    └── :file_folder:Application<br>
             └── :file_folder:Assets<br>
                      └── :file_folder:Scripts<br>
-                              └── :file_folder:Application_layer<br>
+                              └── :file_folder:Core<br>
                                        └─── :page_facing_up:Save_Keeper.py<br>
 
 # What needs to be completed:

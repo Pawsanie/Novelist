@@ -3,8 +3,8 @@ from logging import critical
 from pygame import display
 
 from Assets.Scripts.Universal_computing.Assets_load import AssetLoader
-from Assets.Scripts.Application_layer.Settings_Keeper import SettingsKeeper
-from Assets.Scripts.Application_layer.Game_Master import GameMaster
+from Assets.Scripts.Core.Settings_Keeper import SettingsKeeper
+from Assets.Scripts.Core.Game_Master import GameMaster
 from Assets.Scripts.Logging_Config import logging_config, text_for_logging
 """
 Contains app shell code.

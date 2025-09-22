@@ -1,7 +1,7 @@
 from pygame import Surface
 
 from ..Game_objects.Background import Background
-from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..Core.Settings_Keeper import SettingsKeeper
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Render.Sprite import Sprite
 """

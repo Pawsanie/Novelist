@@ -1,6 +1,6 @@
 from pygame.event import Event
 
-from ...Application_layer.Settings_Keeper import SettingsKeeper
+from ...Core.Settings_Keeper import SettingsKeeper
 from ..UI_Base_menu import BaseMenu
 from ...Universal_computing.Pattern_Singleton import SingletonPattern
 # Lazy import:

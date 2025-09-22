@@ -42,7 +42,7 @@ class SaveKeeper(SingletonPattern):
         script_root_path: str = abspath(__file__).replace(
             join(
                 *[
-                    'Assets', 'Scripts', 'Application_layer', 'Save_Keeper.py'
+                    'Assets', 'Scripts', 'Core', 'Save_Keeper.py'
                 ]
             ),
             ''

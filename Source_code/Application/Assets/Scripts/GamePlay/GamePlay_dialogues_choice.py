@@ -1,6 +1,6 @@
 from pygame.event import Event
 
-from ..Application_layer.Stage_Director import StageDirector
+from ..Core.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Buttons.UI_GamePlay_Choice_Button import GamePlayChoiceButton
 from ..Universal_computing.Assets_load import AssetLoader

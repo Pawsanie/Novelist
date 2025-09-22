@@ -7,7 +7,7 @@ from ..Game_objects.Dialogues import DialogueKeeper, DialoguesWords
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from .Settings_Keeper import SettingsKeeper
 from ..Game_objects.Character import Character
-from ..Application_layer.Sound_Director import SoundDirector
+from ..Core.Sound_Director import SoundDirector
 # Lazy import:
 # from ..Render.Batch import Batch
 """

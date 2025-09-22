@@ -2,7 +2,7 @@ from pygame.event import Event
 
 from .Interface_Controller import InterfaceController
 from ..GamePlay.Scene_Validator import SceneValidator
-from ..Application_layer.State_Machine import StateMachine
+from ..Core.State_Machine import StateMachine
 """
 Contains code for User Interface Master Class.
 """

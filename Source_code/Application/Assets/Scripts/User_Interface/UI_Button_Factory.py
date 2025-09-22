@@ -1,6 +1,6 @@
 from ..Universal_computing.Pattern_Singleton import SingletonPattern
 from ..Universal_computing.Assets_load import AssetLoader
-from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..Core.Settings_Keeper import SettingsKeeper
 from .UI_Buttons.UI_Base_Button import BaseButton
 from .UI_Buttons.UI_Yes_No_Button import YesNoButton
 from .UI_Buttons.UI_Long_Button import LongButton
