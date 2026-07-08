@@ -5,7 +5,7 @@ from pygame.event import Event
 
 from ...Universal_computing.Assets_load import AssetLoader
 from ...Game_objects.Background import Background
-from ...Application_layer.Settings_Keeper import SettingsKeeper
+from ...Core.Settings_Keeper import SettingsKeeper
 from ...Render.Sprite import Sprite
 from ...Render.Texture_Master import TexturesMaster
 """

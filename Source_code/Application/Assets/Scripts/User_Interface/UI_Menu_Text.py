@@ -1,7 +1,7 @@
 from pygame import Surface, font, SRCALPHA, transform
 
 from ..Universal_computing.Assets_load import AssetLoader
-from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..Core.Settings_Keeper import SettingsKeeper
 from ..Game_objects.Background import Background
 from ..Render.Texture_Master import TexturesMaster
 from ..Render.Sprite import Sprite

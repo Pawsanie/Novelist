@@ -3,8 +3,8 @@ from logging import critical
 from pygame import display
 
 from Assets.Scripts.Universal_computing.Assets_load import AssetLoader
-from Assets.Scripts.Application_layer.Settings_Keeper import SettingsKeeper
-from Assets.Scripts.Application_layer.Game_Master import GameMaster
+from Assets.Scripts.Core.Settings_Keeper import SettingsKeeper
+from Assets.Scripts.Core.Game_Master import GameMaster
 from Assets.Scripts.Logging_Config import logging_config, text_for_logging
 """
 Contains app shell code.
@@ -43,16 +43,16 @@ def run():
 
 if __name__ == '__main__':
     logging_config(
-        logg_path="logg_file.txt",
-        logg_level=30
+        log_path="log_file.txt",
+        log_level=30
     )
     try:
         run()
     except Exception as error:
         critical(
             text_for_logging(
-                logg_text="The program launch ended with an error!",
-                logg_error=error
+                log_text="The program launch ended with an error!",
+                log_error=error
             )
         )
         raise error

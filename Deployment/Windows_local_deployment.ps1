@@ -11,8 +11,8 @@ $TargetDir = @(
 ) -join "\"
 $PythonExe = "$TargetDir\python-3.10.11-amd64.exe"
 
-function Check-Python-Existence {
-    # Checks that the required version of Python is installed.
+# Checks that the required version of Python is installed.
+function Test-Python-Existence {
     $Instance = $false
     foreach (
     $Path in @(
@@ -29,8 +29,8 @@ function Check-Python-Existence {
     return $Instance
 }
 
+# Download Python from the official website and install it.
 function Get-Python {
-    # Download Python from the official website and install it.
     Write-Host "Getting Python from the official website..." `
         -ForegroundColor Blue
     Invoke-WebRequest `
@@ -65,7 +65,7 @@ function Execute {
             | Out-Null
     }
 
-    $PythonEntity = Check-Python-Existence
+    $PythonEntity = Test-Python-Existence
     if ($PythonEntity) {
         Write-Host "Creating a virtual environment from a local version of Python.3.10..." `
             -ForegroundColor Blue
@@ -75,7 +75,7 @@ function Execute {
         Get-Python
         & "$TargetDir\python.exe" `
             -m venv `
-            --copies $TargetDir `
+            --copies `
             $TargetDir
     }
 

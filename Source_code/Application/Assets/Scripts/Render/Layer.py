@@ -1,6 +1,6 @@
 from pygame import Surface, SRCALPHA
 
-from ..Application_layer.Settings_Keeper import SettingsKeeper
+from ..Core.Settings_Keeper import SettingsKeeper
 from ..Render.Sprite import Sprite
 """
 Contains code for Layers.
