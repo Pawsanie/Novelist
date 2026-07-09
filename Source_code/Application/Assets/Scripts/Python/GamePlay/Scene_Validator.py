@@ -18,7 +18,7 @@ class SceneValidator(SingletonPattern):
         # Screenplay loading:
         self._screenplay: dict = self._asset_loader.json_load(
             path_list=[
-                'Scripts', 'Json_data', 'screenplay'
+                'Scripts', 'Json', 'screenplay'
             ]
         )
 

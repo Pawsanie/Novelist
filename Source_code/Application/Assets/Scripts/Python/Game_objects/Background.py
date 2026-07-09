@@ -32,7 +32,7 @@ class Background(SingletonPattern):
         # Background settings:
         self._all_backgrounds_sprites_settings: dict = self._asset_loader.json_load(
             [
-                "Scripts", "Json_data", "backgrounds_sprites"
+                "Scripts", "Json", "backgrounds_sprites"
             ]
         )
         for background_name in self._all_backgrounds_sprites_settings:
@@ -40,7 +40,11 @@ class Background(SingletonPattern):
                 {
                     "sprite_sheet_configuration": self._texture_master.get_texture_configs_data(
                         texture_type="Backgrounds",
-                        texture_name=self._all_backgrounds_sprites_settings[background_name]["texture"]
+                        texture_name=self._all_backgrounds_sprites_settings[
+                            background_name
+                        ][
+                            "texture"
+                        ]
                     ),
                     "texture_type": "Backgrounds"
                 }
@@ -56,7 +60,11 @@ class Background(SingletonPattern):
             self._sprite: Sprite = Sprite(
                 coordinates=self._background_coordinates,
                 name=self._background_name,
-                texture_mame=self._all_backgrounds_sprites_settings[self._background_name]["texture"],
+                texture_mame=self._all_backgrounds_sprites_settings[
+                    self._background_name
+                ][
+                    "texture"
+                ],
                 sprite_sheet_data=self._all_backgrounds_sprites_settings[
                     self._background_name
                 ]["sprite_sheet_configuration"] | {
@@ -83,7 +91,11 @@ class Background(SingletonPattern):
         Call from StageDirector.
         """
         background_texture_size: tuple[int, int] = self._texture_master.get_texture_size(
-            texture_name=self._all_backgrounds_sprites_settings[self._background_name]["texture"],
+            texture_name=self._all_backgrounds_sprites_settings[
+                self._background_name
+            ][
+                "texture"
+            ],
             texture_type="Backgrounds",
             animation_name=self._sprite.get_animation_name(),
             frame=self._sprite.get_frame_number()
@@ -114,7 +126,11 @@ class Background(SingletonPattern):
         self._sprite.scale(self._background_size)
 
         self._texture_master.set_new_scale_frame(
-            texture_name=self._all_backgrounds_sprites_settings[self._background_name]['texture'],
+            texture_name=self._all_backgrounds_sprites_settings[
+                self._background_name
+            ][
+                'texture'
+            ],
             texture_type="Backgrounds",
             animation_name=self._sprite.get_animation_name(),
             frame=self._sprite.get_frame_number(),

@@ -193,7 +193,9 @@ class MenuText:
         """
         if self._localisation_menu_text is not None:
             self._language_flag: str = self._settings_keeper.get_text_language()
-            self._menu_text: str = self._localisation_menu_text[self._language_flag]
+            self._menu_text: str = self._localisation_menu_text[
+                self._language_flag
+            ]
 
     def _text_render(self) -> Surface:
         """
@@ -243,7 +245,11 @@ class MenuText:
                                 (menu_text_surface_height // 2)
                                 - (text_surface.get_height() // 2)
                          )
-                        - ((text_surface.get_height() // 2) * (index - 1) * 2)
+                        - (
+                                (text_surface.get_height() // 2)
+                                * (index - 1)
+                                * 2
+                        )
                 )
                 * self._menu_text_coordinates_y
             )
@@ -302,7 +308,7 @@ def menus_text_generator() -> dict[str, dict[str]]:
     # Menu`s text files instructions:
     ui_menus_text_files: dict[str, str] = asset_loader.json_load(
         [
-            'Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', 'ui_menu_text_data'
+            'Scripts', 'Json', 'User_Interface', 'UI_Menu_texts', 'ui_menu_text_data'
         ]
     )
 
@@ -335,7 +341,7 @@ def menus_text_generator() -> dict[str, dict[str]]:
     for file_name in ui_menus_text_files:
         ui_menus_texts_json: dict[str, str | int | dict] = asset_loader.json_load(
             [
-                'Scripts', 'Json_data', 'User_Interface', 'UI_Menu_texts', "Text_config_files", file_name
+                'Scripts', 'Json', 'User_Interface', 'UI_Menu_texts', "Text_config_files", file_name
             ]
         )
         ui_menus_texts: dict = {}

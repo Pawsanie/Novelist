@@ -267,7 +267,7 @@ def characters_generator() -> dict[str, Character]:
     characters_list: dict = asset_loader.json_load(
         [
             'Scripts',
-            'Json_data',
+            'Json',
             'characters_sprites'
         ]
     )
@@ -277,7 +277,7 @@ def characters_generator() -> dict[str, Character]:
         sprite_sheet_data: dict = asset_loader.json_load(
             [
                 'Scripts',
-                'Json_data',
+                'Json',
                 'Texture_data',
                 'Characters',
                 character["texture"]

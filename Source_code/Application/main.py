@@ -2,10 +2,10 @@ from logging import critical
 
 from pygame import display
 
-from Assets.Scripts.Universal_computing.Assets_load import AssetLoader
-from Assets.Scripts.Core.Settings_Keeper import SettingsKeeper
-from Assets.Scripts.Core.Game_Master import GameMaster
-from Assets.Scripts.Logging_Config import logging_config, text_for_logging
+from Source_code.Application.Assets.Scripts.Python.Universal_computing.Assets_load import AssetLoader
+from Source_code.Application.Assets.Scripts.Python.Core.Settings_Keeper import SettingsKeeper
+from Source_code.Application.Assets.Scripts.Python.Core.Game_Master import GameMaster
+from Source_code.Application.Assets.Scripts.Python.Logging_Config import logging_config, text_for_logging
 """
 Contains app shell code.
 """
@@ -37,8 +37,7 @@ def run():
         )
     )
     # Start game:
-    gameplay: GameMaster = GameMaster()
-    gameplay()
+    GameMaster()()
 
 
 if __name__ == '__main__':

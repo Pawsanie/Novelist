@@ -19,7 +19,7 @@ class SettingsKeeper(SingletonPattern):
         script_root_path: str = abspath(__file__).replace(
             join(
                 *[
-                    'Scripts', 'Core', 'Settings_Keeper.py'
+                    'Scripts', 'Python', 'Core', 'Settings_Keeper.py'
                 ]
             ),
             ''

@@ -118,7 +118,7 @@ def button_generator() -> dict[str, dict[str, BaseButton]]:
     ui_buttons_files: tuple[str] = tuple(
         asset_loader.json_load(
             [
-                'Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', 'ui_buttons_data'
+                'Scripts', 'Json', 'User_Interface', 'UI_Buttons', 'ui_buttons_data'
             ]
         )
     )
@@ -151,7 +151,7 @@ def button_generator() -> dict[str, dict[str, BaseButton]]:
     for file_name in ui_buttons_files:
         ui_buttons_json: dict[str, str | int | dict] = asset_loader.json_load(
             [
-                'Scripts', 'Json_data', 'User_Interface', 'UI_Buttons', "Buttons_config_files", file_name
+                'Scripts', 'Json', 'User_Interface', 'UI_Buttons', "Buttons_config_files", file_name
             ]
         )
         ui_buttons: dict = {}

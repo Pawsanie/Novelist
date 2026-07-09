@@ -17,7 +17,7 @@ class AssetLoader(SingletonPattern):
     def __init__(self):
         # Root path attributes:
         self.__replace_path_list = [
-            'Scripts', 'Universal_computing', 'Assets_load.py'
+            'Scripts', 'Python', 'Universal_computing', 'Assets_load.py'
         ]
         self.__root_path: str = f"{abspath(__file__).replace(join(*self.__replace_path_list), '')}"
 

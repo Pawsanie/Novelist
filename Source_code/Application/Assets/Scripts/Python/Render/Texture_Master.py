@@ -41,7 +41,11 @@ class TexturesMaster(SingletonPattern):
         :param texture_name: Name of texture which data you want to get.
         :param texture_type: Type of texture which data you want to get.
         """
-        return self._texture_configs_catalog[texture_type][texture_name]
+        return self._texture_configs_catalog[
+            texture_type
+        ][
+            texture_name
+        ]
 
     def __initialisation(self):
         """
@@ -69,7 +73,9 @@ class TexturesMaster(SingletonPattern):
             )
             for key, value in dict_to_copy.items()
         }
-        self._texture_catalog: dict = deep_copy_surfaces(self._raw_textures_catalog)
+        self._texture_catalog: dict = deep_copy_surfaces(
+            self._raw_textures_catalog
+        )
 
     def _collect_raw_ui_images(self):
         """
@@ -77,7 +83,7 @@ class TexturesMaster(SingletonPattern):
         """
         raw_ui_data: dict = self._asset_loader.json_load(
             [
-                "Scripts", "Json_data", "User_Interface", "ui_sprites"
+                "Scripts", "Json", "User_Interface", "ui_sprites"
             ]
         )
         for catalog_name in raw_ui_data:
@@ -263,7 +269,7 @@ class TexturesMaster(SingletonPattern):
             sprite_configs_names_collection: list = []
             sprites_raw_data: dict = self._asset_loader.json_load(
                 [
-                    "Scripts", "Json_data", game_play_texture_config_file,
+                    "Scripts", "Json", game_play_texture_config_file,
                 ]
             )
 
@@ -276,7 +282,7 @@ class TexturesMaster(SingletonPattern):
             for config_name in sprite_configs_names_collection:
                 config_data: dict = self._asset_loader.json_load(
                     [
-                        "Scripts", "Json_data", "Texture_data", texture_source_folder, config_name
+                        "Scripts", "Json", "Texture_data", texture_source_folder, config_name
                     ]
                 )
                 self._texture_configs_catalog[texture_source_folder].update(
@@ -375,7 +381,13 @@ class TexturesMaster(SingletonPattern):
                             {
                                 animation: __get_frames(
                                     texture_type_name=texture_type,
-                                    frames=texture_data["animations"][animation]["frames"]
+                                    frames=texture_data[
+                                        "animations"
+                                    ][
+                                        animation
+                                    ][
+                                        "frames"
+                                    ]
                                 )
                             }
                         )
