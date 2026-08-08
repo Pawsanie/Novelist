@@ -21,7 +21,8 @@ In addition, writing your own game, almost from scratch, is quite interesting.
 ## Contents:
 ### Required:
 Contains information about dependencies and how to install them.
-* [Required](#Required)
+* [Dependencies](#Dependencies)
+* [Required Packages](#Required-Packages)
 
 ### Novelist console utilities:
 This section describes step by step how to create a game using the engine, at the level of console utilities.<br>
@@ -52,7 +53,7 @@ This section contains information on solving typical problems and plans for furt
 ___
 <br>
 
-## Required:
+## Dependencies:
 The application code is written in python and obviously depends on it.<br>
 **Python** version 3.6 [Python Software Foundation License / (with) Zero-Clause BSD license (after 3.8.6 version Python)]:
 * :octocat:[Python GitHub](https://github.com/python)
