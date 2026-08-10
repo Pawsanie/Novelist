@@ -3,7 +3,7 @@ name: Auto Accumulate Pull Request
 on:
   push:
     branches:
-      - Refactoring
+      - refactoring
 
 permissions:
   contents: read
