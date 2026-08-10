@@ -1,0 +1,79 @@
+name: Auto Accumulate Pull Request
+
+on:
+  push:
+    branches:
+      - Refactoring
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-or-update-pr:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Create Pull Request if needed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEWER_NAME: ${{ github.repository_owner }}
+          TARGET_BRANCH: ${{ github.ref_name }}
+          REPOSITORY_NAME: ${{ github.repository }}
+        run: |
+          FILES_DELTA=$( \
+            gh api \
+              --paginate \
+              "repos/$REPOSITORY_NAME/compare/master...$TARGET_BRANCH" \
+              --jq '.files[].filename' \
+              | sed 's/^/- /' \
+          )
+          
+          PR=$( \
+            gh pr list \
+              --repo "$REPOSITORY_NAME" \
+              --base master \
+              --head "$TARGET_BRANCH" \
+              --state open \
+              --json number \
+              --jq '.[0].number' \
+          )
+          
+          if [ -z "$FILES_DELTA" ]; then
+            if [ -n "$PR" ]; then
+              gh pr edit "$PR" \
+                --repo "$REPOSITORY_NAME" \
+                --body "$( \
+                    printf '%s\n\n%s\n' \
+                    '## Changed files' \
+                    "No changes between master and $TARGET_BRANCH" \
+              )"
+            fi
+            echo "No changes between master and $TARGET_BRANCH"
+            exit 0
+          fi
+          
+          BODY=$( \
+                printf '%s\n\n%s\n' \
+                '## Changed files' \
+                "$FILES_DELTA" \
+          )
+
+          if [ -n "$PR" ]; then
+            echo "Pull Request #$PR already exists"
+            gh pr edit "$PR" \
+            --repo "$REPOSITORY_NAME" \
+            --body "$BODY"
+            echo "The changelog has been updated."
+          
+          else
+            gh pr create \
+              --repo "$REPOSITORY_NAME" \
+              --base master \
+              --head "$TARGET_BRANCH" \
+              --title "$TARGET_BRANCH" \
+              --body "$BODY" \
+              --reviewer "$REVIEWER_NAME"
+            echo "A new Pull Request has been created."
+          
+          fi
