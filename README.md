@@ -11,7 +11,7 @@ As well as not wanting to learn RenPy scripting language.
 In addition, writing your own game, almost from scratch, is quite interesting.
 
 :warning:Please note that some non-game features are not fully implemented.:warning:<br>
-:wink:Cloning without to give it a :star:? Nah, I’m not that lazy.:wink:
+:wink:Cloning without giving it a :star:? Nah, I’m not that lazy.:wink:
 
 ## Disclaimer:
 :warning:**Using** some or all of the elements of this code, **You** assume **responsibility for any consequences!**<br>
