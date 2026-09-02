@@ -86,7 +86,7 @@ function Get-Python {
 Runs aaplication requirements deployment pipeline.
 #>
 function Main {
-    
+
     if (
         !(Test-Path $TargetDir)
     ) {
@@ -153,7 +153,7 @@ function Main {
         if (Test-Path $PythonExe) {
 
              Write-Host `
-                 "Removing the installation python.exe file..." `
+                "Removing the installation python.exe file..." `
                 -ForegroundColor Blue
 
              Remove-Item $PythonExe
