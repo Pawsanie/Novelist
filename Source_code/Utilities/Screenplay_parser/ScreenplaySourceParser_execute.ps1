@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+#requires -Version 5.1
 # Run Screenplay parser with shell PowerShell.
 # Can get string argument with absolute path to scene configs folder.
 # If have no arguments try to parse "ScreenPlay_source" folder`s files.
@@ -9,9 +11,14 @@ param (
 
 # Create task:
 if ($source_path) {
+
     $parser_task = "python3 -B -m $PSScriptRoot\Screenplay_Source_Parser.py $source_path"
-} else {
+
+}
+else {
+
     $parser_task = "python3 -B -m $PSScriptRoot\Screenplay_Source_Parser.py"
+
 }
 
 # Execute:
