@@ -98,9 +98,9 @@ function Main {
 
     }
 
-    $PythonEntity = Test-Python-Existence
-
-    if ($PythonEntity) {
+    if (
+        $PythonEntity = Test-Python-Existence
+    ) {
 
         Write-Host `
             "Creating a virtual environment from a local version of Python.3.10..." `
