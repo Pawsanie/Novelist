@@ -86,6 +86,7 @@ function Get-Python {
 Runs aaplication requirements deployment pipeline.
 #>
 function Main {
+    
     if (
         !(Test-Path $TargetDir)
     ) {
