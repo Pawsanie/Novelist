@@ -171,28 +171,29 @@ function Install-Python {
     ) {
 
         Write-Host `
-            "Creating a virtual environment from a local version of Python.$PythonVersionShort..." `
+            "Creating a virtual environment from a local version of Python.$PythonVersionShort...`n" `
+            "Base Path: $PythonEntity`n" `
+            "Venv Path: $TargetDir\Scripts\python.exe" `
             -ForegroundColor Blue
 
         & $PythonEntity `
-            -m venv $TargetDir
+            -m venv `
+            --copies `
+            $TargetDir
 
     }
     else {
 
         Get-Python
 
-    }
-
-    try {
-
         $Success = $true
 
-        Write-Host `
-            "Creating a Python virtual environment..." `
-            -ForegroundColor Blue
-
         try {
+
+            Write-Host `
+            "Creating a Python virtual environment..." `
+            "Venv Path: $TargetDir\Scripts\python.exe" `
+            -ForegroundColor Blue
 
             & "$TargetDir\python.exe" `
                 -m venv `
@@ -202,38 +203,45 @@ function Install-Python {
         }
         catch {
 
-            & "$TargetDir\Scripts\python.exe" `
-            -m venv `
-            --copies `
-            $TargetDir
+            $Success = $false
+
+            Write-Host `
+                "An error occurred during deployment...`n" `
+                "It looks like you already had Python $PythonVersionFull installed and uninstalled incorrectly.`n" `
+                "Try restoring the version from the installation file:`n" `
+                "$TargetDir\python-$PythonVersionFull-amd64.exe`n" `
+                "After that, re-run this script to complete the local deployment." `
+                -ForegroundColor Red
 
         }
+
+    }
+
+    if (
+        $PythonEntity `
+        -or $Success
+    ) {
 
         Write-Host `
             "Get Python requirements libs..." `
             -ForegroundColor Blue
 
-        & "$TargetDir\Scripts\python.exe" `
+        # Base:
+        & "$TargetDir\python.exe" `
             -m pip install `
             -r "$ScriptDir\requirements.txt" `
+            2>$null `
             | Out-Null
 
-    }
-    catch {
+        # Venv:
+        if ($LASTEXITCODE -ne 0) {
 
-        $Success = $false
+            & "$TargetDir\Scripts\python.exe" `
+                -m pip install `
+                -r "$ScriptDir\requirements.txt" `
+                | Out-Null
 
-        Write-Host `
-            "An error occurred during deployment...`n" `
-            "It looks like you already had Python $PythonVersionFull installed and uninstalled incorrectly.`n" `
-            "Try restoring the version from the installation file:`n" `
-            "$TargetDir\python-$PythonVersionFull-amd64.exe`n" `
-            "After that, re-run this script to complete the local deployment." `
-            -ForegroundColor Red
-
-    }
-
-    if ($Success) {
+        }
 
         if (
             (Test-Path $PythonExe)
