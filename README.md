@@ -55,7 +55,7 @@ ___
 
 ## Dependencies:
 The application code is written in python and obviously depends on it.<br>
-**Python** version 3.6 [Python Software Foundation License / (with) Zero-Clause BSD license (after 3.8.6 version Python)]:
+**Python** version 3.13 [Python Software Foundation License / (with) Zero-Clause BSD license (after 3.8.6 version Python)]:
 * :octocat:[Python GitHub](https://github.com/python)
 * :bookmark_tabs:[Python internet page](https://www.python.org/)
 
