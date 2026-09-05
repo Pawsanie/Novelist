@@ -191,7 +191,7 @@ function Install-Python {
         try {
 
             Write-Host `
-            "Creating a Python virtual environment..." `
+            "Creating a Python virtual environment...`n" `
             "Venv Path: $TargetDir\Scripts\python.exe" `
             -ForegroundColor Blue
 
