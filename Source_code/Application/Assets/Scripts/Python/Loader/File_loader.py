@@ -90,11 +90,23 @@ class FileLoader(SingletonPattern):
         """
         Load csv table file from file system.
         :param path: list with strings of folders names and file name without file format.
+                     Or path to file without root path as string.
         """
         return csv_load_internal(
-            f"{self.__root_path}"
-            f"{join(*["Localisation", *path])}"
-            f".{self.__table_format}"
+            f"{
+                self.__root_path
+            }{
+                join(
+                    *[
+                        "Localisation", 
+                        self._convert_path(
+                            path
+                        )
+                    ]
+                )
+            }.{
+                self.__table_format
+            }"
         )
 
     def image_load(
@@ -110,7 +122,7 @@ class FileLoader(SingletonPattern):
         """
         return load_texture(
             path=f"{
-                self.__root_path
+                    self.__root_path
                 }{
                     join(
                         *[
