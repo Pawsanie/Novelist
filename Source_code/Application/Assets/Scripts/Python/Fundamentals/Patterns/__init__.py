@@ -1,0 +1,2 @@
+from .Pattern_Singleton import SingletonPattern
+from .Pattern_State_Machine import StateMachinePattern
