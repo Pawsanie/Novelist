@@ -46,7 +46,7 @@ def apply_texture(
     Attach texture Surface to another Surface.
     :param texture: Pygame Surface object with texture.
     :param surface: Pygame Surface object for texture render.,
-    :param coordinates: Coordinates on the Surface from which the texture should be rendered in pixels.
+    :param coordinates: The x/y coordinates on the Surface from which the texture should be rendered in pixels.
                         (0, 0) ┌────────────────→ X
                                │
                                │   ┌──────────┐

@@ -54,7 +54,7 @@ def render_on_window(
     Attach low-level Surface to Window Surface.
     :param window: Screen Pygame display Surface object.
     :param surface: Pygame Surface object.
-    :param coordinates: The coordinates at which the Surface is to be drawn on the Window in pixels.
+    :param coordinates: The x/y coordinates at which the Surface is to be drawn on the Window in pixels.
                         (0, 0) ┌────────────────→ X
                                │
                                │   ┌──────────┐
