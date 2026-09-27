@@ -30,7 +30,10 @@ def get_size(surface: Surface) -> [int, int]:
     Calculation low-level Pygame Surface x/y size.
     :param surface: Pygame Surface object.
     """
-    return surface.get_width(), surface.get_height()
+    return (
+        surface.get_width(),
+        surface.get_height()
+    )
 
 
 def apply_texture(
