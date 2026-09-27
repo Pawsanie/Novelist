@@ -76,3 +76,10 @@ def screen_flip():
     Flip low-level window and render new image.
     """
     display.update()
+
+
+def get_window_size() -> tuple[int, int]:
+    """
+    Get Window size in pixels.
+    """
+    return display.get_window_size()
