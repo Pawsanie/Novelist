@@ -1,0 +1,78 @@
+from pygame import Surface, display, FULLSCREEN, RESIZABLE
+"""
+Contains code responsible for Window wrapper.
+"""
+
+
+def create_window(
+        *,
+        width: int,
+        height: int,
+        full_screen: bool = True
+) -> Surface:
+    """
+    Create low-level Pygame Window Surface.
+    :param width: Window width in pixels.
+    :param height: Window height in pixels.
+    :param full_screen: Should the window fill the entire screen or be resizable?
+    """
+    def set_window_settings(
+            constant: FULLSCREEN | RESIZABLE
+    ) -> Surface:
+        return display.set_mode(
+            (width, height),
+            constant
+        )
+
+    return set_window_settings(
+        constant=\
+        FULLSCREEN if full_screen
+        else RESIZABLE
+    )
+
+
+def screen_clear(window: Surface):
+    """
+    Clear low-level Window.
+    """
+    window.fill(
+        (
+            0,  # R
+            0,  # G
+            0  # B
+        )
+    )
+
+
+def render_on_window(
+        *,
+        window: Surface,
+        surface: Surface,
+        coordinates: tuple[int, int] = (0, 0)
+):
+    """
+    Attach low-level Surface to Window Surface.
+    :param window: Screen Pygame display Surface object.
+    :param surface: Pygame Surface object.
+    :param coordinates: The coordinates at which the Surface is to be drawn on the Window in pixels.
+                        (0, 0) ┌────────────────→ X
+                               │
+                               │   ┌──────────┐
+                               │   │          │
+                               │   │          │
+                               │   └──────────┘
+                               │
+                               ↓
+                               Y
+    """
+    window.blit(
+        source=surface,
+        dest=coordinates
+    )
+
+
+def screen_flip():
+    """
+    Flip low-level window and render new image.
+    """
+    display.update()

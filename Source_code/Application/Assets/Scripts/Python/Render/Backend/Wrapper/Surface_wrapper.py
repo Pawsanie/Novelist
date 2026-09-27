@@ -68,7 +68,7 @@ def scale_surface(
         surface: Surface,
         size: tuple[int, int],
         fast: bool = False
-):
+) -> Surface:
     """
     Scale Surface to x/y size in pixels.
     :param surface: Pygame Surface object.
