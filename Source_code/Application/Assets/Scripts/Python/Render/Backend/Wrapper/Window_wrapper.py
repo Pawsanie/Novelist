@@ -66,7 +66,7 @@ def screen_clear(window: Surface):
     )
 
 
-def render_on_window(
+def draw_on_window(
         *,
         window: Surface,
         surface: Surface,

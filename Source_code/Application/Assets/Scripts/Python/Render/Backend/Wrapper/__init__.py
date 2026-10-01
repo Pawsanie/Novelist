@@ -1,9 +1,11 @@
 from .Window_wrapper import (
     create_window,
     screen_clear,
-    render_on_window,
+    draw_on_window,
     screen_flip,
-    get_window_size
+    get_window_size,
+    set_window_icon,
+    set_window_name
 )
 from .Surface_wrapper import (
     create_surface,
