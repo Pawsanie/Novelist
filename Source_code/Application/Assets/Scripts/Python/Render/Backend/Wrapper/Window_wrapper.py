@@ -31,6 +31,28 @@ def create_window(
     )
 
 
+def set_window_name(window_name: str):
+    """
+    Sets the name for a Window that can be created later.
+    To ensure correct operation, this action must be performed to create the Window.
+    :param window_name: Application window name string.
+    """
+    display.set_caption(
+        window_name
+    )
+
+
+def set_window_icon(icon_surface: Surface):
+    """
+    Sets the icon for a Window that can be created later.
+    To ensure correct operation, this action must be performed to create the Window.
+    :param icon_surface: Pygame Surface object.
+    """
+    display.set_icon(
+        icon_surface
+    )
+
+
 def screen_clear(window: Surface):
     """
     Clear low-level Window.
@@ -55,13 +77,15 @@ def render_on_window(
     :param window: Screen Pygame display Surface object.
     :param surface: Pygame Surface object.
     :param coordinates: The x/y coordinates at which the Surface is to be drawn on the Window in pixels.
+                        As example:
+                        Window coordinate axes.
                         (0, 0) ┌────────────────→ X
-                               │
-                               │   ┌──────────┐
-                               │   │          │
-                               │   │          │
-                               │   └──────────┘
-                               │
+                               │  (X/Y)
+                               │   ┌───────────┐
+                               │   │           │
+                               │   │  Surface  │
+                               │   │           │
+                               │   └───────────┘
                                ↓
                                Y
     """
