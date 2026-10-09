@@ -17,7 +17,7 @@ class WindowBridge:
     """
     Window bridge object for Render.
     """
-    def __int__(
+    def __init__(
             self, *,
             window_name: str,
             window_icon: SurfaceProtocol
