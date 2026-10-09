@@ -14,5 +14,5 @@ from .Surface_wrapper import (
 )
 from .Graphics_subsystem_wrapper import screen_flip
 """
-Public API for C code wrapper.
+Public API for render backend C code wrapper.
 """
