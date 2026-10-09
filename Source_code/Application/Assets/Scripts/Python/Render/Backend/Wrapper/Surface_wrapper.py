@@ -67,22 +67,30 @@ def apply_texture(
 def scale_surface(
         *,
         surface: Surface,
-        size: tuple[int, int],
+        width: int,
+        height: int,
         fast: bool = False
 ) -> Surface:
     """
     Scale Surface to x/y size in pixels.
     :param surface: Pygame Surface object.
-    :param size: Tuple with x/y size data.
+    :param width: New width(X) size.
+    :param height: New height(Y) size.
     :param fast: If True a coarser and faster scaling method will be selected.
     """
     if not fast:
         return smoothscale(
             surface=surface,
-            size=size
+            size=(
+                width,
+                height
+            )
         )
 
     return scale(
         surface=surface,
-        size=size
+        size=(
+                width,
+                height
+            )
     )
