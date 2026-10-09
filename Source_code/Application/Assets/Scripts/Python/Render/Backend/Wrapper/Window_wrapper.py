@@ -95,13 +95,6 @@ def draw_on_window(
     )
 
 
-def screen_flip():
-    """
-    Flip low-level window and render new image.
-    """
-    display.update()
-
-
 def get_window_size() -> tuple[int, int]:
     """
     Get Window size in pixels.

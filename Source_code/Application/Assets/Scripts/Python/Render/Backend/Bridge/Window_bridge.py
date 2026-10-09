@@ -2,7 +2,6 @@ from ..Wrapper import (
     create_window,
     screen_clear,
     draw_on_window,
-    screen_flip,
     get_window_size,
     set_window_icon,
     set_window_name
@@ -48,13 +47,6 @@ class WindowBridge:
         Get window X/Y size.
         """
         return get_window_size()
-
-    @staticmethod
-    def flip():
-        """
-        Render new image on window screen.
-        """
-        screen_flip()
 
     def draw(
             self, *,
