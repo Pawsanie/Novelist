@@ -15,7 +15,7 @@ from ..User_Interface.UI_Menus.UI_Start_menu import StartMenu
 from ..User_Interface.UI_Menus.UI_Back_to_Start_menu_Status_menu import BackToStartMenuStatusMenu
 from ..User_Interface.UI_Menus.UI_Creators_menu import CreatorsMenu
 from ..GamePlay.GamePlay_Administrator import GamePlayAdministrator
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 """
 Contains code for reactions to input commands.
 """

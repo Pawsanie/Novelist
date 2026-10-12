@@ -2,8 +2,8 @@ from pygame import KEYDOWN, K_ESCAPE
 from pygame.event import Event
 
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing.Pattern_Singleton import SingletonPattern
-from ...Core.Save_Keeper import SaveKeeper
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.SaveLoad_system.Save_Keeper import SaveKeeper
 # Lazy imports:
 # from .UI_Save_menu import SaveMenu
 # from .UI_Load_menu import LoadMenu

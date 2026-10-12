@@ -1,7 +1,7 @@
 from pygame.event import Event
 
 from ..User_Interface.UI_Button_Factory import button_generator
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 from ..User_Interface.UI_Menu_Text import menus_text_generator, MenuText
 from ..User_Interface.UI_Buttons.UI_Base_Button import BaseButton
 # Lazy import:

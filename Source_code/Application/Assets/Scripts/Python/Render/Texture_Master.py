@@ -2,8 +2,8 @@ from typing import Callable
 
 from pygame import Surface, SRCALPHA, transform
 
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from ..Universal_computing.Assets_load import AssetLoader
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
+from ..Fundamentals.Assets_load import AssetLoader
 """
 Contains code responsible for collecting and storing textures.
 """

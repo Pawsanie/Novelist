@@ -1,13 +1,11 @@
-from pygame import Surface
-
-from ..Game_objects.Character import characters_generator
-from ..Game_objects.Background import Background
-from ..User_Interface.UI_Text_Canvas import TextCanvas
-from ..Game_objects.Dialogues import DialogueKeeper, DialoguesWords
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from .Settings_Keeper import SettingsKeeper
-from ..Game_objects.Character import Character
-from ..Core.Sound_Director import SoundDirector
+from Source_code.Application.Assets.Scripts.Python.Game_objects.Character import characters_generator
+from Source_code.Application.Assets.Scripts.Python.Game_objects.Background import Background
+from Source_code.Application.Assets.Scripts.Python.User_Interface.UI_Text_Canvas import TextCanvas
+from Source_code.Application.Assets.Scripts.Python.Game_objects.Dialogues import DialogueKeeper, DialoguesWords
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Core.Settings_Keeper import SettingsKeeper
+from Source_code.Application.Assets.Scripts.Python.Game_objects.Character import Character
+from Source_code.Application.Assets.Scripts.Python.Audio_system.Sound_Director import SoundDirector
 # Lazy import:
 # from ..Render.Batch import Batch
 """

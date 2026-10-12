@@ -2,10 +2,10 @@ from logging import critical
 
 from pygame import display
 
-from Source_code.Application.Assets.Scripts.Python.Universal_computing.Assets_load import AssetLoader
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Assets_load import AssetLoader
 from Source_code.Application.Assets.Scripts.Python.Core.Settings_Keeper import SettingsKeeper
 from Source_code.Application.Assets.Scripts.Python.Core.Game_Master import GameMaster
-from Source_code.Application.Assets.Scripts.Python.Logging_Config import logging_config, text_for_logging
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Logging.Logging_Config import logging_config, text_for_logging
 """
 Contains app shell code.
 """

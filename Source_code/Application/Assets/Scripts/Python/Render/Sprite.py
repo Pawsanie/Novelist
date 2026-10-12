@@ -211,7 +211,7 @@ class Sprite:
         """
         Get scene name.
         """
-        from ..GamePlay.Scene_Validator import SceneValidator
+        from Source_code.Application.Assets.Scripts.Python.Stage_Director.Scene_Validator import SceneValidator
         return SceneValidator().get_current_scene_name()
 
     def get_animation_name(self) -> str:

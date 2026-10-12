@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from pygame import Surface, mouse, font, MOUSEBUTTONUP, draw, Rect, transform
 from pygame.event import Event
 
-from ...Universal_computing.Assets_load import AssetLoader
+from ...Fundamentals.Assets_load import AssetLoader
 from ...Game_objects.Background import Background
 from ...Core.Settings_Keeper import SettingsKeeper
 from ...Render.Sprite import Sprite

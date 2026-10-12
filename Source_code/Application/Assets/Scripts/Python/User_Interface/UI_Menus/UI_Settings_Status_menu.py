@@ -1,7 +1,7 @@
 from pygame.event import Event
 
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 """
 Contains Settings Status menu code.
 """

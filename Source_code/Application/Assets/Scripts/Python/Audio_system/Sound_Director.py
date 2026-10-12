@@ -1,11 +1,11 @@
 from os import sep
 
-from pygame.mixer import Channel, Sound, music
+from pygame.mixer import Channel, Sound
 from pygame import mixer
 
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from .Settings_Keeper import SettingsKeeper
-from ..Universal_computing.Assets_load import AssetLoader
+from ..Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
+from ..Core.Settings_Keeper import SettingsKeeper
+from ..Loader import FileLoader
 mixer.init()
 """
 Contains the code responsible for play sounds.
@@ -19,7 +19,7 @@ class SoundDirector(SingletonPattern):
     def __init__(self):
         # Program layers settings:
         self._settings_keeper: SettingsKeeper = SettingsKeeper()
-        self._asset_loader: AssetLoader = AssetLoader()
+        self._asset_loader: FileLoader = FileLoader()
 
         # Sound attributes:
         self._channels_collection: dict = {

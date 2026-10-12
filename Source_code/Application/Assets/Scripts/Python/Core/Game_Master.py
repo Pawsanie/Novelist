@@ -3,14 +3,14 @@ from asyncio import run, sleep, gather
 from pygame import time
 from pygame.time import Clock
 
-from .Reactions_to_input_commands import InputCommandsReactions
-from .Stage_Director import StageDirector
+from ..Input.Reactions_to_input_commands import InputCommandsReactions
+from ..Stage_Director.Stage_Director import StageDirector
 from ..Render.Render import Render
 from ..User_Interface.Interface_Controller import InterfaceController
-from ..Logging_Config import error_logger
-from .Sound_Director import SoundDirector
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from .State_Machine import StateMachine
+from ..Fundamentals.Logging.Logging_Config import error_logger
+from ..Audio_system.Sound_Director import SoundDirector
+from ..Fundamentals.Patterns import SingletonPattern
+from ..Stage_Director.State_Machine import StateMachine
 from .Initialization import initialization
 from ..GamePlay.GamePlay_Administrator import GamePlayAdministrator
 from .Settings_Keeper import SettingsKeeper

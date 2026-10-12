@@ -1,8 +1,8 @@
 from pygame.event import Event
 
 from ..UI_Base_menu import BaseMenu
-from ...Core.Save_Keeper import SaveKeeper
-from ...Universal_computing.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.SaveLoad_system.Save_Keeper import SaveKeeper
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 # Lazy import:
 # from .UI_Exit_menu import ExitMenu
 # from .UI_Creators_menu import CreatorsMenu

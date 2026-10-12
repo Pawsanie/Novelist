@@ -2,7 +2,7 @@ from pygame import K_e, K_TAB, KEYDOWN, K_ESCAPE
 from pygame.event import Event
 
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 # Lazy import:
 # from .UI_Start_menu import StartMenu
 """

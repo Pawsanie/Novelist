@@ -1,12 +1,12 @@
 from pygame.event import Event
 
-from ..Core.Stage_Director import StageDirector
+from ..Stage_Director.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
 from ..User_Interface.UI_Buttons.UI_GamePlay_Choice_Button import GamePlayChoiceButton
-from ..Universal_computing.Assets_load import AssetLoader
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..Loader import FileLoader
+from ..Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 from ..Game_objects.Dialogues import DialogueKeeper
-from ..GamePlay.Scene_Validator import SceneValidator
+from ..Stage_Director.Scene_Validator import SceneValidator
 """
 Contains gameplay of choice code.
 """
@@ -21,7 +21,7 @@ class GamePlayDialoguesChoice(BaseMenu, SingletonPattern):
         super().__init__()
         # Program layers settings:
         self._stage_director: StageDirector = StageDirector()
-        self._assets_loader: AssetLoader = AssetLoader()
+        self._assets_loader: FileLoader = FileLoader()
         self._dialogue_keeper: DialogueKeeper = DialogueKeeper()
         self._scene_validator: SceneValidator = SceneValidator()
 

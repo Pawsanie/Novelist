@@ -1,4 +1,4 @@
-from ..Universal_computing.Assets_load import AssetLoader
+from ..Loader import FileLoader
 from ..Render.Sprite import Sprite
 from .Background import Background
 from ..Render.Texture_Master import TexturesMaster
@@ -262,7 +262,7 @@ def characters_generator() -> dict[str, Character]:
     Load data about characters and their sprites from json and make dict with Character class exemplars.
     :return: Dictionary with character`s names as a keys and Character`s exemplar as values.
     """
-    asset_loader: AssetLoader = AssetLoader()
+    asset_loader: FileLoader = FileLoader()
     result: dict = {}
     characters_list: dict = asset_loader.json_load(
         [

@@ -1,10 +1,10 @@
-from ..Universal_computing.Pattern_State_Machine import StateMachinePattern
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from ..GamePlay.Scene_Validator import SceneValidator
-from ..User_Interface.Interface_Controller import InterfaceController
-from .Stage_Director import StageDirector
-from .Sound_Director import SoundDirector
-from ..Universal_computing.Assets_load import AssetLoader
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_State_Machine import StateMachinePattern
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Stage_Director.Scene_Validator import SceneValidator
+from Source_code.Application.Assets.Scripts.Python.User_Interface.Interface_Controller import InterfaceController
+from Source_code.Application.Assets.Scripts.Python.Stage_Director.Stage_Director import StageDirector
+from Source_code.Application.Assets.Scripts.Python.Audio_system.Sound_Director import SoundDirector
+from ..Fundamentals.Assets_load import AssetLoader
 """
 Contend code for switch between gameplay and menu state.
 """

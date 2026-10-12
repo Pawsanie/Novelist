@@ -2,7 +2,7 @@ from pygame.event import Event
 
 from ...Core.Settings_Keeper import SettingsKeeper
 from ..UI_Base_menu import BaseMenu
-from ...Universal_computing.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 # Lazy import:
 # from .UI_Start_menu import StartMenu
 # from .UI_Game_menu import GameMenu

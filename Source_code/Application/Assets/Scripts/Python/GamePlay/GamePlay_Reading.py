@@ -4,9 +4,9 @@ from pygame import KEYDOWN, K_LEFT, K_RIGHT, K_ESCAPE, K_SPACE, mouse, MOUSEBUTT
 from pygame import event as pygame_events
 from pygame.event import Event
 
-from ..Core.Stage_Director import StageDirector
+from Source_code.Application.Assets.Scripts.Python.Stage_Director.Stage_Director import StageDirector
 from ..User_Interface.UI_Base_menu import BaseMenu
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 """
 Contains gameplay reading code.
 """
@@ -31,7 +31,7 @@ class GamePlayReading(BaseMenu, SingletonPattern):
         GameMenu().status = True
         self._state_machine.next_state()
 
-        from .Scene_Validator import SceneValidator
+        from Source_code.Application.Assets.Scripts.Python.Stage_Director.Scene_Validator import SceneValidator
         SceneValidator().set_scene_update_status(True)
 
     async def _button_gameplay_ui_status(self, event: Event):

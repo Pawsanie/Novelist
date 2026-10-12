@@ -1,6 +1,6 @@
-from ..Core.Stage_Director import StageDirector
-from ..Universal_computing.Assets_load import AssetLoader
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Stage_Director.Stage_Director import StageDirector
+from ..Fundamentals.Assets_load import AssetLoader
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 """
 Contains SceneValidator code.
 """
@@ -121,7 +121,7 @@ class SceneValidator(SingletonPattern):
         """
         If current scene type is reading autosave it.
         """
-        from ..Core.Save_Keeper import SaveKeeper
+        from Source_code.Application.Assets.Scripts.Python.SaveLoad_system.Save_Keeper import SaveKeeper
         SaveKeeper().save(
             auto_save=True
         )

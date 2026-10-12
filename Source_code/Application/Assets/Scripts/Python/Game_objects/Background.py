@@ -1,9 +1,9 @@
 from pygame import Surface
 
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 from ..Core.Settings_Keeper import SettingsKeeper
 from ..Render.Sprite import Sprite
-from ..Universal_computing.Assets_load import AssetLoader
+from ..Loader import FileLoader
 from ..Render.Texture_Master import TexturesMaster
 """
 Contains code responsible for rendering scenes.
@@ -18,7 +18,7 @@ class Background(SingletonPattern):
     def __init__(self):
         # Program layers settings:
         self._settings_keeper: SettingsKeeper = SettingsKeeper()
-        self._asset_loader: AssetLoader = AssetLoader()
+        self._asset_loader: FileLoader = FileLoader()
         self._texture_master: TexturesMaster = TexturesMaster()
         self._display_surface: Surface = self._settings_keeper.get_window()
 

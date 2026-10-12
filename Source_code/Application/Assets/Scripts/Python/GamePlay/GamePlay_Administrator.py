@@ -5,7 +5,7 @@ from pygame.event import Event
 from .GamePlay_Reading import GamePlayReading
 from ..User_Interface.UI_Base_menu import BaseMenu
 from .GamePlay_dialogues_choice import GamePlayDialoguesChoice
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 """
 Contains gameplay code.
 """

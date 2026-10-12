@@ -2,7 +2,7 @@ from pygame import Surface
 
 from ..Game_objects.Background import Background
 from ..Core.Settings_Keeper import SettingsKeeper
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 from ..Render.Sprite import Sprite
 """
 Contents code for user interface text canvas.

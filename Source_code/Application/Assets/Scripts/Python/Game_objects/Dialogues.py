@@ -1,10 +1,10 @@
 from pygame import font, Surface
 
-from ..Universal_computing.Assets_load import AssetLoader
+from ..Loader import FileLoader
 from .Background import Background
 from ..Core.Settings_Keeper import SettingsKeeper
 from ..User_Interface.UI_Text_Canvas import TextCanvas
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
+from ..Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 from ..Render.Texture_Master import TexturesMaster
 from ..Render.Sprite import Sprite
 # Lazy import:
@@ -28,7 +28,7 @@ class DialoguesWords(SingletonPattern):
         self._background_surface: Background = Background()
         self._screen: Surface = SettingsKeeper().get_window()
         self._text_canvas: TextCanvas = TextCanvas()
-        self._asset_loader: AssetLoader = AssetLoader()
+        self._asset_loader: FileLoader = FileLoader()
         self._texture_master: TexturesMaster = TexturesMaster()
 
         # Dialogues attributes:
@@ -163,9 +163,9 @@ class DialogueKeeper(SingletonPattern):
         Generate dict with dialogues.
         With keys as languages flags and json dictionary as value.
         """
-        from ..GamePlay.Scene_Validator import SceneValidator
+        from Source_code.Application.Assets.Scripts.Python.Stage_Director.Scene_Validator import SceneValidator
         screenplay_data: dict = SceneValidator().get_screenplay_data()
-        screenplay_localization_data: tuple[dict] = AssetLoader().csv_load(
+        screenplay_localization_data: tuple[dict] = FileLoader().csv_load(
             file_name="screenplay_localization"
         )
         language_flags: tuple = tuple(

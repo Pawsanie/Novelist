@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 from ..UI_Buttons.UI_Base_Button import BaseButton
 from ..UI_Base_menu import BaseMenu
 from ...User_Interface.Interface_Controller import InterfaceController
-from ...Universal_computing.Alternative_deep_copy import deep_copy_alternative
-from ...Universal_computing.Surface_size import surface_size
+from ...Fundamentals.Alternative_deep_copy import deep_copy_alternative
+from ...Fundamentals.Surface_size import surface_size
 
 
 class BaseDropdown(ABC):

@@ -10,14 +10,14 @@ from typing import Any
 
 from pygame import image, transform, Surface
 
-from ..Universal_computing.Pattern_Singleton import SingletonPattern
-from ..Universal_computing.Alternative_deep_copy import deep_copy_alternative
-from ..User_Interface.Interface_Controller import InterfaceController
-from .Settings_Keeper import SettingsKeeper
-from ..GamePlay.Scene_Validator import SceneValidator
-from ..Logging_Config import text_for_logging
-from ..User_Interface.UI_Buttons.UI_Save_Load_Cell_Button import SaveLoadCellButton
-from ..Render.Render import Render
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Alternative_deep_copy import deep_copy_alternative
+from Source_code.Application.Assets.Scripts.Python.User_Interface.Interface_Controller import InterfaceController
+from Source_code.Application.Assets.Scripts.Python.Core.Settings_Keeper import SettingsKeeper
+from Source_code.Application.Assets.Scripts.Python.Stage_Director.Scene_Validator import SceneValidator
+from Source_code.Application.Assets.Scripts.Python.Fundamentals.Logging.Logging_Config import text_for_logging
+from Source_code.Application.Assets.Scripts.Python.User_Interface.UI_Buttons.UI_Save_Load_Cell_Button import SaveLoadCellButton
+from Source_code.Application.Assets.Scripts.Python.Render.Render import Render
 # Lazy imports:
 # from ..User_Interface.UI_Menus.UI_Save_menu import SaveMenu
 # from ..User_Interface.UI_Menus.UI_Load_menu import LoadMenu
