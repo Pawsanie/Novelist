@@ -1,4 +1,4 @@
-from os.path import abspath, join
+from os.path import abspath, join, sep
 from sys import platform
 from configparser import ConfigParser
 
@@ -22,7 +22,7 @@ class SettingsKeeper(SingletonPattern):
             ),
             ''
         )
-        self._user_settings_path: str = f"{script_root_path}{join(*['user_settings'])}"
+        self._user_settings_path: str = f"{script_root_path}{sep}INI{sep}user_settings.ini"
 
         # Default settings:
         self._game_settings: dict = {
@@ -102,9 +102,6 @@ class SettingsKeeper(SingletonPattern):
         if resave is True:
             self._save_settings()
 
-        # Display settings:
-        self._screen: Surface = self._set_windows_settings()
-
     def get_voice_acting_language(self):
         """
         Used in SoundDirector.
@@ -147,39 +144,10 @@ class SettingsKeeper(SingletonPattern):
         """
         return self._game_settings["system_type"]
 
-    def get_window(self) -> Surface:
-        """
-        Get "display.set_mode(...)" pygame.Surface with actual settings.
-        """
-        return self._screen
-
-    def _set_windows_settings(self) -> Surface:
-        """
-        Generate or set new display mode.
-        """
-        if self._game_settings["screen_type"] == 'full_screen':
-            screen_size: Tk = Tk()
-            screen_size_x, screen_size_y = \
-                screen_size.winfo_screenwidth(), \
-                screen_size.winfo_screenheight()
-            screen: Surface = display.set_mode(
-                (screen_size_x, screen_size_y),
-                FULLSCREEN
-            )
-            return screen
-
-        elif self._game_settings["screen_type"] == 'windowed':
-            screen: Surface = display.set_mode(
-                self._game_settings["screen_size"],
-                RESIZABLE
-            )
-            return screen
-
     def update_settings(self):
         """
         Update game settings.
         """
-        self._screen: Surface = self._set_windows_settings()
         self._save_settings()
 
     def _save_settings(self):
@@ -191,18 +159,23 @@ class SettingsKeeper(SingletonPattern):
                 mode='w',
                 encoding='utf-8'
         ) as settings_file:
+
             settings_file.write(
                 "# game_settings:"
             )
+
             for setting_name, setting_value in self._game_settings.items():
+
                 if setting_name not in (
                         "screen_size",
                         "system_type",
                         "frames_per_second"
                 ):
+
                     settings_file.write(
                         f"\n{setting_name}={str(setting_value)}"
                     )
+
                 elif setting_name == "screen_size":
                     settings_file.write(
                         f"\n{setting_name}={str(setting_value[0])}x{str(setting_value[1])}"
