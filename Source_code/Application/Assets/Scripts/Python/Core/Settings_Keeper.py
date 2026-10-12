@@ -1,8 +1,6 @@
 from os.path import abspath, join
 from sys import platform
-from tkinter import Tk
-
-from pygame import Surface, display, FULLSCREEN, RESIZABLE
+from configparser import ConfigParser
 
 from ..Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
 """
@@ -42,14 +40,17 @@ class SettingsKeeper(SingletonPattern):
         # Read settings configuration file:
         resave: bool = False
         current_landed_file_game_settings: dict = {}
+
         try:
             with open(
                     file=self._user_settings_path,
                     mode='r',
                     encoding='utf-8'
             ) as game_settings:
+
                 if game_settings.read().strip() == '':
                     resave: bool = True
+
                 for row in game_settings:
                     try:
 
