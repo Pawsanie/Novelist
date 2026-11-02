@@ -13,6 +13,7 @@ from .Surface_wrapper import (
     scale_surface
 )
 from .Graphics_subsystem_wrapper import screen_flip
+from .Clock_wrapper import ClockWrapper
 """
 Public API for render backend C code wrapper.
 """

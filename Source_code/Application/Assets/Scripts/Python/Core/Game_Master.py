@@ -1,8 +1,5 @@
 from asyncio import run, sleep, gather
 
-from pygame import time
-from pygame.time import Clock
-
 from ..Input.Reactions_to_input_commands import InputCommandsReactions
 from ..Stage_Director.Stage_Director import StageDirector
 from ..Render.Render import Render
@@ -14,6 +11,7 @@ from ..Stage_Director.State_Machine import StateMachine
 from .Initialization import initialization
 from ..GamePlay.GamePlay_Administrator import GamePlayAdministrator
 from .Settings_Keeper import SettingsKeeper
+from ..Render.Backend import Clock
 """
 Contains code for GameMaster.
 Control gameplay, menus and display image render.
@@ -43,7 +41,7 @@ class GameMaster(SingletonPattern):
         """
         MVC pattern Model and View parts.
         """
-        main_cycle_fps_clock: Clock = time.Clock()
+        main_cycle_fps_clock: Clock = Clock()
         main_cycle_fps: int = SettingsKeeper().get_frames_per_second()
 
         while True:
@@ -58,7 +56,9 @@ class GameMaster(SingletonPattern):
             # Image render:
             self._render.image_render()
 
-            main_cycle_fps_clock.tick(main_cycle_fps)
+            main_cycle_fps_clock.tick(
+                main_cycle_fps
+            )
             await sleep(0)
 
     async def _mvc_pattern(self):
