@@ -41,8 +41,9 @@ class GameMaster(SingletonPattern):
         """
         MVC pattern Model and View parts.
         """
-        main_cycle_fps_clock: Clock = Clock()
-        main_cycle_fps: int = SettingsKeeper().get_frames_per_second()
+        main_cycle_fps_clock: Clock = Clock(
+            SettingsKeeper().get_frames_per_second()
+        )
 
         while True:
             # Build scene:
@@ -56,9 +57,7 @@ class GameMaster(SingletonPattern):
             # Image render:
             self._render.image_render()
 
-            main_cycle_fps_clock.tick(
-                main_cycle_fps
-            )
+            main_cycle_fps_clock.tick()
             await sleep(0)
 
     async def _mvc_pattern(self):
