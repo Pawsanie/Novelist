@@ -8,32 +8,40 @@
     "texture": "blank",
     "animation": "default"
   },
+
   "settings_menu": {
     "texture": "blank",
     "animation": "default"
   },
+
   "load_menu": {
     "texture": "blank",
     "animation": "default"
   },
+
   "save_menu": {
     "texture": "blank",
     "animation": "default"
   },
+
   "settings_status_menu": {
     "texture": "blank",
     "animation": "default"
   },
+
   "start_menu": {
     "texture": "blank",
     "animation": "default"
   },
+
   "back_to_start_menu_status_menu": {
     "texture": "blank",
     "animation": "default"
   },
+
   "creators_menu": {
     "texture": "blank",
     "animation": "default"
   }
+
 }

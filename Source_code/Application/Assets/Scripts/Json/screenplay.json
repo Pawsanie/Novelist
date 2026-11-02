@@ -31,6 +31,7 @@
       "voice_channel": false
     }
   },
+
   "test_scene_02": {
     "gameplay_type": "choice",
     "background": {
@@ -71,6 +72,7 @@
       "voice_channel": false
     }
   },
+
   "test_scene_03": {
     "gameplay_type": "reading",
     "background": {
@@ -95,4 +97,5 @@
       "voice_channel": "blank"
     }
   }
+
 }
