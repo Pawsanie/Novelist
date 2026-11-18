@@ -10,15 +10,22 @@ class WindowFacade(SingletonPattern):
     """
     Window Facade object for Render.
     """
-    def __init__(self):
+    def __init__(
+            self, *,
+            width: int,
+            height: int,
+            full_screen_status: bool,
+            window_name: str,
+            window_icon: SurfaceProtocol
+    ):
         self._window_bridge: WindowBridge = WindowBridge(
-            window_name=...,
-            window_icon=...
+            window_name=window_name,
+            window_icon=window_icon
         )
         self._window_bridge.update(
-            width=...,
-            height=...,
-            full_screen_status=...
+            width=width,
+            height=height,
+            full_screen_status=full_screen_status
         )
 
     def clear(self):

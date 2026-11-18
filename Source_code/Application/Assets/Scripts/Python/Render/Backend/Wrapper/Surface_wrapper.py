@@ -25,7 +25,7 @@ def create_surface(
     )
 
 
-def get_size(surface: Surface) -> [int, int]:
+def get_size(surface: Surface) -> tuple[int, int]:
     """
     Calculation low-level Pygame Surface x/y size.
     :param surface: Pygame Surface object.
