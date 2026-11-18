@@ -17,7 +17,7 @@ def __getattr__(name: str):
     """
     :param name: The Constant`s name.
     """
-    if name not in globals():
+    if name not in __all__:
         raise AttributeError(name)
 
     return deepcopy(
