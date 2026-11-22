@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 """
-Contains code responsible for INI assets load.
+Contains code responsible for INI assets I/O.
 """
 
 
@@ -37,3 +37,10 @@ def ini_load_internal(path: str) -> dict:
             )
             for section in config_data.sections()
         }
+
+
+def ini_output_internal(
+    path: str,
+    data: dict
+):
+    ...
