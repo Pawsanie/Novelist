@@ -1,4 +1,7 @@
 from copy import deepcopy
+"""
+Contains code responsible for file formats code.
+"""
 
 
 # Text formats:
@@ -6,6 +9,12 @@ JSON_FORMAT: str = "json"
 FONT_FORMAT: str = "TTF"
 TABLE_FORMAT: str = "csv"
 
+# Sound formats:
+MPEG3_FORMAT: str = "mp3"
+
+# Image formats:
+PNG_FORMAT: str = "png"
+JPG_FORMAT: str = "jpg"
 
 __all__: tuple[str] = (
     name
