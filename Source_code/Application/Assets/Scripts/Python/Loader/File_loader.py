@@ -11,7 +11,8 @@ from .Backend import (
 from .Internal import (
     get_root_path,
     json_load_internal,
-    csv_load_internal
+    csv_load_internal,
+    ini_load_internal
 )
 """
 Contains code responsible for assets load.
@@ -30,6 +31,7 @@ class FileLoader(SingletonPattern):
         self.__json_format: str = "json"
         self.__font_format: str = "TTF"
         self.__table_format: str = "csv"
+        self.__ini_format: str = "ini"
 
         self.__sound_formats: dict[str, str] = {
             "Voice": "mp3",
@@ -55,6 +57,30 @@ class FileLoader(SingletonPattern):
                 "alpha_chanel": False
             }
         }
+
+    def ini_load(
+            self,
+            file_name: str
+    ) -> dict:
+        """
+        Load INI config file.
+        :param file_name: File name without file format.
+        """
+        return ini_load_internal(
+
+            f"{self.__root_path}"
+            f"{
+                join(
+                    *[
+                        "Scripts",
+                        "INI",
+                        file_name
+                    ]
+                )
+            }"
+            f".{self.__ini_format}"
+
+        )
 
     def json_load(
             self,
