@@ -43,4 +43,9 @@ def ini_output_internal(
     path: str,
     data: dict
 ):
+    """
+    Save INI for FileOutput.
+    :param path: Absolute path to file as string.
+    :param data: New INI config for writing
+    """
     ...
