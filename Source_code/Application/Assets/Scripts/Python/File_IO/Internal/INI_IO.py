@@ -14,7 +14,7 @@ def ini_load_internal(path: str) -> dict | None:
                     ...
                 },
                 ...
-            } | None # if file is empty.
+            } | None # If file is empty.
     """
     with open(
             file=path,
