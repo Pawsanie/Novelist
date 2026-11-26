@@ -2,7 +2,7 @@ from os.path import abspath, join, sep
 from sys import platform
 
 from ..Fundamentals.Patterns.Pattern_Singleton import SingletonPattern
-from ..Loader import FileLoader
+from ..File_IO import FileLoader
 """
 Contains the code responsible for the game settings.
 """
