@@ -85,7 +85,9 @@ def ini_output_internal(
             for field_key, field_data in section_data["fields"].items():
                 comment_data: str = f"{
                     str("") if comment_flag not in field_data 
-                    else str(f"  # {field_data[comment_flag]}") 
+                    else str(
+                        f"  # {field_data[comment_flag]}"
+                    ) 
                 }"
 
                 file.write(
