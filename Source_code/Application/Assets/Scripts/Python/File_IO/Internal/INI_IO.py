@@ -44,6 +44,7 @@ def ini_load_internal(path: str) -> dict | None:
 
 
 def ini_output_internal(
+    *,
     path: str,
     data: dict
 ):
