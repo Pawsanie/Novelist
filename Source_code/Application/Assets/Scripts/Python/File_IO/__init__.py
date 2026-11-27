@@ -4,5 +4,5 @@ from .Backend import (
 )
 from .File_loader import FileLoader
 """
-Public API for assets loader code.
+Public API for assets File I/O code.
 """

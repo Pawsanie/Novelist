@@ -8,5 +8,5 @@ from .Wrapper import (
     load_texture
 )
 """
-Public API for assets loader backend code.
+Public API for assets File I/O backend code.
 """
